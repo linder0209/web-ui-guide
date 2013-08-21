@@ -1,0 +1,54 @@
+
+/**********************************
+
+Name: validation Styles
+
+**********************************/
+label.error {
+	background: url("images/error_16.png") no-repeat;
+    cursor: pointer;
+    display: inline-block;
+    height: 16px;
+    margin: 2px 0 0 5px; 
+    vertical-align: text-top;
+    width: 16px;
+}
+
+.error-tooltip{
+    display:none;
+    position: absolute;
+    max-width:450px;
+}
+
+.error-tooltip span {
+	background-color: #FFFFCB;
+	color: #BE1E36;
+	border: 1px solid #FF9900;
+	line-height: 22px;
+	padding: 0 15px;
+	display: inline-block;
+}
+
+.error-tooltip.right {
+	background: url("images/error-right-bg.png") no-repeat;
+	margin-left: 5px;
+}
+
+.error-tooltip.right span{
+	border-left: 0;
+	margin-left: 7px;
+}
+
+.error-tooltip.left {
+	background: url("images/error-left-bg.png") right 0 no-repeat;
+	margin-left: 5px;
+}
+
+.error-tooltip.left span{
+	border-right: 0;
+	margin-right: 7px;
+}
+input{ padding:1px; }
+input:focus { border: 1px solid #4F9AFF; }
+input.error, textarea.error,select.error { border: 1px solid #BE2134;}
+

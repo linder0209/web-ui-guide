@@ -1,0 +1,195 @@
+@CHARSET "UTF-8";
+
+/*******************************************************************************/
+/*	该css预定义实例中用到的css，所有的样式以h-web开头 */
+/*******************************************************************************/
+
+/*******************************************************************************/
+/*实例中目录、内容布局样式 */
+/*******************************************************************************/
+
+.h-web-catalogue {
+    margin: 5px 0 5px 30px;
+    list-style-type: decimal;
+    color: #005B73;
+}
+.h-web-catalogue li{
+    list-style-type: decimal;
+    padding: 5px 10px 5px 0;
+}
+.h-web-catalogue a{
+    border-bottom: 1px dashed #005B73;
+    color: #005B73;
+    font-size: 14px;
+}
+
+/**
+* 段落:用到了css中内容生成（Generated Content）属性
+* counter-increment 和 counter-reset ie8以上支持
+**/
+.h-web-paragraph {
+    counter-reset:section;
+}
+.h-web-paragraph h3{
+    counter-reset:sub1_section;/*每显示一个h3，需要重置 sub1_section */
+}
+.h-web-paragraph h4{
+    counter-reset:sub2_section;/*每显示一个h4，需要重置 sub2_section */
+}
+.h-web-paragraph h3:before{
+    content:"第" counter(section) "节： ";
+    counter-increment:section;/*每显示一个h3，则section增量一次*/
+}
+
+.h-web-paragraph h4:before{
+    counter-increment:sub1_section;/*每显示一个h4，则 sub1_section 增量一次*/
+    content:counter(section) "." counter(sub1_section) " ";
+}
+.h-web-paragraph h5:before{
+    counter-increment:sub2_section;/*每显示一个h5，则 sub2_section 增量一次*/
+    content:counter(section) "." counter(sub1_section) "." counter(sub2_section) " ";
+}
+
+.h-web-paragraph h3, .h-web-paragraph-title{
+    /*GRADIENT*/
+    background: #00b7ea; /* Old browsers */
+    background: -moz-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #00b7ea),
+        color-stop(100%, #009ec3) ); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+    /* IE10+ */
+    background: linear-gradient(top, #00b7ea 0%, #009ec3 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00b7ea',
+        endColorstr='#009ec3', GradientType=0 );
+    border-bottom: 1px dashed #005B73;
+    border-top: 1px solid #005B73;
+    padding: 5px 10px;
+    color: #FFFFFF;
+}
+.h-web-paragraph h3{
+    margin:10px 0;
+    cursor:pointer;
+}
+.h-web-paragraph p, .h-web-paragraph pre, .h-web-paragraph table, .h-web-paragraph h4, .h-web-paragraph > img, .h-web-paragraph ul {
+    margin:10px 20px;
+}
+.h-web-paragraph p, .h-web-paragraph pre, .h-web-paragraph table , .h-web-paragraph ul{
+    color: #005B73;
+    font-size: 14px;
+}
+.h-web-paragraph p{
+    text-indent: 2em;
+    line-height: 2em;
+}
+.h-web-paragraph p:first-letter{
+    font-weight: bold;
+    color:#005B73;
+}
+.h-web-paragraph pre{
+    border: 1px dotted #778855;
+    padding:10px;
+    white-space: pre-wrap;
+}
+.h-web-paragraph h4{
+    color: #009EC3;
+    font-size: 14px;
+}
+.h-web-paragraph h5{
+    color:  #007997;
+    font-size: 13px;
+    margin:10px 40px;
+}
+.h-web-paragraph table{
+    border-collapse: collapse;
+}
+.h-web-paragraph table td, .h-web-paragraph table th{
+    border: 1px solid #888888;
+    padding: 5px;
+}
+.h-web-paragraph a{
+    text-decoration:underline;
+    color:#009EC3;
+}
+.h-web-paragraph ul{
+    list-style-type: disc; 
+}
+.h-web-paragraph ul li{
+    padding: 5px 0;
+    list-style-type: disc;
+    list-style-position: inside;
+}
+.h-web-paragraph ol{
+    list-style-type: decimal; 
+    margin-left: 40px;
+    /*color: #009EC3;*/
+    font-size: 14px;
+}
+.h-web-paragraph ol li{
+    padding: 5px 0;
+    list-style-type: decimal;
+}
+
+.h-web-font-red, p.h-web-font-red{
+    color:#F94A76;
+    font-weight:bold;
+}
+
+/**
+ * 内容容器  
+**/
+.h-web-content-cantainer{
+    max-height: 600px;
+    overflow: auto;
+}
+
+.h-web-section p{
+    color: #005B73;
+    font-size: 14px;
+}
+
+.h-web-section h4{
+    margin:10px 0;
+    color: #009EC3;
+    font-size: 14px;
+}
+.h-web-section a{
+    text-decoration:underline;
+    color:#009EC3;
+}
+
+/**
+ * 公用按钮
+**/
+.h-web-icon{
+    width:16px; 
+    height:16px; 
+    display:inline-block; 
+    cursor:pointer; 
+    vertical-align: text-top; 
+    background: url("./images/web_ui_buttons.png") no-repeat;
+}
+.h-web-icon.edit{
+    background-position: 0px 0px;
+}
+.h-web-icon.save{
+    background-position: -16px 0px;
+}
+.h-web-icon.cancel{
+    background-position: -32px 0px;
+}
+.h-web-icon.delete{
+    background-position: -48px 0px;
+}
+.h-web-icon.copy{
+    background-position: -52px 0px;
+}
+
+.h-web-demo{
+    color: #005B73;
+    font-size: 14px;
+}

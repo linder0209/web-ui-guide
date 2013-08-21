@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>html相关知识——DOCTYPE与浏览器模式</title>
+        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+        <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $('.h-web-catalogue li a').click(function(e) {
+                    e.preventDefault();
+                    var paragraphNum,
+                        paragraph,
+                        offset;
+                    var el = this;
+                    $(this).closest('ol').find('li a').each(function(index, element) {
+                        if (this === el) {
+                            paragraphNum = index;
+                            return false;
+                        }
+                    });
+                    paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+                    offset = paragraph.offset();
+                    if (offset) {
+                        $(window).scrollTop(offset.top);
+                    }
+                });
+                //初始化内容折叠事件
+                $('.h-web-paragraph').on('click' , 'h3[paragraph]', function(e){
+                    $(this).next().toggle();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h3 class="h-web-paragraph-title">目录</h3>
+        <ol class="h-web-catalogue">
+            <li><a paragraph href="#">DOCTYPE 的诞生</a></li>
+            <li><a paragraph href="#">近似标准模式</a></li>
+            <li><a paragraph href="#">DOCTYPE类型</a></li>
+            <li><a paragraph href="#">DOCTYPE 的选择</a></li>
+            <li><a paragraph href="#">DOCTYPE 之前不能出现的内容 </a></li>
+            <li><a paragraph href="#">建议</a></li>
+        </ol>
+        <div class="h-web-paragraph">
+            <h3 paragraph>DOCTYPE 的诞生</h3>
+            <div>
+                <p>DOCTYPE，或者称为 Document Type Declaration（文档类型声明，缩写 DTD）。通常情况下，DOCTYPE 位于一个 HTML 文档的最前面的位置，位于根元素 HTML 的起始标签之前。因为浏览器必须在解析 HTML 文档正文之前就确定当前文档的类型，以决定其需要采用的渲染模式，不同的渲染模式会影响到浏览器对于 CSS 代码甚至 JavaScript 脚本的解析。尤其是在 IE 系列浏览器中，由 DOCTYPE 所决定的 HTML 页面的渲染模式至关重要。</p>
+                <p>首先看看当一个 HTML 文档在没有 DOCTYPE 时，页面在各浏览器中会如何渲染及解析。我们尝试生成一个在最顶端没有 DOCTYPE 的 HTML 文档：</p>
+                <pre>&lt;html&gt;  
+&lt;head&gt;
+&lt;/head&gt;
+  &lt;body&gt;
+  &lt;script&gt;
+  document.write(document.compatMode);
+  &lt;/script&gt;
+  &lt;/body&gt;  
+&lt;/html&gt;</pre>
+                <p>这个页面在所有的浏览器中均返回一致的结果，页面上打印出了&ldquo;BackCompat&rdquo;。 document.compatMode 属性最初由微软在 IE 中创造出来，这是一个只读的属性，返回一个字符串，只可能存在两种返回值：</p>
+                <ul>
+                    <li>BackCompat：标准兼容模式（Standards-compliant mode）未开启；</li>
+                    <li>CSS1Compat：标准兼容模式已开启。</li>
+                </ul>
+                <p>其实这里所谓的标准兼容模式未开启即&ldquo;混杂模式&rdquo;（又叫怪异模式，Quirks mode），标准兼容模式已开启即&ldquo;标准模式&rdquo;（又叫严格模式，Standards mode 或者 Strict mode）。 所以前面那个测试样例中，没有书写 DOCTYPE 的 HTML 文档在所有浏览器中均会以混杂模式进行渲染和解析。</p>
+                <p>注：document.compatMode 在 MSDN 中的介绍：<a href="http://msdn.microsoft.com/en-us/library/ms533687(VS.85).aspx" target="_blank">compatMode Property</a></p>
+                <p>究竟为何浏览器要制作这么一个&ldquo;开关&rdquo;。微软开发的 IE 系列浏览器中寿命最长的 IE6 伴随 Windows XP 诞生。相比上一个版本 IE5.5，IE6 确实有着许多重大的改进，其中对于页面渲染而言最大的变化就在于 IE6 支持了部分 CSS1 中的特性。例如，为一个块级元素设定宽度及高度时，不再作用于 border 外围，而是如 W3C 规范中所描述的仅仅是元素内容之上。这一点和 IE5.5 差别巨大。为了保证那些 90 年代后期的基于 IE6 之前版本开发的页面能够正常显示，即保证浏览器有向后兼容性，此&ldquo;开关&rdquo;诞生，微软试图通过对 DOCTYPE 的判断来决定浏览器采取何种模式工作，即是 IE6 还是 IE5.5 的问题。所以从 document.compatMode 返回的字符串值中也可以看出来，BackCompat 代表了向后兼容（即 IE5.5），CSS1Compat 代表了对 CSS1 规范的兼容（即 IE6）。由此，浏览器的工作模式被分为了混杂模式及标准模式。</p>
+                <p>值得注意的是，IE 的版本号一路从 6.0 升至了目前的 9.0，但升级仅限于标准模式。对于混杂模式，IE 的版本号永久的冻结在 5.5，这也算是为了向后兼容的巨大牺牲。也就是说即使我们使用着最新最高级的 IE9，但若我们不书写 DOCTYPE 或者使用了能够触发混杂模式的 DOCTYPE，那我们所面对的浏览器仍相当于是那个十几年前的老古董 IE5.5。而其他那些浏览器的混杂模式和标准模式之间却没有想 IE 中这么大的差别。</p>
+                <p>注：IE6 增强的 CSS：<a href="http://msdn.microsoft.com/en-us/library/bb250395.aspx" target="_blank">CSS Enhancements in Internet Explorer 6</a></p>
+            </div>
+            <h3 paragraph>近似标准模式</h3>
+            <div>
+                <p>近似标准模式（Almost Standards Mode）从字面意思上看与标准模式非常类似，但确实有小的差别。主要体现在对于表格单元格内垂直方向布局渲染差异。IE8 开始、Firefox、Chrome、Safari、Opera 7.5 开始，这些浏览器的标准模式更加严格的遵循了 CSS2.1 规范，故对于在目前看来不太&ldquo;标准&rdquo;的以前的标准模式，被赋予了&ldquo;近似标准模式&rdquo;的名字。但是在较早的 IE6 IE7 以及 Opera 7.5 之前版本中，浏览器无法严格遵循 CSS2.1 规范，故对于它们来说没有这个近似标准模式，也可以理解为它们的近似标准模式就是标准模式。</p>
+                <p>到目前为止，可以看到各浏览器主要包含了三种模式。在 HTML5 草案中，更加明确的规定了模式的定义：</p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>传统名称</th>
+                            <th>HTML5 草案名称</th>
+                            <th>document.compatMode 返回值</th>
+                        </tr>
+                        <tr>
+                            <td>standards mode 或者 strict mode</td>
+                            <td>no-quirks mode</td>
+                            <td>CSS1Compat</td>
+                        </tr>
+                        <tr>
+                            <td>almost standards mode</td>
+                            <td>limited-quirks mode</td>
+                            <td>CSS1Compat</td>
+                        </tr>
+                        <tr>
+                            <td>quirks mode</td>
+                            <td>quirks mode</td>
+                            <td>BackCompat</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>注：HTML5 草案关于 compatMode 的介绍：<a href="http://www.w3.org/TR/html5/dom.html#dom-document-compatmode" target="_blank">3.1.3 Resource metadata management</a></p>
+            </div>
+            <h3 paragraph>DOCTYPE类型</h3>
+            <div>
+                <p>DOCTYPE标签可声明许多种 DTD 类型，下面说说几个常用模式（严格版本、过渡版本以及基于框架的 HTML 文档）。</p>
+
+                <p>以HTML 4.01为例，HTML 4.01 规定了三种文档类型：Strict、Transitional 以及 Frameset。</p>
+                <h4>HTML Strict DTD</h4>
+                <p>如果您需要干净的标记，免于表现层的混乱，请使用此类型。请与层叠样式表（CSS）配合使用：</p>
+                <pre>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "  http://www.w3.org/TR/html4/strict.dtd"&gt;</pre>
+
+                <h4>HTML Transitional DTD</h4>
+                <p>Transitional DTD 可包含 W3C 所期望移入样式表的呈现属性和元素。如果您的读者使用了不支持层叠样式表（CSS）的浏览器以至于您不得不使用 HTML 的呈现特性时，请使用此类型：</p>
+                <pre>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "  http://www.w3.org/TR/html4/loose.dtd"&gt;</pre>
+                <h4>Frameset DTD</h4>
+                <p>Frameset DTD 应当被用于带有框架的文档。除 frameset 元素取代了 body 元素之外，Frameset DTD 等同于 Transitional DTD：</p>
+                <pre>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "  http://www.w3.org/TR/html4/frameset.dtd"&gt;</pre>
+                <p>另外现在推荐的标准模式是                &lt;!DOCTYPE html&gt;</p>
+                <pre>&lt;!DOCTYPE html&gt;</pre>
+                <p class="h-web-font-red">项目中建议使用&lt;!DOCTYPE html&gt;，并且确保写在页面的第一行，只在default.jsp中声明即可，ajax加载的页面不用再加入。</p>
+            </div>
+            <h3 paragraph>DOCTYPE 的选择</h3>
+            <div>
+                <h4>工作模式简介</h4>
+                <p><em>浏览器的工作模式</em>常被称为&ldquo;渲染模式&rdquo;。实际上浏览器不同的工作模式不仅对渲染有影响，对代码的解析以及脚本的行为也同样有影响。</p>
+                <p>从更广泛的角度来看，浏览器的工作模式的差异不仅体现在处理 HTML 页面的时候，处理 XML 及一些非 WEB 内容时也有模式上的差异，但本文仅讨论浏览器在处理 HTML 页面时工作模式。1</p>
+                <p>注：关于浏览器的工作模式的更多信息，请参考 <a href="http://hsivonen.iki.fi/doctype/" target="_blank">Activating Browser Modes with Doctype</a>。            </p>
+                <h4>工作模式的来源及变迁</h4>
+                <p>不使用 DOCTYPE 一定会使 HTML 文档处于混杂模式，然而使用了 DOCTYPE，也不一定就能够使文档在所有浏览器中均处于标准模式。DOCTYPE 本身不就是一个&ldquo;开关&rdquo;吗？为何在有 DOCTYPE 的 HTML 文档之上仍然还会出现混杂模式？这个和以下条件有关：</p>
+                <ul>
+                    <li>使用了本身就会使浏览器进入混杂模式的古老的甚至是错误的 DOCTYPE；</li>
+                    <li>在 DOCTYPE 之前出现了其他内容，如注释，甚至是 HTML 标签。</li>
+                </ul>
+                <p>我们先说第一个条件。HTML 历史悠久，仅正确的 HTML 类型的 DOCTYPE 就有很多种。先看一个标准的 DOCTYPE：</p>
+                <pre>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"&gt;</pre>
+                <p>上面的 DOCTYPE 包含 6 部分：</p>
+                <ul>
+                    <li>字符串&ldquo;&lt;!DOCTYPE&rdquo;</li>
+                    <li>根元素通用标识符&ldquo;HTML&rdquo;</li>
+                    <li>字符串&ldquo;PUBLIC&rdquo;</li>
+                    <li>被引号括起来的公共标识符（publicId）&ldquo;-//W3C//DTD HTML 4.01//EN&rdquo;</li>
+                    <li>被引号括起来的系统标识符（systemId）&ldquo;http://www.w3.org/TR/html4/strict.dtd&rdquo;</li>
+                    <li>字符串&ldquo;&gt;&rdquo;</li>
+                </ul>
+                <p>其中根元素通用标识符、公共标识符、系统标识符均可以通过脚本调用 DOM 接口获得，分别对应 document.doctype.name、document.doctype.publicId、document.doctype.systemId（IE6 IE7 不支持）。</p>
+                <p>不同的 DOCTYPE 之间，上面三部分可能不尽相同，有些 DOCTYPE 确实其中某部分，如何在这些纷繁的 DOCTYPE 中选择？</p>
+                <p>其实浏览器在嗅探 DOCTYPE 时只考虑了上述 6 部分中的第 1、2、4、6 部分，且不区分大小写。在各浏览器内核实现中，几乎都存在一个名单用于记录这些常见的 DOCTYPE 所对应的模式，例如 WebKit 内核中 DocTypeStrings.gperf 文件。各浏览器名单列表中触发模式的不同导致了某些 DOCTYPE 出现在不同浏览器中触发了不同模式的现象，如 。而对于名单之外的 DOCTYPE，浏览器之间处理的差异也会导致触发不同的模式，比如可能有的浏览器会将名单之外的 DOCTYPE 当作混杂模式，而有的却会一律当作标准模式。</p>
+                <p>所以我们在选用 DOCTYPE 的时候首先确定的是我们想让 HTML 文档使用标准模式。</p>
+                <p>如果力求最简，则 HTML5 的 DOCTYPE 是最佳选择：&lt;!DOCTYPE html&gt;，所有的主流浏览器均将这种只包含第 1、2、6 部分的最短的 DOCTYPE 视为标准模式。</p>
+                <p>如果力求稳妥，则较早的 HTML4.01 Strict 的 DOCTYPE 也是一种好的选择：&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"&gt;，它在各主流浏览器中触发的模式与上面的 HTML5 的完全一致。</p>
+                <p>有时候我们处于特殊情况也希望浏览器能够都处于近似标准模式，则可选择：&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;。</p>
+                <p>注：关于 Firefox 中 DTD 与浏览器工作模式：<a href="https://developer.mozilla.org/en/Mozilla's_DOCTYPE_sniffing" target="_blank">Mozilla's DOCTYPE sniffing</a></p>
+            </div>
+            <h3 paragraph>DOCTYPE 之前不能出现的内容</h3>
+            <div>
+                <p>前面提到，DOCTYPE 作为一个决定浏览器对于 HTML 文档采取何种模式&ldquo;开关&rdquo;，应出现在 HTML 文档的最前面。但有时候处于某些原因，有的作者会在 DOCTYPE 之前防止一些内容，可能是服务端输出的某些信息。这样会让浏览器感到极为&ldquo;困惑&rdquo;，它第一眼看到的不是 DOCTYPE，故可能会认为页面没有 DOCTYPE，则可能触发了混杂模式。然而事实上在这一点各浏览器的处理并不相同。我们将 DOCTYPE 之前可能出现的这些内容分类，它们包括：</p>
+                <ul>
+                    <li>普通文本</li>
+                    <li>HTML 标签</li>
+                    <li>HTML 注释</li>
+                    <li>XML 声明</li>
+                    <li>IE 条件注释</li>
+                </ul>
+                <p>对于普通文本和 HTML 标签，各浏览器均进入了混杂模式，这个很好理解，都看到疑似的 HTML 文档正文了，浏览器不太会往下追查 DOCTYPE 在哪里。</p>
+                <p>对于 HTML 注释和 XML 声明，它们和上面的普通文本和 HTML 标签有些差别，它们不会在页面中展示出来，即不可视。这时，有的浏览器则显得十分&ldquo;智能&rdquo;，非 IE 浏览器均会忽略它们的存在，DOCTYPE 被正确解析。但是在 IE6 中，DOCTYPE 之前的 XML 声明会导致页面进入混杂模式，而所有的 IE 均会使 DOCTYPE 之前出现了 HTML 注释的页面进入混杂模式。在 IE9 中当出现这种情况时，浏览器在控制台中给出了提示：&ldquo;HTML1113: 文档模式从 IE9 标准 重新启动到 Quirks &rdquo;，看来微软在这一点上不打算&ldquo;随大流&rdquo;，这样做也可以敦促作者尽量避免在 DOCTYPE 之前加入其他内容。</p>
+                <p>有的作者很聪明，他既在 DOCTYPE 之前加入了他需要的内容，却又没有使 IE 由于这些内容而进入混杂模式。他可能会这么写：</p>
+                <ul>
+                    <li>&lt;![if !IE]&gt;&lt;!-- some comments --&gt;&lt;![endif]&gt;</li>
+                    <li>&lt;![if false]&gt;&lt;!-- some comments --&gt;&lt;![endif]&gt;</li>
+                </ul>
+                <p>又或者是</p>
+                <ul>
+                    <li>&lt;!--[if !IE]&gt;some text&lt;![endif]--&gt;</li>
+                </ul>
+                <p>上面这些 IE 条件注释在非 IE 浏览器中，可能完全被忽略，可能被解释为普通 HTML 注释。但是在 IE 中它们全部消失了，因为这就是 IE 条件注释的作用。所以这也是目前比较合适的在 DOCTYPE 之前写点什么又保证所有浏览器均为标准模式的做法，但我们仍然不推荐在 DOCTYPE 之前加入任何非空白内容。</p>
+                <p>注：关于 IE 条件注释：<a href="http://msdn.microsoft.com/en-us/library/ms537512(v=VS.85).aspx" target="_blank">About Conditional Comments</a></p>
+            </div>
+            <h3 paragraph>建议</h3>
+            <p>通过上面的历史回顾以及分析，我们看到了 DOCTYPE 对于目前主流浏览器的关键作用，同时也发掘了能够触发各浏览器标准模式的最佳 DOCTYPE。标准模式会使不同浏览器之间发生兼容性问题的风险降至最低，选择正确的 DOCTYPE 以及保证 DOCTYPE 在 HTML 文档中绝对开头的位置则是使 DOCTYPE 发挥其正确作用的关键。</p>
+            <p>这里推荐一篇文章，写的很好。<a href="http://www.w3help.org/zh-cn/kb/001/" target="_blank">兼容性问题与浏览器的内核及渲染模式</a></p>
+
+        </div>
+    </body>
+</html>

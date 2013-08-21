@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>JavaScript性能优化</title>
+        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+
+        <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+        <script type="text/javascript">
+            $(function() {
+            $('.h-web-catalogue li a').click(function(e) {
+            e.preventDefault();
+            var paragraphNum,
+            paragraph,
+            offset;
+            var el = this;
+            $(this).closest('ol').find('li a').each(function(index, element) {
+            if (this === el) {
+            paragraphNum = index;
+            return false;
+            }
+            });
+            paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+            offset = paragraph.offset();
+            if (offset) {
+            $(window).scrollTop(offset.top);
+            }
+            });
+            //初始化内容折叠事件
+            $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+            $(this).next().toggle();
+            });
+            });
+        </script>
+    </head>
+    <body>
+        <h3 class="h-web-paragraph-title">目录</h3>
+        <ol class="h-web-catalogue">
+            <li><a paragraph href="#">字符串性能优化</a></li>
+            <li><a paragraph href="#">书写javascript注意的问题和一些建议</a></li>
+            <li><a paragraph href="#">Repaint 和 Reflow的优化</a></li>
+            <li><a paragraph href="#">性能优化的一些小技巧</a></li>
+            <li><a paragraph href="#">jQuery最佳实践</a></li>
+            <li><a paragraph href="#">一些性能优化参考</a></li>
+
+        </ol>
+        <div class="h-web-paragraph">
+            <h3 paragraph>字符串性能优化</h3>
+            <div>
+                <h4>字符串连接</h4>
+                <p>字符串连接操作会对 Internet Explorer 6 和 7 的垃圾收集带来很大的影响。因为这种方式会有一些临时变量的创建和销毁，影响性能。
+                    尽管这个问题在 Internet Explorer 8和9 里面得到解决——字符串连接在 IE8 和其它非 IE 浏览器(如 Chrome)中更有效率一点。
+                    如果你的用户中有很大一部分在使用 Internet Explorer 6 或 7，你就需要非常注意你构建字符串的方式了。</p>
+                <p>下面是项目中遇到的一个例子，在文件jquery-ui-timepicker-addon.js中有一段代码是这样写的</p>
+                <pre>
+var sel = '<select class="ui-timepicker-select" data-unit="'+ unit +'" data-min="'+ min +'" data-max="'+ max +'" data-step="'+ step +'">';
+for(var i=min; i<=max; i+=step){						
+    sel += '<option value="'+ i +'"'+ (i==val? ' selected':'') +'>';
+    if(unit == 'hour' && useAmpm(tp_inst._defaults.pickerTimeFormat || tp_inst._defaults.timeFormat))
+        sel += $.datepicker.formatTime("hh TT", {hour:i}, tp_inst._defaults);
+    else if(unit == 'millisec' || i >= 10) sel += i;
+    else sel += '0'+ i.toString();
+    sel += '</option>';
+}
+sel += '</select>';
+                </pre>
+                <p>由于用到了大量的字符串连接，在ie7下性能明显降低，改用以下实现可解决该性能问题</p>
+                <pre>
+var sel = ['<select class="ui-timepicker-select" data-unit="', unit, '" data-min="', min, '" data-max="', max, '" data-step="', step, '">'];
+for(var i=min; i<=max; i+=step){	
+    sel.push('<option value="',i,'"',i==val? ' selected':'','>');
+    if(unit == 'hour' && useAmpm(tp_inst._defaults.pickerTimeFormat || tp_inst._defaults.timeFormat)){
+        sel.push($.datepicker.formatTime("hh TT", {hour:i}, tp_inst._defaults));
+    }else if(unit == 'millisec' || i >= 10){ 
+        sel.push(i);
+    }else{
+       sel.push('0', i.toString()); 
+    } 
+    sel.push('</option>');
+}
+sel.push('</select>');
+                </pre>
+                <p>当然，最新的浏览器（如火狐 Firefox，IE8+ 等等）对字符串的拼接做了优化，我们也可以这样写：</p>
+                <pre>         
+str +='str1';
+str +='str2';
+                </pre>
+                <p>新的浏览器对“+=”做了优化，性能略快于数组的“join”方法。在不久的将来更新版本浏览器可能对“+”也会做优化，
+                    所以那时我们可以直接写：str += 'str1' +'str2'。但早先的浏览器中，使用Array.Join性能会较高。
+                    对于一次性给一个字符串赋很长值的情况下（比如html模板），为了使代码读起来方便，我们可以采用以下方式赋值，在换行处加上 \，这样既读起来方便，又不影响性能。
+                </p>
+                <pre> 
+var tmlp = '<li><input type="text" name="topicTitle" maxlength="40" class="input_long" value="{{topicTitle}}"/>\
+	<input type="hidden" name="topicIdUpdate" class="input_long" value="{{topicIdUpdate}}"/>\
+	<a class="icn_trash_16" href="#" title=""></a></li>';
+                </pre>
+
+                <h4>构建通过辅助函数生成的字符串</h4>
+                <p>通过传递字符串构建器（可以是数组或者辅助类）到函数中构建长字符串，以避免出现存放临时结果的字符串。
+                    例如，假定 buildMenuItemHtml_ 需要用文字串和变量构建一个字符串，并且会在内部使用一个字符串构建器，与其使用：
+                </p>
+                <pre>
+var strBuilder = [];
+for (var i = 0; i < menuItems.length; i++) {
+  strBuilder.push(this.buildMenuItemHtml_(menuItems[i]));
+}
+var menuHtml = strBuilder.join();
+                </pre>     
+                <p>不如用</p>
+                <pre>
+var strBuilder = [];
+for (var i = 0; i < menuItems.length; i++) {
+  this.buildMenuItem_(menuItems[i], strBuilder);
+}
+var menuHtml = strBuilder.join();
+                </pre>
+
+                <p>可以直接把字符串作为参数传入被调用的函数，而不是让函数返回字符串再赋值，减少临时字符串对象的生成。</p>
+            </div>
+            <h3 paragraph>书写javascript注意的问题和一些建议</h3>
+            <div>
+                <h4>4.1.5	谨慎地使用闭包（closure）</h4>
+                <p>闭包是 JavaScript 中一个强大而有用的特性，但是它们也有不好的地方，包括：
+                    a)	它们是最常见的内存泄漏源头，b) 影响效率，创建一个闭包比创建一个没有闭包的内联函数明显要慢，比起用一个静态函数则更慢。例如： </p>
+                <pre>function setupAlertTimeout() {
+  var msg = '要显示的消息';
+  window.setTimeout(function() { alert(msg); }, 100);
+}
+                </pre>
+                <p>比下面的代码慢：</p>
+                <pre>function setupAlertTimeout() {
+  window.setTimeout(function() {
+    var msg = '要显示的消息';
+      alert(msg);
+    }, 100);
+}
+                </pre>
+                <p>更比下面的代码慢：</p>
+                <pre>function alertMsg() {
+  var msg = '要显示的消息';
+  alert(msg);
+}
+function setupAlertTimeout() {
+  window.setTimeout(alertMsg, 100);
+}
+                </pre>
+                <h4>避免使用 with，可以利用局部变量来替换</h4>
+                <p>在你的代码中避免使用 with。它对性能有非常坏的影响，因为它修改了作用域链，让查找在其它作用域的变量变得代价高昂。看如下代码</p>
+                <pre>var myObj = {};
+myObj.container = {
+  start: '',
+  end: ''
+};
+function process(){ 
+  var doc = document, 
+      images = doc.getElementsByTagName('img'), 
+      widget = doc.getElementsByTagName('input'),
+      combination = []; 
+  for(var i = 0; i < images.length; i++){ 
+     combination.push(combine(images[i], widget[2*i])); 
+  } 
+  with (myObj.container) {
+    start = combination[0];
+    end = combination[combination.length-1];
+  }
+}
+function combine(){}
+                </pre>
+                <p>加上“with”关键字，我们让代码更加简洁清晰了，但是这样做性能会受影响。当我们进入“with”代码块时，“combination”作用链便从原来的层 1 变到了层 2，
+                    这样，效率会大打折扣。所以比较一下，还是去掉with性能高，但是这样并不是最好的方式，JavaScript 有个特点，对于 object 对象来说，其属性访问层级越深，
+                    效率越低，比如这里的“myObj”已经访问到了第 3 层，我们可以这样改进一下，把myObj.container变成局部变量，如下代码</p>
+                <pre>
+var container = myObj.container;
+container.start = combination[0];
+container.end = combination[combination.length-1];
+                </pre>
+                <h4>避免使用 eval</h4>
+                <p>比较下述代码</p>
+                <pre>
+function demo(){
+    console.time('demo');    
+    for (var i = 0; i < 10000; i++) {
+        var reference = {}, props = 'p1';
+        eval('reference.' + props + '=5');
+    }
+    console.timeEnd('demo');
+}
+demo();//在火狐下执行的时间大概400多ms
+                </pre>
+                <pre>
+function demo(){
+    console.time('demo');    
+    for (var i = 0; i < 10000; i++) {
+        var reference = {}, props = 'p1';
+        reference[props] = 5;
+    }
+    console.timeEnd('demo');
+}
+demo();//在火狐下执行的时间只需2ms
+                </pre>
+                <p>从以上运行结果来分析，有“eval”的代码比没有“eval”的代码要慢上 200 倍以上。
+                    主要原因是：JavaScript 代码在执行前会进行类似“预编译”的操作：首先会创建一个当前执行环境下的活动对象，并将那些用 var 声明的变量设置为活动对象的属性，
+                    但是此时这些变量的赋值都是 undefined，并将那些以 function 定义的函数也添加为活动对象的属性，而且它们的值正是函数的定义。但是，如果你使用了“eval”，
+                    则“eval”中的代码（实际上为字符串）无法预先识别其上下文，无法被提前解析和优化，即无法进行预编译的操作。所以，其性能也会大幅度降低。
+                </p>
+                <p>另外，我们也不要用Function构造函数来定义函数，看以下代码</p>
+                <pre>
+var func1 = new Function('return arguments[0] + arguments[1]');
+func1(10, 20); 
+var func2 = function(){ return arguments[0] + arguments[1] };
+func2(10, 20);
+                </pre>
+                <p>这里类似之前提到的“eval”方法，这里“func1”的效率会比“func2”的效率差很多</p>
+                <h4>推荐使用局部变量</h4>
+                <p>函数的作用域链（scope chain），JavaScript 代码解释执行，在进入函数内部时，它会预先分析当前的变量，并将这些变量归入不同的层级（level）。
+                    一般情况下：局部变量放入层级 1（浅），全局变量放入层级 2（深）。如果进入“with”或“try – catch”代码块，
+                    则会增加新的层级，即将“with”或“catch”里的变量放入最浅层（层 1），并将之前的层级依次加深。</p>
+                <p>我们以上面“避免使用 with”中的例子来分析，如果我们这样书写代码</p>
+                <pre>var myObj = {};
+myObj.container = {
+  start: '',
+  end: ''
+};
+function process(){ 
+  var images = document.getElementsByTagName('img'), 
+      widget = document.getElementsByTagName('input'),
+      combination = []; 
+  for(var i = 0; i < images.length; i++){ 
+     combination.push(combine(images[i], widget[2*i])); 
+  } 
+  myObj.container.start = combination[0];
+  myObj.container.end = combination[combination.length-1];
+}
+function combine(){}
+        
+// test
+function demo(){
+    console.time('demo');    
+    for (var i = 0; i < 10000; i++) {
+        process();
+    }
+    console.timeEnd('demo');
+}
+demo();//在firefox下大概70ms
+                </pre>
+
+                <p>这里我们可以看到，“images”，“widget”，“combination”属于局部变量，在层 1。“document”，“myObj”属于全局变量，在层 2。
+                    变量所在的层越浅，访问（读取或修改）速度越快，层越深，访问速度越慢。所以这里对“images”，“widget”，“combination”的访问速度比“document”，“myObj”要快一些。
+                    所以推荐尽量使用局部变量，我们看一下修改后的代码：
+                </p>
+
+                <pre>
+var myObj = {};
+myObj.container = {
+  start: '',
+  end: ''
+};
+function process(){ 
+  var doc = document,
+      images = doc.getElementsByTagName('img'), 
+      widget = doc.getElementsByTagName('input'),
+      container = myObj.container,
+      combination = []; 
+  for(var i = 0; i < images.length; i++){ 
+     combination.push(combine(images[i], widget[2*i])); 
+  } 
+  container.start = combination[0];
+  container.end = combination[combination.length-1];
+}
+function combine(){}
+        
+// test
+function demo(){
+    console.time('demo');    
+    for (var i = 0; i < 10000; i++) {
+        process();
+    }
+    console.timeEnd('demo');
+}
+demo();//在firefox下大概50ms
+                </pre>
+                <p>
+                    我们用局部变量“doc”取代全局变量“document”，用“container”取代“myObj.container”（这样可以缩小对象访问层级）。
+                    以上修改明显的改进了性能，尤其是对于大量使用全局变量的函数，效果会更明显。另外使用局部变量的一个好处就是利用压缩代码插件可以把js代码压缩的更小，
+                    比如document是不被压缩的，如果改为doc局部变量时，doc就会被压缩。
+                </p>
+
+                <h4>循环的优化</h4>
+                <p>循环是很常用的一个控制结构，大部分东西要依靠它来完成，在JavaScript中，我们可以使用for(;;),while(),for(in)三种循环，事实上，这三种循环中for(in)的效率极差，因为他需要查询散列键，只要可以就应该尽量少用。for(;;)和while循环的性能应该说基本等价。          </p>
+                <p>而事实上，如何使用这两个循环，则有很大讲究，得出的结论是：如果是循环变量递增或递减，不要单独对循环变量赋值，应该在它最后一次读取的时候使用嵌套的++或--操作符。如果要与数组的长度作比较，应该事先把数组的length属性放入一个局部变量中，减少查询次数。 </p>
+                <p>举例，假设arr是一个数组，最佳的遍历元素方式为： </p>
+                <pre>for(var i=0, len = arr.length;i &lt; len;i++){…} </pre>
+
+                <p>或者，如果无所谓顺序的话，也可以这样：</p>
+                <pre>for(var i=arr.length;i>0;i–){…}</pre>
+            </div>
+            <h3 paragraph>Repaint 和 Reflow的优化</h3>
+
+            <div>
+                <p>Repaint 也叫 Redraw，它指的是一种不会影响当前 DOM 的结构和布局的一种重绘动作。如下动作会产生 Repaint 动作： </p>
+                <ul>
+                    <li>不可见到可见（visibility 样式属性） </li>
+                    <li>颜色或图片变化（background, border-color, color 样式属性） </li>
+                    <li>不改变页面元素大小，形状和位置，但改变其外观的变化 </li>
+                </ul>
+                <p>Reflow 比起 Repaint 来讲就是一种更加显著的变化了。它主要发生在 DOM 树被操作的时候，任何改变 DOM 的结构和布局都会产生 Reflow。但一个元素的 Reflow 操作发生时，它的所有父元素和子元素都会发生 Reflow，最后 Reflow 必然会导致 Repaint 的产生。举例说明，如下动作会产生 Repaint 动作： </p>
+                <ul>
+                    <li>浏览器窗口的变化 </li>
+                    <li>DOM 节点的添加删除操作 </li>
+                    <li>一些改变页面元素大小，形状和位置操作的触发 </li>
+                </ul>
+                <p class="h-web-font-red">优化方案</p>
+                <h4> 减少 Reflow          </h4>
+                <p>通过 Reflow 和 Repaint 的介绍可知，每次 Reflow 比其 Repaint 会带来更多的性能消耗，所以我们应该尽量减少 Reflow 的发生，或者将其转化为只触发 Repaint 操作的代码。 
+                    看下面的代码： </p>
+                <pre> var pDiv = document.createElement('div'); 
+ document.body.appendChild(pDiv);//----- reflow
+ var cDiv1 = document.createElement('div'); 
+ var cDiv2 = document.createElement('div'); 
+ pDiv.appendChild(cDiv1);//----- reflow
+ pDiv.appendChild(cDiv2);//----- reflow</pre>
+                <p>这是我们经常接触的代码了，但是这段代码会产生 3 次 reflow。再看如下代码： </p>
+                <pre> var pDiv = document.createElement('div'); 
+ var cDiv1 = document.createElement('div'); 
+ var cDiv2 = document.createElement('div'); 
+ pDiv.appendChild(cDiv1); 
+ pDiv.appendChild(cDiv2); 
+ document.body.appendChild(pDiv);//----- reflow    </pre>
+                <p>这里只有一次 reflow，所以我们推荐这种 DOM 节点操作的方式。</p>
+                <p>下面的代码是在firefox下测试的结果</p>
+                <pre>
+// test
+function demo(){
+    console.time('demo'); 
+    var doc = document;  
+    for (var i = 0; i < 1000; i++) {
+      var pDiv = doc.createElement('div'); 
+      doc.body.appendChild(pDiv);//----- reflow
+      var cDiv1 = doc.createElement('div'); 
+      var cDiv2 = doc.createElement('div'); 
+      pDiv.appendChild(cDiv1);//----- reflow
+      pDiv.appendChild(cDiv2);//----- reflow
+    }
+    console.timeEnd('demo');
+}
+demo();//在firefox下大概250ms左右
+                </pre>
+                <pre>
+// test
+function demo(){
+    console.time('demo');   
+    var doc = document;  
+    for (var i = 0; i < 1000; i++) {
+      var pDiv = doc.createElement('div'); 
+      var cDiv1 = doc.createElement('div'); 
+      var cDiv2 = doc.createElement('div'); 
+      pDiv.appendChild(cDiv1); 
+      pDiv.appendChild(cDiv2); 
+      doc.body.appendChild(pDiv);//----- reflow
+    }
+    console.timeEnd('demo');
+}
+demo();//在firefox下大概100ms左右
+                </pre>
+                <p>测试结果可以看出，减少reflow的操作，性能明显的提高了。</p>
+
+                <h4>特殊测量属性和方法对Reflow的影响</h4>
+                <p>DOM 元素里面有一些特殊的测量属性的访问和方法的调用，也会触发 Reflow，比较典型的就是&ldquo;offsetWidth&rdquo;属性。测量属性和方法大致有这些： </p>
+                <ul>
+                    <li>offsetLeft</li>
+                    <li>offsetTop</li>
+                    <li>offsetHeight</li>
+                    <li>offsetWidth</li>
+                    <li>scrollTop/Left/Width/Height</li>
+                    <li>clientTop/Left/Width/Height</li>
+                </ul>
+                <p>这些属性和方法的访问和调用，都会触发 Reflow 的产生，我们应该尽量减少对这些属性和方法的访问和调用，请看以下代码</p>
+                <pre>var pe = document.getElementById('pos_element'); 
+var result = document.getElementById('result_element'); 
+var pOffsetWidth = pe.offsetWidth;
+result.children[0].style.width  = pOffsetWidth; 
+result.children[1].style.width  = pOffsetWidth; 
+result.children[2].style.width  = pOffsetWidth;
+                </pre>
+                <p>这里我们可以用临时变量将“offsetWidth”的值缓存起来，这样就不用每次访问“offsetWidth”属性。这种方式在循环里面非常适用，可以极大地提高性能。</p>
+                <p>例子待补充</p>
+
+                <h4>样式相关性能优化</h4>
+                <p>我们肯定经常见到如下的代码：</p>
+                <pre>var sElement = document.getElementById('pos_element'); 
+sElement.style.border = '1px solid red';
+sElement.style.padding = '2px 3px';
+sElement.style.marginLeft = '10px';
+                </pre>
+                <p>但是可以看到，这里的每一个样式改变，都会产生 Reflow。需要减少这种情况的发生，我们可以这样做</p>
+                <p> 解决方案 1：用 class 替代 style，可以将原有的所有 Reflow 或 Repaint 的次数都缩减到一个。如下代码： </p>
+                <pre>.class1 { 
+  border: '1px solid red';
+  padding: '2px 3px';
+  margin-left: '10px';
+} 
+document.getElementById('pos_element').className = 'class1';
+                </pre>
+                <p>解决方案 2：利用cssText 解决方案，一次性设置所有样式，减少 Reflow 提高性能。代码如下：</p>
+                <pre>var sElement = document.getElementById('pos_element'); 
+var newStyle = 'border: 1px solid red;padding: 2px 3px;margin-left: 10px;';
+sElement.style.cssText += newStyle;
+                </pre>
+            </div>
+            <h3 paragraph>性能优化的一些小技巧</h3>
+            <div>
+                <ol>
+                    <li>运算符操作时，尽量使用+＝，－＝、*＝、\=等运算符号，而不是直接进行赋值运算</li>
+                    <li>当需要将数字转换成字符时，采用如下方式："" + 1。从性能上来看，将数字转换成字符时，有如下公式：("" +1) > String() > .toString() > new String()。
+                        String()属于内部函数，所以速度很快。而.toString()要查询原型中的函数，所以速度逊色一些，new String()需要重新创建一个字符串对象，速度最慢</li>
+                    <li>当需要将浮点数转换成整型时，应该使用Math.floor()或者Math.round()。而不是使用parseInt(),该方法用于将字符串转换成数字。
+                        而且Math是内部对象，所以Math.floor()其实并没有多少查询方法和调用时间，速度是最快的</li>
+                    <li>尽量使用JSON格式来创建对象或数组，而不是new Object()或new Array()方法。因为前者是直接变量，引用即可，而后者需要调用构造器，因而前者的性能更好。</li>
+                    <li>对字符串进行循环操作，例如替换、查找，最好用正则表达式。因为js的循环速度比较慢，而正则表达式的操作是用C写成的API，性能比较好</li>
+                    <li>对于大的js对象，因为创建时时间和空间的开销都比较大，因此应该尽量考虑采用缓存处理</li>
+                    <li>批量增加Dom时，尽量使用修改 innerHTML 的方式而不是用 appendChild 的方式；因为使用 innerHTML 开销更小，速度更快，同时也更加内存安全。有一点需要注意的是，用 innerHTML 方式添加时，一定不要在循环中使用 innerHTML += 的方式添加，这样反而会使速度减慢；而是应该中间用 array 缓存起来（如果不考虑ie7之前的版本，可以用+=把html先拼接起来），循环结束后调用 xx.innerHTML = array.join(''); 的方式</li>
+                    <li>单个增加 Dom时，这里是指要将新节点加载到一个内容不断变化的节点的情形，对于内容稳定的节点来说，随便怎么加都没有问题。但是对于有动态内容的节点来说，为其添加子节点尽量使用 appendChild 的方式。这是因为 appendChild 不会影响到其他的节点；而如果修改 innerHTML 属性的话，该父节点的所有子节点都会从 dom 树中剥离，再根据新的 innerHTML 值来重绘子节点 dom 树；所有注册到原来子节点的事件也会失效。综上：如果在一个有动态内容的节点上出现了 innerHTML += 的代码，就该考虑是否有问题了</li>
+                    <li>监听动态元素，Dom 事件默认是向上冒泡的，发生在子节点中的事件，可以由父节点来处理。event 的 target/srcElement 仍是产生事件的最深层子节点。这样，对于内容动态增加并且子节点都需要相同的事件处理函数的情况，可以把事件注册上提到父节点上，这样就不需要为每个子节点注册事件监听了。这样可以提高性能，同时也可避免产生无法回收内存的情况。</li>
+                    <li>把try-catch语句放在循环外面，不要放在循环里面，因为异常是很少发生的，放在外面避免每次都要执行它们</li>
+                    <li>对于简单的任务，最好使用基本操作方式来实现，而不是使用函数调用实现。例如val1 < val2 ? val1 : val2;执行速度快于Math.min(val1, val2);类似的，myArr.push(newEle);慢于myArr[myArr.length] = newEle;</li>
+                    <li>还可以在各种JavaScript文件中添加下面的声明： 
+                        <pre>
+'use strict';
+                        </pre>
+                        添加了这段代码，JavaScript将会运行得更快。
+                    </li>
+                </ol>
+            </div>
+
+            <h3 paragraph>jQuery最佳实践</h3>
+            <div>
+                <p>本文摘自<a href="http://www.ruanyifeng.com/blog/2011/08/jquery_best_practices.html">http://www.ruanyifeng.com/blog/2011/08/jquery_best_practices.html</a></p>
+                <p>部分内容做了些修改，<span class="h-web-font-red">本人觉得在用jQuery的时候，不一定刻意的为了追求性能而不断的修改，重构代码。这样没必要，只是书写的时候注意即可，再有就是在比较耗时的地方优化一下，比如大量循环等。</span></p>
+                <h4>使用最新版本的jQuery</h4>
+                <p>jQuery的版本更新很快，你应该总是使用最新的版本。因为新版本会改进性能，还有很多新功能。</p>
+                <h4>使用简单的性能高的选择器</h4>
+                <p>在jQuery中，你可以用多种选择器，选择同一个网页元素。每种选择器的性能是不一样的，你应该了解它们的性能差异。</p>
+                <h5>最快的选择器：id选择器和元素标签选择器</h5>
+                <p>举例来说，下面的语句性能最佳：</p>
+                <pre>$('#id')
+$('form')
+$('input')</pre>
+                <p>遇到这些选择器的时候，jQuery内部会自动调用浏览器的原生方法（比如getElementById()），所以它们的执行速度快。</p>
+                <h5>较慢的选择器：class选择器</h5>
+                <p>$('.className')的性能，取决于不同的浏览器。
+                    Firefox、Safari、Chrome、Opera浏览器，都有原生方法getElementByClassName()，所以速度并不慢。但是，IE5-IE8都没有部署这个方法，所以这个选择器在IE中会相当慢。</p>
+                <h5>最慢的选择器：伪类选择器和属性选择器</h5>
+                <p>看以下代码</p>
+                <pre>
+$(':hidden')
+$('[attribute=value]')
+                </pre>
+                <p>这两种语句是最慢的，因为浏览器没有针对它们的原生方法。但是，一些浏览器的新版本，增加了querySelector()和querySelectorAll()方法，因此会使这类选择器的性能有大幅提高。</p>
+
+                <h4>理解子元素和父元素的关系，使用最佳的选择</h4>
+                <p>下面六个选择器，都是从父元素中选择子元素。你知道哪个速度最快，哪个速度最慢吗？</p>
+                <pre>$('.child', $parent)
+$parent.find('.child')
+$parent.children('.child')
+$('#parent > .child')
+$('#parent .child')
+$('.child', $('#parent'))</pre>
+                <p>我们一个个来分析</p>
+                <h5> $('.child', $parent)</h5>
+                <p>这条语句的意思是，给定一个DOM对象，然后从中选择一个子元素。jQuery会自动把这条语句转成$.parent.find('child')，这会导致一定的性能损失。它比最快的形式慢了5%-10%。</p>
+                <h5>$parent.find('.child')</h5>
+                <p>这条是最快的语句。.find()方法会调用浏览器的原生方法（getElementById，getElementByName，getElementByTagName等等），所以速度较快。</p>
+                <h5> $parent.children('.child')</h5>
+                <p>这条语句在jQuery内部，会使用$.sibling()和javascript的nextSibling()方法，一个个遍历节点。它比最快的形式大约慢50%。</p>
+                <h5>$('#parent &gt; .child')</h5>
+                <p>jQuery内部使用Sizzle引擎，处理各种选择器。Sizzle引擎的选择顺序是从右到左，所以这条语句是先选.child，然后再一个个过滤出父元素#parent，这导致它比最快的形式大约慢70%。</p>
+                <h5>$('#parent .child')</h5>
+                <p>这条语句与上一条是同样的情况。但是，上一条只选择直接的子元素，这一条可以于选择多级子元素，所以它的速度更慢，大概比最快的形式慢了77%。</p>
+                <h5>$('.child', $('#parent'))</h5>
+                <p>jQuery内部会将这条语句转成$('#parent').find('.child')，比最快的形式慢了23%。</p>
+                <p>所以，最佳选择是$parent.find('.child')。而且，由于$parent往往在前面的操作已经生成，jQuery会进行缓存，所以进一步加快了执行速度。</p>
+                <p>具体的例子和比较结果，请看<a href="http://jsperf.com/jquery-selectors-context/2" target="_blank">这里</a>。</p>
+
+                <h4>不要过度依赖jQuery而使性能降低</h4>
+                <p>jQuery速度再快，也无法与原生的javascript方法相比。所以有原生方法可以使用的场合，尽量避免使用jQuery。
+                    以最简单的选择器为例，document.getElementById("foo")要比$("#foo")快10多倍。
+                    再来看一个例子，为a元素绑定一个处理点击事件的函数：</p>
+                <pre>
+$('a').click(function(){
+    alert($(this).attr('id'));
+});</pre>
+                <p>这段代码的意思是，点击a元素后，弹出该元素的id属性。为了获取这个属性，必须连续两次调用jQuery，第一次是$(this)，第二次是attr('id')。</p>
+                <p>事实上，这种处理完全不必要。更正确的写法是，直接采用javascript原生方法，调用this.id</p>
+                <pre>
+$('a').click(function(){
+    alert(this.id);
+});</pre>
+                <p>根据<a href="http://jsperf.com/el-attr-id-vs-el-id/2" target="_blank">测试</a>，this.id的速度比$(this).attr('id')快了10多倍。</p>
+                <h4>利用缓存，也称局部变量来处理jQuery对象</h4>
+                <p>选中某一个网页元素，是开销很大的步骤。所以，使用选择器的次数应该越少越好，并且尽可能缓存选中的结果，便于以后反复使用。
+                    比如，下面这样的写法就是糟糕的写法：</p>
+                <pre>
+jQuery('#top').find('p.classA');
+jQuery('#top').find('p.classB');
+                </pre>
+                <p>更好的写法是：</p>
+                <pre>var cached = jQuery('#top');
+cached.find('p.classA');
+cached.find('p.classB');</pre>
+                <p>根据<a href="http://jsperf.com/ns-jq-cached" target="_blank">测试</a>，缓存比不缓存，快了2-3倍。</p>
+
+                <h4>使用链式写法</h4>
+                <p>jQuery的一大特点，就是允许使用链式写法。</p>
+                <pre>$('div').find('h3').eq(2).html('Hello');
+                </pre>
+                <p>采用链式写法时，jQuery自动缓存每一步的结果，因此比非链式写法要快。根据<a href="http://jsperf.com/jquery-chaining" target="_blank">测试</a>，链式写法比（不使用缓存的）非链式写法，大约快了25%。</p>
+                <h4>事件的委托处理（Event Delegation）</h4>
+                <p>javascript的事件模型，采用"冒泡"模式，也就是说，子元素的事件会逐级向上"冒泡"，成为父元素的事件。</p>
+                <p>利用这一点，可以大大简化事件的绑定。比如，有一个表格（table元素，假设id为table1），里面有100个格子（td元素），现在要求在每个格子上面绑定一个点击事件（click），请问是否需要将下面的命令执行100次？</p>
+                <pre>$("td").on("click", function(){
+    $(this).toggleClass("click");
+});</pre>
+                <p>回答是不需要，我们只要把这个事件绑定在table元素上面就可以了，因为td元素发生点击事件之后，这个事件会"冒泡"到父元素table上面，从而被监听到。</p>
+                <p>因此，这个事件只需要在父元素绑定1次即可，而不需要在子元素上绑定100次，从而大大提高性能。这就叫事件的"委托处理"，也就是子元素"委托"父元素处理这个事件。</p>
+                <pre>
+$("#table1").on("click", "td", function(){
+    $(this).toggleClass("click");
+});
+                </pre>
+                <p>当然也可以委托到document上，可以用off方法取消事件的绑定。</p>
+
+                <h4>少改动DOM结构</h4>
+                <p>（1）改动DOM结构开销很大，因此不要频繁使用.append()、.insertBefore()和.insetAfter()这样的方法。</p>
+                <p>如果要插入多个元素，就先把它们合并，然后再一次性插入。根据<a href="http://jsperf.com/string-concat-single-append-vs-multiple-append" target="_blank">测试</a>，合并插入比不合并插入，快了将近10倍。</p>
+                <p>（2）如果你要对一个DOM元素进行大量处理，应该先用.detach()方法，把这个元素从DOM中取出来，处理完毕以后，再重新插回文档。根据<a href="http://jsperf.com/to-detach-or-not-to-detach" target="_blank">测试</a>，使用.detach()方法比不使用时，快了60%。</p>
+                <p>（3）如果你要在DOM元素上储存数据，不要写成下面这样：</p>
+                <pre>
+var elem = $('#elem');
+elem.data(key,value);</pre>
+                <p>而要写成这样：</p>
+                <pre>
+var elem = $('#elem');
+$.data(elem[0],key,value);  </pre>
+                <p>根据<a href="http://jsperf.com/jquery-data-vs-jqueryselection-data/11" target="_blank">测试</a>，后一种写法要比前一种写法，快了将近10倍。因为elem.data()方法是定义在jQuery函数的prototype对象上面的，而$.data()方法是定义jQuery函数上面的，调用的时候不从复杂的jQuery对象上调用，所以速度快得多。（此处可以参阅下面第10点。）</p>
+                <p>（4）插入html代码的时候，浏览器原生的innterHTML属性比jQuery对象的html()<a href="http://jsperf.com/jquery-dom-manipulation/4" target="_blank">更快</a>。</p>
+                <h4>正确处理循环</h4>
+                <p>循环总是一种比较耗时的操作，如果可以使用复杂的选择器直接选中元素，就不要使用循环，去一个个辨认元素。</p>
+                <p>javascript原生循环方法for和while，要比jQuery的.each()方法<a href="http://jsperf.com/jquery-each-vs-for-loop/24" target="_blank">快</a>，应该优先使用原生方法。</p>
+                <h4>尽量少生成jQuery对象</h4>
+                <p>每当你使用一次选择器（比如$('#id')），就会生成一个jQuery对象。jQuery对象是一个很庞大的对象，带有很多属性和方法，会占用不少资源。所以，尽量少生成jQuery对象。</p>
+                <p>举例来说，许多jQuery方法都有两个版本，一个是供<strong>jQuery对象</strong>使用的版本，另一个是供<strong>jQuery函数</strong>使用的版本。下面两个例子，都是取出一个元素的文本，使用的都是text()方法。</p>
+                <p>你既可以使用针对jQuery对象的版本：</p>
+
+                <pre>var $text = $("#text");
+var $ts = $text.text();</pre>
+                <p>也可以使用针对jQuery函数的版本：</p>
+                <pre>var $text = $("#text");
+var $ts = $.text($text);</pre>
+                <p>由于后一种针对jQuery函数的版本不通过jQuery对象操作，所以相对开销较小，速度<a href="http://jsperf.com/jquery-text-vs-html/5" target="_blank">比较快</a>。</p>
+                <h4>使用jQuery扩展选择器的注意事项</h4>
+                <p>jQuery提供了大量的扩展<a href="http://api.jquery.com/category/selectors/jquery-selector-extensions/" target="_blank">选择器</a>，比如:visible、:hidden、:animated等，而它们不是有效的CSS3选择器。如果使用这些选择器，将不能再使用querySelectorAll()方法。为了避免这种情况，你可以先选择元素，然后再过滤。例如：</p>
+                <pre>$('a.button:hidden'); //则不能使用querySelectorAll()  
+$('a.button').filter(':hidden'); //最佳方案  </pre>
+                <p>上述结果是相同的，但是第2个更快。</p>
+                <h4>选择作用域链最短的方法</h4>
+                <p>严格地说，这一条原则对所有Javascript编程都适用，而不仅仅针对jQuery。</p>
+                <p>我们知道，Javascript的变量采用链式作用域。读取变量的时候，先在当前作用域寻找该变量，如果找不到，就前往上一层的作用域寻找该变量。这样的设计，使得读取局部变量比读取全局变量快得多。</p>
+                <p>请看下面两段代码，第一段代码是读取全局变量：</p>
+                <pre>var a = 0;
+function x(){
+    a += 1;
+}</pre>
+                <p>第二段代码是读取局部变量：</p>
+                <pre>
+function y(){
+    var a = 0;
+    a += 1;
+}</pre>
+                <p>第二段代码读取变量a的时候，不用前往上一层作用域，所以要比第一段代码<a href="http://jsperf.com/global/2" target="_blank">快五六倍</a>。</p>
+                <p>同理，在调用对象方法的时候，closure模式要比prototype模式<a href="http://jsperf.com/prototype-vs-closures/20" target="_blank">更快</a>。</p>
+                <p>prototype模式：</p>
+
+                <pre>
+var X = function(name){ this.name = name; }
+X.prototype.get_name = function() { return this.name; };</pre>
+
+                <p>closure模式：</p>
+                <pre>
+var Y = function(name) {
+var y = { name: name };
+   return { 'get_name': function() { return y.name; } };
+};</pre>
+                <p>同样是get_name()方法，closure模式<a target="_blank" href="http://jsperf.com/prototype-vs-closures/20">更快</a>。</p>
+
+                <h4>使用Pub/Sub模式管理事件</h4>
+            </div>
+            <p>当发生某个事件后，如果要连续执行多个操作，最好不要写成下面这样：</p>
+            <pre>
+function doSomthing{
+    doSomethingElse();
+    doOneMoreThing();
+}</pre>
+
+            <p>而要改用事件触发的形式：</p>
+            <pre>
+function doSomething{
+    $.trigger("DO_SOMETHING_DONE");
+}
+$(document).on("DO_SOMETHING_DONE", function(){
+    doSomethingElse(); }
+);</pre>
+            <p>还可以考虑使用<a target="_blank" href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html">deferred对象</a>。</p>  
+            <pre>
+function doSomething(){
+    var dfd = new $.Deferred();
+    //Do something async, then...
+    //dfd.resolve();
+    return dfd.promise();
+}
+function doSomethingElse(){
+    $.when(doSomething()).then(//The next thing);
+}</pre>
+            <h3 paragraph>一些性能优化参考</h3>
+            <p><a href="http://www.iteye.com/magazines/116-Web-Front-Performance-Best-Practice">前端性能优化最佳实践</a></p>  
+        </div>
+    </body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>html相关知识</title>
+        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+        <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $('.h-web-catalogue li a').click(function(e) {
+                    e.preventDefault();
+                    var paragraphNum,
+                        paragraph,
+                        offset;
+                    var el = this;
+                    $(this).closest('ol').find('li a').each(function(index, element) {
+                        if (this === el) {
+                            paragraphNum = index;
+                            return false;
+                        }
+                    });
+                    paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+                    offset = paragraph.offset();
+                    if (offset) {
+                        $(window).scrollTop(offset.top);
+                    }
+                });
+                //初始化内容折叠事件
+                $('.h-web-paragraph').on('click' , 'h3[paragraph]', function(e){
+                    $(this).next().toggle();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h3 class="h-web-paragraph-title">目录</h3>
+        <ol class="h-web-catalogue">
+            <li><a paragraph href="#">HTTP协议之HTTP消息</a></li>
+            <li><a paragraph href="#">浏览器的渲染原理简介</a></li>
+            <li><a paragraph href="#">HTTP状态消息</a></li>
+    
+        </ol>
+        <div class="h-web-paragraph">
+            <h3 paragraph>HTTP协议之HTTP消息</h3>
+            <p><a href="http://free9277.iteye.com/blog/1857842" target="_blank">HTTP协议之HTTP消息</a></p>
+            <h3 paragraph>浏览器的渲染原理简介</h3>
+            <p><a href="http://coolshell.cn/articles/9666.html" target="_blank">浏览器的渲染原理简介</a></p>
+
+            <h3 paragraph>HTTP 状态消息</h3>
+            <div>
+                <p>当浏览器从 web 服务器请求服务时，可能会发生错误。</p>
+                <p>从而有可能会返回下面的一系列状态消息：</p>
+                <h4>1xx: 信息</h4>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>消息:</th>
+                            <th>描述:</th>
+                        </tr>
+                        <tr>
+                            <td>100 Continue</td>
+                            <td>服务器仅接收到部分请求，但是一旦服务器并没有拒绝该请求，客户端应该继续发送其余的请求。</td>
+                        </tr>
+                        <tr>
+                            <td>101 Switching Protocols</td>
+                            <td>服务器转换协议：服务器将遵从客户的请求转换到另外一种协议。</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>2xx: 成功</h4>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>消息:</th>
+                            <th>描述:</th>
+                        </tr>
+                        <tr>
+                            <td>200 OK</td>
+                            <td>请求成功（其后是对GET和POST请求的应答文档。）</td>
+                        </tr>
+                        <tr>
+                            <td>201 Created</td>
+                            <td>请求被创建完成，同时新的资源被创建。</td>
+                        </tr>
+                        <tr>
+                            <td>202 Accepted</td>
+                            <td>供处理的请求已被接受，但是处理未完成。</td>
+                        </tr>
+                        <tr>
+                            <td>203 Non-authoritative Information</td>
+                            <td>文档已经正常地返回，但一些应答头可能不正确，因为使用的是文档的拷贝。</td>
+                        </tr>
+                        <tr>
+                            <td>204 No Content</td>
+                            <td>没有新文档。浏览器应该继续显示原来的文档。如果用户定期地刷新页面，而Servlet可以确定用户文档足够新，这个状态代码是很有用的。</td>
+                        </tr>
+                        <tr>
+                            <td>205 Reset Content</td>
+                            <td>没有新文档。但浏览器应该重置它所显示的内容。用来强制浏览器清除表单输入内容。</td>
+                        </tr>
+                        <tr>
+                            <td>206 Partial Content</td>
+                            <td>客户发送了一个带有Range头的GET请求，服务器完成了它。</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>3xx: 重定向</h4>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>消息:</th>
+                            <th>描述:</th>
+                        </tr>
+                        <tr>
+                            <td>300 Multiple Choices</td>
+                            <td>多重选择。链接列表。用户可以选择某链接到达目的地。最多允许五个地址。</td>
+                        </tr>
+                        <tr>
+                            <td>301 Moved Permanently</td>
+                            <td>所请求的页面已经转移至新的url。</td>
+                        </tr>
+                        <tr>
+                            <td>302 Found</td>
+                            <td>所请求的页面已经临时转移至新的url。</td>
+                        </tr>
+                        <tr>
+                            <td>303 See Other</td>
+                            <td>所请求的页面可在别的url下被找到。</td>
+                        </tr>
+                        <tr>
+                            <td>304 Not Modified</td>
+                            <td>未按预期修改文档。客户端有缓冲的文档并发出了一个条件性的请求（一般是提供If-Modified-Since头表示客户只想比指定日期更新的文档）。服务器告诉客户，原来缓冲的文档还可以继续使用。</td>
+                        </tr>
+                        <tr>
+                            <td>305 Use Proxy</td>
+                            <td>客户请求的文档应该通过Location头所指明的代理服务器提取。</td>
+                        </tr>
+                        <tr>
+                            <td>306 <em>Unused</em></td>
+                            <td>此代码被用于前一版本。目前已不再使用，但是代码依然被保留。</td>
+                        </tr>
+                        <tr>
+                            <td>307 Temporary Redirect</td>
+                            <td>被请求的页面已经临时移至新的url。</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>4xx: 客户端错误</h4>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>消息:</th>
+                            <th>描述:</th>
+                        </tr>
+                        <tr>
+                            <td>400 Bad Request</td>
+                            <td>服务器未能理解请求。</td>
+                        </tr>
+                        <tr>
+                            <td>401 Unauthorized</td>
+                            <td>被请求的页面需要用户名和密码。</td>
+                        </tr>
+                        <tr>
+                            <td>402 Payment Required</td>
+                            <td>此代码尚无法使用。</td>
+                        </tr>
+                        <tr>
+                            <td>403 Forbidden</td>
+                            <td>对被请求页面的访问被禁止。</td>
+                        </tr>
+                        <tr>
+                            <td>404 Not Found</td>
+                            <td>服务器无法找到被请求的页面。</td>
+                        </tr>
+                        <tr>
+                            <td>405 Method Not Allowed</td>
+                            <td>请求中指定的方法不被允许。</td>
+                        </tr>
+                        <tr>
+                            <td>406 Not Acceptable</td>
+                            <td>服务器生成的响应无法被客户端所接受。</td>
+                        </tr>
+                        <tr>
+                            <td>407 Proxy Authentication Required</td>
+                            <td>用户必须首先使用代理服务器进行验证，这样请求才会被处理。</td>
+                        </tr>
+                        <tr>
+                            <td>408 Request Timeout</td>
+                            <td>请求超出了服务器的等待时间。</td>
+                        </tr>
+                        <tr>
+                            <td>409 Conflict</td>
+                            <td>由于冲突，请求无法被完成。</td>
+                        </tr>
+                        <tr>
+                            <td>410 Gone</td>
+                            <td>被请求的页面不可用。</td>
+                        </tr>
+                        <tr>
+                            <td>411 Length Required</td>
+                            <td>"Content-Length" 未被定义。如果无此内容，服务器不会接受请求。</td>
+                        </tr>
+                        <tr>
+                            <td>412 Precondition Failed</td>
+                            <td>请求中的前提条件被服务器评估为失败。</td>
+                        </tr>
+                        <tr>
+                            <td>413 Request Entity Too Large</td>
+                            <td>由于所请求的实体的太大，服务器不会接受请求。</td>
+                        </tr>
+                        <tr>
+                            <td>414 Request-url Too Long</td>
+                            <td>由于url太长，服务器不会接受请求。当post请求被转换为带有很长的查询信息的get请求时，就会发生这种情况。</td>
+                        </tr>
+                        <tr>
+                            <td>415 Unsupported Media Type</td>
+                            <td>由于媒介类型不被支持，服务器不会接受请求。</td>
+                        </tr>
+                        <tr>
+                            <td>416 </td>
+                            <td>服务器不能满足客户在请求中指定的Range头。</td>
+                        </tr>
+                        <tr>
+                            <td>417 Expectation Failed</td>
+                            <td> </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>5xx: 服务器错误</h4>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>消息:</th>
+                            <th>描述:</th>
+                        </tr>
+                        <tr>
+                            <td>500 Internal Server Error</td>
+                            <td>请求未完成。服务器遇到不可预知的情况。</td>
+                        </tr>
+                        <tr>
+                            <td>501 Not Implemented</td>
+                            <td>请求未完成。服务器不支持所请求的功能。</td>
+                        </tr>
+                        <tr>
+                            <td>502 Bad Gateway</td>
+                            <td>请求未完成。服务器从上游服务器收到一个无效的响应。</td>
+                        </tr>
+                        <tr>
+                            <td>503 Service Unavailable</td>
+                            <td>请求未完成。服务器临时过载或当机。</td>
+                        </tr>
+                        <tr>
+                            <td>504 Gateway Timeout</td>
+                            <td>网关超时。</td>
+                        </tr>
+                        <tr>
+                            <td>505 HTTP Version Not Supported</td>
+                            <td>服务器不支持请求中指明的HTTP协议版本。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>内容和目标</title>
+        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+        <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $('.h-web-catalogue li a').click(function(e) {
+                    e.preventDefault();
+                    var paragraphNum,
+                        paragraph,
+                        offset;
+                    var el = this;
+                    $(this).closest('ol').find('li a').each(function(index, element) {
+                        if (this === el) {
+                            paragraphNum = index;
+                            return false;
+                        }
+                    });
+                    paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+                    offset = paragraph.offset();
+                    if (offset) {
+                        $(window).scrollTop(offset.top);
+                    }
+                });
+                //初始化内容折叠事件
+                $('.h-web-paragraph').on('click' , 'h3[paragraph]', function(e){
+                    $(this).next().toggle();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h3 class="h-web-paragraph-title">目录</h3>
+        <ol class="h-web-catalogue">
+            <li><a paragraph href="#">内容</a></li>
+            <li><a paragraph href="#">目标</a></li>
+        </ol>
+        <div class="h-web-paragraph">
+            <h3 paragraph>内容</h3>
+            <ul>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>Javascript</li>
+                <li>jQuery 的用法</li>
+                <li>jQuery UI 的用法</li>
+                <li>jQuery 相关插件的用法</li>
+                <li>jQuery 插件的开发</li>
+                <li>参考资料与学习技巧</li>
+                <li>在项目中需要注意的事项（会不断完善）</li>
+            </ul>
+
+
+            <h3 paragraph>目标</h3>
+
+            <ul>
+                <li>熟练掌握 html和css的基本用法，了解Web前端相关注意事项，比如：Layout、Float、Position、Block Formatting Context（块格式化上下文）以及各大浏览器兼容性等。</li>
+                <li>熟练掌握Javascript：包括用法、编码规范、性能优化等。</li>
+                <li>记住所有jQuery API（至少知道有这样的API以方便从官方API中查询）</li>
+                <li>知道jQuery UI 中有哪些Widgets，能熟练从官方网站查询API的用法，另外需要掌握几个常用的API，主要有$.fn.position(options ) 等。</li>
+                <li>项目中设计到的jQuery plugins 有jqgrid、ztree、validate等，对于这些插件不要求完全掌握，会用即可。</li>
+                <li>Javascript调试</li>
+                <li>宗旨：能够基于jQuery快速开发Web页面</li>
+            </ul>
+        </div>
+    </body>
+</html>

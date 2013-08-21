@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>CSS display属性</title>
+        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+        
+        <link type="text/css" rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
+        
+        <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+        
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+        
+        <script type="text/javascript">
+            $(function() {
+                
+                //SyntaxHighlighter
+                $('pre').replaceWith(function(){
+                    var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
+                    html += $(this).html();
+                    html += '</pre>';
+                    return html;
+                });
+                SyntaxHighlighter.highlight();
+            });
+        </script>
+    </head>
+    <body>
+        <div class="h-web-paragraph">
+            <p>可能好多人只知道display是用来显示或隐藏DOM元素的，即只知道block和none属性值，其实不然，display提供了许多可选项，这些可选项如下：</p>
+            <table>
+                <tbody>
+                    <tr>
+                        <th>值</th>
+                        <th>描述</th>
+                    </tr>
+                    <tr>
+                        <td>none</td>
+                        <td>此元素不会被显示。</td>
+                    </tr>
+                    <tr>
+                        <td>block</td>
+                        <td>此元素将显示为块级元素，此元素前后会带有换行符。</td>
+                    </tr>
+                    <tr>
+                        <td>inline</td>
+                        <td>默认。此元素会被显示为内联元素，元素前后没有换行符。</td>
+                    </tr>
+                    <tr>
+                        <td>inline-block</td>
+                        <td>行内块元素。</td>
+                    </tr>
+                    <tr>
+                        <td>list-item</td>
+                        <td>此元素会作为列表显示。</td>
+                    </tr>
+                    <tr>
+                        <td>run-in</td>
+                        <td>此元素会根据上下文作为块级元素或内联元素显示。</td>
+                    </tr>
+                    <tr>
+                        <td>table</td>
+                        <td>此元素会作为块级表格来显示（类似 &lt;table&gt;），表格前后带有换行符。</td>
+                    </tr>
+                    <tr>
+                        <td>inline-table</td>
+                        <td>此元素会作为内联表格来显示（类似 &lt;table&gt;），表格前后没有换行符。</td>
+                    </tr>
+                    <tr>
+                        <td>table-row-group</td>
+                        <td>此元素会作为一个或多个行的分组来显示（类似 &lt;tbody&gt;）。</td>
+                    </tr>
+                    <tr>
+                        <td>table-header-group</td>
+                        <td>此元素会作为一个或多个行的分组来显示（类似 &lt;thead&gt;）。</td>
+                    </tr>
+                    <tr>
+                        <td>table-footer-group</td>
+                        <td>此元素会作为一个或多个行的分组来显示（类似 &lt;tfoot&gt;）。</td>
+                    </tr>
+                    <tr>
+                        <td>table-row</td>
+                        <td>此元素会作为一个表格行显示（类似 &lt;tr&gt;）。</td>
+                    </tr>
+                    <tr>
+                        <td>table-column-group</td>
+                        <td>此元素会作为一个或多个列的分组来显示（类似 &lt;colgroup&gt;）。</td>
+                    </tr>
+                    <tr>
+                        <td>table-column </td>
+                        <td>此元素会作为一个单元格列显示（类似 &lt;col&gt;）</td>
+                    </tr>
+                    <tr>
+                        <td>table-cell</td>
+                        <td>此元素会作为一个表格单元格显示（类似 &lt;td&gt; 和 &lt;th&gt;）</td>
+                    </tr>
+                    <tr>
+                        <td>table-caption</td>
+                        <td>此元素会作为一个表格标题显示（类似 &lt;caption&gt;）</td>
+                    </tr>
+                    <tr>
+                        <td>inherit</td>
+                        <td>规定应该从父元素继承 display 属性的值。</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>所有主流浏览器都支持 display 属性。如果规定了 !DOCTYPE，则 Internet Explorer 8   （以及更高版本）支持属性值   "inline-table"、"run-in"、"table"、"table-caption"、"table-cell"、"table-  column"、"table-column-group"、"table-row"、"table-row-group"、以及 "inherit"。</p>
+            <p>关于 'display' 特性的详细信息，请参考 CSS2.1 规范 <a href="http://www.w3.org/TR/CSS21/visuren.html#display-prop">9.2.4 The 'display' property</a> 中的内容。</p>
+            <p>下面对每一个可选项给出详细的解释和实例</p>
+            <ol>
+                <li>none
+                    <p>display设置为none值后，除了该元素不可见外，该元素也不会占用文档空间，即does not create an invisible box，如果只是想隐藏并且还要占用文档空间时
+                        我们可以visibility:hidden;来设置</p>
+                </li>
+                <li>block
+                    <p>block好理解，就是把该元素设为块级元素，我们除了为本身就是块级元素设置该值外，我们还可以为行内元素设置，使之成为块级元素，比如</p>
+                    <pre>
+&lt;span style=&quot;display: block;border:1px solid #cccccc;&quot;&gt;把行内元素设置为块级元素&lt;/span&gt;               </pre>
+                    <span style="display: block;border:1px solid #cccccc;">把行内元素设置为块级元素</span>
+                </li>
+
+                <li>inline-block
+                    <p>inline-block是用来设置行内块元素的，设置了该值后，他会像行内元素那样在一行上布局，但是他同时拥有块元素的特性，如：margin-top, margin-bottom，
+                        width, height以及Block formatting context等。行内元素这些属性值是不起作用的，请看以下例子：</p>
+                    <pre>&lt;div style=&quot;border:1px solid #cccccc;margin-bottom: 30px;padding: 5px;&quot;&gt;
+    &lt;span style=&quot;display: inline-block;margin: 10px;border:1px solid #cccccc;width:400px;height:40px;padding:20px;&quot;&gt;
+        行内块元素,margin-top, margin-bottom, width, height以及Block formatting context起了作用
+    &lt;/span&gt;
+&lt;/div&gt;
+&lt;div style=&quot;border:1px solid #cccccc;padding: 5px;&quot;&gt;
+    &lt;span style=&quot;border:1px solid #cccccc;margin: 10px;width:400px;height:40px;padding:20px;&quot;&gt;
+        行内元素,margin-top, margin-bottom, width, height以及Block formatting context不起作用
+    &lt;/span&gt;
+&lt;/div&gt;</pre>
+                    <div style="border:1px solid #cccccc;margin-bottom: 30px;padding: 5px;">
+                        <span style="display: inline-block;margin: 10px;border:1px solid #cccccc;width:400px;height:40px;padding:20px;">
+                            行内块元素,margin-top, margin-bottom, width, height以及Block formatting context起了作用
+                        </span>
+                    </div>
+                    <div style="border:1px solid #cccccc;padding: 5px;">
+                        <span style="border:1px solid #cccccc;margin: 10px;width:400px;height:40px;padding:20px;">
+                            行内元素,margin-top, margin-bottom, width, height以及Block formatting context不起作用
+                        </span>
+                    </div>
+                    <br />
+                    <p><span class="h-web-font-red">这里需要注意的是，ie6和ie7对inline-block支持性不是很好</span>，请看以下例子(需要在ie6或ie7下运行)：</p>
+                    <pre>&lt;div style=&quot;border:1px solid #cccccc;padding: 5px;margin-bottom: 5px;&quot;&gt;
+    &lt;span style=&quot;display: inline-block;margin: 10px;border:1px solid #cccccc;&quot;&gt;
+         行内元素设置为inline-block
+    &lt;/span&gt;
+&lt;/div&gt;
+&lt;div style=&quot;border:1px solid #cccccc;margin-bottom: 5px;padding: 5px;&quot;&gt;
+    &lt;div style=&quot;display: inline-block;margin: 10px;border:1px solid #cccccc;&quot;&gt;
+        块级元素设置为inline-block
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+                    <div style="border:1px solid #cccccc;padding: 5px;margin-bottom: 5px;">
+                        <span style="display: inline-block;margin: 10px;border:1px solid #cccccc;">
+                            行内元素设置为inline-block
+                        </span>
+                    </div>
+                    <div style="border:1px solid #cccccc;margin-bottom: 5px;padding: 5px;">
+                        <div style="display: inline-block;margin: 10px;border:1px solid #cccccc;">
+                            块级元素设置为inline-block
+                        </div>
+                    </div>
+
+                    <p>在ie6和ie7下设置inline-block会触发layout的，所以margin等也会起作用，但是有个问题就是，
+                        inline-block属性只对原生默认的内联元素(span, a, em......)有效，对于块级元素(div,p,ul......)无效，并且原来块元素的margin也会失效（连margin-left和margin-right也不起作用）。</p>
+                    <p>查询相关资料，分析原因如下:</p>
+                    <p>
+                        1、行内元素的display属性设置为inline-block时，所有的浏览器都支持；</p>
+                    <p>
+                        2、块级元素的display属性设置为inline-block时，IE6/IE7浏览器是不支持的；
+                    </p>
+                    <p>如果对块级元素设为inline-block，块元素本身还是块级布局，但是margin在这里不起作用（这是个严重的bug）。
+                        IE中对内联元素使用display:inline-block，IE是不识别的，但使用display:inline-block在IE下会触发layout，从而使内联元素拥有了display:inline-block属性的表征。从上面的这个分析，也不难理解为什么IE下，对块元素设置display:inline-block属性无法实现inline-block的效果。这时块元素仅仅是被display:inline-block触发了layout，而它本身就是行布局，所以触发后，块元素依然还是行布局。 </p>
+
+                    <p>所以，如果要考虑ie6和ie7的情况下，最好不要对块元素设置inline-block，如果非要对块元素设置为inline-block，可考虑以下方案：</p>
+                    <pre>
+div { display:inline-block;*display:inline;}</pre>
+                    <p>例子:</p>
+
+                    <div style="border:1px solid #cccccc;margin-bottom: 5px;padding: 5px;">
+                        <div style="display:inline-block;zoom:1;*display:inline;border:1px solid #cccccc;height:50px;margin:10px;">
+                            ie下块级元素设置为inline-block的解决方案
+                        </div>
+                    </div>
+                </li>
+
+                <li>list-item
+                    <p>此元素会作为列表显示，着类似于li，看下面的例子：</p>
+                    <pre>
+<ul>
+    <li>原生的li元素</li>
+    <div style="display: list-item">div设置了list-item，变成了列表显示</div>
+    <span style="display: list-item">span设置了list-item，也变成了列表显示</span>
+    <div>div没有设置list-item</div>
+</ul>
+                    </pre>
+                    <ul>
+                        <li style="list-style-position: outside;list-style-type: disc;">原生的li元素</li>
+                        <div style="display: list-item">div设置了list-item，变成了列表显示</div>
+                        <span style="display: list-item">span设置了list-item，也变成了列表显示</span>
+                        <div>div没有设置list-item</div>
+                    </ul>
+                    <p>也可以点击这里查看效果 <a href="examples/list-item运行效果.html">display:list-item运行效果</a></p>
+                </li>
+
+                <li>table 等相关table选项
+                    <p>设置了这些选项后，元素会像table方式来布局，请看例子：</p>
+                    <pre>
+                <div style="display: table;width:500px;border-top: 1px solid #CCCCCC;border-left: 1px solid #CCCCCC;">
+                    <h3 style="display: table-column-group;">
+                        <span style="display: table-column ;color: yellowgreen;"></span>
+                        <span style="display: table-column ;color: #7f0055;"></span>
+                    </h3>
+                    <h2 style="display: table-caption;text-align: center;padding: 10px;">table-caption</h2>
+                    <div style="display: table-header-group">
+                        <span style="display: table-row">
+                            <label style="display: table-cell;border-bottom: 1px solid #CCCCCC;border-right:1px solid #CCCCCC; ">表头1</label>
+                            <label style="display: table-cell;border-bottom: 1px solid #CCCCCC;border-right:1px solid #CCCCCC;">表头2</label>
+                        </span>
+                    </div>
+                    <div style="display: table-row-group">
+                        <span style="display: table-row">
+                            <label style="display: table-cell;border-bottom: 1px solid #CCCCCC;border-right:1px solid #CCCCCC;">表格1</label>
+                            <label style="display: table-cell;border-bottom: 1px solid #CCCCCC;border-right:1px solid #CCCCCC;">表格2</label>
+                        </span>
+                    </div>
+                    <div style="display: table-footer-group">
+                        <span style="display: table-row">
+                            <label style="display: table-cell;border-bottom: 1px solid #CCCCCC;border-right:1px solid #CCCCCC;">表未1</label>
+                            <label style="display: table-cell;border-bottom: 1px solid #CCCCCC;border-right:1px solid #CCCCCC;">表未2</label>
+                        </span>
+                    </div>
+                </div>
+                    </pre>
+                    <div style="display: table;width:500px;border-top: 1px solid #CCCCCC;border-left: 1px solid #CCCCCC;">
+                        <h3 style="display: table-column-group;">
+                            <span style="display: table-column ;color: yellowgreen;"></span>
+                            <span style="display: table-column ;color: #7f0055;"></span>
+                        </h3>
+                        <h2 style="display: table-caption;text-align: center;padding: 10px;">table-caption</h2>
+                        <div style="display: table-header-group">
+                            <span style="display: table-row">
+                                <label style="display: table-cell;border-bottom: 1px solid #CCCCCC;border-right:1px solid #CCCCCC; ">表头1</label>
+                                <label style="display: table-cell;border-bottom: 1px solid #CCCCCC;border-right:1px solid #CCCCCC;">表头2</label>
+                            </span>
+                        </div>
+                        <div style="display: table-row-group">
+                            <span style="display: table-row">
+                                <label style="display: table-cell;border-bottom: 1px solid #CCCCCC;border-right:1px solid #CCCCCC;">表格1</label>
+                                <label style="display: table-cell;border-bottom: 1px solid #CCCCCC;border-right:1px solid #CCCCCC;">表格2</label>
+                            </span>
+                        </div>
+                        <div style="display: table-footer-group">
+                            <span style="display: table-row">
+                                <label style="display: table-cell;border-bottom: 1px solid #CCCCCC;border-right:1px solid #CCCCCC;">表未1</label>
+                                <label style="display: table-cell;border-bottom: 1px solid #CCCCCC;border-right:1px solid #CCCCCC;">表未2</label>
+                            </span>
+                        </div>
+                    </div>
+                    <p><span class="h-web-font-red">注意：ie6和ie7是不支持这些选项值的</span>。</p>
+                    <p>以上只是为了演示这些选项值举得例子，实际开发中是不会这样处理的，这些选项值是为了在想要实现table特性的地方设置。比如td对垂直居中支持的很好，我们
+                        就可以用table-cell来解决垂直居中的问题，看以下例子：</p>
+                    <pre>
+div {
+    height: 100px;
+    display: table-cell;
+    vertical-align: middle;
+}</pre>
+                    <div style="height: 100px; vertical-align: middle; border: 1px solid rgb(204, 204, 204); padding: 0px 10px; display: table-cell;">
+                        这一小段就垂直集中了.
+                    </div>
+                    <div style="height: 100px; vertical-align: middle; border: 1px solid rgb(204, 204, 204); padding: 0px 10px; display: table-cell;">
+                        这一小段就垂直集中了.
+                    </div>
+                    <p>设置为table-cell后，原来的块级元素的特性就不存在了，所以要分情况，看需要运用table-cell。关于table相关选项值的应用，网上有一篇文章介绍的不错，
+                        主要介绍了table的垂直居中，等高，水平级联，匿名创建等特性，感兴趣的话请点击 <a href="http://www.zhangxinxu.com/wordpress/?p=1187">这里</a></p>
+                </li>
+
+                <li>
+                    inline-table
+                    <p>设置表格的内联布局，类似于inline-block，设置该选项后，允许表格在一行中显示。<span class="h-web-font-red">注意：ie6和ie7是不支持这些选项值的</span>。</p>
+                    <p>看下面运行效果：</p>
+                    <table width="200" border="1" style="display: inline-table;">
+                        <tr>
+                            <td>内联表格</td>
+                            <td>内联表格</td>
+                        </tr>
+                        <tr>
+                            <td>内联表格</td>
+                            <td>内联表格</td>
+                        </tr>
+                    </table>
+                    <table width="200" border="1" style="display: inline-table;">
+                        <tr>
+                            <td>内联表格</td>
+                            <td>内联表格</td>
+                        </tr>
+                        <tr>
+                            <td>内联表格</td>
+                            <td>内联表格</td>
+                        </tr>
+                    </table>
+                </li>
+
+                <li>run-in
+                    <p>此元素会根据上下文作为块级元素或内联元素显示。该属性各大浏览器兼容性不是很好，ie6，ie7，firefox不支持，其他支持的都很好</p>
+                    <p><a href="http://www.w3.org/TR/css3-box/#run-in-boxes">官方的解释</a>是这样的</p>
+                    <pre> run-in box behaves as follows:
+    1.If the run-in box contains a block box, the run-in box becomes a block box.
+    2.If a sibling block box (that does not float and is not absolutely positioned) follows the run-in box, 
+      the run-in box becomes the first inline box of the block box. 
+      A run-in cannot run in to a block that already starts with a run-in or that itself is a run-in.
+    3.Otherwise, the run-in box becomes a block box. </pre>
+                    <p>翻译成中文就是</p>
+                    <pre>
+    1.如果run-in box 包含了一个 block box，那么这个run-in就是一个 block box，这个规则好像有问题，即使是包含的是行内元素，设置run-in后也会是 block box
+    2.如果一个节点设置了run-in box，并且紧挨着另一个兄弟节点（当然该节点没有设置float和绝对定位）是block box，
+      那么run-in box就会成为此 block box 里的 first inline box。
+      一个run-in box不能进入已经设置为run-in的block box，也不能进入本身
+    3.其他情况下，run-in被当成 block box
+                    </pre>
+                    
+                    <p>看下面的例子：(需要在支持run-in浏览器运行)</p>
+                    <p>第一条规则</p>
+                    <div>
+                        <span style="padding: 10px;border: 1px solid #CCCCCC;display: run-in;">
+                            <span>把行内元素设为run-in，并且包含了一个 block box，</span> <span>the inline box 就成了 block box</span>
+                            <div style="border:1px solid #CCCCCC;">a block box</div>
+                        </span>
+                    </div>
+                    <div>
+                        <span style="margin-top: 10px; padding: 10px;border: 1px solid #CCCCCC;display: run-in;">
+                            把行内元素设为run-in，并且包含了一个 inline box，the inline box 就成了 block box
+                            <span style="margin: 10px;border:1px solid #CCCCCC;">a inline box</span>
+                        </span>
+                    </div>
+                    <p>第二条规则</p>
+                    <div style="padding: 10px;border: 1px solid #CCCCCC;">
+                        <span style="display:run-in">行内元素设置为run-in。就会进入紧挨着他的block box。</span>
+                        <div style="border: 1px solid #00BEEE;">&nbsp;</div>
+                    </div>
+                    <div style="margin-top: 10px; padding: 10px;border: 1px solid #CCCCCC;">
+                        <span style="display:run-in;">行内元素设置为run-in，但紧挨着block box 也设置了run-in，所以不能进入</span>
+                        <div style="display:run-in;border: 1px solid #00BEEE;"> 紧挨一个block元素设置了run-in</div>
+                    </div>
+                    
+                    <p>可见 display:run-in; 会根据上下文环境变换表现形式：如果后面是一个块，那么就并入其中成为行内头。如果后面是行，则继续独立保持成块。</p>
+                    <p>利用run-in一个典型的应用就是，h1 - h6无法包含在 p 里，我们既要达到语义又要达到这样的视觉效果的话，唯有使用 display:run-in;</p>
+                    <div style="border: 1px solid #CCCCCC;">
+                        <h6 style="display: run-in;">A run-in heading.</h6>
+                        <p>And a paragraph of text that follows it.</p>
+                    </div>
+                    <p>参考资料</p>
+                    <p><a href="http://www.swordair.com/blog/2012/02/800/">http://www.swordair.com/blog/2012/02/800/</a></p>
+                    <p><a href="http://www.zhangxinxu.com/wordpress/2012/03/tip-css-multiline-display/">http://www.zhangxinxu.com/wordpress/2012/03/tip-css-multiline-display/</a></p>
+                    <p>对于浏览器的兼容性可以参见 <a href="http://www.w3help.org/zh-cn/causes/RM8001">这里</a></p>
+                </li>
+            </ol>
+        </div>
+    </body>
+</html>

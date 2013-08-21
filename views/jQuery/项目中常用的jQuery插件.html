@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>项目中常用的jQuery插件</title>
+        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+        <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $('.h-web-catalogue li a').click(function(e) {
+                    e.preventDefault();
+                    var paragraphNum,
+                            paragraph,
+                            offset;
+                    var el = this;
+                    $(this).closest('ol').find('li a').each(function(index, element) {
+                        if (this === el) {
+                            paragraphNum = index;
+                            return false;
+                        }
+                    });
+                    paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+                    offset = paragraph.offset();
+                    if (offset) {
+                        $(window).scrollTop(offset.top);
+                    }
+                });
+                //初始化内容折叠事件
+                $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+                    $(this).next().toggle();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h3 class="h-web-paragraph-title">目录</h3>
+        <ol class="h-web-catalogue">
+            <li><a paragraph href="#">jquery-validation</a></li>
+
+        </ol>
+        <div class="h-web-paragraph">
+            <h3 paragraph>jquery-validation</h3>
+            <div>
+                <p><a href="http://jqueryvalidation.org/" target="_blank">官方网站</a></p>
+                <p><a href="http://validation.bassistance.de/documentation/" target="_blank">Documentation and API</a> </p>
+                <p><a href="http://jquery.bassistance.de/validate/demo/" target="_blank">官网demo</a></p>
+                <p><a href="jquery-validation/jquery-validation-1.11.1/demo/index.html" target="_blank">本地demo</a></p>
+                <p><strong>1.Options for the validate() method。下面对options中几个常用的参数说明一下，各参数的说明可以查看下面的例子</strong></p>
+                <p>
+                <style type="text/css">
+                    input.error, textarea.error,select.error { border: 1px solid #BE2134; }
+                    label.error {
+                        padding: 5px;
+                        color: #BE1E36;
+                    }
+                    p.errorInfo{
+                        border: 1px solid #EF935A;
+                        color: #CC0033;
+                        font-weight: bold;
+                        font-size: 14px;
+                        display: none;
+                    }
+                </style>
+                <form id="jquery_validation_form" method="post" style="border:1px solid #CCCCCC;width:600px;">
+                    <p class="errorInfo"></p>
+                    <p><label>姓名： <input type="text" name="name" required /></label></p>
+                    <p><label>FirstName： <input type="text" name="firstName" required /></label>
+                        <label>LastName： <input type="text" name="lastName" id="lastName" required /></label></p>
+                    <p><label>年龄：  <input type="text" name="password" required /></label></p>
+                    <p><label>邮箱：  <input type="email" name="email" /></label></p>
+                    <p><label>管理员： </label>
+                        <span><label><input type="radio" name="manager" required/> 是</label> <label><input type="radio" name="manager" required/> 否</label></span>
+                    </p>
+                    <p><label>爱好： </label>
+                        <span><label> <input type="checkbox" name="hobby" required/> 旅游</label> <label> <input type="checkbox" name="hobby" required/> 打球</label></span>
+                    </p>
+                    <p><button type="submit">确定</button></p>
+                </form>
+                </p>
+                <script type="text/javascript" src="jquery-validation/jquery.validate.js"></script>
+                <script type="text/javascript">
+                    $(function() {
+                        $('#jquery_validation_form').validate({
+                            debug: true,
+                            focusCleanup: true,
+                            //wrapper: 'div',
+                            groups: {
+                                userName: "firstName lastName"
+                            },
+                            invalidHandler: function(event, validator) {
+                                var errors = validator.numberOfInvalids();
+                                if (errors) {
+                                    var message = errors == 1 ? 'You missed 1 field. It has been highlighted' : 'You missed ' + errors + ' fields. They have been highlighted';
+                                    $("p.errorInfo").html(message).show();
+                                } else {
+                                    $("p.errorInfo").hide();
+                                }
+                            },
+                            errorPlacement: function(error, element) {
+                                if (element.attr("name") == "firstName" || element.attr("name") == "lastName") {
+                                    error.insertAfter('#lastName');
+                                } else if(element.is(':radio') || element.is(':checkbox')){
+                                    error.insertAfter(element.parent());
+                                } else{
+                                    error.insertAfter(element);
+                                }
+                            },
+                            success: function(label) {
+                                label.addClass("valid").text("OK!");
+                            }
+                        });
+                    });
+                </script>
+                <ul>
+                    <li>
+                        invalidHandler
+                        <p>验证时执行，比如可以定义错误显示</p>
+                        <p><strong>Example</strong>: Displays a message above the form, indicating how many fields are invalid when the user tries to submit an invalid form.</p>
+
+                        <pre>$(".selector").validate({    
+      invalidHandler: function(event, validator) {    
+        // 'this' refers to the form
+        var errors = validator.numberOfInvalids();
+        if (errors) {
+          var message = errors == 1 ? 'You missed 1 field. It has been highlighted' : 'You missed ' + errors + ' fields. They have been highlighted';
+          $("div.error span").html(message);
+          $("div.error").show();
+        } else {
+          $("div.error").hide();
+        }    
+     }
+});
+                        </pre>
+
+                    </li>
+                    <li>focusCleanup (default: false) 
+                        <p>If enabled, removes the errorClass from the invalid elements and hides all errors messages whenever the element is focused. Avoid combination with focusInvalid.</p>
+                        <p>当获取焦点时清除验证信息</p>
+                        <p><strong>Example</strong>: Enables cleanup when focusing elements, removing the error class and hiding error messages when an element is focused.</p>
+                        <pre>$(".selector").validate({
+    focusCleanup: true
+});</pre>
+                    </li>
+                    <li>wrapper
+                        <p>Wrap error labels with the specified element. Useful in combination with errorLabelContainer to create a list of error messages.</p>
+                        <p>包裹验证信息元素</p>
+                        <p><strong>Example</strong>: Wrap each error element with a list item, useful when using an ordered or unordered list as the error container.</p>
+                        <pre>$(".selector").validate({
+   wrapper: "div"
+});</pre>
+                    </li>
+                    <li>errorPlacement (default: Places the error label after the invalid element)
+                        <p>Customize placement of created error labels. First argument: The created error label as a jQuery object. Second argument: The invalid element as a jQuery object.</p>
+                        <p>可自定义错误信息显示的位置，比如对于radio或checkbox等可以把错误信息显示在父节点后</p>
+                        <p><strong>Example</strong></p>
+                        <pre>$(".selector").validate({
+    errorPlacement: function(error, element) {
+        if(element.is(':radio') || element.is(':checkbox')){
+            error.insertAfter(element.parent());
+        }else{
+            error.insertAfter(element);
+        }
+    }
+});</pre>
+
+                    </li>
+                    <li>success
+                        <p>通过自定义该参数，可以实现当校验通过时，显示提示信息</p>
+                        <p><strong>Example</strong>, 当验证通过时显示OK!</p>
+                        <pre>$("#myform").validate({
+    success: function(label) {
+        label.addClass("valid").text("OK!");
+    }
+});</pre>
+
+                    </li>
+                    <li>groups
+                    <p>Specify grouping of error messages. A group consists of an arbitrary   group name as the key and a space separated list of element names as the   value. Use errorPlacement to control where the group message is placed.</p>
+                      <p><strong>Example</strong>: Use a table layout for the form, placing error messags in the next cell after the input.</p>
+                      <pre>$("#myform").validate({
+    groups: {
+        username: "fname lname"
+    },
+    errorPlacement: function(error, element) {
+        if (element.attr("name") == "fname" || element.attr("name") == "lname" ) {
+            error.insertAfter("#lastname");
+        } else {
+            error.insertAfter(element);
+        }
+    }
+});</pre>
+<p>上面的例子把fname和 lname分成一组，这组中校验时显示的验证信息会统一在#lastname后显示，其中username是任意的字符串。</p>
+                    </li>
+                </ul>
+                <p>以上列出了部分options，更多可查看<a href="http://validation.bassistance.de/validate/" target="_blank">这里</a></p>
+                <p><strong>2.下面是一个项目中的综合例子，代码中重写了源代码中部分方法、定制了部分options参数，并且扩展了一个方法（hideErrors）：隐藏或删除错误提示信息</strong></p>
+                <p><a href="jquery-validation/custom-examples/custom-validation.html">综合例子请点击这里</a></p>
+                <p>以下是js的源代码</p>
+                <pre>(function($, undefined) {
+  //重构方法errorsFor和elements
+  $.extend($.validator.prototype, {errorsFor: function(element) {
+      var validatorgen = $(element).attr('validatorgen');
+      return this.errors().filter(function() {
+        return $(this).attr('for') == validatorgen;
+      });
+    },
+    //相同名字的也会校验
+    elements: function() {
+      var validator = this;
+
+      // select all valid inputs inside the form (no submit or reset buttons)
+      return $(this.currentForm)
+              .find("input, select, textarea")
+              .not(":submit, :reset, :image, [disabled]")
+              .not(this.settings.ignore)
+              .filter(function() {
+        if (!this.name && validator.settings.debug && window.console) {
+          console.error("%o has no name assigned", this);
+        }
+
+        // select only the first element for each name, and only those with rules specified
+        if (!validator.objectLength($(this).rules())) {
+          return false;
+        }
+        return true;
+      });
+    }});
+
+  //对于上传附件输入框，需额外加入chang事件
+  $(document.body).on('change', 'form [type="file"]', function(e) {
+    $(e.currentTarget).valid();
+  });
+  //扩展方法
+  $.fn.hideErrors = function() {
+    this.each(function() {
+      if ($(this).is('form')) {
+        $(this).validate().resetForm();
+        $(this).find(':input:not(:button,:reset,:submit)').each(function() {
+          var originalWidth = $(this).attr('originalWidth');
+          if (originalWidth !== undefined) {
+            $(this).width(originalWidth);
+          }
+        });
+      } else {
+        var validator = $(this.form).validate();
+        var settings = validator.settings;
+        settings.unhighlight(this, settings.errorClass, settings.validClass);
+        validator.errorsFor(this).hide();
+        var originalWidth = $(this).attr('originalWidth');
+        if (originalWidth !== undefined) {
+          $(this).width(originalWidth);
+        }
+      }
+    });
+    return this;
+  };
+
+  $.validator.setDefaults({
+    onfocusout: function(e) {
+      $(e).valid();
+    },
+    ignore: ':hidden, :button',
+    validatorGen: 0,
+    showErrors: function(errorMap, errorList) {
+      for (var i = 0; this.errorList[i]; i++) {
+        var error = this.errorList[i];
+        this.settings.highlight
+                && this.settings.highlight.call(this, error.element,
+                this.settings.errorClass, this.settings.validClass);
+        showLabel.call(this, error.element, error.message);
+      }
+      if (this.errorList.length) {
+        this.toShow = this.toShow.add(this.containers);
+      }
+      if (this.settings.success) {
+        for (var i = 0; this.successList[i]; i++) {
+          showLabel.call(this, this.successList[i]);
+        }
+      }
+      if (this.settings.unhighlight) {
+        for (var i = 0, elements = this.validElements(); elements[i]; i++) {
+          this.settings.unhighlight.call(this, elements[i],
+                  this.settings.errorClass, this.settings.validClass);
+          var originalWidth = $(elements[i]).attr('originalWidth');
+          if (originalWidth !== undefined) {
+            $(elements[i]).width(originalWidth);
+          }
+        }
+      }
+      this.toHide = this.toHide.not(this.toShow);
+      this.hideErrors();
+      this.addWrapper(this.toShow).show();
+    }
+  });
+
+  /**
+   * reconstruction the method of "showing label"
+   * Linder Wang
+   **/
+  function showLabel(element, message) {
+    var me = this,
+            label = this.errorsFor(element),
+            element$ = $(element);
+    if (label.length) {
+      // refresh error/success class
+      label.removeClass(this.settings.validClass)
+              .addClass(this.settings.errorClass);
+    } else {
+      var gen = (this.currentForm.id || this.currentForm.name) + '-' + this.idOrName(element) + '-' + (this.settings.validatorGen++);
+      element$.attr('validatorgen', gen);
+      // create label
+      label = $("<" + this.settings.errorElement + "/>").attr({
+        "for": gen
+      }).addClass(this.settings.errorClass).hide();
+
+      if (this.settings.wrapper) {
+        // make sure the element is visible, even in IE
+        // actually showing the wrapped element is handled elsewhere
+        label = label.hide().show().wrap("<" + this.settings.wrapper
+                + "/>").parent();
+      }
+      if (!this.labelContainer.append(label).length)
+        this.settings.errorPlacement ? this.settings.errorPlacement(
+                label, element$) : label.insertAfter(element);
+
+      //init error tool tip 
+      if (!this.errorToolTip) {
+        if ($('div.error-tooltip').length > 0) {
+          this.errorToolTip = $('div.error-tooltip');
+        } else {
+          this.errorToolTip = $('<div class="error-tooltip"><span></span></div>').appendTo('body');
+        }
+      }
+      var tip = this.errorToolTip;
+
+      // add listener event
+      label.hover(function(e) {
+        //validation info
+        var rules = element$.rules(),
+                rule,
+                message;
+        for (var method in rules) {
+          rule = {method: method, parameters: rules[method]};
+          try {
+            var result = $.validator.methods[method].call(me, element.value.replace(/\r/g, ""), element, rule.parameters);
+            if (result == "dependency-mismatch") {
+              continue;
+            }
+
+            if (!result) {
+              message = me.defaultMessage(element, rule.method);
+              var theregex = /\$?\{(\d+)\}/g;
+              if (typeof message == "function") {
+                message = message.call(me, rule.parameters, element);
+              } else if (theregex.test(message)) {
+                message = jQuery.format(message.replace(theregex, '{$1}'), rule.parameters);
+              }
+              break;
+            }
+          } catch (e) {
+            throw e;
+          }
+        }
+        if (message) {
+          tip.children('span').html(message || '');
+          tip.css({top: 0, left: 0}).show();
+          tip.position({
+            my: 'left+10 center',
+            at: 'right+10 center',
+            of: e.target
+          });
+          var inputLeft = element$.offset().left,
+                  tipLeft = tip.offset().left;
+          if (inputLeft < tipLeft) {
+            tip.removeClass('left').addClass('right');
+          } else {
+            tip.removeClass('right').addClass('left');
+          }
+        }
+
+      }, function() {
+        tip.hide();
+      });
+    }
+    // adjust inputs and label's width to adapt to the layout
+    var inputCt = element$.parent(),
+            inputCtW = inputCt.width(),
+            inputW = element$.outerWidth(true),
+            inputMarginW = inputW - element$.width(),
+            labelW = label.outerWidth(true);
+
+    if (inputCtW - inputW < labelW) {
+      if (element$.attr('originalWidth') === undefined) {
+        element$.attr('originalWidth', element.style.width);//原始的设置，可能style.width没有设置
+      }
+      element$.width(inputCtW - labelW - inputMarginW);
+    }
+
+    if (!message && this.settings.success) {
+      typeof this.settings.success == "string" ? label
+              .addClass(this.settings.success) : this.settings
+              .success(label);
+    }
+
+    this.toShow = this.toShow.add(label);
+  }
+
+})(jQuery);</pre>
+            </div>
+        </div>
+    </body>
+</html>

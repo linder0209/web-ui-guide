@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menus>
+    <display-name>Web UI 开发指南</display-name>
+    <description>Web UI 开发指南</description>
+
+    <menu>
+        <id>training</id>
+        <name>培训内容与目标</name>
+        <children id="training_1" name="内容和目标" href="training/内容和目标.html"/>
+    </menu>
+    
+    <menu>
+        <id>html</id>
+        <name>HTML</name>
+        <children id="html_1" name="语义化标签" href="html/语义化标签.html"/>
+        <children id="html_2" name="DOCTYPE与浏览器模式" href="html/DOCTYPE与浏览器模式.html"/>
+        <children id="html_3" name="html相关知识" href="html/html相关知识.html"/>
+    </menu>
+    
+    <menu>
+        <id>css</id>
+        <name>CSS</name>
+        <children id="css_1" name="CSS样式" href="css/CSS样式.html"/>
+        <children id="css_2" name="CSS选择器优先级" href="css/CSS选择器优先级.html"/>
+        <children id="css_3" name="css盒子模型" href="css/css盒子模型.html"/>
+        <children id="css_4" name="CSS display属性" href="css/CSS display属性.html"/>
+        <children id="css_5" name="CSS中非常重要的可视化格式模型" href="css/CSS中非常重要的可视化格式模型.html"/>
+        <children id="css_6" name="CSS定位体系详解" href="css/CSS定位体系详解.html"/>
+        <children id="css_7" name="CSS浮动( Floats )详解" href="css/CSS浮动( Floats )详解.html"/>
+        <children id="css_8" name="CSS 注意事项" href="css/CSS 注意事项.html"/>
+        <children id="css_9" name="项目中总结的通用css" href="css/项目中总结的通用css.html"/>
+    </menu>
+	
+    <menu>
+        <id>JavaScript</id>
+        <name>JavaScript</name>
+        <children id="JavaScript_1" name="JavaScript参考资料" href="JavaScript/JavaScript参考资料.html"/>
+        <children id="JavaScript_2" name="JavaScript编码规范" href="JavaScript/JavaScript编码规范.html"/>
+        <children id="JavaScript_3" name="JavaScript性能优化" href="JavaScript/JavaScript性能优化.html"/>
+        <children id="JavaScript_4" name="JavaScript调试" href="JavaScript/JavaScript调试.html"/>
+        <children id="JavaScript_5" name="JavaScript压缩" href="JavaScript/JavaScript压缩.html"/>
+        <children id="JavaScript_6" name="JavaScript零碎内容" href="JavaScript/JavaScript零碎内容.html"/>
+        <children id="JavaScript_7" name="JavaScript doc生成器" href="JavaScript/JavaScript doc生成器.html"/>
+        <children id="JavaScript_8" name="正则表达式" href="JavaScript/正则表达式.html"/>
+    </menu>
+    
+    <menu>
+        <id>jQuery</id>
+        <name>jQuery 与 jQuery UI</name>
+        <children id="jQuery_1" name="jQuery源码分析与API" href="jQuery/jQuery源码分析与API.html"/>
+        <children id="jQuery_2" name="jQuery UI源码分析与API" href="jQuery/jQuery源码分析与API.html"/>
+        <children id="jQuery_3" name="项目中常用的jQuery插件" href="jQuery/项目中常用的jQuery插件.html"/>
+        <children id="jQuery_4" name="jQuery技巧与最佳实践" href="jQuery/jQuery技巧与最佳实践.html"/>
+        <children id="jQuery_5" name="jQuery UI自定义插件的开发" href="jQuery/jQuery UI自定义插件的开发.html"/>
+    </menu>
+    
+    <menu>
+        <id>bootstrap</id>
+        <name>Bootstrap 前端开发框架</name>
+        <children id="bootstrap_1" name="Bootstrap 介绍" href="bootstrap/Bootstrap 介绍.html"/>
+        <children id="bootstrap_2" name="Bootstrap 学习" href="bootstrap/Bootstrap 学习.html"/>
+    </menu>
+</menus>

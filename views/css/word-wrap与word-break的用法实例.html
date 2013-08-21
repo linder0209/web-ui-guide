@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>CSS基础——word-wrap与word-break的用法实例</title>
+        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+        <style type="text/css">
+            body{
+                background-color: #CCE8CF;
+                padding: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <style type="text/css">
+            .h-web-paragraph div{
+                margin: 10px 0;
+                color: #005B73;
+                font-weight: bold;
+                font-size: 14px;
+                padding: 5px;
+            }
+            .h-web-paragraph .title{
+                color: #E10001;
+            }
+            .c1{ width:300px;border:1px solid red;}
+            .c2{ width:300px;word-wrap:break-word;border:1px solid yellow;}
+            .c3{ width:300px;word-wrap:break-word;word-break:break-all;border:1px solid green;}
+            .c4{ width:300px;word-wrap:break-word;word-break:keep-all; border:1px solid blue;}
+            .c5{ width:300px;word-break:break-all;border:1px solid black;}
+            .c6{ width:300px;word-break:keep-all;border:1px solid red;}
+            .c7{ width:300px;word-wrap:break-word;overflow:auto;border:1px solid yellow;}
+        </style>
+        <div class="h-web-paragraph">
+            <div class="title">.c1{ width:300px;border:1px solid red}</div>
+            <div class="c1">asdasd</div>
+            <div class="c1">
+            This is all English. This is all English. This is all English.
+            </div>
+            <div class="c1">
+            全是中文的情况。全是中文的情况。全是中文的情况。
+            </div>
+            <div class="c1">
+            中英文混排的情况。Chinese and English. 中英文混排的情况。Chinese and English.
+            </div>
+            <div class="title">.c2{ width:300px;word-wrap:break-word; border:1px solid yellow}</div>
+            <div class="c2">
+            safjaskflasjfklsajfklasjflksajflksjflkasjfksafjsdfsfsfsfdfsdfsdfsdfsdf
+            </div>
+            <div class="c2">
+            This is all English. This is all English. This is all English.
+            </div>
+            <div class="c2">
+            全是中文的情况。全是中文的情况。全是中文的情况。
+            </div>
+            <div class="c2">
+            中英文混排的情况。Chinese and English. 中英文混排的情况。Chinese and English.
+            </div>
+            <div class="title">.c3{ width:300px;word-wrap:break-word;word-break:break-all;　 border:1px solid green}</div>
+            <div class="c3">
+            safjaskflasjfklsajfklasjflksajflksjflkasjfksafjasdfasfsafasff
+            </div>
+            <div class="c3">
+            This is all English. This is all English. This is all English.
+            </div>
+            <div class="c3">
+            全是中文的情况。全是中文的情况。全是中文的情况。
+            </div>
+            <div class="c3">
+            中英文混排的情况。Chinese and English. 中英文混排的情况。Chinese and English.
+            </div>
+            <div class="title">.c4{ width:300px;word-wrap:break-word;word-break:keep-all; border:1px solid blue}</div>
+            <div class="c4">
+            safjaskflasjfklsajfklasjflksajflksjflkasjfksafjsdfasfsdfdgdgdfg
+            </div>
+            <div class="c4">
+            This is all English. This is all English. This is all English.
+            </div>
+            <div class="c4">
+            全是中文的情况。全是中文的情况。全是中文的情况。
+            </div>
+            <div class="c4">
+            中英文混排的情况。Chinese and English. 中英文混排的情况。Chinese and English.
+            </div>
+            <div class="title">.c5{ width:300px;word-break:break-all;　 border:1px solid black}</div>
+            <div class="c5">
+            safjaskflasjfklsajfklasjflksajflksjflkasjfksafjsdgsdfdsgdgfggfgh
+            </div>
+            <div class="c5">
+            This is all English. This is all English. This is all English.
+            </div>
+            <div class="c5">
+            全是中文的情况。全是中文的情况。全是中文的情况。
+            </div>
+            <div class="c5">
+            中英文混排的情况。Chinese and English. 中英文混排的情况。Chinese and English.
+            </div>
+            <div class="title">.c6{ width:300px;word-break:keep-all;　 border:1px solid red}</div>
+            <div class="c6">
+            safjaskflasjfklsajfklasjflksajflksjflkasjfksafjdfgdghdfgdfgdfgdfg
+            </div>
+            <div class="c6">
+            This is all English. This is all English. This is all English.
+            </div>
+            <div class="c6">
+            全是中文的情况。全是中文的情况。全是中文的情况。
+            </div>
+            <div class="c6">
+            中英文混排的情况。Chinese and English. 中英文混排的情况。Chinese and English.
+            </div>
+            <div class="title">.c7{ width:300px;word-wrap:break-word;overflow:auto;　 border:1px solid yellow}</div>
+            <div class="c7">
+            safjaskflasjfklsajfklasjflksajflksjflkasjfksafjdfgdgdfgdgdfgdfgfg
+            </div>
+            <div class="c7">
+            This is all English. This is all English. This is all English.
+            </div>
+            <div class="c7">
+            全是中文的情况。全是中文的情况。全是中文的情况。
+            </div>
+            <div class="c7">
+            中英文混排的情况。Chinese and English. 中英文混排的情况。Chinese and English.
+            </div>
+        </div>
+    </body>
+</html>

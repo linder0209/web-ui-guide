@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>jQuery源码分析与API</title>
+        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+        <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $('.h-web-catalogue li a').click(function(e) {
+                    e.preventDefault();
+                    var paragraphNum,
+                        paragraph,
+                        offset;
+                    var el = this;
+                    $(this).closest('ol').find('li a').each(function(index, element) {
+                        if (this === el) {
+                            paragraphNum = index;
+                            return false;
+                        }
+                    });
+                    paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+                    offset = paragraph.offset();
+                    if (offset) {
+                        $(window).scrollTop(offset.top);
+                    }
+                });
+                //初始化内容折叠事件
+                $('.h-web-paragraph').on('click' , 'h3[paragraph]', function(e){
+                    $(this).next().toggle();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h3 class="h-web-paragraph-title">目录</h3>
+        <ol class="h-web-catalogue">
+            <li><a paragraph href="#">jQuery版本</a></li>
+            <li><a paragraph href="#">jQuery Core 1.9 Upgrade Guide</a></li>
+            
+
+        </ol>
+        <div class="h-web-paragraph">
+          <h3 paragraph>jQuery版本</h3>
+          <div>
+            <p>现在jQuery官方维护着两个版本，jQuery 1.x 和 jQuery 2.x。借用官方的说法，jQuery 2.x has the same API as jQuery 1.x, but <em>does not support Internet Explorer 6, 7, or 8</em>.</p>
+            
+          </div>
+          <h3 paragraph>jQuery Core 1.9 Upgrade Guide</h3>
+          <div>
+          	<p><a href="http://jquery.com/upgrade-guide/1.9/" target="_blank">官方升级指南</a></p>
+          	<p><a href="http://he91-com.iteye.com/blog/1907305" target="_blank">中文升级指南</a> <a href="http://www.css88.com/archives/5086" target="_blank">参考地址2</a></p>
+          	<p>咱们项目中实际使用的过时或是变动的api很少，故可以直接升级jQuery 1.x，而不用再加入 <a href="https://github.com/jquery/jquery-migrate/">jQuery Migrate plugin</a>. 只需加大自测，修改不兼容的code即可。</p>
+          </div>
+        </div>
+    </body>
+</html>

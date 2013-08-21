@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <base target="_blank" />
+        <meta charset="utf-8">
+        <title>Web UI Guide</title>
+        <meta name="author" content="Linder Wang">
+        <meta name="description" content="Web UI 开发指南">
+
+        <link type="text/css" rel="stylesheet" href="./platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
+
+        <link rel="stylesheet" href="./platform/css/base.css" type="text/css"/>
+        <link rel="stylesheet" href="./platform/css/platform.css" type="text/css"/>
+        <link rel="stylesheet" href="./platform/css/theme/skyblue.css" type="text/css"/>
+
+        <link rel="stylesheet" href="./platform/css/web.css" type="text/css"/>
+
+    </head>
+    <body>
+        <header class="h-header" id="header">
+            <nav>
+                <div class="h-header-inner">Web UI 开发指南</div>
+            </nav>
+        </header>
+        <div id="webUiBody">
+
+        </div>
+        <footer class="h-footer"></footer>
+        
+        <script type="text/javascript" src="./platform/javascript/jquery/jquery.js"></script>
+        <script type="text/javascript" src="./platform/javascript/jquery-ui/jquery-ui-custom.js"></script>
+        <script type="text/javascript" src="./platform/javascript/jquery-plugin/jquery-tmpl/jquery.tmpl.js"></script>
+        <script type="text/javascript" src="./platform/javascript/jquery-plugin/xml-to-json/jquery.xml2json.js"></script>
+
+        <script type="text/javascript" src="./platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+        <script type="text/javascript" src="./platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+        <script type="text/javascript" src="./platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+
+        <script type="text/javascript" src="./platform/javascript/hopefuture/jquery.hopefuture.platform.js"></script>
+        <script type="text/javascript" src="./platform/javascript/hopefuture/jquery.hopefuture.platform.Collection.js"></script>
+        <script type="text/javascript" src="./platform/javascript/hopefuture/jquery.hopefuture.platform.P2Menu.js"></script>
+        <script type="text/javascript" src="./platform/javascript/view/layout.js"></script>
+
+        <script type="text/javascript">
+            $(function() {
+                $.hopefuture.platform.Layout.initWebUI('./xml/menu.xml');
+            });
+        </script>
+    </body>
+</html>

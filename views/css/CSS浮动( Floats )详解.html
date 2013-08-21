@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>CSS浮动( Floats )详解</title>
+        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+        <link type="text/css" rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
+        <style>
+            body{
+                padding:10px;
+            }
+        </style>
+        <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $('.h-web-catalogue li a').click(function(e) {
+                    e.preventDefault();
+                    var paragraphNum,
+                            paragraph,
+                            offset;
+                    var el = this;
+                    $(this).closest('ol').find('li a').each(function(index, element) {
+                        if (this === el) {
+                            paragraphNum = index;
+                            return false;
+                        }
+                    });
+                    paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+                    offset = paragraph.offset();
+                    if (offset) {
+                        $(window).scrollTop(offset.top);
+                    }
+                });
+                //初始化内容折叠事件
+                $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+                    $(this).next().toggle();
+                });
+
+                //SyntaxHighlighter
+                $('pre').replaceWith(function() {
+                    var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
+                    html += $(this).html();
+                    html += '</pre>';
+                    return html;
+                });
+                SyntaxHighlighter.highlight();
+            });
+        </script>
+    </head>
+    <body>
+        <h3 class="h-web-paragraph-title">目录</h3>
+        <ol class="h-web-catalogue">
+            <li><a paragraph href="#">浮动( Float )概述</a></li>
+            <li><a paragraph href="#">浮动( Float )特性</a></li>
+            <li><a paragraph href="#">浮动( Float )框定位细则</a></li>
+            <li><a paragraph href="#">控制浮动的排列 - 'clear' 特性</a></li>
+            <li><a paragraph href="#">浮动的清除</a></li>
+        </ol>
+        <div class="h-web-paragraph">
+            <h3 paragraph>浮动( Float )概述</h3>
+            <div>
+                <p>浮动框就是一个框在当前行被向左或向右挪动(偏移)，它不在常规流中。浮动框由浮动元素的框组成，它是一个块级框，而不论它本身是何种元素。
+                    浮动框的宽度会尽可能的窄（根据内容来计算其宽度，如果没有内容也没有设置该浮动层的宽度，则该浮动层在页面中是看不见的）。
+                    另外，假如在一行之上只有极少的空间可供浮动元素渲染时，那么这个元素会跳至下一行，这个过程会持续到某一行拥有足够的空间为止。
+                </p>
+                <h4>浮动和文字环绕</h4>
+                <p>浮动框( 'float', 'floated' or 'floating' box )最有趣的特性是内容(Line Box)可以沿着它的边缘渲染
+                    （设置 'clear' 属性可以禁止此特性 ）。 内容排列在沿着左浮动框的右边排列，而沿着右浮动框的左边排列，也就是我们常说的文字环绕效果。看下面的例子：</p>
+                <pre>
+ <div style="border:1px solid #0066cc;width:200px;padding:10px;">
+    <span style="float: left;width:100px; height:100px; background-color:green; margin:20px;"></span>
+    The IMG box is floated to the left. The content that follows is formatted to the
+    right of the float, starting on the same line as the float.
+</div>
+                </pre>
+                <div style="border:1px solid #0066cc;width:200px;padding:10px;">
+                    <span style="border:1px solid #008200;">The IMG box is floated to the left. The content that follows is formatted to the
+                        right of the float, starting on the same line as the float.</span>
+                    <span style="float: left;width:100px; height:100px; background-color:green; margin:20px;"></span>
+                    <span style="border:1px solid #008200;">The IMG box is floated to the left. The content that follows is formatted to the
+                        right of the float, starting on the same line as the float.</span>
+                </div>
+                <p>上面的例子显示的效果是文字围绕着绿块的外边界（margin）排列</p>
+                <h4>浮动框的位置</h4>
+                <p>一个浮动框，会被向左或向右偏移，直到它的外边界接触到它包含块的内边界（padding）或另一个浮动元素的外边界， 如果存在一个行框，浮动框的顶边会和当前行框的顶部对齐。
+
+                    如果水平方向没有足够的空间放置浮动元素，它将向下移动，直到有足够的空间或没有更多的浮动元素为止。看下面的例子：</p>
+                <pre>
+<div style="border:1px solid #0066cc;padding:10px;height:260px;width:250px;">
+    <span style="border:1px solid #009900;">
+        <span style="float: left;width:100px; height:100px; background-color:green; margin:20px;"></span>
+        <span style="float: left;width:100px; height:100px; background-color:green; margin:20px;"></span>
+        <span>This is a inline box</span>
+    </span>
+</div>
+                </pre>
+                <div style="border:1px solid #0066cc;padding:10px;height:260px;width:250px;">
+                    <span style="border:1px solid #009900;">
+                        <span style="float: left;width:100px; height:100px; background-color:green; margin:20px;"></span>
+                        <span style="float: left;width:100px; height:100px; background-color:green; margin:20px;"></span>
+                        <span>This is a inline box</span>
+                    </span>
+                </div>
+                <h4>浮动元素会缩短行框</h4>
+                <p>
+                    由于浮动框并不在常规流中，在该浮动框之前或之后创建的非定位框垂直排列，就好象浮动框并不存在一样（类似于绝对定位，但与绝对定位处理后续元素的规则又不太一样）。 
+                    然而，浮动框之后创建的行框会被缩短，为浮动框提供空间。如果被缩短的行框无法再容纳更多的内容， 它将向下移动，直到有足够的空间或没有更多的浮动元素为止。
+                    当前行里浮动框前的任何内容，都将被重新排列到该浮动另一侧的第一个可用行里。 也就是说，如果在遇到左浮动框之前，行内框被放置到行上，剩余的行框空间足够容纳该左浮动框，
+                    那么，左浮动框就会被放置在该行上， 并与该行框的顶端对齐，然后，已经在行上的行内框被相应地移动到该浮动框的右侧（右侧成了该左浮动框的另一侧），反之亦然，对于 rtl 和右浮动框也是一样。</p>
+                <p>如上文字环绕浮动元素的例子，包含文字的行框被缩短，是包含块减去浮动元素的外边距 margin 的宽度。其中，"The content" 两字，分别被放到了两行， 因为，一行中的剩余空间无法再容纳 "content"。
+                </p>
+                <h4>TABLE 元素、块级替换元素、BFC元素和浮动元素</h4>
+                <p>TABLE 元素、块级替换元素或者在常规流中创建了块格式化上下文的元素，它们的 border box在同一个块格式化上下文中，
+                    如果有足够的空间， 这些块元素会紧临浮动元素放置，如果没有最够的空间，这些块元素会放置到浮动元素的下面，但是一定不会覆盖浮动元素的。看下面的例子：</p>
+                <pre>
+<div name="C" style="border: 1px solid #0078ae;width: 200px;overflow: hidden;">
+    <div name="A" style="width:50px; height:50px; background-color: #e0e0e0; margin:20px; float:left;">A</div>
+    <div name="B" style=" width:50px; background-color: #CCEAFE; overflow:hidden;">B</div>
+</div>
+                </pre>
+                <div name="C" style="border: 1px solid #0078ae;width: 200px;overflow: hidden;">
+                    <div name="A" style="width:50px; height:50px; background-color: #e0e0e0; margin:20px; float:left;">A</div>
+                    <div name="B" style=" width:50px; background-color: #CCEAFE; overflow:hidden;">B</div>
+                </div>
+                <p>这时，B 的宽度为 50px，它和浮动元素 A 的包含块都是 C，宽度为 200px。浮动元素在放置后，还有足够的空间放置 B，所以，B 被紧挨着 A 的 margin 框被放置。增大 B 的宽度至 150px 后：</p>
+                <pre>
+<div name="C" style="border: 1px solid #0078ae;width: 200px;overflow: hidden;">
+    <div name="A" style="width:50px; height:50px; background-color: #e0e0e0; margin:20px; float:left;">A</div>
+    <div name="B" style=" width:150px; background-color: #CCEAFE; overflow:hidden;">B</div>
+</div>
+                </pre>
+                <div name="C" style="border: 1px solid #0078ae;width: 200px;overflow: hidden;">
+                    <div name="A" style="width:50px; height:50px; background-color: #e0e0e0; margin:20px; float:left;">A</div>
+                    <div name="B" style=" width:150px; background-color: #CCEAFE; overflow:hidden;">B</div>
+                </div>
+            </div>
+            <h3 paragraph>浮动( Float )特性</h3>
+            <div>
+                <p>浮动有以下值</p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>值</td>
+                            <td>left | right | none | inherit</td>
+                        </tr>
+                        <tr>
+                            <td>初始值</td>
+                            <td>none</td>
+                        </tr>
+                        <tr>
+                            <td>适用于</td>
+                            <td>所有元素</td>
+                        </tr>
+                        <tr>
+                            <td>可否继承</td>
+                            <td>否</td>
+                        </tr>
+                        <tr>
+                            <td>百分比</td>
+                            <td>N/A</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>适用元素</h4>
+                <p>可设置给任意元素，但只适用于生成非绝对定位框的元素（<span class="h-web-font-red">请记住绝对定位元素优先级最高</span>），看以下例子：</p>
+
+                <div style="width:500px; height:150px; border:1px solid #0078ae; position:relative;padding:10px;">
+                    <div style="width:100px; height:100px; float:right; position:absolute; border:1px solid #009900;top:10px;left:10px;">同时设置了absolute和float:right</div>
+                    <div style="width:100px; height:100px; float:right; position:relative; border:1px solid #003399;top:5px;left:5px;">同时设置了relative和float:right</div>
+                </div>
+                <p>从以上例子效果看，对于绝对定位的元素，浮动没有任何效果，按照标准，float此时的值为"none"，这也体现了浮动和绝对定位之间的一种平衡。
+                    而相对定位和浮动同时出现时，两种效果都会产生，上例中向右移动，并在此基础上偏移left 5px top 5px。
+                </p>
+                <p>注意：<span class="h-web-font-red">
+                        绝对定位left和top的计算是从包含块的border边界开始的，如果没有显式设置left和top，则left和top默认值
+                        为包含块的padding大小，而相对定位是按padding边界计算的，如果没有显式设置left和top，则left和top默认值为0。</span>
+                    调用jQuery方法position计算出来的值都是从border边界开始的。jQuery内部进行了统一处理。
+                </p>
+                <h4>特值的含义</h4>
+                <ul>
+                    <li>left：该元素产生一个向左浮动的块框。内容在该框的右边排列，就是上面所说的文字环绕，起点是框的顶部（会受'clear'属性的影响）。</li>
+                    <li>right：与 left 类似，框向右侧浮动，内容在该框的左侧排列，从顶部开始。</li>
+                    <li>none：该框不浮动。</li>
+                </ul>
+            </div>
+            <h3 paragraph>浮动( Float )框定位细则</h3>
+            <div>
+                <p>根元素无所谓是否浮动，没有实际意义，因此对于根元素的浮动，浏览器应该当作 "none"。</p>
+                <p><strong>浮动框定位的宗旨是，在其左、上、右外边界不溢出包含块边界的情况下，尽量的靠上、靠左（"float:left"）或靠右（"float:right"）放置，但是不能高于它前面生成的块框、浮动框和行框的顶边，并且不能与其他浮动元素重叠。</strong></p>
+                <p>以下是浮动的定位规则，其中说到的其他元素，都和浮动元素处于相同的块格式化上下文中。</p>
+                <h4>浮动框不能在其浮动方向上溢出包含块</h4>
+                <p>左浮动框的左外边界(margin edge)不可以出现在它包含块左边界之左。对于右浮动的元素也有类似规则。
+                    左浮动元素的左外边界不能溢出包含块的左边界。右浮动元素不能溢出包含块的右边界。<span class="h-web-font-red">注意，边界是margin edge</span>。看下面的例子：</p>
+                <pre>
+<div style="width:500px; border:2px solid red; overflow:hidden;">
+    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:0 20px;">left</div>
+    <div style="float:right;width: 100px;height: 100px;background-color: #CCEAFE;margin:0 20px;">right</div>
+</div>
+                </pre>                
+                <div style="width:500px; border:2px solid red; overflow:hidden;">
+                    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:0 20px;">left</div>
+                    <div style="float:right;width: 100px;height: 100px;background-color: #CCEAFE;margin:0 20px;">right</div>
+                </div>
+                <h4>浮动框的定位受同向浮动框的影响</h4>
+                <p>如果当前框是左浮动框，并且在源文档中存在更早生成的左浮动框，那么对于任意这些先前的框，要么当前框的左外边出现在先前框的右外边之右，要么它的顶部必须在先前框的底部之下。对于向右浮动的框也有类似的规则。</p>
+                <p>也就是说，当前浮动框的定位会受到先前生成的同向浮动框的影响，它们不能相互遮盖。当前浮动框需要紧挨着先前同向浮动框的外边界进行定位，如果当前行空间不足，则折行，放置到它之前浮动框的下面。看下面例子：</p>
+                <pre>
+<div style="width:400px; border:2px solid red; overflow:hidden;">
+    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px;">left1</div>
+    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px;">left2</div>
+    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px;">left3</div>
+    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px;">left4</div>
+    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px;">left5</div>
+</div></pre>
+                <div style="width:400px; border:2px solid red; overflow:hidden;">
+                    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px;">left1</div>
+                    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px;">left2</div>
+                    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px;">left3</div>
+                    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px;">left4</div>
+                    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px;">left5</div>
+                </div>
+                <p>上面left2会贴着left1的右侧margin边排列，而left4由于当前行剩余的空间不能容纳，所以left4会放置到下一行，这里由于产生了浮动，上下margin不会合并</p>
+                <h4>浮动框与不同向浮动框不可重叠</h4>
+                <p>左浮动框的右外边不可以出现在它右侧的任何右浮动框的左外边之右。对于向右浮动的元素也有类似的规则。
+                    也就是说，同一行中不同向的浮动框不能够有互相折叠的现象。看以下例子：</p>
+                <pre>
+<div style="width:200px; overflow:hidden; border:1px solid red;">
+    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px;">left</div>
+    <div style="float:right;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px;">right</div>
+</div>
+                </pre>
+                <div style="width:200px; overflow:hidden; border:1px solid red;">
+                    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px;">left</div>
+                    <div style="float:right;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px;">right</div>
+                </div>
+                <p>以上两个浮动元素的包含块宽度为200px，无法在一行放置，所以，右浮动元素只好折行显示了。
+                    如果把宽度设置成300px，则可以放到一行。</p>
+                <div style="width:300px; overflow:hidden; border:1px solid red;">
+                    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px;">left</div>
+                    <div style="float:right;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px;">right</div>
+                </div>
+                <h4>浮动框外顶边界不能溢出包含块</h4>
+                <p>
+                    浮动框的顶外边不能高于它包含块的顶部。另外，当一个浮动框发生在两个外边距margin折叠的中间时，浮动元素的定位好像它有另一个空的块级父框位于常规流中。
+                    也就是说，当浮动框处于两个发生外边距margin折叠的地方时，会被当作包含在一个空的块框中，它上面和下面的外边距会穿过它发生外边距折叠，当它不存在。看下面的例子：
+                </p>
+                <div style="border: 1px solid #0060BF;">
+                    <div style="width: 100px;height: 100px;background-color: #CCEAFE;margin:30px;color: white;">A</div>
+                    <div style="float:left; width: 100px;height: 100px;color: white;margin:10px; background-color: #e0e0e0;">O</div>
+                    <div style="width: 100px;height: 100px;background-color: #CCEAFE;margin:30px;color: white;">B</div>
+                </div>
+                <p>以上例子中，3 个 DIV 元素的包含块是初始包含块。浮动框 O 处于 A 和 B 的中间，不应当妨碍 A 和 B 的外边距折叠。但ie6和ie7会有兼容性问题</p>
+                <h4>浮动框的顶边不可以高于源文档中先前元素产生的块框或浮动框的顶</h4>
+                <p>还是例子更直观，更好理解，那就看以下例子吧</p>
+                <pre>
+<div style="width:180px; height:auto; overflow:hidden; background:white; border:1px solid gold;">
+    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px 0;color: white;">O</div>
+    <div style="float:left;width: 100px;height: 100px;background-color: #99CCFF;margin:10px 0;color: white;">A</div>
+    <div style="float:right;width: 50px;height: 100px;background-color: #a6c9e2;margin:10px 0;color: white;">B</div>
+</div>
+                </pre>
+                <div style="width:180px; height:auto; overflow:hidden; background:white; border:1px solid gold;">
+                    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px 0;color: white;">O</div>
+                    <div style="float:left;width: 100px;height: 100px;background-color: #99CCFF;margin:10px 0;color: white;">A</div>
+                    <div style="float:right;width: 50px;height: 100px;background-color: #a6c9e2;margin:10px 0;color: white;">B</div>
+                </div>
+                <p>O、A、B 都是浮动元素，O、A 是左浮动元素，根据宽度计算，A 应该处于 O 的下一行。B 是右浮动元素。按照标准，B 浮动的时候，其顶边不应高于 A 的顶边，因此，B 不会放到 O 的右侧显示。
+                    改变代码中 A 和 B 的位置，即可实现让 B 显示在 O 的右侧</p>
+                <div style="width:180px; height:auto; overflow:hidden; background:white; border:1px solid gold;">
+                    <div style="float:left;width: 100px;height: 100px;background-color: #CCEAFE;margin:10px 0;color: white;">O</div>
+                    <div style="float:right;width: 50px;height: 100px;background-color: #a6c9e2;margin:10px 0;color: white;">B</div>
+                    <div style="float:left;width: 100px;height: 100px;background-color: #99CCFF;margin:10px 0;color: white;">A</div>
+                </div>
+                <h4>浮动框与行框</h4>
+                <p>浮动框的顶边不可以高于源文档中先前元素产生的任何包含一个框的行框的顶，跟上面不能高于块框或浮动框一样。看下面例子：</p>
+                <div style="width:400px; height:50px;border:1px solid red;">
+                    <div style="background-color:green; float:left; width:250px;">left</div>
+                    <span style="border:1px solid yellow;">blublublublublublublublublublublublu</span>
+                    <div style="background-color: green; float:right;">right</div>
+                </div>
+                <p>按照规则，right 浮动框的顶边不能高于含有行内框的行框的顶边。
+                    但IE6和IE7不是按这个规则布局的。</p>
+                <h4>浮动框不能因同方向浮动元素而在非浮动方向上溢出包含块</h4>
+                <p>左浮动框左边如果有另外一个左浮动框，它的右外边不可以出现在它包含块的右边之右。（或者比较宽松的要求是：一个左浮动不可以超出右边， 除非它已经尽可能地靠左排列。）
+                    对于向右浮动的元素也有类似的规则。此条规则也是限定浮动元素的位置范围， 不可超出包含块。与第 1，2 条有关。</p>
+                <h4> 浮动框要放置得尽可能的高</h4>
+                <p>在符合所有规则的情况下，尽可能的向上放</p>
+                <h4> 左浮动框必须尽量靠左放置，右浮动框必须尽量靠右放置。在更高的位置和更靠左或靠右的位置间，选择前者。</h4>
+                <p>和第 8 条一起，可以算是浮动的大规则，说明浮动框要尽量的向上向左或向上向右放。</p>
+                <p>总结：浮动的规则让人很迷惑。但从上面几条规则中也不难发现，浮动的宗旨是，在不溢出包含块的情况下，尽量的靠上靠左/右放置，但是不能高于它前面生成的块框、浮动框和行框的顶。</p>
+
+                <p>我们再来看一下浮动元素和常规元素位置变换后所呈现的不同，通过这两个例子可以更好的理解float</p>
+                <p>首先看块框</p>
+                <p>1、正常流在上面</p>
+                <div style="border: 1px solid #99CCFF;padding:10px;overflow: hidden;">
+                    <div style="width:300px; height:50px;border:5px solid red;">
+                        Normal flow
+                    </div>
+                    <div style="float:left; width:350px; height:50px; border:5px solid yellow;">
+                        float:left
+                    </div>
+                </div>
+                <p>2、正常流在下面</p>
+                <div style="border: 1px solid #99CCFF;padding:10px;overflow: hidden;height: 100px;">
+                    <div style="float:left; width:350px; height:50px; border:5px solid yellow;">
+                        float:left
+                    </div>
+                    <div style="width:300px; height:50px;border:5px solid red;">
+                        Normal flow
+                    </div>
+                </div>
+                <p>上面第一个示例中验证了以下规则：浮动框的顶边不可以高于源文档中先前元素产生的块框或浮动框的顶。
+                    第二个示例中验证了以下规则：浮动框是脱离文档流的，并且浮动框要放置得尽可能的高。
+                </p>
+                <p class="h-web-font-red">当正常流在下面时，一个常用的应用就是左右布局，可以先书写右侧要显示的div，后书写的div就会放在左侧显示了（浮动脱离了文档流，后写的会认为前面的浮动元素不存在） </p>
+                <div style="border: 1px solid #99CCFF;padding:10px;overflow: hidden;height: 100px;">
+                    <div style="float:right; width:350px; height:50px; border:5px solid yellow;">
+                        float:right 实现左右布局的效果
+                    </div>
+                    <div style="width:300px; height:50px;border:5px solid red;">
+                        Normal flow
+                    </div>
+                </div>
+                <p>我们再看行框</p>
+                <p>1、正常流在上面</p>
+                <div style="border: 1px solid #99CCFF;padding:10px;overflow: hidden;width: 500px;">
+                    <span style="border:5px solid red;">
+                        Normal flow Normal flow Normal flow Normal flow Normal flow Normal flow
+                    </span>
+                    <span style="float:left; width:350px; height:50px; border:5px solid yellow;">
+                        float:left
+                    </span>
+                </div>
+                <p>2、正常流在下面</p>
+                <div style="border: 1px solid #99CCFF;padding:10px;overflow: hidden;width: 500px;">
+                    <span style="float:left; width:350px; height:50px; border:5px solid yellow;">
+                        float:left
+                    </span>
+                    <span style="border:5px solid red;">
+                        Normal flow Normal flow Normal flow Normal flow Normal flow Normal flow
+                    </span>
+                </div>
+                <p>上面显示的效果是不太一样的，但当我们把包含块的宽度500px去掉后，显示的效果是一样的，这也说明浮动层会尽量向上的原则。
+                </p>
+
+            </div>
+            <h3 paragraph>控制浮动的排列 - 'clear' 特性</h3>
+            <div>
+                <p>可能大家都知道clear是用来处理浮动排列的，可究其原理，估计不是很明白。
+                    处于浮动元素后面的元素是如何布局的？对于块框，会认为前面的浮动元素不存在（按常规流布局，当然前提是要有足够的空间容纳后续元素）；行框会绕着它排列。
+                    有没有方法使块框也可以在它后面排列？答案是肯定的。clear 特性就是做这件事的，该特性是对浮动框和常规流中框的一种位置关系上的平衡。
+                    关于这方面的处理，下面结合例子给出详细的解释。</p>
+                <p>首先看一下clear特性值</p>
+                <table cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td>值：</td>
+                        <td>none | left | right | both | inherit</td>
+                    </tr>
+                    <tr>
+                        <td>初始值：</td>
+                        <td>none</td>
+                    </tr>
+                    <tr>
+                        <td>适用于</td>
+                        <td>块级元素</td>
+                    </tr>
+                    <tr>
+                        <td>可否继承</td>
+                        <td>否</td>
+                    </tr>
+                    <tr>
+                        <td>计算值</td>
+                        <td>同设定值</td>
+                    </tr>
+                </table>
+                <p>该特性表明一个元素框的哪一边不可以和先前的浮动框相邻。'clear' 特性不考虑它自身包含的浮动子元素和不处于同一个块格式化上下文中的浮动元素。</p>
+                <p>对于插入框，该属性适用于插入框所属的最后的块框。              </p>
+                <ul>
+                    <li>left | right | both：生成框的间隙( Clearance )，是指设置足够的(空白区)， 以使元素的顶边框边界( top border edge )放置到由源文档中较早元素生成的任何左浮动框(left)或右浮动框(right)或左右浮动框(both)的底外边(bottom outer edge， 即底外边界)之下。也就是说间隙( Clearance )以元素顶外边距（margin-top）上方空白的方式被引入，把元素垂直（典型情况是向下）推过浮动框。</li>
+                    <li>none：对考虑到浮动后的框的位置没有约束。</li>
+                </ul>
+                <p>上面的解释理解起来可能比较费劲，我们还是先看个例子吧，右侧是没有设置clear的效果</p>
+                <pre>
+<div style="width:300px; height:100px; border:1px solid gold; ">
+    <div style="float:right; width:150px; height: 50px; background-color:green; ">float:right;</div>
+    <div style="width:100px; height: 50px; background-color:red; clear:right;">clear:right</div>
+</div>
+                </pre>
+                <table>
+                    <tr>
+                        <td>
+                            <div style="width:300px; height:100px; border:1px solid gold; ">
+                                <div style="float:right; width:150px; height: 50px; background-color:green; ">float:right;</div>
+                                <div style="width:100px; height: 50px; background-color:red; clear:right;">clear:right</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="width:300px; height:100px; border:1px solid gold; ">
+                                <div style="float:right; width:150px; height: 50px; background-color:green; ">float:right;</div>
+                                <div style="width:100px; height: 50px; background-color:red;">没有设置clear:right</div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <p>上面设置clear:right的例子中，div的上外边界( top margin edge )必须低于前面的浮动框。从这个例子可以看出clear:left是用来处理前面left浮动元素的，
+                    而clear:right是用来处理前面right浮动元素的，上例子如果把clear设置为left，则不起作用。看下面效果：</p>
+                <div style="width:300px; height:100px; border:1px solid gold; ">
+                    <div style="float:right; width:150px; height: 50px; background-color:green; ">float:right;</div>
+                    <div style="width:100px; height: 50px; background-color:red; clear:left;">clear:left</div>
+                </div>
+                <p>我们再看一下浮动元素后面是行框的情况，看下面的例子，右侧是没有设置clear的效果</p>
+
+                <table>
+                    <tr>
+                        <td>
+                            <div style="width:300px; height:100px; border:1px solid gold; ">
+                                <div style="float:right; width:150px; height: 50px; background-color:green; ">float:right;</div>
+                                <span style="background-color: #0078ae; border: 1px solid #008200;clear:right;">
+                                    clear: right clear: right clear: right clear: right
+                                    clear:right clear:right clear: right clear: right
+                                    clear: right clear: right clear: right clear: right
+                                    clear:right clear:right clear: right clear: right
+                                </span>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="width:300px; height:100px; border:1px solid gold; ">
+                                <div style="float:right; width:150px; height: 50px; background-color:green; ">float:right;</div>
+                                <span style="background-color: #0078ae;border: 1px solid #008200;">
+                                    clear: right clear: right clear: right clear: right
+                                    clear:right clear:right clear: right clear: right
+                                    clear: right clear: right clear: right clear: right
+                                    clear:right clear:right clear: right clear: right
+                                    没有设置clear
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <p>上面运行的效果，浮动元素后面是行框的情况，clear不起作用</p>
+
+                <p>另外设置了 'clear' 特性值的元素，其 top border edge 要放在相关的浮动元素的 bottom margin edge 之下。<span class="h-web-font-red">注意这两种元素接触边界的区别。一个是 border，一个是 margin</span>。</p>
+                <p>看以下例子：</p>
+                <pre>
+<div style="border: 1px solid #99CCFF;padding:10px;">
+    <div style="width:300px; height:100px; background-color:green; float:left; border:5px solid red; margin-bottom:10px; ">
+        float
+    </div>
+    <div style="clear:left; width:350px; height:50px; background-color:green; border:5px solid yellow; margin-top:50px;">
+        clearance
+    </div>
+</div>
+                </pre>
+                <div style="border: 1px solid #99CCFF;padding:10px;">
+                    <div style="width:300px; height:100px; background-color:green; float:left; border:5px solid red; margin-bottom:10px; ">
+                        float
+                    </div>
+                    <div style="clear:left; width:350px; height:50px; background-color:green; border:5px solid yellow; margin-top:50px;">
+                        clearance
+                    </div>
+                </div>
+                <p>例子中上面是一个左浮动，下面的元素设置了clear为left，这样该元素的margin-top并没有起作用，这就验证了上面提到的内容，
+                    “是top border edge放在了浮动元素的 bottom margin edge 之下”。这样处理与外边距折叠原理无关，因为浮动元素不与其他元素发生外边距折叠。下面是其示意图：</p>
+                <img src="images/clear_float.png" alt="" />
+                <p>如果想让它们之间有50px的间距，我们只能采用其他手段了，我们可以让浮动元素的margin-bottom增加到50px，这样就达到了我们想要的效果，看以下运行结果</p>
+                <div style="border: 1px solid #99CCFF;padding:10px;">
+                    <div style="width:300px; height:100px; background-color:green; float:left; border:5px solid red; margin-bottom:50px;">
+                        float
+                    </div>
+                    <div style="clear:left; width:300px; height:50px; background-color:green; border:5px solid yellow;">
+                        clearance
+                    </div>
+                </div>
+                <p>注意，运用clear在ie6和ie7下会有兼容性问题。</p>
+            </div>
+            <h3 paragraph>浮动的清除</h3>
+            <div>
+                <p>由于浮动元素脱离了文档流，这会造成包含该浮动元素的父节点出现塌陷的效果，并影响后续元素的布局。看以下例子</p>
+                <pre>
+<div style="height:60px;">
+    <div style="border: 1px solid #0078ae;padding: 10px;">
+        <div style="border: 1px solid #009900;height:50px;float: left;">
+            设置了浮层
+        </div>
+    </div>
+</div>
+                </pre>
+                <div style="height:60px;">
+                    <div style="border: 1px solid #0078ae;padding: 10px;">
+                        <div style="border: 1px solid #009900;height:50px;float: left;">
+                            设置了浮层
+                        </div>
+                    </div>
+                </div>
+                <p>解决上述问题可以采用清除浮动的方式实现。
+                    具体方法有好几种，可以<a href="http://linder0209.iteye.com/blog/1533826" target="_blank">参考这里</a></p>
+                <p>现在通用的方法就是利用伪类来处理，以下是bootstrap中的代码：</p>
+                <pre>
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+                </pre>
+                <p>原理就是在浮动元素后面插入一个内容为空，display为table的元素，并让该元素赋予clear:both来清除浮层，至于*zoom:1是为了兼容ie6的。
+                    这种处理方式也有个问题，就是clearfix嵌套太多的情况下，看以下例子：</p>
+                <pre>
+<style type="text/css">
+                        .clearfix {
+                            *zoom: 1;
+                        }
+                        .clearfix:before,
+                        .clearfix:after {
+                            display: table;
+                            content: "";
+                            line-height: 0;
+                        }
+                        .clearfix:after {
+                            clear: both;
+                        }
+</style>
+<div class="clearfix" style="border: 1px solid #0078ae;padding:10px;">
+    <div style="float: left;border: 1px solid #00b7ea;width: 200px;height: 200px;">
+        <div>left1</div>
+        <div>left2</div>
+        <div>left3</div>
+        <div>left4</div>
+        <div>left5</div>
+        <div>left6</div>
+        设置了float为left
+    </div>
+    <div style="border: 1px solid darkorange;margin-left: 210px;padding: 10px;">
+        <div class="clearfix" style="border: 1px solid hotpink;padding: 5px;">
+            <div style="float: left;width: 200px;height: 50px;border: 1px solid turquoise;">Title</div>
+            <div style="margin-left: 210px; border: 1px solid turquoise;">Heading</div>
+            该包含块也设置了clearfix来清除浮层
+        </div>
+        <div style="border: 1px solid turquoise;margin-top: 5px;">Content</div>
+    </div>
+</div>
+                </pre>
+                <style type="text/css">
+                    .clearfix {
+                        *zoom: 1;
+                    }
+                    .clearfix:before,
+                    .clearfix:after {
+                        display: table;
+                        content: "";
+                        line-height: 0;
+                    }
+                    .clearfix:after {
+                        clear: both;
+                    }
+                </style>
+                <div class="clearfix" style="border: 1px solid #0078ae;padding:10px;">
+                    <div style="float: left;border: 1px solid #00b7ea;width: 200px;height: 200px;">
+                        <div>left1</div>
+                        <div>left2</div>
+                        <div>left3</div>
+                        <div>left4</div>
+                        <div>left5</div>
+                        <div>left6</div>
+                        设置了float为left
+                    </div>
+                    <div style="border: 1px solid darkorange;margin-left: 210px;padding: 10px;">
+                        <div class="clearfix" style="border: 1px solid hotpink;padding: 5px;">
+                            <div style="float: left;width: 200px;height: 50px;border: 1px solid turquoise;">Title</div>
+                            <div style="margin-left: 210px; border: 1px solid turquoise;">Heading</div>
+                            该包含块也设置了clearfix来清除浮层
+                        </div>
+                        <div style="border: 1px solid turquoise;margin-top: 5px;">Content</div>
+                    </div>
+                </div>
+                <p>上面例子本来hotpink区域是自动计算高度的，可从实际效果看，他的高度是左侧left的高度。
+                    我们避免出现这样情况，我们可以修改最外层，采用绝对布局实现，并动态设置其父节点的高度。看以下是改进后的代码。</p>
+                <pre>
+<div style="border: 1px solid #0078ae;padding:10px;height: 200px;">
+    <div style="position: absolute;border: 1px solid #00b7ea;width: 200px;height: 200px;">
+        <div>left1</div>
+        <div>left2</div>
+        <div>left3</div>
+        <div>left4</div>
+        <div>left5</div>
+        <div>left6</div>
+        设置了position为absolute，父节点并且动态设置其height
+    </div>
+    <div style="border: 1px solid darkorange;margin-left: 210px;padding: 10px;">
+        <div class="clearfix" style="border: 1px solid hotpink;padding: 5px;">
+            <div style="float: left;width: 200px;height: 50px;border: 1px solid turquoise;">Title</div>
+            <div style="margin-left: 210px; border: 1px solid turquoise;">Heading</div>
+            该包含块也设置了clearfix来清除浮层
+        </div>
+        <div style="border: 1px solid turquoise;margin-top: 5px;">Content</div>
+    </div>
+</div>
+                </pre>                
+                <div style="border: 1px solid #0078ae;padding:10px;height: 200px;">
+                    <div style="position: absolute;border: 1px solid #00b7ea;width: 200px;height: 200px;">
+                        <div>left1</div>
+                        <div>left2</div>
+                        <div>left3</div>
+                        <div>left4</div>
+                        <div>left5</div>
+                        <div>left6</div>
+                        设置了position为absolute，父节点并且动态设置其height
+                    </div>
+                    <div style="border: 1px solid darkorange;margin-left: 210px;padding: 10px;">
+                        <div class="clearfix" style="border: 1px solid hotpink;padding: 5px;">
+                            <div style="float: left;width: 200px;height: 50px;border: 1px solid turquoise;">Title</div>
+                            <div style="margin-left: 210px; border: 1px solid turquoise;">Heading</div>
+                            该包含块也设置了clearfix来清除浮层
+                        </div>
+                        <div style="border: 1px solid turquoise;margin-top: 5px;">Content</div>
+                    </div>
+                </div>
+
+                <p>上面的修改在ie7下会有问题，我们把margin-left换成padding-left即可，效果如下：</p>
+
+                <div style="border: 1px solid #0078ae;padding:10px;height: 200px;">
+                    <div style="position: absolute;border: 1px solid #00b7ea;width: 200px;height: 200px;">
+                        <div>left1</div>
+                        <div>left2</div>
+                        <div>left3</div>
+                        <div>left4</div>
+                        <div>left5</div>
+                        <div>left6</div>
+                        设置了position为absolute，父节点并且动态设置其height
+                    </div>
+                    <div style="padding-left: 210px;">
+                        <div style="border: 1px solid darkorange;padding: 10px;">
+                            <div class="clearfix" style="border: 1px solid hotpink;padding: 5px;">
+                                <div style="float: left;width: 200px;height: 50px;border: 1px solid turquoise;">Title</div>
+                                <div style="margin-left: 210px; border: 1px solid turquoise;">Heading</div>
+                                该包含块也设置了clearfix来清除浮层
+                            </div>
+                            <div style="border: 1px solid turquoise;margin-top: 5px;">Content</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p>以上换成position实现的弊端就是需要动态设置高度。bootstrap中是采用左右都设置left的形式来布局的，其宽度是通过设置百分比的。看下面例子：</p>
+                <pre>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2">
+            <!--Sidebar content-->
+        </div>
+        <div class="span10">
+            <!--Body content-->
+        </div>
+    </div>
+</div>
+                </pre>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,326 @@
+@CHARSET "UTF-8";
+
+/*******************************************************************************/
+/*	所有的样式以h-开头，platform.css是平台样式 */
+/*******************************************************************************/
+.h-container {
+
+}
+
+.h-header {
+
+}
+.h-header-inner {
+    /*GRADIENT*/
+    background: #00b7ea; /* Old browsers */
+    background: -moz-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #00b7ea),
+        color-stop(100%, #009ec3) ); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+    /* IE10+ */
+    background: linear-gradient(top, #00b7ea 0%, #009ec3 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00b7ea',
+        endColorstr='#009ec3', GradientType=0 );
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+}
+
+.h-container-header {
+    background-color: #8FD401;
+    padding: 8px 0 10px;
+    z-index: 1;
+    top:0px;
+    width: 100%;
+}
+.h-container-header.docked{
+    background-color: rgba(143, 212, 1, 0.4);
+}
+.h-header-tab {
+    margin-left: 280px;
+    min-width: 900px;
+}
+
+.h-top-menu li {
+    float: left;
+    margin-right: 10px;
+    text-transform: uppercase;
+}
+
+.h-top-menu li a {
+    display: block;
+    /*TYPE*/
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    /*GRADIENT*/
+    background: #00b7ea; /* Old browsers */
+    background: -moz-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #00b7ea),
+        color-stop(100%, #009ec3) ); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+    /* IE10+ */
+    background: linear-gradient(top, #00b7ea 0%, #009ec3 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00b7ea',
+        endColorstr='#009ec3', GradientType=0 );
+}
+
+.h-top-menu li a:hover,.h-top-menu li a.current {
+    background: #007997; /* Old browsers */
+    background: -moz-linear-gradient(top, #007997 0%, #005b73 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #007997),
+        color-stop(100%, #005b73) ); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #007997 0%, #005b73 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #007997 0%, #005b73 100%);
+}
+
+.h-arrows-bottom {
+    border-color: #005b73 transparent transparent transparent;
+    border-style: solid;
+    border-width: 10px;
+    left: 0;
+    top: 29px;
+}
+
+.h-body {
+    
+}
+
+.h-body-sidebar {
+    float: left;
+    width: 250px;
+    border: 1px solid #CCCCCC;
+/*    -moz-box-shadow: 0 0 5px rgba(0, 0, 0, .15);
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .15);
+    box-shadow: 0 0 5px rgba(0, 0, 0, .15);*/
+}
+
+.h-menu-header {
+    position: relative;
+}
+
+.h-menu-header a {
+    background-color: #EFEFEF;
+    border-bottom: 2px solid #DDDDDD;
+    border-top: 1px solid #F2F2F2;
+    color: #666666;
+    display: block;
+    font-size: 16px;
+    line-height: 25px;
+    padding: 6px 10px;
+    text-shadow: 0 1px 0 #EEEEEE;
+}
+
+.h-menu-panel.active .h-menu-header a {
+    background-color: #666666;
+    color: #FFFFFF;
+}
+
+.h-menu-header a:hover,.h-menu-panel.active .h-menu-header a:hover {
+    background-color: #999999;
+    color: #FFFFFF;
+}
+
+.h-menu-icon {
+    display: block;
+    overflow: hidden;
+    width: 16px;
+    height: 16px;
+    background: url("./images/web_ui_sprites.png") no-repeat -16px 0px;
+}
+
+.h-menu-panel.active .h-menu-icon {
+    background-position: 0px 0px;
+}
+
+.h-menu-header span {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -6px;
+}
+
+.h-menu-ct {
+    display: none;
+}
+
+.h-menu-ct li a {
+    display: block;
+    background-color: white;
+    border-top: 1px dotted #CCCCCC;
+    color: #444444;
+    padding: 7px 0 7px 25px;
+    font-size: 14px;
+}
+
+.h-menu-ct li:first-child a {
+    border-top-width: 0;
+}
+
+.h-menu-ct li.active a {
+    width: 91%;
+    padding: 7px 0 7px 30px;
+    background-color: #BFE3F4 !important;
+    box-shadow: -5px 2px 0 2px #67AAC9;
+    border-color: #67AAC9;
+    border-style: solid;
+    border-width: 1px 1px 1px 0;
+    border-radius: 0 5px 5px 0;
+}
+
+.h-menu-ct li.odd a {
+    background-color: #FAFAFA;
+}
+
+.h-menu-ct li a:hover,.h-menu-ct li.odd a:hover {
+    background-color: #E5F6FE;
+}
+
+.h-menu-buttom-margin {
+    background-color: #FFFFFF;
+    height: 5px;
+}
+.h-body-extended{
+    width: 8px;
+    height: 600px;
+    float: left;
+    position: relative;
+}
+.h-body-extended span{
+    position: absolute;
+    border: 1px solid #CCCCCC;
+    background: url("./images/web_ui_sprites.png") no-repeat -23px -3px;
+}
+
+.h-body-container {
+    padding-left: 250px;
+}
+
+.h-body-panel {
+    background-color: #EFEFEF;
+    border: 1px solid #CCC;
+    /*border-radius: 5px 5px 5px 5px;*/
+    padding: 12px;
+    margin: 5px 5px 5px 8px;
+}
+
+.h-body-content {
+    padding: 20px 0 0;
+}
+
+.h-body-content-menu {
+    float: left;
+    width: 180px;
+    min-height: 200px;
+}
+
+.h-body-content-ct {
+    overflow: hidden;
+}
+
+.h-body-content-frame {
+    border: 1px solid #9EC45F;
+    border-left: 5px solid #9EC45F;
+    position: relative;
+    padding: 20px;
+    background-color: #E4F4D4;
+    min-height:500px;
+}
+.h-body-content-title, a.h-body-content-title{
+    font-weight: bold;
+    color: #BC283D;
+    font-size: 16px;
+    line-height: 20px;
+}
+.h-body-content-title i{
+    background: url("./images/web_ui_sprites.png") no-repeat -63px 0px;
+    cursor: pointer;
+    display: inline-block;
+    float: left;
+    height: 16px;
+    margin: 2px 5px;
+    width: 16px;
+}
+
+.h-body-content-title.expand i {
+    background-position: -37px 0px;
+}
+.h-body-content-zoom{
+    background: url("./images/web_ui_buttons.png") no-repeat -81px 0;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    cursor: pointer;
+    margin-right: 5px;
+}
+.h-body-content-zoom.reduce{
+    background-position: -98px 0;
+}
+.h-body-content-source {
+    margin-top: 10px;
+}
+
+.h-footer {
+    background-color: #8FD401;
+    height: 30px;
+}
+
+/*******************************************************************************/
+/*	详细例子样式
+/*******************************************************************************/
+.h-demo-nav {
+    padding: 20px;
+}
+
+.h-demo-nav-menu {
+    width: 170px;
+}
+
+.h-demo-nav-menu li a {
+    border-bottom: 1px solid #F4F4F4;
+    color: #555555;
+    display: block;
+    padding: 4px 3px 4px 8px;
+}
+
+.h-demo-nav-menu li.current a {
+    color: #BC283D;
+    font-weight: bold;
+}
+.h-upward{
+    background-color: #333333;
+    border: 1px solid black;
+    padding: 5px 8px;
+    border-radius: 5px 5px 5px 5px;
+    top: 60%;
+    position: fixed;
+    left: 60%;
+    cursor: pointer;
+    z-index: 1;
+    display: none;
+    filter: alpha(opacity=50);
+    -khtml-opacity: 0.5;
+    -moz-opacity: 0.5;
+    opacity: 0.5;      
+}
+.h-upward i{
+    background: url("./images/web_ui_sprites.png") no-repeat -91px 0 ;
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+}

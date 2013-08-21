@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>CSS选择器优先级</title>
+        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+    </head>
+    <body>
+        <div class="h-web-paragraph">
+            <p>CSS选择器的优先级又称作选择器的针对性，根据 CSS 2.1 规范的描述，选择器有其<strong>针对性</strong>（specificity），可以应用到某一元素的多个规则中，选择器的<strong>针对性</strong>越高，该规则集的权重也就越高。<strong>针对性</strong>相同的，后出现的规则集的权重更高。 </p>
+            <p><strong>针对性</strong>由 a b c d 四组数字组成，按照以下的方式计算：</p>
+            <ul>
+                <li>如果样式是在 HTML 代码中以 'style=...' 的内联样式的方式设置的，则将 a 组记为 1，b c d 三组均记为 0，否则 a 组为 0。</li>
+                <li>将选择器中 ID 属性的数量总合计入 b 组。</li>
+                <li>将选择器中其他属性及伪类的数量总合计入 c 组。</li>
+                <li>将选择器中元素名及伪元素的数量总合计入 d 组。</li>
+            </ul>
+            <p>确定针对性的强弱时，根据各组的数字来计算。a 组数字大的针对性更强，当 a 组的数字相同时，比较 b 组数字的大小，以此类推，最终比较结果更大的针对性更强。举例如：</p>
+            <pre>*             {}  /* a=0 b=0 c=0 d=0 -&gt; specificity = 0,0,0,0 */  
+li            {}  /* a=0 b=0 c=0 d=1 -&gt; specificity = 0,0,0,1 */  
+li:first-line {}  /* a=0 b=0 c=0 d=2 -&gt; specificity = 0,0,0,2 */  
+ul li         {}  /* a=0 b=0 c=0 d=2 -&gt; specificity = 0,0,0,2 */  
+ul ol+li      {}  /* a=0 b=0 c=0 d=3 -&gt; specificity = 0,0,0,3 */  
+h1 *[id=ok]   {}  /* a=0 b=0 c=1 d=1 -&gt; specificity = 0,0,1,1 */  
+ul ol li.red  {}  /* a=0 b=0 c=1 d=3 -&gt; specificity = 0,0,1,3 */  
+li.red.level  {}  /* a=0 b=0 c=2 d=1 -&gt; specificity = 0,0,2,1 */  
+#xyz          {}  /* a=0 b=1 c=0 d=0 -&gt; specificity = 0,1,0,0 */  
+style="..."       /* a=1 b=0 c=0 d=0 -&gt; specificity = 1,0,0,0 */  </pre>
+            <p>以上各组选择器，最后一行的内联样式针对性最强，倒数第二行有 ID 选择符的次之，往上的每一行依次减弱，最顶部的通配符针对性最弱。</p>
+            <p>关于规则集的更多信息，请参考 CSS 2.1 规范 <a href="http://www.w3.org/TR/CSS21/syndata.html#rule-sets">4.1.7 Rule sets, declaration blocks, and selectors</a> 中的内容。</p>
+            <p>关于<strong>针对性</strong>的更多信息，请参考 CSS 2.1 规范 <a href="http://www.w3.org/TR/CSS21/cascade.html#specificity">6.4.3 Calculating a selector's specificity</a> 中的内容。</p>
+            <p>以下说明是更通俗的理解</p>
+            <ul>
+                <li>a: style 有记为1，无记为0</li>
+                <li>b: id（#）有记为1，无记为0</li>
+                <li>c: 属性和class的个数来计算的</li>
+                <li>d: 元素和伪类的个数来计算的</li>
+            </ul>
+            <p>下面看一例子：</p>
+            <pre>
+&lt;style type="text/css"&gt;
+    div {                 
+        width: 100px;
+        height: 100px;
+    }
+
+    #c1 #c2 div.con {     /* a=0 b=2 c=1 d=1 -> specificity = 0,2,1,1 */
+        background-color: yellow;
+    }
+
+    div {                 /* a=0 b=0 c=0 d=1 -> specificity = 0,0,0,1 */
+        background-color: black;
+    }
+
+    #c2 div {             /* a=0 b=1 c=0 d=1 -> specificity = 0,1,0,1 */
+        background-color: blue;
+    }
+
+    #c2 #content {        /* a=0 b=2 c=0 d=0 -> specificity = 0,2,0,0 */
+        background-color: red;
+    }
+&lt;/style&gt;
+&lt;div id="c1"&gt;
+    &lt;div id="c2"&gt;
+        &lt;div id="content" class="con"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+            </pre>
+            <p>从例子中我们可以看出‘#c1 #c2 div.con ’的优先级最高，是[0,2,1,1]，那么背景色应该是黄色才对。</p>
+            <p>另外，对于同一个级别，后面书写的会覆盖前面的，即后面书写的优先级别高。还有就是设置了'!important'可以提高样式的优先级，不过ie6是不支持该属性的。</p>
+            <p>还是拿例子来说明吧，这样更容易理解。</p>
+            <p>例子1:</p>
+            <pre>
+&lt;style type="text/css"&gt;
+    .container-demo1 .sub-demo1{
+        border: 1px solid blueviolet;/* a=0 b=0 c=2 d=0 -> specificity = 0,0,2,0 */
+    }
+    /*该级别与上面同属一个级别，所以会覆盖上面的设置*/
+    .container-demo1 [node_id="1"]{
+        border: 1px solid palevioletred;/* a=0 b=0 c=2 d=0 -> specificity = 0,0,2,0 */
+    }
+&lt;/style&gt;
+&lt;div style="border: 1px solid #0099FF;padding:10px;" class="container-demo1"&gt;
+    &lt;div class="sub-demo1" node_id="1"&gt;
+        对于同一个级别，后面书写的会覆盖前面的，即后面书写的优先级别高。
+    &lt;/div&gt;
+&lt;/div&gt;
+            </pre>
+            <p>运行效果，sub-demo的边框是：palevioletred</p>
+            <style type="text/css">
+                .container-demo1 .sub-demo1{
+                    border: 1px solid blueviolet;/* a=0 b=0 c=2 d=0 -> specificity = 0,0,2,0 */
+                }
+                /*该级别与上面同属一个级别，所以会覆盖上面的设置*/
+                .container-demo1 [node_id="1"]{
+                    border: 1px solid palevioletred;/* a=0 b=0 c=2 d=0 -> specificity = 0,0,2,0 */
+                }
+            </style>
+            <div style="border: 1px solid #0099FF;padding:10px;" class="container-demo1">
+                <div class="sub-demo1" node_id="1">
+                    对于同一个级别，后面书写的会覆盖前面的，即后面书写的优先级别高。
+                </div>
+            </div>
+            
+            <p>例子2：!important优先级高</p>
+            <pre>
+&lt;style type="text/css">
+    .container-demo2 .sub-demo2{
+        border: 1px solid blueviolet !important;/* a=0 b=0 c=2 d=0 -> specificity = 0,0,2,0 */
+    }
+    .container-demo2 [node_id="1"]{
+        border: 1px solid palevioletred;/* a=0 b=0 c=2 d=0 -> specificity = 0,0,2,0 */
+    }
+&lt;/style&gt;
+&lt;div style="border: 1px solid #0099FF;padding:10px;" class="container-demo2"&gt;
+    &lt;div class="sub-demo2" node_id="1"&gt;
+        !important优先级高
+    &lt;/div&gt;
+&lt;/div&gt;
+            </pre>
+            <p>运行效果，sub-demo的边框是：blueviolet</p>
+            <style type="text/css">
+                .container-demo2 .sub-demo2{
+                    border: 1px solid blueviolet !important;/* a=0 b=0 c=2 d=0 -> specificity = 0,0,2,0 */
+                }
+                .container-demo2 [node_id="1"]{
+                    border: 1px solid palevioletred;/* a=0 b=0 c=2 d=0 -> specificity = 0,0,2,0 */
+                }
+            </style>
+            <div style="border: 1px solid #0099FF;padding:10px;" class="container-demo2">
+                <div class="sub-demo2" node_id="1">
+                    !important优先级高
+                </div>
+            </div>
+            
+            <p>例子3: 选择器针对性（specificity）与!important那个优先级更高</p>
+            <pre>
+&lt;style type="text/css"&gt;
+    .container-demo3 .sub-demo3{
+        border: 1px solid blueviolet;/* a=0 b=0 c=2 d=0 -> specificity = 0,0,2,0 */
+    }
+    .sub-demo3{
+        border: 1px solid palevioletred !important;/* a=0 b=0 c=2 d=0 -> specificity = 0,0,1,0 */
+    }
+&lt;/style&gt;
+&lt;div style="border: 1px solid #0099FF;padding:10px;" class="container-demo3"&gt;
+    &lt;div class="sub-demo3" node_id="1" style="border: 1px solid blueviolet;"&gt;
+        !important的优先级更高，即只要设置了!important，不用考虑针对性（specificity）
+    &lt;/div&gt;
+&lt;/div&gt;
+            </pre>
+            <p>运行效果，sub-demo的边框是：palevioletred</p>
+            <style type="text/css">
+                .container-demo3 .sub-demo3{
+                    border: 1px solid blueviolet;/* a=0 b=0 c=2 d=0 -> specificity = 0,0,2,0 */
+                }
+                .sub-demo3{
+                    border: 1px solid palevioletred !important;/* a=0 b=0 c=2 d=0 -> specificity = 0,0,1,0 */
+                }
+            </style>
+            <div style="border: 1px solid #0099FF;padding:10px;" class="container-demo3">
+                <div class="sub-demo3" node_id="1" style="border: 1px solid blueviolet;">
+                    !important的优先级更高，即只要设置了!important，不用考虑针对性（specificity）
+                </div>
+            </div>
+            <p>虽然.container-demo3 .sub-demo3 和style的针对性比.sub-demo3的高，但由于.sub-demo3设置了!important，提高了样式的优先级，所以边框实际显示的是palevioletred</p>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>JavaScript编码规范</title>
+        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+
+        <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+        <script type="text/javascript">
+            $(function() {
+            $('.h-web-catalogue li a').click(function(e) {
+            e.preventDefault();
+            var paragraphNum,
+            paragraph,
+            offset;
+            var el = this;
+            $(this).closest('ol').find('li a').each(function(index, element) {
+            if (this === el) {
+            paragraphNum = index;
+            return false;
+            }
+            });
+            paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+            offset = paragraph.offset();
+            if (offset) {
+            $(window).scrollTop(offset.top);
+            }
+            });
+            //初始化内容折叠事件
+            $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+            $(this).next().toggle();
+            });
+            });
+        </script>
+    </head>
+    <body>
+        <h3 class="h-web-paragraph-title">目录</h3>
+        <ol class="h-web-catalogue">
+            <li><a paragraph href="#">命名规范</a></li>
+            <li><a paragraph href="#">代码缩进、之间的空格</a></li>
+            <li><a paragraph href="#">分号、引号、逗号和大括号</a></li>
+            <li><a paragraph href="#">注释</a></li>
+            <li><a paragraph href="#">一些好的建议</a></li>
+            <li><a paragraph href="#">参考资料</a></li>
+        </ol>
+        <div class="h-web-paragraph">
+            <h3 paragraph>命名规范</h3>
+            <div>
+                <h4>变量命名</h4>
+                <p>变量名称必须以小写字母开头，使用驼峰命名规则，名称最好有其实际意义，方便其他人员阅读。例如：</p>
+                <pre>var nodeType, eventHandler;</pre>
+                <h4>常量命名</h4>
+                <p>常量命名原则上最好大写，不过本人觉得使用变量命名规则也可以。例如：</p>
+                <pre>var CONS = 'VALUE';</pre>
+                <p>关于命名规范的一些说明，总结如下</p>
+                <p>1.简写单词不能使用大写名称作为变量名，应使用小写字母</p>
+                <p>2.变量或方法的命名最好有实际意义，可以使用动词或动词短语，下面列出了一些常用的动词</p>
+                <table>
+                    <tr>
+                        <td width="120" valign="top"><strong>动词</strong><strong> </strong></td>
+                        <td width="227" valign="top"><strong>使用方法</strong><strong> </strong></td>
+                    </tr>
+                    <tr>
+                        <td width="120" valign="top">get</td>
+                        <td width="227" valign="top">返回值 </td>
+                    </tr>
+                    <tr>
+                        <td width="120" valign="top">set </td>
+                        <td width="227" valign="top">设定値（覆盖） </td>
+                    </tr>
+                    <tr>
+                        <td width="120" valign="top">load</td>
+                        <td width="227" valign="top">读取object</td>
+                    </tr>
+                    <tr>
+                        <td width="120" valign="top">insert</td>
+                        <td width="227" valign="top">将值插入object</td>
+                    </tr>
+                    <tr>
+                        <td width="120" valign="top">delete</td>
+                        <td width="227" valign="top">删除object</td>
+                    </tr>
+                    <tr>
+                        <td width="120" valign="top">update</td>
+                        <td width="227" valign="top">修改object</td>
+                    </tr>
+                    <tr>
+                        <td width="120" valign="top">search</td>
+                        <td width="227" valign="top">查找 </td>
+                    </tr>
+                    <tr>
+                        <td width="120" valign="top">put</td>
+                        <td width="227" valign="top">追加値（向列表等里面） </td>
+                    </tr>
+                    <tr>
+                        <td width="120" valign="top">to</td>
+                        <td width="227" valign="top">变换类型 </td>
+                    </tr>
+                    <tr>
+                        <td width="120" valign="top">on</td>
+                        <td width="227" valign="top">监听事件 </td>
+                    </tr>
+                </table>
+                <p>例如</p>
+                <pre>
+//对一般属性的取值，赋值采用get/set模式
+getParameters:function(){}
+setParameters:function(strName){}
+
+//把值加入到对象中使用load, put
+loadRecord:function(gtCardId,gtName){}
+
+//对于表单中的事件使用on（最好与javascript事件类似）
+onModifyBtnClick:function(){}
+onCancelClick:function(){}
+                </pre>
+
+                <p>3.变量声明可以一次声明多个变量，也可以一次声明一个</p>
+                <pre>
+//一次声明一个
+var foo = '';  
+var bar = '';
+
+//一次声明多个
+var foo = '',  
+    bar = '',  
+    quux;    
+                </pre>
+
+                <p>4.不要使用全局变量，变量必须声明了才能赋值，像以下的代码是<span class="h-web-font-red">不允许的</span></p>
+                <pre>
+foo = 'value1';  
+window.editGrid = $('#grid1');
+                </pre>     
+                <p>5.可以通过采用包的形式来模块化，比如</p>
+                <pre>
+var views = {};
+view.settings = {};
+                </pre>
+            </div>
+
+            <h3 paragraph>代码缩进、之间的空格</h3>
+            <div>
+                <p>建议两个或四个空格缩进，不要使用Tab缩进。参数和表达式之间的空格根据不同场景区别对待。</p>
+                <p>逗号（,）建议在后部使用空格隔开。</p>
+                <p>冒号（:）建议使用空格隔开。</p>
+                <p>点（.）避免在前部使用空格隔开。</p>
+                <p>函数调用和方法避免使用空格，例如：doSomething(someParameter); // 而非 doSomething  (  someParameter  ) </p>
+                <p>例如：</p>
+                <pre>
+for ( i = 0; i < length; i++ ) { 
+                </pre>
+                <p>下面是常用的代码块</p>
+                <p>if 语句应该看起来像这样</p>
+                <pre>
+if (someCondition){
+  statements;
+} else if (someOtherCondition){
+  statements;
+} else {
+  statements;
+}</pre>
+                <p>for语句应该看起来像这样</p>
+                <pre>
+for (initialization; condition; update){
+  statements;
+}
+                </pre>
+                <p>while 语句应该看起来像这样</p>
+                <pre>
+while (!isDone) {
+  doSomething();
+  isDone = moreToDo();
+}</pre>
+
+                <p>switch 语句应该看起来像这样</p>
+                <pre>
+switch (condition) {
+case 'a':
+  statements;
+  //  fallthrough
+case 'b':
+  statements;
+  break;
+default:
+  statements;
+  break;
+}</pre>
+                <p>try ... catch 语句应该看起来像这样</p>
+                <pre>
+try {
+  statements;
+} catch(ex) {
+  statements;
+} finally {
+  statements;
+}</pre>
+            </div>
+
+            <h3 paragraph>分号、引号、逗号和大括号</h3>
+            <div>
+                <h4>始终使用分号，不依赖于隐式插入。以下几种情况不需要使用分号。</h4>
+                <pre>
+function fn(){}
+for(){}//等块语句         
+                </pre>      
+                <h4>建议使用单引号</h4>
+                <h4>json数据中最后一个元素后不要加逗号，切记，否则版本低的浏览器会报错。</h4>
+                <h4>单行的 if - else，while 或者 for 语句也必须加大括号</h4>
+            </div>
+
+            <h3 paragraph>注释</h3>
+            <div>
+                <p>可以采用 // 单行注释，也可以采用/****/多行注释，关于注释会在后面提到。</p>
+            </div>
+            <h3 paragraph>一些好的建议</h3>
+            <div>
+                <p>1、	{} 和 []。使用{}代替new Object()，使用[]代替new Array()。
+                    a)	当成员名是一组有序的数字时使用数组来保存数据。
+                    b)	当成员名是无规律的字符串或其他时使用对象来保存数据。
+                </p>
+                <p>2、	===和!==操作符。某些时候使用===和!==操作符会相对好点，==和!=操作符会进行类型强制转换，特别是，不要将==用于与错值比较（false, null, undefined, “”, 0, NaN）。        </p>
+                <p>3、	令人迷惑的加号和减号。小心在+后紧跟+或++。这种形式很容易让人迷惑。应插入括号以便于理解。
+                    total = subtotal + +myInput.value;
+                    最好能写成
+                    total = subtotal + (+myInput.value);
+                    这样+ +不会被误认为是++。</p>
+                <p> 4、	eval 是恶魔。
+                    a)	eval是JavaScript中最容易被滥用的方法，避免使用它。
+                    b)	eval有别名，不要使用Function构造器，不要给setTimeout或者setInterval传递字符串参数。 </p>
+
+            </div>
+            <h3 paragraph>参考资料</h3>
+            <div>
+                <p><a href="http://contribute.jquery.org/style-guide/js/">jQuery JavaScript风格指南</a>                </p>
+                <p><a href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml">Google的JavaScript风格指南</a>                </p>
+                <p><a href="http://javascript.crockford.com/code.html">Douglas Crockford的JavaScript风格指南</a>
+                ，Douglas Crockford是Web开发领域最知名的技术权威之一，ECMA JavaScript 2.0标准化委员会委员</p>
+                <p> <a href="https://npmjs.org/doc/coding-style.html">NPM编码风格</a></p>
+            </div>
+        </div>
+    </body>
+</html>

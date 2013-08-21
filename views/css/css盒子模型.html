@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>css盒子模型</title>
+        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+    </head>
+    <body>
+        <style type="text/css">
+            .h-web-paragraph{
+                counter-reset:sub1_section;
+            }
+            .h-web-paragraph h4:before{
+                counter-increment:sub1_section;
+                content: counter(sub1_section) " ";
+            }
+            .h-web-paragraph h5:before{
+                counter-increment:sub2_section;
+                content:counter(sub1_section) "." counter(sub2_section) " ";
+            }
+        </style>
+        <div class="h-web-paragraph">
+            <p>关于css盒子模型，以前总是不太清楚，尤其对于margin和padding老是混淆。其实主要是没有系统的学习一下，没有理解其内在实现和布局结构。我们只要掌握了盒子模型中的几个属性，就会自然而然地学会了css盒子模型，再练习一下demo，就可以完全掌握其实现原理。首先通过一张flash来看一下盒子模型中margin、background-color、background-image、border和padding，以及他们之间的关系。</p>
+            <p><a href="images/CSSBoxModel.swf" target="_blank"><img src="images/cssmodel.jpg" border="0" /></a></p>
+            <p>从上面的flash可以清楚的看到盒子模型各属性的内部结构。CSS 规范中描述的盒子模型被称为“框模型”（box model），包括 content box、padding box、border box 和 margin box，它们是不可分割的，并可能会重合。
+                下面再给出一张示意图
+            </p>
+            <img src="images/boxdim.png" alt="" />
+            <p>注：padding、border 和 margin 区域都包括 top、right、bottom、left 四部分。如图所示（"LM" 代表 left margin，"RP" 代表 right padding，"TB" 代表 top border……）。</p>
+            <p>上面的大框，代表一个元素生成的矩形区域( box )，每一个 box 都包括一个 content 区域（元素的内容，如文本，图形等）以及环绕其四周的 padding (元素的内边距，填充部分)、border (元素的边框) 和 margin (元素的外边距) 区域。</p>
+            <p>下面给出一例子</p>
+
+            <style type="text/css">
+                #cssBoxModel{
+                    width:200px;
+                    height:200px;
+                    border:10px solid #3A9EA7;
+                    margin:15px;
+                    padding:25px;
+                    background-color:#EF935A;
+                    color:#ED2754;
+                }
+            </style>
+            <div style="background-color:#62C7D2;padding:10px;">
+                <div style="border:1px solid #CCCCCC;">盒子</div>
+                <div id="cssBoxModel">
+                    CSS box model 
+                </div>
+                <div style="border:1px solid #CCCCCC;">盒子</div>
+            </div>
+
+            <p>关于盒子模型需要注意的几个地方</p>
+            <h4>margin应用范围</h4>
+            <p>margin 可以应用在非 table 类型的元素上，以及 table 类型中 table-caption, table 和 inline-table 这3类元素上。其他的不起作用，
+                比如 td tr th 等，margin 是不适用的。 并且，对于行内非替换元素（例如 SPAN），垂直方向的 margin 不起作用。</p>
+            <h4>外边距折叠( Collapsing margins )</h4>
+            <p><a href="http://www.w3.org/TR/CSS2/box.html#collapsing-margins" target="_blank">Collapsing margins</a>，即外边距折叠，指的是毗邻的两个或多个外边距 (margin) 会合并成一个外边距。</p>
+            <p>其中所说的 margin 毗邻，可以归结为以下两点：</p>
+            <ul>
+                <li>这两个或多个外边距<strong>没有被非空内容、padding、border 或 clear 分隔开</strong>。</li>
+                <li>这些 margin 都处于普通流中。</li>
+            </ul>
+            <p>下面详细介绍其折叠规则</p>
+            <h5>两个或多个毗邻的普通流中的块元素垂直方向上的 margin 会折叠</h5>
+            <p><strong>两个或多个：</strong>说明其数量必须是大于一个，又说明，折叠是元素与元素间相互的行为，不存在 A 和 B 折叠，B 没有和 A 折叠的现象。</p>
+            <p><strong>毗邻：</strong>是指没有被非空内容、padding、border 或 clear 分隔开，说明其位置关系。</p>
+            <p>注意，在没有被分隔开的情况下，一个元素的 margin-top 会和它普通流中的第一个子元素(非浮动元素等)的 margin-top <strong>毗邻</strong>； 
+                只有在一个元素的 height 是 "auto" 的情况下，它的 margin-bottom 才会和它普通流中的最后一个子元素(非浮动元素等)的 margin-bottom <strong>毗邻</strong>，<span class="h-web-font-red">要注意这个规则</span>。</p>
+            <p>看下面的例子：</p>
+            <pre>
+<div style="border:1px solid red; width:100px;">
+    <div style="margin:50px 0; background-color:green; height:50px; width:50px;">
+        <div style="margin:20px 0;">
+            <div style="margin:100px 0;">B</div>
+        </div>
+    </div>
+</div>
+            </pre>
+            <div style="border:1px solid red; width:100px;">
+                <div style="margin:50px 0; background-color:green; height:50px; width:50px;">
+                    <div style="margin:20px 0;">
+                        <div style="margin:100px 0;">B</div>
+                    </div>
+                </div>
+            </div>
+            <p>以上例子说明了如果一个元素的 height 特性的值不是 auto，那么它的 margin-bottom 和它子元素的 margin-bottom 不算<strong>毗邻</strong>，因此，不会发生折叠。 margin-top 没有此限制，所以是 100px，margin-bottom 没有折叠，只有 50px。</p>
+            <p><strong>垂直方向：</strong>是指具体的方位，只有垂直方向的 margin 才会折叠，也就是说，水平方向的 margin 不会发生折叠的现象。</p>
+            <h5>折叠后 margin 的计算</h5>
+            <p>1). 参与折叠的 margin 都是正值</p>
+            <p>例子：</p>
+            <pre>
+<div style="border: 1px solid #3A9EA7;">
+    <div style="height:50px; margin-bottom:50px; width:50px; background-color: red;">A</div>
+    <div style="height:50px; margin-top:100px; width:50px; background-color: green;">B</div>
+</div>
+            </pre>
+            <div style="border: 1px solid #3A9EA7;">
+                <div style="height:50px; margin-bottom:50px; width:50px; background-color: red;">A</div>
+                <div style="height:50px; margin-top:100px; width:50px; background-color: green;">B</div>
+            </div>
+            <p>示意图</p>
+            <img src="images/margin c2.png" alt="" />
+            <p>在 margin 都是正数的情况下，取其中 margin 较大的值为最终 margin 值。</p>
+            <p>2). 参与折叠的 margin 都是负值</p>
+            <p>当 margin 都是负值的时候，取的是其中绝对值较大的，然后，从 0 位置，负向位移。看下面例子</p>
+            <pre>
+<div style="border: 1px solid #3A9EA7;">
+    <div style="height:100px; margin-bottom:-75px; width:100px; background-color: red;">A</div>
+    <div style="height:100px; margin-top:-50px; margin-left:50px; width:100px; background-color: green;">B</div>
+</div>
+            </pre>
+            <div style="border: 1px solid #3A9EA7;">
+                <div style="height:100px; margin-bottom:-75px; width:100px; background-color: red;">A</div>
+                <div style="height:100px; margin-top:-50px; margin-left:50px; width:100px; background-color: green;">B</div>
+            </div>
+            <p>示意图</p>
+            <img src="images/margin c4.png" alt="" />
+            <p>3). 参与折叠的 margin 中有正值，有负值</p>
+            <p>如果，毗邻的 margin 中有正值，同时存在负值会怎样呢？有正有负，先取出负 margin 中绝对值中最大的，然后，和正 margin 值中最大的 margin 相加。看下面例子：</p>
+            <pre>
+<div style="border: 1px solid #3A9EA7;">
+    <div style="height:50px; margin-bottom:-50px; width:50px; background-color: red;">A</div>
+    <div style="height:50px; margin-top:100px; width:50px; background-color: green;">B</div>
+</div>
+            </pre>
+            <div style="border: 1px solid #3A9EA7;">
+                <div style="height:50px; margin-bottom:-50px; width:50px; background-color: red;">A</div>
+                <div style="height:50px; margin-top:100px; width:50px; background-color: green;">B</div>
+            </div>
+            <p>示意图</p>
+            <img src="images/margin c3.png" alt="" />
+            <p>上面的例子最终的 margin 应该是 100 + (-50) = 50px。</p>
+            <p>4). 相邻的 margin 要一起参与计算，不得分步计算</p>
+            <p>要注意，相邻的元素不一定非要是兄弟节点，父子节点也可以，即使不是兄弟父子节点也可以相邻。
+                而且，在计算时，相邻的 margin 要一起参与计算，不得分步计算。下面是个复杂的例子：</p>
+            <pre>
+<div style="border: 1px solid #3A9EA7;">
+    <div style="margin:50px 0; background-color:green; width:50px;">
+        <div style="margin:-60px 0;">
+            <div style="margin:150px 0;">A</div>
+        </div>
+    </div>
+    <div style="margin:-100px 0; background-color:green; width:50px;">
+        <div style="margin:-120px 0;">
+            <div style="margin:200px 0;">B</div>
+        </div>
+    </div>
+</div>
+            </pre>
+            <div style="border: 1px solid #3A9EA7;">
+                <div style="margin:50px 0; background-color:green; width:50px;">
+                    <div style="margin:-60px 0;">
+                        <div style="margin:150px 0;">A</div>
+                    </div>
+                </div>
+                <div style="margin:-100px 0; background-color:green; width:50px;">
+                    <div style="margin:-120px 0;">
+                        <div style="margin:200px 0;">B</div>
+                    </div>
+                </div>
+            </div>
+            <p>错误的计算方式：算 A 和 B 之间的 margin，分别算 A 和其父元素的折叠，然后与其父元素的父元素的折叠，这个值算出来之后，应该是 90px。依此法算出 B 的为 80px；然后，A和B折叠，margin 为 90px。</p>
+            <p>请注意，多个 margin 相邻折叠成一个 margin，所以计算的时候，应该取所有相关的值一起计算，而不能分开分步来算。</p>
+            <p>以上例子中，A 和 B 之间的 margin 折叠产生的 margin，是6个相邻 margin 折叠的结果。将其 margin 值分为两组：</p>
+            <ul>
+                <li>正值：50px，150px，200px</li>
+                <li>负值：-60px，-100px，-120px</li>
+            </ul>
+            <p>根据有正有负时的计算规则，正值的最大值为 200px，负值中绝对值最大的是 -120px，所以，最终折叠后的 margin 应该是 200 + (-120) = 80px。</p>
+            <p> </p>
+            <h5>浮动元素、inline-block 元素、绝对定位元素的 margin 不会和垂直方向上其他元素的 margin 折叠</h5>
+            <p>浮动元素的 margin 在垂直方向上也不会发生 margin 折叠，即使和它相邻的子元素也不会。看下面例子：</p>
+            <pre>
+<div style="border: 1px solid #3A9EA7;overflow: hidden;">
+    <div style="margin-bottom:50px; width:50px; height:50px; background-color:green;">A</div>
+    <div style="margin-top:50px; width:100px; height:100px; background-color:green; float:left;">
+        <div style="margin-top:50px; background-color:gold;">B</div>
+    </div>
+</div>
+            </pre>
+            <div style="border: 1px solid #3A9EA7;overflow: hidden;">
+                <div style="margin-bottom:50px; width:50px; height:50px; background-color:green;">A</div>
+                <div style="margin-top:50px; width:100px; height:100px; background-color:green; float:left;">
+                    <div style="margin-top:50px; background-color:gold;">B</div>
+                </div>
+            </div>
+            <p>两个绿色的块儿之间，相距100px，而若 B 和它的浮动包含块发生 margin 折叠的话，金色的条应该位于绿色块的最上方，显然，没有发生折叠。</p>
+            <h5>创建了块级格式化上下文的元素，不和它的子元素发生 margin 折叠</h5>
+            <p>下面以 “overflow : hidden” 的元素为例：</p>
+            <pre>
+<div style="border: 1px solid #3A9EA7;">
+    <div style="margin-top:50px; width:100px; height:100px; background-color:green; overflow:hidden;">
+        <div style="margin-top:50px; background-color:gold;">B</div>
+    </div>
+</div>
+            </pre>
+            <div style="border: 1px solid #3A9EA7;">
+                <div style="margin-top:50px; width:100px; height:100px; background-color:green; overflow:hidden;">
+                    <div style="margin-top:50px; background-color:gold;">B</div>
+                </div>
+            </div>
+            <p>若 B 和它的 "overflow:hidden" 包含块发生 margin 折叠的话，金色的条应该位于绿色块的最上方，否则，没有发生。</p>
+            <h5>元素自身的 margin-bottom 和 margin-top 相邻时也会折叠</h5>
+            <p>自身 margin-bottom 和 margin-top 相邻，只能是自身内容为空，垂直方向上 border、padding 为 0。看下面的例子：</p>
+            <pre>
+<div style="border: 1px solid #3A9EA7;padding: 10px;">
+    <div style="border:1px solid red; width:100px;">
+        <div style="margin-top: 100px;margin-bottom: 50px;"></div>
+    </div>
+</div>
+            </pre>
+            <div style="border: 1px solid #3A9EA7;padding: 10px;">
+                <div style="border:1px solid red; width:100px;">
+                    <div style="margin-top: 100px;margin-bottom: 50px;"></div>
+                </div>
+            </div>
+            <p>上面例子中，我们得到的是红色边框是正方形，方框的宽高都应该是 100px，高度不应该是 150px。</p>
+            <p>关于margin折叠各大浏览器存在兼容性问题，尤其是ie6和ie7。</p>
+        </div>
+    </body>
+</html>

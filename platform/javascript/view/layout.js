@@ -92,7 +92,8 @@
                 upward = $('<div class="h-upward" id="upward" title="回到顶部"><i></i></div>').appendTo(document.body);
             }
             upward.click(function(e) {
-                document.documentElement.scrollTop = 0;
+                $(document).scrollTop(0);
+                //document.documentElement.scrollTop = 0;
             });
             
             //初始化目录列表事件

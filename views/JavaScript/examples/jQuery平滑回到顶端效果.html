@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>jQuery平滑回到顶端效果</title>
+
+        <style type="text/css">
+            body{
+                background-color: #CCE8CF;
+                padding: 10px;
+            }
+        </style>
+        <script type="text/javascript" src="../../../platform/javascript/jquery/jquery.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                var html = '<ol>';
+                for (var i = 0; i < 500; i++) {
+                    html += '<li>jQuery平滑回到顶端效果</li>';
+                }
+                html += '</ol>';
+                $('#content').html(html);
+                
+                $(document).scrollTop(2000);
+                
+                $('#topLink').click(function() {
+                    $('html, body').animate({
+                        scrollTop: 0
+                    }, {
+                        duration: 200,
+                        easing: 'swing'
+                    });
+                    return false;
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="content"></div>
+        <div>
+            <a href="#" style="position: fixed; left: 50%;top: 50%;" id="topLink">topLink</a>
+        </div>
+    </body>
+</html>

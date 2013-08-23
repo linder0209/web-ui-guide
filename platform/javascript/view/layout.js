@@ -92,7 +92,14 @@
                 upward = $('<div class="h-upward" id="upward" title="回到顶部"><i></i></div>').appendTo(document.body);
             }
             upward.click(function(e) {
-                $(document).scrollTop(0);
+                //jQuery平滑回到顶端效果
+                $('html, body').animate({
+                    scrollTop: 0
+                }, {
+                    duration: 200,
+                    easing: 'swing'
+                });  
+                //$(document).scrollTop(0);
                 //document.documentElement.scrollTop = 0;
             });
             

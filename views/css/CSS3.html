@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>CSS3</title>
+        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+        <link type="text/css" rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
+
+        <style type="text/css">
+            body{
+                background-color: #CCE8CF;
+                padding: 10px;
+            }
+        </style>
+        <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+
+        <script type="text/javascript">
+            $(function() {
+                $('.h-web-catalogue li a').click(function(e) {
+                    e.preventDefault();
+                    var paragraphNum,
+                            paragraph,
+                            offset;
+                    var el = this;
+                    $(this).closest('ol').find('li a').each(function(index, element) {
+                        if (this === el) {
+                            paragraphNum = index;
+                            return false;
+                        }
+                    });
+                    paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+                    offset = paragraph.offset();
+                    if (offset) {
+                        $(window).scrollTop(offset.top);
+                    }
+                });
+                //初始化内容折叠事件
+                $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+                    $(this).next().toggle();
+                });
+
+                //SyntaxHighlighter
+                $('pre').replaceWith(function() {
+                    var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
+                    html += $(this).html();
+                    html += '</pre>';
+                    return html;
+                });
+                SyntaxHighlighter.highlight();
+            });
+        </script>
+    </head>
+    <body>
+        <h3 class="h-web-paragraph-title">目录</h3>
+        <ol class="h-web-catalogue">
+            <li><a paragraph href="#">CSS3 例子</a></li>
+
+        </ol>
+        <div class="h-web-paragraph">
+            <h3 paragraph>CSS3 例子</h3>
+            <div>
+                <h4>不用图片和JS，照样创建绚丽的动态CSS3菜单</h4>
+                <p>思路与制作过程
+                    <a href="http://www.iteye.com/news/28058-create-a-cool-animated-css3-menu-without-using-images-and-javascript">点击这里</a></p>
+                <p><a href="examples/css3 menu demo.html">本地运行效果</a> ie版本中只有ie10支持，其他通用浏览器都支持。</p>
+                <h4>15 款超棒的 CSS3/jQuery 页面过渡效果</h4>
+                <p><a href="http://www.iteye.com/news/28126">点击这里</a></p>
+                <h4>10 款超棒的JavaScript/CSS前端特效推荐</h4>
+                <p><a href="http://www.iteye.com/news/28046">点击这里</a></p> 
+            </div>
+
+        </div>
+    </body>
+</html>

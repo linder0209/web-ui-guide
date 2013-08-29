@@ -10,9 +10,49 @@
     </head>
     <body>
         <div class="h-web-paragraph">
+            <style type="text/css">
+                .h-web-paragraph {
+                    counter-reset: sub1_section;
+                }
+                .h-web-paragraph h4:before{
+                    content: counter(sub1_section) " ";
+                }
+            </style>
+            <h4>相关链接</h4>
             <p><a href="http://getbootstrap.com/" target="_blank">bootstrap官网</a></p>
             <p><a href="http://www.bootcss.com/" target="_blank">bootstrap中文网站</a></p>
             <p><a href="http://www.lesscss.net/" target="_blank">less中文官网</a></p>
+            <h4>Bootstrap 3.0 介绍</h4>
+            <p>Bootstrap 3.0的新变化如下：</p>
+            <ul>
+                <li>趋向扁平化设计和提供<a target="_blank" href="http://getbootstrap.com/examples/theme/">更多可选主题</a></li>
+                <li>移动优先和响应式设计，更好地支持移动端设备的开发</li>
+                <li>全新定制：重新设计，用浏览器代替Heroku对其进行编译，更好的依赖支持、内置错误处理等。</li>
+                <li>更好的box模型</li>
+                <li>超强的网格系统：很好地支持手机、平板电脑、台式机和大屏幕布局。</li>
+                <li>新的Glyphicons ico字体</li>
+                <li>修复navbar组件</li>
+                <li>让Modals更加响应式</li>
+                <li>添加新组件：最新的混合panel和列表组</li>
+                <li>删除一些组件，如accordion、submenus、typeahead及一些小组件，后期会根据需要添加一些新的进去。</li>
+                <li>更加一致的基础和sizing类</li>
+                <li>文档更加全面</li>
+                <li>不再支持IE 7和Firefox 3.6：在IE 8中需要引用<a target="_blank" href="https://github.com/scottjehl/Respond">Respond.js</a>来支持所有的媒体查询，关于浏览器兼容情况，你可以阅读<a target="_blank" href="http://getbootstrap.com/getting-started/">这份文档</a>。</li>
+            </ul>
+            <p>
+                关于Bootstrap 3发布的更多详情，可以<a target="_blank" href="http://blog.getbootstrap.com/2013/08/19/bootstrap-3-released/">查看发布说明</a>。 </p>
+            <p>
+                下载地址：<a target="_blank" href="http://blog.getbootstrap.com/2013/08/19/bootstrap-3-released/">http://blog.getbootstrap.com/2013/08/19/bootstrap-3-released/</a> 
+            </p>
+            <p>Github地址：<a target="_blank" href="https://github.com/twbs/bootstrap">https://github.com/twbs/bootstrap</a> 
+            </p>
+            <p>国内镜像地址：<a target="_blank" href="https://code.csdn.net/OS_Mirror/bootstrap/tree/3.0.0-wip">https://code.csdn.net/OS_Mirror/bootstrap/tree/3.0.0-wip</a>
+            </p>
+            <h4>使用 Bootstrap 的 11 大理由</h4>
+            <p><a href="http://www.iteye.com/news/28122">点击这里</a></p>
+            <h4>Bootstrap 定制工具集锦</h4>
+            <p><a href="http://www.iteye.com/news/28092">点击这里</a></p>
+            
         </div>
     </body>
 </html>

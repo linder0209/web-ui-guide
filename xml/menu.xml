@@ -5,8 +5,9 @@
 
     <menu>
         <id>training</id>
-        <name>培训内容与目标</name>
+        <name>Web UI 开发指南 概述</name>
         <children id="training_1" name="内容和目标" href="training/内容和目标.html"/>
+        <children id="training_2" name="Web 学习参考资料" href="training/Web 学习参考资料.html"/>
     </menu>
     
     <menu>
@@ -29,6 +30,7 @@
         <children id="css_7" name="CSS浮动( Floats )详解" href="css/CSS浮动( Floats )详解.html"/>
         <children id="css_8" name="CSS 注意事项" href="css/CSS 注意事项.html"/>
         <children id="css_9" name="项目中总结的通用css" href="css/项目中总结的通用css.html"/>
+        <children id="css_10" name="CSS3" href="css/CSS3.html"/>
     </menu>
 	
     <menu>
@@ -42,6 +44,7 @@
         <children id="JavaScript_6" name="JavaScript零碎内容" href="JavaScript/JavaScript零碎内容.html"/>
         <children id="JavaScript_7" name="JavaScript doc生成器" href="JavaScript/JavaScript doc生成器.html"/>
         <children id="JavaScript_8" name="正则表达式" href="JavaScript/正则表达式.html"/>
+        <children id="JavaScript_8" name="实用的JavaScript代码片段" href="JavaScript/实用的JavaScript代码片段.html"/>
     </menu>
     
     <menu>

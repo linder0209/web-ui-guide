@@ -1,0 +1,9 @@
+重定义h4排序
+            <style type="text/css">
+                .h-web-paragraph {
+                    counter-reset: sub1_section;
+                }
+                .h-web-paragraph h4:before{
+                    content: counter(sub1_section) " ";
+                }
+            </style>

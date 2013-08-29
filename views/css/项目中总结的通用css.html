@@ -1,61 +1,65 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>项目中总结的通用css</title>
-    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
-    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
-    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
-    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>项目中总结的通用css</title>
+        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
 
-    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
-    <script type="text/javascript">
-      $(function() {
-        $('.h-web-catalogue li a').click(function(e) {
-          e.preventDefault();
-          var paragraphNum,
-                  paragraph,
-                  offset;
-          var el = this;
-          $(this).closest('ol').find('li a').each(function(index, element) {
-            if (this === el) {
-              paragraphNum = index;
-              return false;
-            }
-          });
-          paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
-          offset = paragraph.offset();
-          if (offset) {
-            $(window).scrollTop(offset.top);
-          }
-        });
-        //初始化内容折叠事件
-        $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
-          $(this).next().toggle();
-        });
-      });
-    </script>
-  </head>
-  <body>
-    <h3 class="h-web-paragraph-title">目录</h3>
-    <ol class="h-web-catalogue">
-      <li><a paragraph href="#">说明</a></li>
-      <li><a paragraph href="#">CSS Clearfix 清除浮层</a></li>
-      <li><a paragraph href="#">跨浏览器的透明度</a></li>
-      <li><a paragraph href="#">跨浏览器圆角的设置</a></li>
-      <li><a paragraph href="#">垂直居中内容</a></li>
-      <li><a paragraph href="#">CSS3梯度模板</a></li>
-      <li><a paragraph href="#">CSS通用代码</a></li>
+        <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $('.h-web-catalogue li a').click(function(e) {
+                    e.preventDefault();
+                    var paragraphNum,
+                            paragraph,
+                            offset;
+                    var el = this;
+                    $(this).closest('ol').find('li a').each(function(index, element) {
+                        if (this === el) {
+                            paragraphNum = index;
+                            return false;
+                        }
+                    });
+                    paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+                    offset = paragraph.offset();
+                    if (offset) {
+                        $(window).scrollTop(offset.top);
+                    }
+                });
+                //初始化内容折叠事件
+                $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+                    $(this).next().toggle();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h3 class="h-web-paragraph-title">目录</h3>
+        <ol class="h-web-catalogue">
+            <li><a paragraph href="#">说明</a></li>
+            <li><a paragraph href="#">CSS Clearfix 清除浮层</a></li>
+            <li><a paragraph href="#">跨浏览器的透明度</a></li>
+            <li><a paragraph href="#">跨浏览器圆角的设置</a></li>
+            <li><a paragraph href="#">垂直居中内容</a></li>
+            <li><a paragraph href="#">CSS3梯度模板</a></li>
+            <li><a paragraph href="#">CSS通用代码</a></li>
 
-    </ol>
-    <div class="h-web-paragraph">
-      <h3 paragraph>说明</h3>
-      <div>
-        <p>我们结合项目总结了一些通用的css样式，现整理出来，供参考。首先分模块列举出来，最后给出所有样式，方便下载使用。</p>
-        <p>为了与其他第三方css不发生冲突，我们以 <span class="h-web-font-red">eb</span> 开头</p>
-      </div>
-      <h3 paragraph> Clearfix 清除浮层</h3>
-      <pre>.eb-clearfix {
+        </ol>
+        <div class="h-web-paragraph">
+            <h3 paragraph>说明</h3>
+            <div>
+                <p>我们结合项目总结了一些通用的css样式，现整理出来，供参考。首先分模块列举出来，最后给出所有样式，方便下载使用。</p>
+                <p>为了与其他第三方css不发生冲突，我们以 <span class="h-web-font-red">eb</span> 开头</p>
+                
+                <p>规范化（Normalize）</p>
+                <p>For improved cross-browser rendering, we use <a href="http://necolas.github.io/normalize.css/" target="_blank">Normalize</a>, a project by <a href="http://twitter.com/necolas" target="_blank">Nicolas Gallagher</a> and <a href="http://twitter.com/jon_neal" target="_blank">Jonathan Neal</a>.</p>
+                <p>他是一个通用的初始化页面全局css</p>
+            </div>
+            <h3 paragraph> Clearfix 清除浮层</h3>
+            <pre>.eb-clearfix {
     zoom: 1/**ie6**/
 }
 
@@ -69,44 +73,44 @@
     clear: both;
 }</pre>
 
-      <h3 paragraph>跨浏览器的透明度</h3>
-      <div>
-        <pre>.eb-transparent {
+            <h3 paragraph>跨浏览器的透明度</h3>
+            <div>
+                <pre>.eb-transparent {
     filter: alpha(opacity=50); /* internet explorer */
     -khtml-opacity: 0.5;      /* khtml, old safari */
     -moz-opacity: 0.5;       /* mozilla, netscape */
     opacity: 0.5;           /* fx, safari, opera */
 }</pre>
-        <p>这里只是提供了一个模板，具体的透明值根据需要来设定</p>
-      </div>
-      <h3 paragraph>跨浏览器圆角的设置</h3>
-      <div>
-        <pre>.eb-radius {
+                <p>这里只是提供了一个模板，具体的透明值根据需要来设定</p>
+            </div>
+            <h3 paragraph>跨浏览器圆角的设置</h3>
+            <div>
+                <pre>.eb-radius {
     -webkit-border-radius: 4px 3px 6px 10px;
     -moz-border-radius: 4px 3px 6px 10px;
     -o-border-radius: 4px 3px 6px 10px;
     border-radius: 4px 3px 6px 10px;
 }</pre>
-      </div>
+            </div>
 
-      <h3 paragraph>垂直居中内容</h3>
-      <div>
-        <pre>.eb-vertical-align {
+            <h3 paragraph>垂直居中内容</h3>
+            <div>
+                <pre>.eb-vertical-align {
     height: 6.5em;/**高度根据需要设置**/
     display: table-cell;
     vertical-align: middle;
 }</pre>
-        <p>使用 margin: 0 auto 技术，很容易就能使内嵌的内容位于你页面的水平正中。然而对垂直的文本要困难的多，尤其是考虑到滚动条和其它的方式。
-          但这个是无需JavaScript就能完美无瑕工作的纯CSS解决方案。</p>
-        <p>例子</p>
-        <div style="height: 100px;display: table-cell;vertical-align: middle;border:1px solid #CCCCCC;padding: 0 10px;">
-          这一小段就垂直集中了.
-        </div>
-      </div>
+                <p>使用 margin: 0 auto 技术，很容易就能使内嵌的内容位于你页面的水平正中。然而对垂直的文本要困难的多，尤其是考虑到滚动条和其它的方式。
+                    但这个是无需JavaScript就能完美无瑕工作的纯CSS解决方案。</p>
+                <p>例子</p>
+                <div style="height: 100px;display: table-cell;vertical-align: middle;border:1px solid #CCCCCC;padding: 0 10px;">
+                    这一小段就垂直集中了.
+                </div>
+            </div>
 
-      <h3 paragraph>CSS3梯度模板</h3>
-      <div>
-        <pre>.eb-gradient {
+            <h3 paragraph>CSS3梯度模板</h3>
+            <div>
+                <pre>.eb-gradient {
     background: #629721;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#83b842), to(#629721));
     background-image: -webkit-linear-gradient(top, #83b842, #629721);
@@ -115,29 +119,29 @@
     background-image: -o-linear-gradient(top, #83b842, #629721);
     background-image: linear-gradient(top, #83b842, #629721);
 }</pre>
-        <p>CSS3梯度也就是背景颜色渐变</p>
-        <p>例子</p>
-        <style type="text/css">
-          #colorbox {
-            background: #629721;
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#00BEEE), to(#629721));
-            background-image: -webkit-linear-gradient(top, #00BEEE, #629721);
-            background-image: -moz-linear-gradient(top, #00BEEE, #629721);
-            background-image: -ms-linear-gradient(top, #00BEEE, #629721);
-            background-image: -o-linear-gradient(top, #00BEEE, #629721);
-            background-image: linear-gradient(top, #00BEEE, #629721);
-            height: 30px;
-            line-height: 30px;
-            padding: 10px;
-            border:1px solid #CCCCCC;
-          }
-        </style>
-        <div id="colorbox">CSS3梯度DEMO</div>
+                <p>CSS3梯度也就是背景颜色渐变</p>
+                <p>例子</p>
+                <style type="text/css">
+                    #colorbox {
+                        background: #629721;
+                        background-image: -webkit-gradient(linear, left top, left bottom, from(#00BEEE), to(#629721));
+                        background-image: -webkit-linear-gradient(top, #00BEEE, #629721);
+                        background-image: -moz-linear-gradient(top, #00BEEE, #629721);
+                        background-image: -ms-linear-gradient(top, #00BEEE, #629721);
+                        background-image: -o-linear-gradient(top, #00BEEE, #629721);
+                        background-image: linear-gradient(top, #00BEEE, #629721);
+                        height: 30px;
+                        line-height: 30px;
+                        padding: 10px;
+                        border:1px solid #CCCCCC;
+                    }
+                </style>
+                <div id="colorbox">CSS3梯度DEMO</div>
 
-        <h3 paragraph>CSS通用代码</h3>
-        <div>
-          <p>CSS通用代码中只列出了部分样式，可扩展</p>
-          <pre>@CHARSET "UTF-8";
+                <h3 paragraph>CSS通用代码</h3>
+                <div>
+                    <p>CSS通用代码中只列出了部分样式，可扩展</p>
+                    <pre>@CHARSET "UTF-8";
 
 /*******************************************************************************/
 /*	锚链接伪类,声明顺序应为：L-V-H-A  */
@@ -326,10 +330,10 @@ a:active {
     background-image: -o-linear-gradient(top, #83b842, #629721);
     background-image: linear-gradient(top, #83b842, #629721);
 }</pre>
-          <p><a href="项目中总结的通用css.css">点击下载</a></p>
-        </div>
-      </div>
+                    <p><a href="项目中总结的通用css.css">点击下载</a></p>
+                </div>
+            </div>
 
-    </div>
-  </body>
+        </div>
+    </body>
 </html>

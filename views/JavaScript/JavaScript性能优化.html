@@ -8,31 +8,52 @@
         <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
         <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
 
+        <link type="text/css" rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
+
+        <style>
+            body{
+                padding:10px;
+            }
+        </style>
+
         <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
         <script type="text/javascript">
             $(function() {
-            $('.h-web-catalogue li a').click(function(e) {
-            e.preventDefault();
-            var paragraphNum,
-            paragraph,
-            offset;
-            var el = this;
-            $(this).closest('ol').find('li a').each(function(index, element) {
-            if (this === el) {
-            paragraphNum = index;
-            return false;
-            }
-            });
-            paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
-            offset = paragraph.offset();
-            if (offset) {
-            $(window).scrollTop(offset.top);
-            }
-            });
-            //初始化内容折叠事件
-            $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
-            $(this).next().toggle();
-            });
+                $('.h-web-catalogue li a').click(function(e) {
+                    e.preventDefault();
+                    var paragraphNum,
+                            paragraph,
+                            offset;
+                    var el = this;
+                    $(this).closest('ol').find('li a').each(function(index, element) {
+                        if (this === el) {
+                            paragraphNum = index;
+                            return false;
+                        }
+                    });
+                    paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+                    offset = paragraph.offset();
+                    if (offset) {
+                        $(window).scrollTop(offset.top);
+                    }
+                });
+                //初始化内容折叠事件
+                $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+                    $(this).next().toggle();
+                });
+
+                //SyntaxHighlighter
+                $('pre').replaceWith(function() {
+                    var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
+                    html += $(this).html();
+                    html += '</pre>';
+                    return html;
+                });
+                SyntaxHighlighter.highlight();
             });
         </script>
     </head>
@@ -45,7 +66,7 @@
             <li><a paragraph href="#">性能优化的一些小技巧</a></li>
             <li><a paragraph href="#">jQuery最佳实践</a></li>
             <li><a paragraph href="#">一些性能优化参考</a></li>
-
+            <li><a paragraph href="#">性能分析工具</a></li>
         </ol>
         <div class="h-web-paragraph">
             <h3 paragraph>字符串性能优化</h3>
@@ -596,24 +617,23 @@ var y = { name: name };
                 <p>同样是get_name()方法，closure模式<a target="_blank" href="http://jsperf.com/prototype-vs-closures/20">更快</a>。</p>
 
                 <h4>使用Pub/Sub模式管理事件</h4>
-            </div>
-            <p>当发生某个事件后，如果要连续执行多个操作，最好不要写成下面这样：</p>
-            <pre>
+                <p>当发生某个事件后，如果要连续执行多个操作，最好不要写成下面这样：</p>
+                <pre>
 function doSomthing{
     doSomethingElse();
     doOneMoreThing();
 }</pre>
 
-            <p>而要改用事件触发的形式：</p>
-            <pre>
+                <p>而要改用事件触发的形式：</p>
+                <pre>
 function doSomething{
     $.trigger("DO_SOMETHING_DONE");
 }
 $(document).on("DO_SOMETHING_DONE", function(){
     doSomethingElse(); }
 );</pre>
-            <p>还可以考虑使用<a target="_blank" href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html">deferred对象</a>。</p>  
-            <pre>
+                <p>还可以考虑使用<a target="_blank" href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html">deferred对象</a>。</p>  
+                <pre>
 function doSomething(){
     var dfd = new $.Deferred();
     //Do something async, then...
@@ -623,9 +643,25 @@ function doSomething(){
 function doSomethingElse(){
     $.when(doSomething()).then(//The next thing);
 }</pre>
+            </div>
             <h3 paragraph>一些性能优化参考</h3>
-            <p><a href="http://www.iteye.com/magazines/116-Web-Front-Performance-Best-Practice">前端性能优化最佳实践</a></p>  
-            <p><a href="http://www.iteye.com/news/28184">Web 页面内容优化与性能优化技巧</a></p>
+            <div>
+                <p><a href="http://www.iteye.com/magazines/116-Web-Front-Performance-Best-Practice">前端性能优化最佳实践</a></p>
+                <p><a href="http://www.iteye.com/news/28184">Web 页面内容优化与性能优化技巧</a></p>
+            </div>
+            <h3 paragraph>性能分析工具</h3>
+            <div>
+                <h4>DynaTrace Ajax Edition</h4>
+                <p>
+                    <a href="http://www.compuware.com/en_us/application-performance-management/products/ajax-free-edition/overview.html">DynaTrace Ajax Edition</a>
+                    是一款非常不错的javascript性能分析工具。借用官方的介绍。
+                </p>
+                <p>
+                    Compuware APM AJAX Edition offers the most advanced deep-dive web performance diagnostics into JavaScript execution, DOM access, rendering activities and network traffic for analyzing and troubleshooting web applications. Quickly trace and profile web apps to understand performance characteristics, identify hotspots and isolate performance problems in Internet Explorer and Firefox.
+                </p>
+                <h4>Web Page Analyzer</h4>
+                <p><a href="http://www.websiteoptimization.com/services/analyze/">Web Page Analyzer</a> 这个没有研究过。</p>
+            </div>
         </div>
     </body>
 </html>

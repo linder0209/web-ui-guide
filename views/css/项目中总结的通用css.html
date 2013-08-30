@@ -8,7 +8,19 @@
         <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
         <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
 
+        <link type="text/css" rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
+
+        <style>
+            body{
+                padding:10px;
+            }
+        </style>
+
         <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
         <script type="text/javascript">
             $(function() {
                 $('.h-web-catalogue li a').click(function(e) {
@@ -33,6 +45,15 @@
                 $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
                     $(this).next().toggle();
                 });
+
+                //SyntaxHighlighter
+                $('pre').replaceWith(function() {
+                    var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
+                    html += $(this).html();
+                    html += '</pre>';
+                    return html;
+                });
+                SyntaxHighlighter.highlight();
             });
         </script>
     </head>

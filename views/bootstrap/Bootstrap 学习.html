@@ -2,19 +2,31 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Bootstrap 介绍</title>
+        <title>Bootstrap 学习</title>
         <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
         <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
         <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
         <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+        <link type="text/css" rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
+
+        <style>
+            body{
+                padding:10px;
+            }
+        </style>
+
         <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
         <script type="text/javascript">
             $(function() {
                 $('.h-web-catalogue li a').click(function(e) {
                     e.preventDefault();
                     var paragraphNum,
-                        paragraph,
-                        offset;
+                            paragraph,
+                            offset;
                     var el = this;
                     $(this).closest('ol').find('li a').each(function(index, element) {
                         if (this === el) {
@@ -29,23 +41,74 @@
                     }
                 });
                 //初始化内容折叠事件
-                $('.h-web-paragraph').on('click' , 'h3[paragraph]', function(e){
+                $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
                     $(this).next().toggle();
                 });
+
+                //SyntaxHighlighter
+                $('pre').replaceWith(function() {
+                    var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
+                    html += $(this).html();
+                    html += '</pre>';
+                    return html;
+                });
+                SyntaxHighlighter.highlight();
             });
         </script>
     </head>
     <body>
         <h3 class="h-web-paragraph-title">目录</h3>
         <ol class="h-web-catalogue">
+            <li><a paragraph href="#">bootstrap 定制化</a></li>
             <li><a paragraph href="#">bootstrap 不可定制的几个方面</a></li>
 
         </ol>
         <div class="h-web-paragraph">
-          <h3 paragraph>bootstrap 不可定制的几个方面</h3>
-          <p>虽然bootstrap提供了强大的前端开发框架，但再强大也不可能包括所有的CSS样式和js插件，这里简单的总结一下哪些方面需要我们自己扩展。</p>
-          <p>先来看CSS方面，以下是需要我们根据业务来扩展的CSS样式</p>
-          <h4></h4>
+            <h3 paragraph>bootstrap 定制化</h3>
+            <div>
+                <p>
+                    我们可以直接从官网<a href="http://getbootstrap.com/customize/">http://getbootstrap.com/customize/</a>来定制所需的样式和插件，
+                    当然我们可以通过第三方提供的一些工具来定制，请点击<a href="http://www.iteye.com/news/28092">这里</a>。
+                </p>
+                <p>下面介绍一下通过下载bootstrap源代码并修改后的定制</p>
+                <p>首先下载<a href="https://github.com/twbs/bootstrap/tree/master">源代码</a>，根据需要选择要下载的分支，比如master，v3.0.0等。</p>
+                <p>github上其实介绍的很详细（参见：README.md）。这里翻译成中文再详细说明一下。</p>
+                <h4>安装Bower</h4>
+                <p>Bower 是基于Node开发的一个包，是用来管理web的。详细参考这里：<a href="http://bower.io">Bower</a></p>
+                <pre>
+npm install -g bower</pre>
+                <p>运行上面的命令，全局安装bower</p>
+                <h4>本地运行 documentation</h4>
+                <p>首先安装 <a href="http://jekyllrb.com/docs/installation">Jekyll</a> (requires v1.x).</p>
+                <p>Jekyll<strong>是一个静态站点生成器，它会根据网页源码生成静态文件。</strong>它提供了模板、变量、插件等功能，所以实际上可以用来编写整个网站。</p>
+                <p>关于Jekyll的安装参见官网。</p>
+                <p><a href="http://www.madhur.co.in/blog/2011/09/01/runningjekyllwindows.html" target="_blank">window下安装</a>，主要是安装 Ruby 和 Ruby development kit，并在kit下安装 jekyll</p>
+                <pre>gem install jekyll</pre>
+                <p>jekyll安装的时间比较长，请耐心等待。安装好后，切换到bootstrap根目录下，运行以下命令，启动jekyll服务</p>
+                <pre>jekyll serve</pre>
+                <p>如果是windows系统，需要先运行以下命令改变编码（<strong>Windows users:</strong> run chcp 65001 first to change the command prompt's character encoding (<a href="http://en.wikipedia.org/wiki/Windows_code_page">code page</a>) to UTF-8 so Jekyll runs without errors.）</p>
+                <pre>chcp 65001</pre>
+                <p>服务启动后，在浏览器中输入<a href="http://localhost:9001">http://localhost:9001</a>可以本地查看bootstrap相关内容</p>
+                <p class="h-web-font-red">（我本地运行出现错误，待分析）</p>
+<h4>重新编译CSS and JavaScript</h4>
+                <p>Bootstrap 是使用 <a href="http://gruntjs.com/">Grunt</a> 来开发的，所以我们首先需要安装 Grunt</p>
+                <pre>npm install -g grunt-cli</pre>
+                <p>上面是全局安装，安装后，<span class="h-web-font-red">确保当前所在的目录是bootstrap</span>，然后安装需要的包</p>
+                <pre>npm install</pre>
+                <p>安装好后，就可以执行 Grunt 提供的命令了</p>
+                <pre>grunt</pre>
+                <p>Run grunt to run tests locally and compile the CSS and JavaScript into /dist. <strong>Uses <a href="http://twitter.github.io/recess/">recess</a> and <a href="http://lisperator.net/uglifyjs/">UglifyJS</a>.</strong></p>
+                <pre>grunt dist</pre>
+                <p>Only compile CSS and JavaScript</p>
+                <pre>grunt test</pre>
+                <p>Runs <a href="http://jshint.com">JSHint</a> and <a href="http://qunitjs.com/">QUnit</a> tests headlessly in <a href="http://phantomjs.org/">PhantomJS</a> (used for CI).</p>
+            </div>
+            <h3 paragraph>bootstrap 不可定制的几个方面</h3>
+            <div>
+                <p>虽然bootstrap提供了强大的前端开发框架，但再强大也不可能包括所有的CSS样式和js插件，这里简单的总结一下哪些方面需要我们自己扩展。</p>
+                <p>先来看CSS方面，以下是需要我们根据业务来扩展的CSS样式</p>
+                <h4></h4>
+            </div>
         </div>
     </body>
 </html>

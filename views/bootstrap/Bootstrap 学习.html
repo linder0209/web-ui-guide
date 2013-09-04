@@ -59,25 +59,28 @@
     <body>
         <h3 class="h-web-paragraph-title">目录</h3>
         <ol class="h-web-catalogue">
-            <li><a paragraph href="#">bootstrap 定制化</a></li>
+            <li><a paragraph href="#">开始学习 bootstrap</a></li>
             <li><a paragraph href="#">bootstrap 不可定制的几个方面</a></li>
 
         </ol>
         <div class="h-web-paragraph">
-            <h3 paragraph>bootstrap 定制化</h3>
+            <h3 paragraph>开始学习 bootstrap</h3>
             <div>
-                <p>
-                    我们可以直接从官网<a href="http://getbootstrap.com/customize/">http://getbootstrap.com/customize/</a>来定制所需的样式和插件，
-                    当然我们可以通过第三方提供的一些工具来定制，请点击<a href="http://www.iteye.com/news/28092">这里</a>。
-                </p>
-                <p>下面介绍一下通过下载bootstrap源代码并修改后的定制</p>
-                <p>首先下载<a href="https://github.com/twbs/bootstrap/tree/master">源代码</a>，根据需要选择要下载的分支，比如master，v3.0.0等。</p>
-                <p>github上其实介绍的很详细（参见：README.md）。这里翻译成中文再详细说明一下。</p>
-                <h4>安装Bower</h4>
-                <p>Bower 是基于Node开发的一个包，是用来管理web的。详细参考这里：<a href="http://bower.io">Bower</a></p>
+              <h4>开启 bootstrap</h4>
+              <p><a href="https://github.com/twbs/bootstrap" target="_blank">github</a>上介绍的很详细（参见：README.md）。这里翻译成中文再详细说明一下。</p>
+              <p>首先安装下载bootstrap，有三种方式</p>
+              <h5>直接下载<a href="https://github.com/twbs/bootstrap/tree/master">源代码</a>，根据需要选择要下载的分支，比如master，v3.0.0等</h5>
+              <h5>Clone the bootstrap from repo</h5>
+              <pre>git clone git://github.com/twbs/bootstrap.git. </pre>
+              <h5>Use bower</h5>
+                <p>Bower 是基于Node开发的一个包，用来管理web的。详细参考这里：<a href="http://bower.io">Bower</a></p>
+                <p>运行下面命令，全局安装bower（当然首先需要安装<a href="http://www.nodejs.org/" target="_blank">nodejs</a>，如果不懂什么是nodejs，请看相关资料）</p>
                 <pre>
 npm install -g bower</pre>
-                <p>运行上面的命令，全局安装bower</p>
+                <p>安装成功后就可以利用bower下载bootstrap，执行以下命令（国内由于网络不稳定，经常会下载失败，杯具！）</p>
+                <pre>bower install bootstrap             </pre>
+                <p>windows下会下载到类似以下目录中</p>
+                <p>C:\Users\wangyanjun\AppData\Local\Temp\wangyanjun-PC-wangyanjun\bower\bootstrap-3680-m4EDQn\bootstrap-3.0.0</p>
                 <h4>本地运行 documentation</h4>
                 <p>首先安装 <a href="http://jekyllrb.com/docs/installation">Jekyll</a> (requires v1.x).</p>
                 <p>Jekyll<strong>是一个静态站点生成器，它会根据网页源码生成静态文件。</strong>它提供了模板、变量、插件等功能，所以实际上可以用来编写整个网站。</p>

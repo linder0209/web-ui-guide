@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>CSS3 实现箭头</title>
+    <style>
+      body{
+        padding:10px;
+      }
+      .step-box{
+        padding: 20px 0 20px 10px;
+      }
+      .step-box > li{
+        float: left;
+        list-style: none;
+        margin-left: -10px;
+        cursor: pointer;
+      }
+      .left-side,
+      .right-side {
+        height: 0;
+        width: 0;
+        border-style: solid;
+        border-width: 18px 0 18px 15px;
+        float: left;
+      }
+      .left-side {
+        border-color: #EFEBDC transparent #EFEBDC transparent;
+      }
+      .right-side {
+        border-color: transparent transparent transparent #EFEBDC;
+      }
+      .step-content{
+        background-color: #EFEBDC;
+        float: left;
+        font-size: 14px;
+        height: 36px;
+        line-height: 36px;
+        padding: 0 10px;
+        text-align: center;
+        width: 110px;
+      }
+
+
+      .step-box2{
+        padding: 20px 0 20px 10px;
+      }
+      .step-box2 > li{
+        float: left;
+        list-style: none;
+        margin-left: -10px;
+        cursor: pointer;
+      }
+      .step-content2{
+        background-color: #EFEBDC;
+        font-size: 14px;
+        height: 36px;
+        line-height: 36px;
+        padding: 0 10px;
+        text-align: center;
+        width: 110px;
+        display: inline-block;
+      }
+      .step-content2:before,
+      .step-content2:after{
+        height: 0;
+        width: 0;
+        border-style: solid;
+        border-width: 18px 0 18px 15px;
+        display: inline-block;
+        content: " ";
+      }
+      .step-content2:before{
+        border-color: #EFEBDC transparent #EFEBDC transparent;
+      }
+      .step-content2:after{
+        border-color: transparent transparent transparent #EFEBDC;
+      }
+    </style>
+
+  </head>
+  <body>
+    <ul class="step-box clearfix">
+      <li class="completed">
+        <div class="left-side"></div>
+        <div class="step-content">Profile</div>
+        <div class="right-side"></div>
+      </li>
+      <li class="active">
+        <div class="left-side"></div>
+        <div class="step-content">Locations</div>
+        <div class="right-side"></div>
+      </li>
+      <li>
+        <div class="left-side"></div>
+        <div class="step-content"><a title="Locations" href="main_subscription.html">Subscriptions</a></div>
+        <div class="right-side"></div>
+      </li>
+      <li>
+        <div class="left-side"></div>
+        <div class="step-content"><a title="Locations" href="main_information.html">Information</a></div>
+        <div class="right-side"></div>
+      </li>
+      <li>
+        <div class="left-side"></div>
+        <div class="step-content"><a title="Locations" href="main_review.html">Review</a></div>
+        <div class="right-side"></div>
+      </li>
+    </ul>
+
+    <ul class="step-box2" style="overflow: hidden;">
+      <li>
+        <span class="step-content2">Profile</span>
+      </li>
+    </ul>
+
+  </body>
+</html>

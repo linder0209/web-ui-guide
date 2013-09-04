@@ -1,117 +1,164 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Bootstrap 学习</title>
-        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
-        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
-        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
-        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
-        <link type="text/css" rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Bootstrap 学习</title>
+    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+    <link type="text/css" rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
 
-        <style>
-            body{
-                padding:10px;
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+
+    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        $('.h-web-catalogue li a').click(function(e) {
+          e.preventDefault();
+          var paragraphNum,
+                  paragraph,
+                  offset;
+          var el = this;
+          $(this).closest('ol').find('li a').each(function(index, element) {
+            if (this === el) {
+              paragraphNum = index;
+              return false;
             }
-        </style>
+          });
+          paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+          offset = paragraph.offset();
+          if (offset) {
+            $(window).scrollTop(offset.top);
+          }
+        });
+        //初始化内容折叠事件
+        $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+          $(this).next().toggle();
+        });
 
-        <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
-
-        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
-        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
-        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
-        <script type="text/javascript">
-            $(function() {
-                $('.h-web-catalogue li a').click(function(e) {
-                    e.preventDefault();
-                    var paragraphNum,
-                            paragraph,
-                            offset;
-                    var el = this;
-                    $(this).closest('ol').find('li a').each(function(index, element) {
-                        if (this === el) {
-                            paragraphNum = index;
-                            return false;
-                        }
-                    });
-                    paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
-                    offset = paragraph.offset();
-                    if (offset) {
-                        $(window).scrollTop(offset.top);
-                    }
-                });
-                //初始化内容折叠事件
-                $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
-                    $(this).next().toggle();
-                });
-
-                //SyntaxHighlighter
-                $('pre').replaceWith(function() {
-                    var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
-                    html += $(this).html();
-                    html += '</pre>';
-                    return html;
-                });
-                SyntaxHighlighter.highlight();
-            });
-        </script>
-    </head>
-    <body>
-        <h3 class="h-web-paragraph-title">目录</h3>
-        <ol class="h-web-catalogue">
-            <li><a paragraph href="#">开始学习 bootstrap</a></li>
-            <li><a paragraph href="#">bootstrap 不可定制的几个方面</a></li>
-
-        </ol>
-        <div class="h-web-paragraph">
-            <h3 paragraph>开始学习 bootstrap</h3>
-            <div>
-              <h4>开启 bootstrap</h4>
-              <p><a href="https://github.com/twbs/bootstrap" target="_blank">github</a>上介绍的很详细（参见：README.md）。这里翻译成中文再详细说明一下。</p>
-              <p>首先安装下载bootstrap，有三种方式</p>
-              <h5>直接下载<a href="https://github.com/twbs/bootstrap/tree/master">源代码</a>，根据需要选择要下载的分支，比如master，v3.0.0等</h5>
-              <h5>Clone the bootstrap from repo</h5>
-              <pre>git clone git://github.com/twbs/bootstrap.git. </pre>
-              <h5>Use bower</h5>
-                <p>Bower 是基于Node开发的一个包，用来管理web的。详细参考这里：<a href="http://bower.io">Bower</a></p>
-                <p>运行下面命令，全局安装bower（当然首先需要安装<a href="http://www.nodejs.org/" target="_blank">nodejs</a>，如果不懂什么是nodejs，请看相关资料）</p>
-                <pre>
+        //SyntaxHighlighter
+        $('pre').replaceWith(function() {
+          var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
+          html += $(this).html();
+          html += '</pre>';
+          return html;
+        });
+        SyntaxHighlighter.highlight();
+      });
+    </script>
+  </head>
+  <body>
+    <h3 class="h-web-paragraph-title">目录</h3>
+    <ol class="h-web-catalogue">
+      <li><a paragraph href="#">开始学习 bootstrap</a></li>
+      <li><a paragraph href="#">bootstrap 不可定制的几个方面</a></li>
+      <li><a paragraph href="#">bootstrap 心得体会（好的建议与注意事项）</a></li>
+      <li><a paragraph href="#">bootstrap 代码片段</a></li>
+    </ol>
+    <div class="h-web-paragraph">
+      <h3 paragraph>开始学习 bootstrap</h3>
+      <div>
+        <h4>开启 bootstrap</h4>
+        <p><a href="https://github.com/twbs/bootstrap" target="_blank">github</a>上介绍的很详细（参见：README.md）。这里翻译成中文再详细说明一下。</p>
+        <p>首先安装下载bootstrap，有三种方式</p>
+        <h5>直接下载<a href="https://github.com/twbs/bootstrap/tree/master">源代码</a>，根据需要选择要下载的分支，比如master，v3.0.0等</h5>
+        <h5>Clone the bootstrap from repo</h5>
+        <pre>git clone git://github.com/twbs/bootstrap.git. </pre>
+        <h5>Use bower</h5>
+        <p>Bower 是基于Node开发的一个包，用来管理web的。详细参考这里：<a href="http://bower.io">Bower</a></p>
+        <p>运行下面命令，全局安装bower（当然首先需要安装<a href="http://www.nodejs.org/" target="_blank">nodejs</a>，如果不懂什么是nodejs，请看相关资料）</p>
+        <pre>
 npm install -g bower</pre>
-                <p>安装成功后就可以利用bower下载bootstrap，执行以下命令（国内由于网络不稳定，经常会下载失败，杯具！）</p>
-                <pre>bower install bootstrap             </pre>
-                <p>windows下会下载到类似以下目录中</p>
-                <p>C:\Users\wangyanjun\AppData\Local\Temp\wangyanjun-PC-wangyanjun\bower\bootstrap-3680-m4EDQn\bootstrap-3.0.0</p>
-                <h4>本地运行 documentation</h4>
-                <p>首先安装 <a href="http://jekyllrb.com/docs/installation">Jekyll</a> (requires v1.x).</p>
-                <p>Jekyll<strong>是一个静态站点生成器，它会根据网页源码生成静态文件。</strong>它提供了模板、变量、插件等功能，所以实际上可以用来编写整个网站。</p>
-                <p>关于Jekyll的安装参见官网。</p>
-                <p><a href="http://www.madhur.co.in/blog/2011/09/01/runningjekyllwindows.html" target="_blank">window下安装</a>，主要是安装 Ruby 和 Ruby development kit，并在kit下安装 jekyll</p>
-                <pre>gem install jekyll</pre>
-                <p>jekyll安装的时间比较长，请耐心等待。安装好后，切换到bootstrap根目录下，运行以下命令，启动jekyll服务</p>
-                <pre>jekyll serve</pre>
-                <p>如果是windows系统，需要先运行以下命令改变编码（<strong>Windows users:</strong> run chcp 65001 first to change the command prompt's character encoding (<a href="http://en.wikipedia.org/wiki/Windows_code_page">code page</a>) to UTF-8 so Jekyll runs without errors.）</p>
-                <pre>chcp 65001</pre>
-                <p>服务启动后，在浏览器中输入<a href="http://localhost:9001">http://localhost:9001</a>可以本地查看bootstrap相关内容</p>
-                <p class="h-web-font-red">（我本地运行出现错误，待分析）</p>
-<h4>重新编译CSS and JavaScript</h4>
-                <p>Bootstrap 是使用 <a href="http://gruntjs.com/">Grunt</a> 来开发的，所以我们首先需要安装 Grunt</p>
-                <pre>npm install -g grunt-cli</pre>
-                <p>上面是全局安装，安装后，<span class="h-web-font-red">确保当前所在的目录是bootstrap</span>，然后安装需要的包</p>
-                <pre>npm install</pre>
-                <p>安装好后，就可以执行 Grunt 提供的命令了</p>
-                <pre>grunt</pre>
-                <p>Run grunt to run tests locally and compile the CSS and JavaScript into /dist. <strong>Uses <a href="http://twitter.github.io/recess/">recess</a> and <a href="http://lisperator.net/uglifyjs/">UglifyJS</a>.</strong></p>
-                <pre>grunt dist</pre>
-                <p>Only compile CSS and JavaScript</p>
-                <pre>grunt test</pre>
-                <p>Runs <a href="http://jshint.com">JSHint</a> and <a href="http://qunitjs.com/">QUnit</a> tests headlessly in <a href="http://phantomjs.org/">PhantomJS</a> (used for CI).</p>
-            </div>
-            <h3 paragraph>bootstrap 不可定制的几个方面</h3>
-            <div>
-                <p>虽然bootstrap提供了强大的前端开发框架，但再强大也不可能包括所有的CSS样式和js插件，这里简单的总结一下哪些方面需要我们自己扩展。</p>
-                <p>先来看CSS方面，以下是需要我们根据业务来扩展的CSS样式</p>
-                <h4></h4>
-            </div>
-        </div>
-    </body>
+        <p>安装成功后就可以利用bower下载bootstrap，执行以下命令（国内由于网络不稳定，经常会下载失败，杯具！）</p>
+        <pre>bower install bootstrap             </pre>
+        <p>windows下会下载到类似以下目录中</p>
+        <p>C:\Users\wangyanjun\AppData\Local\Temp\wangyanjun-PC-wangyanjun\bower\bootstrap-3680-m4EDQn\bootstrap-3.0.0</p>
+        <h4>本地运行 documentation</h4>
+        <p>首先安装 <a href="http://jekyllrb.com/docs/installation">Jekyll</a> (requires v1.x).</p>
+        <p>Jekyll<strong>是一个静态站点生成器，它会根据网页源码生成静态文件。</strong>它提供了模板、变量、插件等功能，所以实际上可以用来编写整个网站。</p>
+        <p>关于Jekyll的安装参见官网。</p>
+        <p><a href="http://www.madhur.co.in/blog/2011/09/01/runningjekyllwindows.html" target="_blank">window下安装</a>，主要是安装 Ruby 和 Ruby development kit，并在kit下安装 jekyll</p>
+        <pre>gem install jekyll</pre>
+        <p>jekyll安装的时间比较长，请耐心等待。安装好后，切换到bootstrap根目录下，运行以下命令，启动jekyll服务</p>
+        <pre>jekyll serve</pre>
+        <p>如果是windows系统，需要先运行以下命令改变编码（<strong>Windows users:</strong> run chcp 65001 first to change the command prompt's character encoding (<a href="http://en.wikipedia.org/wiki/Windows_code_page">code page</a>) to UTF-8 so Jekyll runs without errors.）</p>
+        <pre>chcp 65001</pre>
+        <p>服务启动后，在浏览器中输入<a href="http://localhost:9001">http://localhost:9001</a>可以本地查看bootstrap相关内容</p>
+        <p class="h-web-font-red">（我本地运行出现错误，待分析）</p>
+        <h4>重新编译CSS and JavaScript</h4>
+        <p>Bootstrap 是使用 <a href="http://gruntjs.com/">Grunt</a> 来开发的，所以我们首先需要安装 Grunt</p>
+        <pre>npm install -g grunt-cli</pre>
+        <p>上面是全局安装，安装后，<span class="h-web-font-red">确保当前所在的目录是bootstrap</span>，然后安装需要的包</p>
+        <pre>npm install</pre>
+        <p>安装好后，就可以执行 Grunt 提供的命令了</p>
+        <pre>grunt</pre>
+        <p>Run grunt to run tests locally and compile the CSS and JavaScript into /dist. <strong>Uses <a href="http://twitter.github.io/recess/">recess</a> and <a href="http://lisperator.net/uglifyjs/">UglifyJS</a>.</strong></p>
+        <pre>grunt dist</pre>
+        <p>Only compile CSS and JavaScript</p>
+        <pre>grunt test</pre>
+        <p>Runs <a href="http://jshint.com">JSHint</a> and <a href="http://qunitjs.com/">QUnit</a> tests headlessly in <a href="http://phantomjs.org/">PhantomJS</a> (used for CI).</p>
+      </div>
+      <h3 paragraph>bootstrap 不可定制的几个方面</h3>
+      <div>
+        <p>虽然bootstrap提供了强大的前端开发框架，但再强大也不可能包括所有的CSS样式和js插件，这里简单的总结一下哪些方面需要我们自己扩展。</p>
+        <p>先来看CSS方面，以下是需要我们根据业务来扩展的CSS样式</p>
+        <h4></h4>
+      </div>
+
+      <h3 paragraph>bootstrap 心得体会（好的建议与注意事项）</h3>
+      <div>
+        <h4>IE兼容模式</h4>
+        <p>Bootstrap不支持IE的兼容模式。为了让IE浏览器运行最新的渲染模式，建议将此 <meta> 标签加入到你的页面中：</p>
+        <pre>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        </pre>
+        <h4>Box-sizing</h4>
+        <p>Bootstrap 中盒子模型大部分是采用 border-box设置的（box-sizing: border-box;）。为元素设定的宽度和高度决定了元素的边框盒。
+          就是说，为元素指定的任何内边距和边框都将在已设定的宽度和高度内进行绘制。通过从已设定的宽度和高度分别减去边框和内边距才能得到内容的宽度和高度。</p>
+        <p>关于box-sizing属性的详细介绍可以参考笔者之前写的“CSS3属性”。</p>
+      </div>
+      <h3 paragraph>bootstrap 代码片段</h3>
+      <div>
+        <h4>页面基本模板</h4>
+        <pre>
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bootstrap 101 Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+        </pre>
+      </div>
+    </div>
+  </body>
 </html>

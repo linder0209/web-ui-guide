@@ -60,9 +60,11 @@
     <h3 class="h-web-paragraph-title">目录</h3>
     <ol class="h-web-catalogue">
       <li><a paragraph href="#">开始学习 bootstrap</a></li>
+      <li><a paragraph href="#">bootstrap定制</a></li>
       <li><a paragraph href="#">bootstrap 不可定制的几个方面</a></li>
       <li><a paragraph href="#">bootstrap 心得体会（好的建议与注意事项）</a></li>
       <li><a paragraph href="#">bootstrap 代码片段</a></li>
+      <li><a paragraph href="#">Bootstrap 扩展插件</a></li>
     </ol>
     <div class="h-web-paragraph">
       <h3 paragraph>开始学习 bootstrap</h3>
@@ -88,7 +90,13 @@ npm install -g bower</pre>
         <p>关于Jekyll的安装参见官网。</p>
         <p><a href="http://www.madhur.co.in/blog/2011/09/01/runningjekyllwindows.html" target="_blank">window下安装</a>，主要是安装 Ruby 和 Ruby development kit，并在kit下安装 jekyll</p>
         <pre>gem install jekyll</pre>
-        <p>jekyll安装的时间比较长，请耐心等待。安装好后，切换到bootstrap根目录下，运行以下命令，启动jekyll服务</p>
+        <p>jekyll安装的时间比较长，请耐心等待。有的时候由于天朝内网路问题，可能造成安装中某一个部分中途退出，再次执行安装时出现以下提示:</p>
+        <pre>D:\rubydevkit&gt;gem install jekyll  
+ERROR:  While executing gem ... (NoMethodError)      
+undefined method `size' for nil:NilClass</pre>
+        <p>在此只需要将gem目录下cache文件夹内清空，重新安装即可。</p>
+        <p>&nbsp;</p>
+        <p>安装好后，切换到bootstrap根目录下，运行以下命令，启动jekyll服务</p>
         <pre>jekyll serve</pre>
         <p>如果是windows系统，需要先运行以下命令改变编码（<strong>Windows users:</strong> run chcp 65001 first to change the command prompt's character encoding (<a href="http://en.wikipedia.org/wiki/Windows_code_page">code page</a>) to UTF-8 so Jekyll runs without errors.）</p>
         <pre>chcp 65001</pre>
@@ -107,6 +115,17 @@ npm install -g bower</pre>
         <pre>grunt test</pre>
         <p>Runs <a href="http://jshint.com">JSHint</a> and <a href="http://qunitjs.com/">QUnit</a> tests headlessly in <a href="http://phantomjs.org/">PhantomJS</a> (used for CI).</p>
       </div>
+      <h3 paragraph>bootstrap定制</h3>
+      <div>
+        <p>
+          我们可以直接从官网<a href="http://getbootstrap.com/customize/">http://getbootstrap.com/customize/</a>来定制所需的样式和插件。
+          当然我们也可以通过第三方提供的一些工具来定制，请点击这里：<a href="http://www.iteye.com/news/28092">Bootstrap 定制工具集锦</a>。
+        </p>
+        <p>当然我们也可以对下载后的源代码进行修改并重新编译来定制。相关操作参见上面。</p>
+        <p>这里顺便介绍一款关于<a href="http://www.layoutit.com/build">bootstrap可视化生成代码的工具</a>。这款软件是基于bootstrap2的，期待基于bootstrap3的出现。
+          这款工具的介绍请点击以下链接</p>
+        <p><a href="http://www.iteye.com/topic/1130454">基于Bootstrap和jQuery的可视化页面布局程序</a></p>
+      </div>
       <h3 paragraph>bootstrap 不可定制的几个方面</h3>
       <div>
         <p>虽然bootstrap提供了强大的前端开发框架，但再强大也不可能包括所有的CSS样式和js插件，这里简单的总结一下哪些方面需要我们自己扩展。</p>
@@ -117,47 +136,62 @@ npm install -g bower</pre>
       <h3 paragraph>bootstrap 心得体会（好的建议与注意事项）</h3>
       <div>
         <h4>IE兼容模式</h4>
-        <p>Bootstrap不支持IE的兼容模式。为了让IE浏览器运行最新的渲染模式，建议将此 <meta> 标签加入到你的页面中：</p>
+        <p>Bootstrap不支持IE的兼容模式。为了让IE浏览器运行最新的渲染模式，建议将此 &lt;meta&gt; 标签加入到你的页面中：</p>
         <pre>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+&lt;meta http-equiv="X-UA-Compatible" content="IE=edge" &gt;
         </pre>
+        <p><strong>Internet Explorer 8 需要<a href="https://github.com/scottjehl/Respond">respond.js</a>配合才能实现对媒体查询（media query）的支持</strong>。</p>
+        <p>Respond.js 是一个快速、轻量的 polyfill，用于为 IE6-8 以及其它不支持 CSS3 Media Queries 的浏览器提供媒体查询的 min-width 和 max-width 特性，实现响应式网页设计（Responsive Web Design）。</p>
+        <p>另外如果需要在IE6 7 8 中也要支持HTML5，我们可以引入<a href="http://code.google.com/p/html5shiv/" target="_blank">html5shiv</a>。</p>
         <h4>Box-sizing</h4>
-        <p>Bootstrap 中盒子模型大部分是采用 border-box设置的（box-sizing: border-box;）。为元素设定的宽度和高度决定了元素的边框盒。
+        <p>Bootstrap 中盒子模型大部分是采用 border-box设置的（box-sizing: border-box;）。把box-sizing设置为border-box表示元素的宽度和高度决定了元素的边框盒，
           就是说，为元素指定的任何内边距和边框都将在已设定的宽度和高度内进行绘制。通过从已设定的宽度和高度分别减去边框和内边距才能得到内容的宽度和高度。</p>
-        <p>关于box-sizing属性的详细介绍可以参考笔者之前写的“CSS3属性”。</p>
+        <p>关于box-sizing属性的详细介绍可以参考我之前写的“CSS3属性”。</p>
       </div>
       <h3 paragraph>bootstrap 代码片段</h3>
       <div>
         <h4>页面基本模板</h4>
         <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Bootstrap Template&lt;/title&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;meta content="text/html; charset=UTF-8" http-equiv="Content-Type"&gt;
+    &lt;meta name="description" content=" "&gt;
+    &lt;meta name="author" content="Everbridge"&gt;
+    &lt;meta name="keywords" content=" "&gt;
+    &lt;!-- Bootstrap --&gt;
+    &lt;link href="./stylesheet/bootstrap/bootstrap.min.css" rel="stylesheet" media="screen"&gt;
+    &lt;link type="image/x-icon" href="./images/favicon.ico" rel="shortcut icon"&gt;
 
+    &lt;!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries --&gt;
+    &lt;!--[if lt IE 9]&gt;
+      &lt;script src="./javascript/bootstrap/support/html5shiv.js"&gt;&lt;/script&gt;
+      &lt;script src="./javascript/bootstrap/support/respond.min.js"&gt;&lt;/script&gt;
+    &lt;![endif]--&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello, world!&lt;/h1&gt;
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Bootstrap 101 Template</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="../../assets/js/html5shiv.js"></script>
-      <script src="../../assets/js/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <h1>Hello, world!</h1>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="//code.jquery.com/jquery.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-  </body>
-</html>
-
-
+    &lt;!-- jQuery (necessary for Bootstrap's JavaScript plugins) --&gt;
+    &lt;script src="./javascript/jquery/jquery.min.js"&gt;&lt;/script&gt;
+    &lt;!-- Include all compiled plugins (below), or include individual files as needed --&gt;
+    &lt;script src="./javascript/bootstrap/bootstrap.min.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
         </pre>
+      </div>
+      
+      <h3 paragraph> Bootstrap 扩展插件</h3>
+      <div>
+        <p><a href="http://www.oschina.net/p/bootbox">30 个惊艳的 Bootstrap 扩展插件</a></p>
+        <p>着三十个插件中，个人认为比较实用的有以下几个</p>
+        <h4><a rel="nofollow" href="http://mimo84.github.io/bootstrap-maxlength/" target="_blank">Bootstrap Maxlength</a></h4>
+        <p>可以动态计算文本框中已经输入的字符剩余长度。是基于jQuery书写的一个插件，不只是可以用在bootstrap中，还可以单独运用到项目中。</p>
+        <h4><a rel="nofollow" href="http://reactiveraven.github.io/jqBootstrapValidation/" target="_blank">jqBootstrapValidation</a></h4>
+        <p>一款基于bootstrap校验插件</p>
+        <p>&nbsp;</p>
       </div>
     </div>
   </body>

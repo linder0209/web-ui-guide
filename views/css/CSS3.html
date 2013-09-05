@@ -103,8 +103,44 @@
       <h3 paragraph>CSS3 属性</h3>
       <div>
         <h4>box-sizing 属性</h4>
-        <p>http://www.w3school.com.cn/cssref/pr_box-sizing.asp</p>
-        <p>http://www.rainleaves.com/html/1740.html</p>
+        <div>
+          <p>关于box-sizing 属性的理解，转载自<a href="http://www.rainleaves.com/html/1740.html">http://www.rainleaves.com/html/1740.html</a>
+            以下是其原文（部分做了修改）
+          </p>
+          <p>说到 IE 的 bug，在 IE6以前的版本中，IE对盒模型的解析出现一些问题，跟其它浏览器不同，将 border 与 padding 都包含在 width 之内。而另外一些浏览器则与它相反，是不包括border和padding的。</p>
+          <p>在我们开发的过程中会发现，有时候，如果对页面中的大区域进行设置时，将border、padding计算到width和height之内，反而更灵活。但W3C的 CSS2.1规范却规定了他们并不能被包含其中。考虑到这个问题，
+            css3中引入了一个新的属性：box-sizing，它具有&ldquo;content-box&rdquo;和&rdquo;border-box&ldquo;两个值。</p>
+          <h5>box-sizing:content-box</h5>
+          <p>当我们设置 box-sizing: content-box; 时，浏览器对盒模型的解释遵从我们之前认识到的 W3C 标准，当它定义width和height时，它的宽度不包括border和padding。</p>
+          <h5>box-sizing:border-box</h5>
+          <p>当我们设置box-sizing: border-box; 时，浏览器对盒模型的解释与IE6之前的版本相同，当它定义width和height时，border和padding则是被包含在宽高之内的。
+            内容的宽和高可以通过定义的  &ldquo;width&rdquo;和   &ldquo;height&rdquo;减去相应方向的&ldquo;padding&rdquo;和&ldquo;border&rdquo;的宽度得到。
+            内容的宽和高必须保证不能为负，必要时将自动增大该元素border box的尺寸以使其内容的宽或高最小为0。</p>
+          <p><strong>示例如下：</strong></p>
+          <pre>
+<div style="padding:5px; border: 1px solid #005B73; overflow: hidden;">
+    <div style="width:200px; height:50px; border:10px ridge #f60; padding:5px; float:left; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; box-sizing:border-box">
+      height:50px; 设为border-box效果
+    </div>
+    <div style="width:200px; height:50px; border:10px ridge #0f0; float:left; padding:5px; -moz-box-sizing:content-box; -webkit-box-sizing:content-box; box-sizing:content-box">
+      height:50px; 设为content-box效果
+    </div>
+</div></pre>
+
+          <p><strong>运行效果：</strong></p>
+          <div style="padding:5px; border: 1px solid #005B73; overflow: hidden;">
+            <div style="width:200px; height:50px; border:10px ridge #f60; padding:5px; float:left; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; box-sizing:border-box">
+              height:50px; 设为border-box效果
+            </div>
+            <div style="width:200px; height:50px; border:10px ridge #0f0; float:left; padding:5px; -moz-box-sizing:content-box; -webkit-box-sizing:content-box; box-sizing:content-box">
+              height:50px; 设为content-box效果
+            </div>
+          </div>
+          <p>Firefox 请使用 -moz-box-sizing</p>
+          <p>Safari / WebKit 请使用 -webkit-box-sizing</p>
+          <p>Opera 直接用 box-sizing 即可。</p>
+        </div>
+        <p>看w3c中对该属性的说明，<a href="http://www.w3school.com.cn/cssref/pr_box-sizing.asp">CSS3 box-sizing 属性</a></p>
       </div>
     </div>
   </body>

@@ -118,7 +118,7 @@
 .h-web-paragraph ul{
     list-style-type: disc; 
 }
-.h-web-paragraph ul li{
+.h-web-paragraph ul > li{
     padding: 5px 0;
     list-style-type: disc;
     list-style-position: inside;
@@ -129,7 +129,7 @@
     /*color: #009EC3;*/
     font-size: 14px;
 }
-.h-web-paragraph ol li{
+.h-web-paragraph ol > li{
     padding: 5px 0;
     list-style-type: decimal;
 }
@@ -137,6 +137,11 @@
 .h-web-font-red, p.h-web-font-red{
     color:#F94A76;
     font-weight:bold;
+}
+
+.h-web-font-info, p.h-web-font-info{
+    color: #428BCA;
+    font-weight: bold;
 }
 
 /**

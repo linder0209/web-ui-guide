@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>JavaScript 正则表达式</title>
+    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+    <link type="text/css" rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
+
+    <style type="text/css">
+      body{
+        background-color: #CCE8CF;
+        padding: 10px;
+      }
+    </style>
+    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+
+    <script type="text/javascript">
+      $(function() {
+        $('.h-web-catalogue li a').click(function(e) {
+          e.preventDefault();
+          var paragraphNum,
+                  paragraph,
+                  offset;
+          var el = this;
+          $(this).closest('ol').find('li a').each(function(index, element) {
+            if (this === el) {
+              paragraphNum = index;
+              return false;
+            }
+          });
+          paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+          offset = paragraph.offset();
+          if (offset) {
+            $(window).scrollTop(offset.top);
+          }
+        });
+        //初始化内容折叠事件
+        $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+          $(this).next().toggle();
+        });
+
+        //SyntaxHighlighter
+        $('pre').replaceWith(function() {
+          var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
+          html += $(this).html();
+          html += '</pre>';
+          return html;
+        });
+        SyntaxHighlighter.highlight();
+      });
+    </script>
+  </head>
+  <body>
+    <h3 class="h-web-paragraph-title">目录</h3>
+    <ol class="h-web-catalogue">
+      <li><a paragraph="1" href="#">什么是正则表达式</a></li>
+      <li><a paragraph="2" href="#">JavaScript 正则表达式常用的21个元字符</a></li>
+      <li><a paragraph="3" href="#">正则表达式优先权顺序</a></li>
+      <li><a paragraph="4" href="#">后向引用</a></li>
+      <li><a paragraph="5" href="#">零宽断言</a></li>
+      <li><a paragraph="6" href="#">贪婪与懒惰</a></li>
+      <li><a paragraph="7" href="#">处理选项</a></li>
+      <li><a paragraph="8" href="#">正则表达式对象的属性及方法</a></li>
+      <li><a paragraph="9" href="#">操作字符串中相关的方法</a></li>
+      <li><a paragraph="10" href="#">正则表达式参考资料</a></li>
+      <li><a paragraph="11" href="#">正则表达式在线验证器</a></li>
+      <li><a paragraph="12" href="#">正则表达式难点</a></li>
+      <li><a paragraph="13" href="#">正则表达式需要注意的几个问题</a></li>
+      <li><a paragraph="14" href="#">javascript中常用的正则表达式</a></li>
+
+    </ol>
+    <div class="h-web-paragraph">
+      <h3 paragraph="1">什么是正则表达式</h3>
+      <p>在计算机科学中，是指一个用来描述或者匹配一系列符合某个句法规则的字符串。在很多文本编辑器或其他工具里，正则表达式通常被用来检索或替换那些符合某个模式的文本内容。
+        许多程序设计语言都支持利用正则表达式进行字符串操作。例如，在Perl中就内建了一个功能强大的正则表达式引擎。正则表达式这个概念最初是由Unix中的工具软件（例如sed和grep）
+        普及开的。正则表达式通常缩写成&ldquo;regex&rdquo;，单数有regexp、regex，复数有regexps、regexes、regexen。
+      </p>
+      <h3 paragraph="2">JavaScript 正则表达式常用的21个元字符</h3>
+      <div>
+        <p>为了记忆方便，我们可以简单的把这些元字符分类。第一类为定位（也叫边界）元字符：<span class="h-web-font-info">\b</span>、
+          <span class="h-web-font-info">^ </span>和<span class="h-web-font-info"> $</span>；
+          第二类为字符数字类元字符： <span class="h-web-font-info">.</span> 、<span class="h-web-font-info">\w</span> 、
+          <span class="h-web-font-info">\d</span> 和 <span class="h-web-font-info">\s</span>；
+          第三类为重复元字符，包括 <span class="h-web-font-info">*</span> 、 <span class="h-web-font-info">+</span>、
+          <span class="h-web-font-info">?</span> 、 <span class="h-web-font-info">{n}</span> 、 <span class="h-web-font-info">{n,}</span>
+          和 <span class="h-web-font-info">{n,m}</span>；
+          第四类为选择和分组元字符： <span class="h-web-font-info">|</span> 、 <span class="h-web-font-info">()</span> 和 <span class="h-web-font-info">[]</span>；
+          第五类为反义匹配元字符，包括： <span class="h-web-font-info">\W</span>  、 <span class="h-web-font-info">\D</span> 、 
+          <span class="h-web-font-info">\S</span> 、 <span class="h-web-font-info">\B</span> 和 <span class="h-web-font-info">[^x]</span></p>
+        <h4>\b 元字符</h4>
+        <p>\b是正则表达式规定的一个特殊代码，代表着单词的开头或结尾，也就是单词的分界处。虽然通常英文的单词是由空格，标点符号或者换行来分隔的，但是\b并不匹配这些单词分隔字符中的任何一个，它<strong>只匹配一个位置</strong>。</p>
+        <p>如果需要更精确的解释，\b匹配这样的位置：它的前一个字符和后一个字符不全是(一个是,一个不是或不存在)\w。</p>
+        <p>假如你要找的是hi后面不远处跟着一个Lucy，你应该用\bhi\b.*\bLucy\b。</p>
+        <p>例如， 'er\b' 可以匹配"never" 中的 'er'，但不能匹配 "verb" 中的 'er'。</p>
+        <h4>^ 元字符和$元字符</h4>
+        <p>^匹配输入字符串的开始位置。如果设置了 <strong>RegExp</strong> 对象的 <strong>Multiline</strong> 属性，^ 也匹配 '\n' 或 '\r'   之后的位置。</p>
+        <p>$匹配输入字符串的结束位置。如果设置了<strong>RegExp</strong> 对象的 <strong>Multiline</strong> 属性，$ 也匹配 '\n' 或 '\r' 之前的位置。</p>
+        <p>元字符^和$都匹配一个位置，这和\b有点类似。^匹配你要用来查找的字符串的开头，$匹配结尾。这两个代码在验证输入的内容时非常有用，比如一个网站如果要求你填写的QQ号必须为5位到12位数字时，可以使用：^\d{5,12}$。            </p>
+        <p>因为使用了^和$，所以输入的整个字符串都要用来和\d{5,12}来匹配，也就是说整个输入必须是5到12个数字，因此如果输入的QQ号能匹配这个正则表达式的话，那就符合要求了。</p>
+        <p>如果设置了<strong>Multiline</strong> 属性，^和$的意义就变成了匹配行的开始处和结束处，请看例子</p>
+        <pre>var reg = /^b/m;
+var str = 'test\nbbs';
+console.log(reg.exec(str)); </pre>
+        <p>匹配到b，因为加了m修饰符之后，^已经表示行首，由于bbs在字符串第二行的行首，所以可以成功地匹配。</p>
+        <h4>. 元字符</h4>
+        <p>匹配除 "\n" 之外的任何单个字符。要匹配包括 '\n' 在内的任何字符，请使用象 '[.\n]' 的模式。</p>
+        <h4>\w 元字符</h4>
+        <p>匹配包括下划线的任何单词字符和数字。等价于'[A-Za-z0-9_]'。 </p>
+        <p>例子：</p>
+        <p>\ba\w*\b匹配以字母a开头的单词——先是某个单词开始处(\b)，然后是字母a,然后是任意数量的字母或数字(\w*)，最后是单词结束处(\b)。            </p>
+        <p>\b\w{6}\b 匹配刚好6个字符的单词。</p>
+        <h4>\d 元字符</h4>
+        <p>匹配一个数字字符。等价于 [0-9]。 例如：\d+指匹配一个或多个数字。</p>
+        <h4>\s 元字符</h4>
+        <p>匹配任何空白字符，包括空格、制表符、换页符、中文全角空格等等。等价于 [ \f\n\r\t\v]。例如：\b(\w+)\b\s+\1\b可以用来匹配重复的单词，像go go, 或者kitty kitty。
+          关于该例子的解释，“后向引用”中会说明。</p>
+        <h4>重复元字符</h4>
+        <table>
+          <caption>
+            常用的重复限定符
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">代码/语法</th>
+              <th scope="col">说明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>*</td>
+              <td>匹配前面的子表达式零次或多次。例如，zo* 能匹配 "z" 以及 "zoo"。 * 等价于{0,}。</td>
+            </tr>
+            <tr>
+              <td>+</td>
+              <td>匹配前面的子表达式一次或多次。例如，'zo+' 能匹配 "zo" 以及 "zoo"，但不能匹配 "z"。+ 等价于 {1,}。</td>
+            </tr>
+            <tr>
+              <td>?</td>
+              <td>匹配前面的子表达式零次或一次。例如，"do(es)?" 可以匹配 "do" 或 "does" 中的"do" 。? 等价于 {0,1}。</td>
+            </tr>
+            <tr>
+              <td>{n}</td>
+              <td><em>n</em> 是一个非负整数。匹配确定的 <em>n</em> 次。例如，'o{2}' 不能匹配 "Bob" 中的 'o'，但是能匹配 "food" 中的两个   o。</td>
+            </tr>
+            <tr>
+              <td>{n,}</td>
+              <td><em>n</em> 是一个非负整数。至少匹配<em>n</em> 次。例如，'o{2,}' 不能匹配 "Bob" 中的 'o'，但能匹配 "foooood" 中的所有   o。'o{1,}' 等价于 'o+'。'o{0,}' 则等价于 'o*'。</td>
+            </tr>
+            <tr>
+              <td>{n,m}</td>
+              <td><em>m</em> 和 <em>n</em> 均为非负整数，其中<em>n</em> &lt;= <em>m</em>。最少匹配 <em>n</em> 次且最多匹配 <em>m</em> 次。刘， "o{1,3}" 将匹配 "fooooood" 中的前三个 o。'o{0,1}' 等价于   'o?'。请注意在逗号和两个数之间不能有空格。</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>下面是一些使用重复的例子：</p>
+        <p>Windows\d+匹配Windows后面跟1个或更多数字</p>
+        <p>^\w+匹配一行的第一个单词(或整个字符串的第一个单词，具体匹配哪个意思得看选项设置)</p>
+
+        <h4>分支条件、分组和字符集合元字符</h4>
+
+        <p>首先看分支条件 <span class="h-web-font-info">|</span> 元字符，先看例子，如果我们想要匹配几种格式的电话号码，像(010)88886666，或022-22334455，或02912345678等。可以这样写正则表达式，\(?0\d{2}[) -]?\d{8}。我们对它进行一些分析吧：首先是一个转义字符\(,它能出现0次或1次(?),然后是一个0，后面跟着2个数字(\d{2})，然后是)或-或空格中的一个，它出现1次或不出现(?)，最后是8个数字(\d{8})。</p>
+        <p>不幸的是，刚才那个表达式也能匹配010)12345678或(022-87654321这样的&ldquo;不正确&rdquo;的格式。要解决这个问题，我们需要用到分支条件。正则表达式里的分支条件指的是有几种规则，如果满足其中任意一种规则都应该当成匹配，具体方法是用|把不同的规则分隔开。正确的写法应该是：\(0\d{2,3}\)[- ]?\d{8}|0\d{2,3}[- ]?\d{8}这个表达式匹配3位区号或四位区号的电话号码，其中区号可以用小括号括起来，也可以不用，区号与本地号间可以用连字号或空格间隔，也可以没有间隔。</p>
+        <p>\d{5}-\d{4}|\d{5}这个表达式用于匹配美国的邮政编码。美国邮编的规则是5位数字，或者用连字号间隔的9位数字。之所以要给出这个例子是因为它能说明一个问题：<strong>使用分支条件时，要注意各个条件的顺序</strong>。如果你把它改成\d{5}|\d{5}-\d{4}的话，那么就只会匹配5位的邮编(以及9位邮编的前5位)。原因是匹配分支条件时，将会从左到右地测试每个条件，如果满足了某个分支的话，就不会去再管其它的条件了。</p>
+        <p>我们已经提到了怎么重复单个字符（直接在字符后面加上限定符就行了）；但如果想要重复多个字符又该怎么办？你可以用小括号来指定子表达式(也叫做分组)，然后你就可以指定这个子表达式的重复次数了，你也可以对子表达式进行其它一些操作。</p>
+        <p>(\d{1,3}\.){3}\d{1,3}是一个简单的IP地址匹配表达式。要理解这个表达式，请按下列顺序分析它：\d{1,3}匹配1到3位的数字，(\d{1,3}\.){3}匹配三位数字加上一个英文句号(这个整体也就是这个分组)重复3次，最后再加上一个一到三位的数字(\d{1,3})。            </p>
+        <p>不幸的是，它也将匹配256.300.888.999这种不可能存在的IP地址。如果能使用算术比较的话，或许能简单地解决这个问题，但是正则表达式中并不提供关于数学的任何功能，所以只能使用冗长的分组，选择，字符类来描述一个正确的IP地址：((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)。</p>
+        <p>理解这个表达式的关键是理解2[0-4]\d|25[0-5]|[01]?\d\d?，这里我就不细说了，你自己应该能分析得出来它的意义。</p>
+        <p>要想查找数字，字母或数字，空白是很简单的，因为已经有了对应这些字符集合的元字符，但是如果你想匹配没有预定义元字符的字符集合(比如元音字母a,e,i,o,u),应该怎么办？</p>
+        <p>很简单，你只需要用集合元字符在方括号里列出它们就行了，像[aeiou]就匹配任何一个英文元音字母，[.?!]匹配标点符号(.或?或!)。</p>
+        <p>我们也可以轻松地指定一个字符范围，像[0-9]代表的含意与\d就是完全一致的：一位数字；同理[a-z0-9A-Z_]也完全等同于\w。</p>
+        <h4>反义匹配元字符</h4>
+        <p>\W：匹配任何非单词字符。等价于 '[^A-Za-z0-9_]'。 </p>
+        <p>\D：匹配一个非数字字符。等价于 [^0-9]。 </p>
+        <p>\S：匹配任何非空白字符。等价于 [^ \f\n\r\t\v]。</p>
+        <p>\B：匹配非单词边界。'er\B' 能匹配 "verb" 中的 'er'，但不能匹配 "never" 中的 'er'。</p>
+        <p>[^x]：负值字符集合。匹配未包含的任意字符。例如， '[^abc]' 可以匹配 "plain" 中的'p'。 </p>
+      </div>
+
+
+      <h3 paragraph="3">正则表达式优先权顺序</h3>
+      <div>
+        <p>在构造正则表达式之后，就可以象数学表达式一样来求值，也就是说，可以从左至右并按照一个优先权顺序来求值。 </p>
+        <p>下表从最高优先级到最低优先级列出各种正则表达式操作符的优先权顺序：</p>
+        <table>
+          <tbody>
+            <tr>
+              <th width="40%">操作符</th>
+              <th width="60%">描述</th>
+            </tr>
+            <tr>
+              <td width="40%">\</td>
+              <td width="60%">转义符</td>
+            </tr>
+            <tr>
+              <td width="40%">(), (?:), (?=), []</td>
+              <td width="60%">圆括号和方括号</td>
+            </tr>
+            <tr>
+              <td width="40%">*, +, ?, {n}, {n,}, {n,m}</td>
+              <td width="60%">限定符</td>
+            </tr>
+            <tr>
+              <td width="40%">^, $, \<em>anymetacharacter</em></td>
+              <td width="60%">位置和顺序</td>
+            </tr>
+            <tr>
+              <td width="40%">|</td>
+              <td width="60%">&ldquo;或&rdquo;操作</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 paragraph="4">后向引用</h3>
+      <div>
+        <p>使用小括号指定一个子表达式后，<strong>匹配这个子表达式的文本</strong>(也就是此分组捕获的内容)可以在表达式或程序中作进一步的处理。默认情况下，每个分组会自动拥有一个组号，规则是：从左向右，以分组的左括号为标志，第一个出现的分组的组号为1，第二个为2，以此类推。</p>
+
+        <p>后向引用用于重复搜索前面某个分组匹配的文本。例如，\1代表分组1匹配的文本。请看前面已经提到过的示例：</p>
+        <p>\b(\w+)\b\s+\1\b可以用来匹配重复的单词，像go go, 或者kitty kitty。这个表达式首先是一个单词，也就是单词开始处和结束处之间的多于一个的字母或数字(\b(\w+)\b)，这个单词会被捕获到编号为1的分组中，然后是1个或几个空白符(\s+)，最后是分组1中捕获的内容（也就是前面匹配的那个单词）(\1)。</p>
+        <p>
+          分组0对应整个正则表达式。你可以使用(?:exp)这样的语法来剥夺一个分组对组号分配的参与权。</p>
+        <p>看以下例子</p>
+        <pre>var reg = /(\w)(\w)/;
+var str='blueidea';
+console.log(reg.exec(str));</pre>
+        <p>返回bl,b,l。
+          bl是整个正则匹配的内容，b是第一个括号里的子正则表达式匹配的内容，l是第二个括号匹配的内容。</p>
+        <p>使用小括号的时候，还有很多特定用途的语法。下面列出了最常用的一些：</p>
+        <table>
+          <caption>
+            常用分组语法
+          </caption>
+          <tbody>
+            <tr>
+              <th scope="col">分类</th>
+              <th scope="col">代码/语法</th>
+              <th scope="col">说明</th>
+            </tr>
+            <tr>
+              <th rowspan="2">捕获</th>
+              <td>(pattern)</td>
+              <td>匹配pattern,并捕获文本到自动命名的组里，使用 <strong>$0</strong>…<strong>$9</strong> 属性来捕获。</td>
+            </tr>
+            <tr>
+              <td>(?:pattern)</td>
+              <td>匹配pattern,不捕获匹配的文本，也不给此分组分配组号，例如把上面的例子改写成\b(?:\w+)\b\s+\1\b，由于不参与捕获匹配的文本，所以不会达到预期的效果。这在使用 "或" 字符 (|) 来组合一个模式的各个部分是很有用。例如， industr(?:y|ies) 就是一个比   industry|industries 更简略的表达式。非捕获性分组不会创建反向引用，在较长的正则表达式中存储反向引用会降低匹配的速度。</td>
+            </tr>
+            <tr>
+              <th rowspan="2">零宽断言</th>
+              <td>(?=pattern)</td>
+              <td>正向预查，在任何匹配 <em>pattern</em> 的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如，   'Windows (?=95|98|NT|2000)' 能匹配 "Windows 2000" 中的 "Windows" ，但不能匹配 "Windows 3.1"   中的 "Windows"。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</td>
+            </tr>
+            <tr>
+              <td>(?!pattern)</td>
+              <td>负向预查，在任何不匹配Negative lookahead matches the search string at any point where a   string not matching <em>pattern</em> 的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如'Windows (?!95|98|NT|2000)' 能匹配   "Windows 3.1" 中的 "Windows"，但不能匹配 "Windows 2000" 中的   "Windows"。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始 </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <h3 paragraph="5">零宽断言</h3>
+      <div>
+        <p>接下来的是用于查找在某些内容(但并不包括这些内容)之前或之后的东西，也就是说它们像\b,^,$那样用于指定一个位置，这个位置应该满足一定的条件(即断言)，因此它们也被称为零宽断言。<strong>注意：断言用来声明一个应该为真的事实，正则表达式中只有当断言为真时才会继续进行匹配。</strong>下面看例子： </p>
+        <p>(?=exp)也叫零宽度正预测先行断言，它断言自身出现的位置的后面能匹配表达式exp。比如\b\w+(?=ing\b)，匹配以ing结尾的单词的前面部分(除了ing以外的部分)，如查找I'm singing while you're dancing.时，它会匹配sing和danc。运行代码如下：</p>
+        <pre>var str = "I'm singing while you're dancing.";
+var reg = /\b\w+(?=ing\b)/g;
+console.log(str.replace(reg,''));//结果输出I'm ing while you're ing.</pre>
+        <p>如果想把单词后面的ing去掉，则应该这样实现：</p>
+        <pre>var str = "I'm singing while you're dancing. ing should not replace.";
+var reg = /\b(\w+)ing\b/g;
+console.log(str.replace(reg,'$1'));//I'm sing while you're danc. ing should not replace.
+        </pre>
+        <p>前面我们提到过怎么查找<strong>不是某个字符或不在某个字符类里</strong>的字符的方法(反义)。但是如果我们只是想要<strong>确保某个字符没有出现，但并不想去匹配它</strong>时怎么办？例如，如果我们想查找这样的单词--它里面出现了字母q,但是q后面跟的不是字母u,我们可以尝试这样：</p>
+        <p>\b\w*q[^u]\w*\b匹配包含<strong>后面不是字母u的字母q</strong>的单词。但是如果多做测试(或者你思维足够敏锐，直接就观察出来了)，你会发现，如果q出现在单词的结尾的话，像<strong>Iraq</strong>,<strong>Benq</strong>，这个表达式就会出错。这是因为[^u]总要匹配一个字符，所以如果q是单词的最后一个字符的话，后面的[^u]将会匹配q后面的单词分隔符(可能是空格，或者是句号或其它的什么)，后面的\w*\b将会匹配下一个单词，于是\b\w*q[^u]\w*\b就能匹配整个Iraq fighting。负向零宽断言能解决这样的问题，因为它只匹配一个位置，并不<strong>消费</strong>任何字符。现在，我们可以这样来解决这个问题：\b\w*q(?!u)\w*\b。代码如下</p>
+        <pre>var str = "Iraq,Benq";
+var reg = /\b\w*q(?!u)\w*\b/;
+console.log(reg.exec(str));//Iraq          </pre>
+        <p>零宽度负预测先行断言(?!exp)，断言此位置的后面不能匹配表达式exp。例如：^\d{3}(?!\d)匹配三位数字，而且这三位数字的后面不能是数字；\b((?!abc)\w)+\b匹配不包含连续字符串abc的单词。</p>
+        <pre>var reg = /^\d{3}(?!\d)/;
+console.log(reg.test('2265i'));//false
+console.log(reg.test('226fi'));//true
+var reg = /\b((?!abc)\w)+\b/;
+console.log(reg.test('dabcddd'));//false
+console.log(reg.test('dabddd'));//true</pre>
+      </div>
+      <h3 paragraph="6">贪婪与懒惰</h3>
+      <div>
+        <p>当正则表达式中包含能接受重复的限定符时，通常的行为是（在使整个表达式能得到匹配的前提下）匹配<strong>尽可能多</strong>的字符。以这个表达式为例：a.*b，它将会匹配最长的以a开始，以b结束的字符串。如果用它来搜索aabab的话，它会匹配整个字符串aabab。这被称为贪婪匹配。</p>
+        <p>有时，我们更需要懒惰匹配，也就是匹配<strong>尽可能少</strong>的字符。前面给出的限定符都可以被转化为懒惰匹配模式，只要在它后面加上一个问号?。这样.*?就意味着匹配任意数量的重复，但是在能使整个匹配成功的前提下使用最少的重复。</p>
+        <pre>console.log(/a.*b/.exec('aabab'));//aabab
+console.log(/a.*?b/.exec('aaabab'));//aaab</pre>
+        <p>现在看看懒惰版的例子吧：</p>
+        <p>a.*?b匹配最短的，以a开始，以b结束的字符串。如果把它应用于aabab的话，它会匹配aab（第一到第三个字符）。</p>
+        <p>为什么第一个匹配是aab（第一到第三个字符）而不是ab（第二到第三个字符）？简单地说，因为正则表达式有另一条规则，比懒惰／贪婪规则的优先级更高：最先开始的匹配拥有最高的优先权——The match that begins earliest wins。</p>
+        <table>
+          <caption>
+            懒惰限定符
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">代码/语法</th>
+              <th scope="col">说明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>*?</td>
+              <td>重复任意次，但尽可能少重复</td>
+            </tr>
+            <tr>
+              <td>+?</td>
+              <td>重复1次或更多次，但尽可能少重复，console.log(/a.+?b/.exec('asb'));<br /></td>
+            </tr>
+            <tr>
+              <td>??</td>
+              <td>重复0次或1次，但尽可能少重复，console.log(/a.??b/.test('askb'));//false</td>
+            </tr>
+            <tr>
+              <td>{n,m}?</td>
+              <td>重复n到m次，但尽可能少重复，console.log(/a.{2,4}?b/.test('asdfgkb'));//false</td>
+            </tr>
+            <tr>
+              <td>{n,}?</td>
+              <td>重复n次以上，但尽可能少重复，console.log(/a.{2,}?b/.test('asdfgkb'));//true</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>对于贪婪模式，先看整个字符串是否匹配，如果没有发现匹配，它去掉该字符串中最后一个字符，并再次尝试。重复这个过程直到发现匹配或者字符串不剩任何字符。</p>
+        <p>对于懒惰模式，先看字符串中第一个字符是否匹配。如果单独这个字符还不够，就读入下一个字符，组成两个字符的字符串。如果还是没有发现匹配，惰性量词继续从字符串中添加字符直到发现匹配或者整个字符串都检查过也没有匹配。与贪婪量词的工作方式正好相反。</p>
+      </div>
+      <h3 paragraph="7">处理选项</h3>
+      <div>
+        <p>上面介绍了几个选项如忽略大小写，处理多行等，这些选项能用来改变处理正则表达式的方式。</p>
+        <table>
+          <caption>
+            常用的处理选项
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">名称</th>
+              <th scope="col">说明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>i</td>
+              <td>匹配时忽略大小写（IgnoreCase）。</td>
+            </tr>
+            <tr>
+              <td>m</td>
+              <td>多行查找（Multiline）</td>
+            </tr>
+            <tr>
+              <td>g</td>
+              <td>全文查找（Global）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 paragraph="8">正则表达式对象的属性及方法</h3>
+      <div>
+        <p>预定义的正则表达式拥有以下静态属性：input, multiline, lastMatch, lastParen, leftContext, rightContext和$1到$9。其中input和multiline可以预设置。其他属性的值在执行过exec或test方法后被根据不同条件赋以不同的值。许多属性同时拥有长和短(perl风格)的两个名字，并且，这两个名字指向同一个值。(JavaScript模拟perl的正则表达式)
+        </p>
+        <table>
+          <caption>
+            正则表达式对象的属性
+          </caption>
+          <tbody>
+            <tr>
+              <td>属性</td>
+              <td>含义</td>
+            </tr>
+            <tr>
+              <td>$1...$9</td>
+              <td>返回分组捕获的内容，捕获的内容会从左向右分别赋给$1到$9，如果超过9个，后面的会舍弃，见下面的例子。只读。</td>
+            </tr>
+            <tr>
+              <td>$_</td>
+              <td>参见input</td>
+            </tr>
+            <tr>
+              <td>$*</td>
+              <td>参见multiline</td>
+            </tr>
+            <tr>
+              <td>$&amp;</td>
+              <td>参见lastMatch</td>
+            </tr>
+            <tr>
+              <td>$+</td>
+              <td>参见lastParen</td>
+            </tr>
+            <tr>
+              <td>$`</td>
+              <td>参见leftContext</td>
+            </tr>
+            <tr>
+              <td>$''　　　　　　　　　</td>
+              <td>参见rightContext</td>
+            </tr>
+            <tr>
+              <td>global　　　　　　</td>
+              <td>是否在整个串中匹配(bool型)</td>
+            </tr>
+            <tr>
+              <td>ignoreCase　　　　</td>
+              <td>匹配时是否忽略大小写(bool型)</td>
+            </tr>
+            <tr>
+              <td>input　　　　　　　</td>
+              <td>返回被匹配的字符串。</td>
+            </tr>
+            <tr>
+              <td>lastMatch　　　　</td>
+              <td>返回正则表达式搜索过程中的最后匹配的字符。只读。 </td>
+            </tr>
+            <tr>
+              <td>lastParen　　　　</td>
+              <td>如果有的话，返回正则表达式查找过程中最后一个分组的匹配。只读。</td>
+            </tr>
+            <tr>
+              <td>leftContext　　　</td>
+              <td>最近一次匹配以左的子串，即返回被查找的字符串中从字符串开始位置到最后匹配之前的位置之间的字符。只读。 </td>
+            </tr>
+            <tr>
+              <td>multiline　　　　</td>
+              <td>是否进行多行匹配(bool型)</td>
+            </tr>
+            <tr>
+              <td>rightContext　　　</td>
+              <td>最近一次匹配以右的子串，即返回被搜索的字符串中从最后一个匹配位置开始到字符串结尾之间的字符。只读。 </td>
+            </tr>
+            <tr>
+              <td>source　　　　　　</td>
+              <td>返回正则表达式模式的文本的复本。只读。 <strong>该方法为实例方法</strong></td>
+            </tr>
+            <tr>
+              <td>lastIndex　　　　</td>
+              <td>当正则表达式加上了参数g，这个正则表达式会从正则表达式对象的lastIndex属性指定的位置开始查找，如果找到一个匹配，会将lastIndex属性设置为匹配字符串后面一个位置的下标，即最后一次匹配的索引位置，下一次匹配时会从该索引开始。 该属性可修改。<strong>该方法为实例方法</strong></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table>
+          <caption>
+            正则表达式对象的方法
+          </caption>
+          <tbody>
+            <tr>
+              <td>方法</td>
+              <td>含义</td>
+            </tr>
+            <tr>
+              <td>compile　　　　　</td>
+              <td>把正则表达式编译为内部格式，从而执行得更快。</td>
+            </tr>
+            <tr>
+              <td>exec　　　　　　　</td>
+              <td>用正则表达式模式在字符串中运行查找，并返回包含该查找结果的一个数组。数组中第一个元素是匹配字符串,其他是反向引用 . 如果没有找到匹配,返回null 。</td>
+            </tr>
+            <tr>
+              <td>test　　　　　　　</td>
+              <td>返回一个 Boolean 值，它指出在被查找的字符串中是否存在模式。如果存在则返回 true，否则就返回 false。</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>以下为这些属性和方法的综合例子</p>
+        <h4>input属性的例子</h4>
+        <pre>RegExp.input='123';
+console.log(RegExp.input);//123
+console.log(/a.?b/g.exec('aabab'));//aabab
+console.log(RegExp.input);//aabab
+console.log(/a.{2,}?b/m.test('asdfgkb'));//true
+console.log(RegExp.input);//asdfgkb</pre>
+        <h4>lastMatch、lastParen、leftContext和rightContext属性的例子</h4>
+        <pre>var ex = /\b(danc)(ing\b)/g.exec('I am singing while you are dancing.');
+console.info(ex);//["dancing", "danc", "ing"]
+console.log(RegExp.$1);//dance
+console.log(RegExp.$2);//ing
+console.log(RegExp.lastMatch);//dancing
+console.log(RegExp.lastParen);//ing
+console.log(RegExp.leftContext);//I am singing while you are
+console.log(RegExp.rightContext);//.</pre>
+        <h4>$1-$9属性的例子</h4>
+        <pre>var ex = /\b(d)(a)(n)(c)(i)(n)(g)(i)(n)(g)(i)(n)(g)(\b)/g.exec('I am singing while you are dancinginging.');
+console.info(ex);
+console.log(RegExp.$1);//d
+console.log(RegExp.$2);//a
+console.log(RegExp.$3);//n
+console.log(RegExp.$4);//c
+console.log(RegExp.$5);//i
+console.log(RegExp.$6);//n
+console.log(RegExp.$7);//g
+console.log(RegExp.$8);//i
+console.log(RegExp.$9);//n
+console.log(RegExp.$10);//undefined</pre>
+        <h4>lastIndex和source属性以及方法exec的例子</h4>
+        <pre>var toMarch7 = '1 3 4 5'; 
+var regExp7 = /(\d+)\s*(\d+)/g; 
+var result7;
+//regExp7.lastIndex = 50;//设置后会找不到查询结果
+while((result7= regExp7.exec(toMarch7)) != null){ 
+ console.log(result7);//分别为1 3,1,3 和 4 5,4,5 
+ console.log(regExp7.lastIndex);//分别为3和7 
+ console.log(regExp7.source);//(\d+)\s*(\d+)
+} </pre>
+        <h4>exec方法详解</h4>
+        <p>exec方法的返回值：exec方法返回的其实并不是匹配结果字符串，而且是一个类似数组的对象。使用for in可以知道它的属性: index和input。其中index是表示匹配在原字符串中的索引；而input则是表示输入的字符串；
+          可以用下标0，1，2 ...来引用匹配结果。我们还可以通过返回值的length属性来得知匹配结果的个数。</p>
+        <p>exec方法对正则表达式的更新：exec方法在返回结果对象的同时，还可能会更新原来的正则表达式，这就要看正则表达式是否设置了g修饰符。</p>
+        <pre>var reg = /b/;
+var reg = /b/;
+var str =  'bbs.blueidea.com';
+var result = reg.exec(str);
+console.log('index: ' + result.index); 
+console.log('result[0]: ' +result[0]);
+console.log('lastIndex: ' +reg.lastIndex); 
+
+result = reg.exec(str);
+console.log('index: ' + result.index); 
+console.log('result[0]: ' +result[0]);
+console.log('lastIndex: ' +reg.lastIndex);  </pre>
+        <p>结果如下：两次匹配的结果完全一样</p>
+        <pre>index: 0
+result[0]: b
+lastIndex: 0
+index: 0
+result[0]: b
+lastIndex: 0 </pre>
+        <p>下面看看设置了g的正则表达式表现如何</p>
+        <pre>var reg = /b/g;
+var reg = /b/;
+var str =  'bbs.blueidea.com';
+var result = reg.exec(str);
+console.log('index: ' + result.index); 
+console.log('result[0]: ' +result[0]);
+console.log('lastIndex: ' +reg.lastIndex); 
+
+result = reg.exec(str);
+console.log('index: ' + result.index); 
+console.log('result[0]: ' +result[0]);
+console.log('lastIndex: ' +reg.lastIndex);  </pre>
+        <p>结果如下：两次匹配的结果完全一样</p>
+        <pre>index: 0
+result[0]: b
+lastIndex: 1
+index: 1
+result[0]: b
+lastIndex: 2 </pre>
+        <p>可以看得出来，第二次匹配的是字符串的字符串的第二个b。这也就是g修饰符的作用了，下面来看exec是如何区别对待g和非g正则表达式的。</p>
+        <p>  如果正则表达式没有设置g，那么exec方法不会对正则表达式有任何的影响，如果设置了g，那么exec执行之后会更新正则表达式的lastIndex属性，
+          表示本次匹配后，所匹配字符串的下一个字符的索引，下一次再用这个正则表达式匹配字符串的时候就会从上次的lastIndex属性开始匹配，
+          也就是上面两个例子结果不同的原因了。</p>
+      </div>
+
+      <h3 paragraph="9">操作字符串中相关的方法</h3>
+      <div>
+        <p>共包括match、search、replace 和split</p>
+        <h4>String.match(reCat)</h4>
+        <p>返回一个类似数组的对象，也有input和index属性。注意：如果设置了g修饰符，将没有这两个属性，
+          并且是全局匹配，即把所有的匹配结果都返回；不设置g，只返回第一个匹配的结果。
+        </p>
+        <pre>var toMatch = "a bat, a cat, a fAt baT, a faT cat"; 
+var reAt = /at/gi; //如果不加参数g,返回的数组只会包含一个匹配元素 
+var arrMatchs = toMatch.match(reAt); 
+console.info(arrMatchs);//返回一个数组["at","at","At","aT","aT","at"] </pre>
+        <h4>String.search(reCat) </h4>
+        <p>与indexOf 类似，返回在字符串中出现的第一个匹配的位置 ，全局匹配表达式g在这里不起作用。上例子中    toMatch.search(reAt);//输出3 </p>
+        <h4>String.replace(matchStr, replaceStr) </h4>
+        <p>用第二个参数替换第一个参数匹配的内容（如果第一个参数是正则表达式，并且设置了g，则会替换所有的匹配结果，否则只会替换第一个匹配的内容）。
+          第一个参数，既可以是匹配的字符串，也可以是用于匹配的一个正则表达式 , 返回是替换后的整个字符串。</p>
+        <pre>var sToChange = "The sky is red, The earth is red too."; 
+var reRed = /red/g; //如果不加参数g，则只会替换第一个red，返回结果为：The sky is blue,The earth is red too. 
+sToChange.replace(reRed,"blue" ); //输出The sky is blue,The earth is blue too.  </pre>
+        <p><strong>下面看一下反向引用在replace()方法中的运用</strong></p>
+        <p>就像在正则里我们可以使用\1来引用第一个子正则表达式所匹配的内容一样，我们在replace函数的替换字符里也可以使用$1来引用相同的内容。还是来看一个例子吧： </p>
+        <pre>var toMarch3 = "123123123 3211231231"; 
+var regExp3 = /(\d+)\s*(\d+)/; 
+var sNew = toMarch3.replace(regExp3,"$2 $1");
+console.info(sNew);//3211231231 123123123      </pre>
+        <p>被替换的内容既可以有$1,$2...也可以有其他字符，看以下例子</p>
+        <pre>var reg =  /(\w+).(\w+).(\w+)/;
+var str =  'bbs.blueidea.com';
+var newStr =  str.replace(reg,'$1.$1.$1');
+console.log(newStr);//bbs.bbs.bbs</pre>
+        <p>首先，我们知道第一个子正则表达式匹配到了bbs，那么$1也就代表bbs了。其后我们把替换字符串设置为'$1.$1.$1',其实也就是&ldquo;bbs.bbs.bbs&rdquo;。同理，$2就是blueidea，$3就是com。</p>
+        <p>第二个参数是函数的例子，形如str.replace(reg,function(match,index,source){});</p>
+        <p>这个function会为每一次匹配到的结果执行一次,而把返回值作为最终替换的字符串。</p>
+        <p> 传给function的第一个参数是：第一个匹配的字符串，第二个参数是匹配字符串在原始字符串中的位置，第三个参数是原始字符串本身。</p>
+        <pre>//功能：从用户输入中删除不合适的单词. 
+var userInput = "badWord1asdasdandBadWord2"; 
+var toMarch6 = /badword1|badword2/gi; 
+var newStr = userInput.replace(toMarch6, function(match,index,source){ 
+    return match.replace(/./g,"*"); //把匹配到的值替换成*
+}); 
+console.info(newStr); //********asdasdand********     </pre>
+        <h4>String.split(reCat)  </h4>
+        <p>将字符串根据传入的参数分割成子串,并返回数组</p>
+        <pre>var sColor = "red, blue, yellow"; 
+var reExp = /\,/; 
+var arrs = sColor.split(reExp);//得到一个数组["red","blue","yellow" ]   注意逗号在正则表达式有特殊含义，这里需要转义</pre>
+        <p>看下面的例子：</p>
+        <pre>var  reg = /\W/;
+var  str = 'http://www.baidu.com/';
+var  arr = str.split(reg);
+console.log(arr.length);//7
+console.log(arr);//["http", "", "", "www", "baidu", "com", ""]</pre>
+        <p>可见字符串被分为了有7个元素的数组，其中包括了三个为空字符串的元素，即没有匹配上的。</p>
+      </div>
+
+
+      <h3 paragraph="10">正则表达式参考资料</h3>
+      <div>
+        <p><a href="http://www.iteye.com/topic/940835" target="_blank">Javascript正则表达式笔记</a></p>
+        <p><a href="http://www.cainiao8.com/web/js_note/js_regular_expression.html" target="_blank">JavaScript正则表达式</a></p>
+        <p><a href="http://www.vktone.com/tags/regexp.html" target="_blank">JavaScript正则表达式专题</a></p>
+        <p><a href="http://www.iteye.com/topic/481228" target="_blank">精通 JavaScript中的正则表达式</a></p>
+      </div>
+      <h3 paragraph="11">正则表达式在线验证器</h3>
+      <div>
+        <p><a href="http://tool.chinaz.com/regex" target="_blank">参考一</a></p>
+        <p><a href="http://wobumang.com/tool/jsregex/" target="_blank">参考二</a></p>
+      </div>
+
+
+      <h3 paragraph="12">正则表达式难点</h3>
+      <div>
+        <h4>零宽断言</h4>
+        <p>零宽断言也叫前瞻，分为正向前瞻和负向前瞻，看下面的代码，注意理解</p>
+        <pre>var toMarch1 = "bedroom"; 
+var toMarch2 = "bedding"; 
+var bedReg = /(bed(?=room))/; 
+console.info(bedReg.test(toMarch1)); //true 
+console.info(bedReg.exec(toMarch1)); //bed,bed 
+console.info(RegExp.$1); //bed 
+console.info(bedReg.test(toMarch2)); //false </pre>
+        <h4>贪婪与惰性的理解</h4>
+        <p>看下面的例子</p>
+        <pre>var str = "abbb1234abbbaabbbaaabbb1234"; 
+var re = /.*bbb/g; 
+console.info(str.match(re));    //结果为abbb1234abbbaabbbaaabbb 
+re = /.*?bbb/g; 
+console.info(str.match(re));    //结果为abbb,1234abbb,aabbb,aaabbb 
+re = /a*bbb/g; 
+console.info(str.match(re));    //结果为abbb,abbb,aabbb,aaabbb 
+re = /a*?bbb/g; 
+console.info(str.match(re));    //结果为abbb,abbb,aabbb,aaabbb </pre>
+        <p>对于第一、第二和第四个打印结果容易理解：第一个str.match(re)，贪婪量词先匹配整个字串，若不匹配去掉一个尾字符，继续匹配；
+          第二个str.match(re)，惰性量词从第一个字符开始递加去匹配，直到匹配成功，然后再从下一个字符继续匹配。第四个str.match(re)，同第二个。</p>
+        <p>对于第三个难以理解，结合网上的一些资料，本人总结如下。首先他是贪婪匹配，那么就会匹配尽可能多的a与bbb的结合，
+          先匹配整体，若不匹配则去掉尾字符继续匹配，直到成功或者结束，这样就会匹配到abbb。
+          而<strong>javascript中的match返回的是所有匹配，也就是说匹配成功后，会从最近的一个匹配后的下一个字符开始重新贪婪模式匹配</strong>，
+          正是有了这个规则后，会接着从1234abbbaabbbaaabbb1234中匹配，找到abbb，重复执行找到所有的匹配结果。
+          如果字符串是"abbb1234abbbaabbbaaabbb1234bbb"，则执行第三个匹配，结果会是：abbb,abbb,aabbb,aaabbb,bbb，最后一个结果没有a，
+          但同样也是可以匹配的，因为a*指0个或多个a。</p>
+      </div>
+      <h3 paragraph="13">正则表达式需要注意的几个问题</h3>
+      <div>
+        <h4>1、用RegExp定义正则表示式变量时，字符串需要转义，即\ 用 \\ 替换掉</h4>
+        <p>
+          例子：
+        </p>
+        <pre>
+//正确
+var r =/^\d{1,4}(?:.\d{1,2})?$/g;
+if(r.test(234.32)){
+ console.info("success!");//输出success
+}
+//错误
+var r = new RegExp('^\d{1,4}(?:.\d{1,2})?$','g');
+if(r.test(234.32)){
+ console.info("success!");//不输出
+}
+//正确
+var r = new RegExp('^\\d{1,4}(?:.\\d{1,2})?$','g');
+if(r.test(234.32)){
+ console.info("success!");//输出success
+}
+        </pre>
+      </div>
+
+
+      <h3 paragraph="14">javascript中常用的正则表达式</h3>
+      <div>
+        <h4>去掉开头结尾的空白字符：/^\s+(.*?)\s+$/ </h4>
+        <p>注意, 分组里面.*?一定要是惰性的,不然这个分组会把最后的空白字符也匹配进去 </p>
+        <pre>var trim = function(str){
+   var reExtraStr = /^\s+(.*?)\s+$/ ;
+   return str.replace(reExtraStr,"$1");
+};
+var str1 = '  abc  ';
+console.info(trim(str1));</pre>
+        <h4>去除所有的HTML标签:/<(?:.|\s)*?>/g</h4>
+        <p>运用非捕获性分组模式来处理，这样可以提高执行效率，这里也用到了非贪婪匹配 *?</p>
+        <pre>var skipHTML = function(str){ 
+   var regExp = /&lt;(?:.|\s)*?&gt;/g ; 
+   return str.replace(regExp,""); 
+};
+var html = '&lt;div&gt;demo&lt;/div&gt;';
+console.info(skipHTML(html));</pre>
+        <h4>查找一个出现在行尾的单词：/(\w+)\.$/</h4>
+        <pre>var toMarch3 = "Important word is the last one."; 
+var regExp3 = /(\w+)\.$/; 
+regExp3.test(toMarch3); 
+console.info(RegExp.$1);//one </pre>
+        <h4>查找一个出现在行首的单词：/^(\w+)/</h4>
+        <pre>var toMarch4 = "Important word is the last one."; 
+var regExp4 = /^(\w+)/ ; //或者var regExp4 = /^(.+?)\b/; 
+regExp4.test(toMarch4); 
+console.info(RegExp.$1); </pre>
+        <h4>抽取出所有的单词：/\b(\S+?)\b/g</h4>
+        <pre>var toMarch5 = "First Second Third Fourth Fifth Sixth"; 
+var regExp5 = /\b(\S+?)\b/g ; //或者 /\b(\S+)\b/g 和 /(\w+)/g 
+var sArr = toMarch5.match(regExp5); 
+console.info(sArr);//First Second Third Fourth Fifth Sixth </pre>
+        <h4>判断日期的正则表达式：/(?:[1-9]|0[1-9]|[12][0-9]|3[01])\/(?:[1-9]|0[1-9]|1[0-2])\/(?:19\d{2}|20\d{2})/</h4>
+        <pre>function isValidDate(s){ 
+    var reDate = /(?:[1-9]|0[1-9]|[12][0-9]|3[01])\/(?:[1-9]|0[1-9]|1[0-2])\/(?:19\d{2}|20\d{2})/; 
+    return reDate.test(s); 
+}</pre>     
+      </div>
+    </div>
+  </body>
+</html>

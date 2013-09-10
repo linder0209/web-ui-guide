@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Backbone Hello World</title>
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="helloWorld">Hello World</button>
+    <div style="margin-top:10px;padding:10px; border: 1px solid #005B73;width:500px;">
+      <div>要说的内容</div>
+      <ol id="world-list">
+      </ol>
+    </div>
+
+    <script type="text/javascript" src="../../../../platform/javascript/jquery/jquery.js"></script>
+    <script src="./underscore-min.js"></script>
+    <script src="./backbone-min.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        /**
+         * 定义一个Model类，类名约定首字母大写
+         * 类中根据需要定义属性和方法
+         */
+        var World = Backbone.Model.extend({
+          worldMsg: undefined
+        });
+
+        /**
+         * 定义集合类
+         */
+        var Worlds = Backbone.Collection.extend({
+          initialize: function(models, options) {
+            //注册监听事件
+            this.on('add', options.view.onAddWorld);
+          }
+        });
+
+        var AppView = Backbone.View.extend({
+          el: $('body'),
+          initialize: function() {
+            //构造函数，实例化一个World集合类
+            this.worlds = new Worlds(null, {view: this})
+          },
+          events: {
+            'click #helloWorld': 'helloWorld', //事件绑定，绑定Dom中id为check的元素
+          },
+          helloWorld: function() {
+            var worldMsg = prompt('Hi, please input you want to say.');
+            if (worldMsg == '') {
+              worldMsg = 'And to I have none.';
+            }
+            var world = new World({worldMsg: worldMsg});
+            this.worlds.add(world);//会触发add事件
+          },
+          onAddWorld: function(model) {
+            $('#world-list').append('<li>' + model.get('worldMsg') + '</li>');
+          }
+        });
+        //实例化AppView
+        var appview = new AppView;
+      });
+
+    </script>
+  </body>
+</html>

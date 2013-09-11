@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>基于backbone显示列表</title>
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <ul id="list">
+	  
+	  </ul>
+    </div>
+    <script type="text/javascript" src="../../../../platform/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../../../../platform/javascript/jquery-plugin/jsrender/jsrender.js"></script>
+
+    <script type="text/javascript" src="./underscore-min.js"></script>
+    <script type="text/javascript" src="./backbone-min.js"></script>
+    <script type="text/javascript">
+		$(function(){
+			//Model:
+			var Student=Backbone.Model.extend({
+				//默认值
+				defaults:function(){
+					return{
+						name:"XXX"
+					};
+				},
+				
+				//初始化的时候判断，如果设置的属性值非法就设为默认值
+				initialize:function(){
+					if(!this.get("name")){
+						this.set({"name":this.defaults().name});
+					}
+				}
+			});
+
+			//Collection:Model的集合，即所有学生的集合
+			var Students=Backbone.Collection.extend({
+				model:Student
+			});
+			
+
+
+			//View:这个视图表示一行，对应一个Model
+			var StudentView=Backbone.View.extend({
+				tagName:"li",
+				template:$.templates("#item-template"),
+
+				//绑定该tr下的事件
+				events:{
+					"dblclick em":"edit"
+				},
+
+
+				//this.$el为该li节点元素，将template渲染进该节点，并把model的值写入
+				render:function(){
+					this.$el.html(this.template.render(this.model.toJSON()));
+					return this;
+				},
+
+				//双击li将样式变为可编辑
+				edit:function(e){
+					alert($(e.currentTarget).text());
+				}
+			});
+
+
+			//View:这个视图表示$("#content")
+			var AppView=Backbone.View.extend({
+				el:$("#content"),
+
+				events:{
+
+				},
+
+				initialize:function(){
+					//Collection中增加一个Model就触发add事件
+					var students=new Students();
+					this.listenTo(students,'add',this.addOne);
+					var studentsData = this.options.studentsData;
+					students.add(studentsData);
+				},
+
+				
+
+				//增加一个学生，同时将model传入StudentView中
+				addOne:function(student){
+					var view=new StudentView({model:student});
+					//将渲染后的每一列添加到表格中
+					this.$("#list").append(view.render().el);
+				}
+
+				
+			});
+
+			//创建View
+			var studentsData =[{
+				name:'name1',
+				gender:'0',
+				age:23
+			},{
+				name:'name2',
+				gender:'1',
+				age:45
+			}];
+			var App=new AppView({studentsData:studentsData});
+		});
+	</script>
+  </body>
+</html>
+
+<script id="item-template" type="text/x-jsrender">
+<em> Name:</em> {{:name}} 
+</script>

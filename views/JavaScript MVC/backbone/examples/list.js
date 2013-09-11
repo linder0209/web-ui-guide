@@ -148,7 +148,10 @@ $(function(){
 			this.listenTo(Students,'all',this.render);
 
 			//从本地数据库中获取所有学生
-			Students.fetch();
+			//Students.fetch();
+			
+			var students = this.options.students;
+			Students.add(students);
 		},
 
 		//渲染视图
@@ -202,5 +205,14 @@ $(function(){
 	});
 
 	//创建View
-	var App=new AppView;
+	var students =[{
+		name:'name1',
+		gender:'0',
+		age:23
+	},{
+		name:'name2',
+		gender:'1',
+		age:45
+	}];
+	var App=new AppView({students:students});
 });

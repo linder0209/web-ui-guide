@@ -44,10 +44,10 @@
           el: $('body'),
           initialize: function() {
             //构造函数，实例化一个World集合类
-            this.worlds = new Worlds(null, {view: this})
+            this.worlds = new Worlds(null, {view: this});
           },
           events: {
-            'click #helloWorld': 'helloWorld', //事件绑定，绑定Dom中id为check的元素
+            'click #helloWorld': 'helloWorld' //事件绑定，绑定Dom中id为check的元素
           },
           helloWorld: function() {
             var worldMsg = prompt('Hi, please input you want to say.');

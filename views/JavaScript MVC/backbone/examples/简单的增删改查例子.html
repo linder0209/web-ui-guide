@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>基于backbone简单的增删改查例子</title>
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <button type="button" id="add-student">Add</button>
+      <table border="0" id="student-list">
+        <tbody>
+          <tr>
+            <td><input type="checkbox" id="select-all"><label>all</label></td>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Gender</td>
+            <td>Age</td>
+            <td>&nbsp;</td>	
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <script type="text/javascript" src="../../../../platform/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../../../../platform/javascript/jquery-plugin/jsrender/jsrender.js"></script>
+
+    <script src="./underscore-min.js"></script>
+    <script src="./backbone-min.js"></script>
+    <script src="list.js"></script>
+  </body>
+</html>
+
+<script type="text/template" id="item-template">
+    {{for #data}}
+       <td>
+        <input class="toggle" type="checkbox" <%= selected ? 'checked="checked"' : '' %>/>
+        </td>
+
+        <td>
+          <%-id%>
+        </td>
+
+        <td>
+        <div class="show"><%-name%></div>
+        <input class="edit" name="name" type="text" value="<%-name%>" />
+        </td>
+
+        <td>
+        <div class="show"><%-gender==1?'Male':'Female'%></div>
+        <select class="edit" name="gender" value="<%-gender%>">
+          <option value="1">Male</option>
+          <option value="0">Female</option>
+        </select>
+        </td>
+
+        <td>
+        <div class="show"><%-age%></div>
+        <input class="edit" name="age" type="text" value="<%-age%>" />
+        </td>
+
+        <td>
+        <a class="destroy"></a>
+        </td>
+    {{/for}}
+</script>

@@ -78,7 +78,79 @@
       <h3 paragraph>Backbone 例子</h3>
       <div>
         <p>从一个简单的例子开始学习Backbone吧</p>
-        
+        <p>例子源代码</p>
+        <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /&gt;
+    &lt;title&gt;Backbone Hello World&lt;/title&gt;
+    &lt;style&gt;
+      body{
+        padding:10px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;button id="helloWorld"&gt;Hello World&lt;/button&gt;
+    &lt;div style="margin-top:10px;padding:10px; border: 1px solid #005B73;width:500px;"&gt;
+      &lt;div&gt;要说的内容&lt;/div&gt;
+      &lt;ol id="world-list"&gt;
+      &lt;/ol&gt;
+    &lt;/div&gt;
+
+    &lt;script type="text/javascript" src="../../../../platform/javascript/jquery/jquery.js"&gt;&lt;/script&gt;
+    &lt;script src="./underscore-min.js"&gt;&lt;/script&gt;
+    &lt;script src="./backbone-min.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+      $(function() {
+        /**
+         * 定义一个Model类，类名约定首字母大写
+         * 类中根据需要定义属性和方法
+         */
+        var World = Backbone.Model.extend({
+          worldMsg: undefined
+        });
+
+        /**
+         * 定义集合类
+         */
+        var Worlds = Backbone.Collection.extend({
+          initialize: function(models, options) {
+            //注册监听事件
+            this.on('add', options.view.onAddWorld);
+          }
+        });
+
+        var AppView = Backbone.View.extend({
+          el: $('body'),
+          initialize: function() {
+            //构造函数，实例化一个World集合类
+            this.worlds = new Worlds(null, {view: this});
+          },
+          events: {
+            'click #helloWorld': 'helloWorld' //事件绑定，绑定Dom中id为check的元素
+          },
+          helloWorld: function() {
+            var worldMsg = prompt('Hi, please input you want to say.');
+            if (worldMsg == '') {
+              worldMsg = 'And to I have none.';
+            }
+            var world = new World({worldMsg: worldMsg});
+            this.worlds.add(world);//会触发add事件
+          },
+          onAddWorld: function(model) {
+            $('#world-list').append('&lt;li&gt;' + model.get('worldMsg') + '&lt;/li&gt;');
+          }
+        });
+        //实例化AppView
+        var appview = new AppView;
+      });
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+        </pre>
         <p><a href="./backbone/examples/backbone-helloworld.html">例子运行效果</a></p>
       </div>
     </div>

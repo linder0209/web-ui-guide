@@ -1,126 +1,147 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>项目中常用的jQuery插件</title>
-        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
-        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
-        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
-        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
-        <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>项目中常用的jQuery插件</title>
+    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        $('.h-web-catalogue li a').click(function(e) {
+          e.preventDefault();
+          var paragraphNum,
+                  paragraph,
+                  offset;
+          var el = this;
+          $(this).closest('ol').find('li a').each(function(index, element) {
+            if (this === el) {
+              paragraphNum = index;
+              return false;
+            }
+          });
+          paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+          offset = paragraph.offset();
+          if (offset) {
+            $(window).scrollTop(offset.top);
+          }
+        });
+        //初始化内容折叠事件
+        $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+          $(this).next().toggle();
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h3 class="h-web-paragraph-title">目录</h3>
+    <ol class="h-web-catalogue">
+      <li><a paragraph href="#">jquery-validation</a></li>
+
+    </ol>
+    <div class="h-web-paragraph">
+      <h3 paragraph>jquery-validation</h3>
+      <div>
+        <p><a href="http://jqueryvalidation.org/" target="_blank">官方网站</a></p>
+        <p><a href="http://validation.bassistance.de/documentation/" target="_blank">Documentation and API</a> </p>
+        <p><a href="http://jquery.bassistance.de/validate/demo/" target="_blank">官网demo</a></p>
+        <p><a href="jquery-validation/jquery-validation-1.11.1/demo/index.html" target="_blank">本地demo</a></p>
+        <h4>注意问题</h4>
+        <h5>在最新版本1.11.1中，在class中声明验证规则时，必须是classRuleSettings中已设置的，否则须作为一个属性来声明，或者定义在js中。</h5>
+        <p>
+          以下声明是错误的
+        </p>
+        <pre>
+<input type="text" class="{validateUsername: true}" id="username" name="username" /> 
+<input type="text" class="{required:true,email:true}" id="username" name="username" /> 
+        </pre>
+        <p>我们需要这样声明</p>
+        <pre>
+<input type="text" validateUsername="true" id="username" name="username" /> 
+<input type="text" class="required email" validateUsername="true" id="username" name="username" /> 
+        </pre>
+        <p>required和email在classRuleSettings中已定义，所以可以直接加在class中，validateUsername是自定义的，需要手动加入到classRuleSettings中，
+          才可以在class中声明，不过一般不建议这样做。</p>
+        <p>在之前的版本中，如果引入jquery.metadata.js，下面的书写是正确的，而在最新版本中已经把jquery.metadata.js去掉，个人觉得是为了提高性能才这样处理的。</p>
+        <pre>
+<input type="text" class="{validateUsername: true}" id="username" name="username" /> 
+<input type="text" class="{required:true,email:true}" id="username" name="username" /> 
+        </pre>
+        <h4>Options for the validate() method。下面对options中几个常用的参数说明一下，各参数的说明可以查看下面的例子</h4>
+        <p>
+        <style type="text/css">
+          input.error, textarea.error,select.error { border: 1px solid #BE2134; }
+          label.error {
+            padding: 5px;
+            color: #BE1E36;
+          }
+          p.errorInfo{
+            border: 1px solid #EF935A;
+            color: #CC0033;
+            font-weight: bold;
+            font-size: 14px;
+            display: none;
+          }
+        </style>
+        <form id="jquery_validation_form" method="post" style="border:1px solid #CCCCCC;width:600px;">
+          <p class="errorInfo"></p>
+          <p><label>姓名： <input type="text" name="name" required /></label></p>
+          <p><label>FirstName： <input type="text" name="firstName" required /></label>
+            <label>LastName： <input type="text" name="lastName" id="lastName" required /></label></p>
+          <p><label>年龄：  <input type="text" name="password" required /></label></p>
+          <p><label>邮箱：  <input type="email" name="email" /></label></p>
+          <p><label>管理员： </label>
+            <span><label><input type="radio" name="manager" required/> 是</label> <label><input type="radio" name="manager" required/> 否</label></span>
+          </p>
+          <p><label>爱好： </label>
+            <span><label> <input type="checkbox" name="hobby" required/> 旅游</label> <label> <input type="checkbox" name="hobby" required/> 打球</label></span>
+          </p>
+          <p><button type="submit">确定</button></p>
+        </form>
+        </p>
+        <script type="text/javascript" src="jquery-validation/jquery.validate.js"></script>
         <script type="text/javascript">
-            $(function() {
-                $('.h-web-catalogue li a').click(function(e) {
-                    e.preventDefault();
-                    var paragraphNum,
-                            paragraph,
-                            offset;
-                    var el = this;
-                    $(this).closest('ol').find('li a').each(function(index, element) {
-                        if (this === el) {
-                            paragraphNum = index;
-                            return false;
-                        }
-                    });
-                    paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
-                    offset = paragraph.offset();
-                    if (offset) {
-                        $(window).scrollTop(offset.top);
-                    }
-                });
-                //初始化内容折叠事件
-                $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
-                    $(this).next().toggle();
-                });
+          $(function() {
+            $('#jquery_validation_form').validate({
+              debug: true,
+              focusCleanup: true,
+              //wrapper: 'div',
+              groups: {
+                userName: "firstName lastName"
+              },
+              invalidHandler: function(event, validator) {
+                var errors = validator.numberOfInvalids();
+                if (errors) {
+                  var message = errors == 1 ? 'You missed 1 field. It has been highlighted' : 'You missed ' + errors + ' fields. They have been highlighted';
+                  $("p.errorInfo").html(message).show();
+                } else {
+                  $("p.errorInfo").hide();
+                }
+              },
+              errorPlacement: function(error, element) {
+                if (element.attr("name") == "firstName" || element.attr("name") == "lastName") {
+                  error.insertAfter('#lastName');
+                } else if (element.is(':radio') || element.is(':checkbox')) {
+                  error.insertAfter(element.parent());
+                } else {
+                  error.insertAfter(element);
+                }
+              },
+              success: function(label) {
+                label.addClass("valid").text("OK!");
+              }
             });
+          });
         </script>
-    </head>
-    <body>
-        <h3 class="h-web-paragraph-title">目录</h3>
-        <ol class="h-web-catalogue">
-            <li><a paragraph href="#">jquery-validation</a></li>
+        <ul>
+          <li>
+            invalidHandler
+            <p>验证时执行，比如可以定义错误显示</p>
+            <p><strong>Example</strong>: Displays a message above the form, indicating how many fields are invalid when the user tries to submit an invalid form.</p>
 
-        </ol>
-        <div class="h-web-paragraph">
-            <h3 paragraph>jquery-validation</h3>
-            <div>
-                <p><a href="http://jqueryvalidation.org/" target="_blank">官方网站</a></p>
-                <p><a href="http://validation.bassistance.de/documentation/" target="_blank">Documentation and API</a> </p>
-                <p><a href="http://jquery.bassistance.de/validate/demo/" target="_blank">官网demo</a></p>
-                <p><a href="jquery-validation/jquery-validation-1.11.1/demo/index.html" target="_blank">本地demo</a></p>
-                <p><strong>1.Options for the validate() method。下面对options中几个常用的参数说明一下，各参数的说明可以查看下面的例子</strong></p>
-                <p>
-                <style type="text/css">
-                    input.error, textarea.error,select.error { border: 1px solid #BE2134; }
-                    label.error {
-                        padding: 5px;
-                        color: #BE1E36;
-                    }
-                    p.errorInfo{
-                        border: 1px solid #EF935A;
-                        color: #CC0033;
-                        font-weight: bold;
-                        font-size: 14px;
-                        display: none;
-                    }
-                </style>
-                <form id="jquery_validation_form" method="post" style="border:1px solid #CCCCCC;width:600px;">
-                    <p class="errorInfo"></p>
-                    <p><label>姓名： <input type="text" name="name" required /></label></p>
-                    <p><label>FirstName： <input type="text" name="firstName" required /></label>
-                        <label>LastName： <input type="text" name="lastName" id="lastName" required /></label></p>
-                    <p><label>年龄：  <input type="text" name="password" required /></label></p>
-                    <p><label>邮箱：  <input type="email" name="email" /></label></p>
-                    <p><label>管理员： </label>
-                        <span><label><input type="radio" name="manager" required/> 是</label> <label><input type="radio" name="manager" required/> 否</label></span>
-                    </p>
-                    <p><label>爱好： </label>
-                        <span><label> <input type="checkbox" name="hobby" required/> 旅游</label> <label> <input type="checkbox" name="hobby" required/> 打球</label></span>
-                    </p>
-                    <p><button type="submit">确定</button></p>
-                </form>
-                </p>
-                <script type="text/javascript" src="jquery-validation/jquery.validate.js"></script>
-                <script type="text/javascript">
-                    $(function() {
-                        $('#jquery_validation_form').validate({
-                            debug: true,
-                            focusCleanup: true,
-                            //wrapper: 'div',
-                            groups: {
-                                userName: "firstName lastName"
-                            },
-                            invalidHandler: function(event, validator) {
-                                var errors = validator.numberOfInvalids();
-                                if (errors) {
-                                    var message = errors == 1 ? 'You missed 1 field. It has been highlighted' : 'You missed ' + errors + ' fields. They have been highlighted';
-                                    $("p.errorInfo").html(message).show();
-                                } else {
-                                    $("p.errorInfo").hide();
-                                }
-                            },
-                            errorPlacement: function(error, element) {
-                                if (element.attr("name") == "firstName" || element.attr("name") == "lastName") {
-                                    error.insertAfter('#lastName');
-                                } else if(element.is(':radio') || element.is(':checkbox')){
-                                    error.insertAfter(element.parent());
-                                } else{
-                                    error.insertAfter(element);
-                                }
-                            },
-                            success: function(label) {
-                                label.addClass("valid").text("OK!");
-                            }
-                        });
-                    });
-                </script>
-                <ul>
-                    <li>
-                        invalidHandler
-                        <p>验证时执行，比如可以定义错误显示</p>
-                        <p><strong>Example</strong>: Displays a message above the form, indicating how many fields are invalid when the user tries to submit an invalid form.</p>
-
-                        <pre>$(".selector").validate({    
+            <pre>$(".selector").validate({    
       invalidHandler: function(event, validator) {    
         // 'this' refers to the form
         var errors = validator.numberOfInvalids();
@@ -133,30 +154,30 @@
         }    
      }
 });
-                        </pre>
+            </pre>
 
-                    </li>
-                    <li>focusCleanup (default: false) 
-                        <p>If enabled, removes the errorClass from the invalid elements and hides all errors messages whenever the element is focused. Avoid combination with focusInvalid.</p>
-                        <p>当获取焦点时清除验证信息</p>
-                        <p><strong>Example</strong>: Enables cleanup when focusing elements, removing the error class and hiding error messages when an element is focused.</p>
-                        <pre>$(".selector").validate({
+          </li>
+          <li>focusCleanup (default: false) 
+            <p>If enabled, removes the errorClass from the invalid elements and hides all errors messages whenever the element is focused. Avoid combination with focusInvalid.</p>
+            <p>当获取焦点时清除验证信息</p>
+            <p><strong>Example</strong>: Enables cleanup when focusing elements, removing the error class and hiding error messages when an element is focused.</p>
+            <pre>$(".selector").validate({
     focusCleanup: true
 });</pre>
-                    </li>
-                    <li>wrapper
-                        <p>Wrap error labels with the specified element. Useful in combination with errorLabelContainer to create a list of error messages.</p>
-                        <p>包裹验证信息元素</p>
-                        <p><strong>Example</strong>: Wrap each error element with a list item, useful when using an ordered or unordered list as the error container.</p>
-                        <pre>$(".selector").validate({
+          </li>
+          <li>wrapper
+            <p>Wrap error labels with the specified element. Useful in combination with errorLabelContainer to create a list of error messages.</p>
+            <p>包裹验证信息元素</p>
+            <p><strong>Example</strong>: Wrap each error element with a list item, useful when using an ordered or unordered list as the error container.</p>
+            <pre>$(".selector").validate({
    wrapper: "div"
 });</pre>
-                    </li>
-                    <li>errorPlacement (default: Places the error label after the invalid element)
-                        <p>Customize placement of created error labels. First argument: The created error label as a jQuery object. Second argument: The invalid element as a jQuery object.</p>
-                        <p>可自定义错误信息显示的位置，比如对于radio或checkbox等可以把错误信息显示在父节点后</p>
-                        <p><strong>Example</strong></p>
-                        <pre>$(".selector").validate({
+          </li>
+          <li>errorPlacement (default: Places the error label after the invalid element)
+            <p>Customize placement of created error labels. First argument: The created error label as a jQuery object. Second argument: The invalid element as a jQuery object.</p>
+            <p>可自定义错误信息显示的位置，比如对于radio或checkbox等可以把错误信息显示在父节点后</p>
+            <p><strong>Example</strong></p>
+            <pre>$(".selector").validate({
     errorPlacement: function(error, element) {
         if(element.is(':radio') || element.is(':checkbox')){
             error.insertAfter(element.parent());
@@ -166,21 +187,21 @@
     }
 });</pre>
 
-                    </li>
-                    <li>success
-                        <p>通过自定义该参数，可以实现当校验通过时，显示提示信息</p>
-                        <p><strong>Example</strong>, 当验证通过时显示OK!</p>
-                        <pre>$("#myform").validate({
+          </li>
+          <li>success
+            <p>通过自定义该参数，可以实现当校验通过时，显示提示信息</p>
+            <p><strong>Example</strong>, 当验证通过时显示OK!</p>
+            <pre>$("#myform").validate({
     success: function(label) {
         label.addClass("valid").text("OK!");
     }
 });</pre>
 
-                    </li>
-                    <li>groups
-                    <p>Specify grouping of error messages. A group consists of an arbitrary   group name as the key and a space separated list of element names as the   value. Use errorPlacement to control where the group message is placed.</p>
-                      <p><strong>Example</strong>: Use a table layout for the form, placing error messags in the next cell after the input.</p>
-                      <pre>$("#myform").validate({
+          </li>
+          <li>groups
+            <p>Specify grouping of error messages. A group consists of an arbitrary   group name as the key and a space separated list of element names as the   value. Use errorPlacement to control where the group message is placed.</p>
+            <p><strong>Example</strong>: Use a table layout for the form, placing error messags in the next cell after the input.</p>
+            <pre>$("#myform").validate({
     groups: {
         username: "fname lname"
     },
@@ -192,14 +213,14 @@
         }
     }
 });</pre>
-<p>上面的例子把fname和 lname分成一组，这组中校验时显示的验证信息会统一在#lastname后显示，其中username是任意的字符串。</p>
-                    </li>
-                </ul>
-                <p>以上列出了部分options，更多可查看<a href="http://validation.bassistance.de/validate/" target="_blank">这里</a></p>
-                <p><strong>2.下面是一个项目中的综合例子，代码中重写了源代码中部分方法、定制了部分options参数，并且扩展了一个方法（hideErrors）：隐藏或删除错误提示信息</strong></p>
-                <p><a href="jquery-validation/custom-examples/custom-validation.html">综合例子请点击这里</a></p>
-                <p>以下是js的源代码</p>
-                <pre>(function($, undefined) {
+            <p>上面的例子把fname和 lname分成一组，这组中校验时显示的验证信息会统一在#lastname后显示，其中username是任意的字符串。</p>
+          </li>
+        </ul>
+        <p>以上列出了部分options，更多可查看<a href="http://validation.bassistance.de/validate/" target="_blank">这里</a></p>
+        <h4>下面是一个项目中的综合例子，代码中重写了源代码中部分方法、定制了部分options参数，并且扩展了一个方法（hideErrors）：隐藏或删除错误提示信息</h4>
+        <p><a href="jquery-validation/custom-examples/custom-validation.html">综合例子请点击这里</a></p>
+        <p>以下是js的源代码</p>
+        <pre>(function($, undefined) {
   //重构方法errorsFor和elements
   $.extend($.validator.prototype, {errorsFor: function(element) {
       var validatorgen = $(element).attr('validatorgen');
@@ -409,7 +430,7 @@
   }
 
 })(jQuery);</pre>
-            </div>
-        </div>
-    </body>
+      </div>
+    </div>
+  </body>
 </html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html ng-app>
+  <head>
+    <style type="text/css">
+      .show-scope .doc-example-live.ng-scope,
+      .show-scope .doc-example-live .ng-scope  {
+        border: 1px solid red;
+        margin: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div ng-controller="GreetCtrl">
+      Hello {{name}}!
+    </div>
+    <div ng-controller="ListCtrl">
+      <ol>
+        <li ng-repeat="name in names">{{name}}</li>
+      </ol>
+    </div>
+
+    <div ng-controller="MyCtrl">
+      Hello {{name}}!
+      <button ng-click="action()">
+        OK
+      </button>
+    </div>
+    <script type="text/javascript" src="../angular.js"></script>
+    <script type="text/javascript">
+      function GreetCtrl($scope) {
+        $scope.name = 'World';
+      }
+
+      function ListCtrl($scope) {
+        $scope.names = ['Igor', 'Misko', 'Vojta'];
+      }
+      function MyCtrl($scope) {
+        $scope.action = function() {
+          $scope.name = 'OK';
+        };
+        $scope.name = 'World';
+      }
+    </script>
+  </body>
+</html>

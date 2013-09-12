@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Angular 学习</title>
+    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+    <link type="text/css" rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
+
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+
+    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        $('.h-web-catalogue li a').click(function(e) {
+          e.preventDefault();
+          var paragraphNum,
+                  paragraph,
+                  offset;
+          var el = this;
+          $(this).closest('ol').find('li a').each(function(index, element) {
+            if (this === el) {
+              paragraphNum = index;
+              return false;
+            }
+          });
+          paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+          offset = paragraph.offset();
+          if (offset) {
+            $(window).scrollTop(offset.top);
+          }
+        });
+        //初始化内容折叠事件
+        $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+          $(this).next().toggle();
+        });
+
+        //SyntaxHighlighter
+        $('pre').replaceWith(function() {
+          var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
+          html += $(this).html();
+          html += '</pre>';
+          return html;
+        });
+        SyntaxHighlighter.highlight();
+      });
+    </script>
+  </head>
+  <body>
+    <h3 class="h-web-paragraph-title">目录</h3>
+    <ol class="h-web-catalogue">
+      <li><a paragraph href="#">Angular 介绍</a></li>
+      <li><a paragraph href="#">Angular 例子</a></li>
+    </ol>
+    <div class="h-web-paragraph">
+      <h3 paragraph>Angular 介绍</h3>
+      <div>
+        <p>Angular 是一个为动态WEB应用设计的结构框架。它能让你使用HTML作为模板语言，通过扩展HTML的语法，让你能更清楚、简洁地构建你的应用组件。它的创新点在于，利用 <strong>数据绑定</strong> 和 <strong>依赖注入</strong>，它使你不用再写大量的代码了。这些全都是通过浏览器端的Javascript实现，这也使得它能够完美地和任何服务器端技术结合。</p>
+        <p>Angular 是为了克服HTML在构建应用上的不足而设计的。HTML是一门很好的为静态文本展示设计的声明式语言，但要构建WEB应用的话它就显得乏力了。所以我做了一些工作（你也可以觉得是小花招）来让浏览器做我想要的事。</p>
+        <p><a href="http://angularjs.org/">官网</a></p>
+        <p><a href="http://www.angularjs.cn/">中文社区</a></p>
+      </div>
+      <h3 paragraph>Angular 例子</h3>
+      <div>
+        <p><a href="./angular/examples/demo1.html">入门例子</a></p>
+      </div>
+    </div>
+  </body>
+</html>

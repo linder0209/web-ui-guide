@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>»ùÓÚbackboneÏÔÊ¾ÁĞ±í</title>
+    <title>åŸºäºbackboneæ˜¾ç¤ºåˆ—è¡¨</title>
     <style>
       body{
         padding:10px;
@@ -12,8 +12,8 @@
   <body>
     <div id="content">
       <ul id="list">
-	  
-	  </ul>
+
+      </ul>
     </div>
     <script type="text/javascript" src="../../../../platform/javascript/jquery/jquery.js"></script>
     <script type="text/javascript" src="../../../../platform/javascript/jquery-plugin/jsrender/jsrender.js"></script>
@@ -21,100 +21,74 @@
     <script type="text/javascript" src="./underscore-min.js"></script>
     <script type="text/javascript" src="./backbone-min.js"></script>
     <script type="text/javascript">
-		$(function(){
-			//Model:
-			var Student=Backbone.Model.extend({
-				//Ä¬ÈÏÖµ
-				defaults:function(){
-					return{
-						name:"XXX"
-					};
-				},
-				
-				//³õÊ¼»¯µÄÊ±ºòÅĞ¶Ï£¬Èç¹ûÉèÖÃµÄÊôĞÔÖµ·Ç·¨¾ÍÉèÎªÄ¬ÈÏÖµ
-				initialize:function(){
-					if(!this.get("name")){
-						this.set({"name":this.defaults().name});
-					}
-				}
-			});
+      var EB_View = {};
+      (function(view) {
+        var pub = {
+          list : {
+            //Model:
+            Student: Backbone.Model.extend({
+              //é»˜è®¤å€¼
+              defaults: function() {
+                return{
+                  name: "XXX"
+                };
+              },
+              //åˆå§‹åŒ–çš„æ—¶å€™åˆ¤æ–­ï¼Œå¦‚æœè®¾ç½®çš„å±æ€§å€¼éæ³•å°±è®¾ä¸ºé»˜è®¤å€¼
+              initialize: function() {
+                if (!this.get("name")) {
+                  this.set({"name": this.defaults().name});
+                }
+              }
+            }),
+            //Collection:Modelçš„é›†åˆï¼Œå³æ‰€æœ‰å­¦ç”Ÿçš„é›†åˆ
+            Students: Backbone.Collection.extend({
+              
+            }),
+            //View:è¿™ä¸ªè§†å›¾è¡¨ç¤º$("#content")
+            AppView: Backbone.View.extend({
+              el: $("#list"),
+              initialize: function() {
+                this.template = $.templates("#item-template");
+                //Collectionä¸­å¢åŠ ä¸€ä¸ªModelå°±è§¦å‘addäº‹ä»¶
+                var studentsData = this.options.studentsData;
+                this.collection.add(studentsData);
+                this.render();
+              },
+              render: function() {
+                this.$el.html(this.template.render(this.collection.toJSON()));
+              }
+            })
+          },
+          initPage: function() {
+            //åˆ›å»ºView
+            var studentsData = [{
+                name: '',
+                gender: '0',
+                age: 23
+              }, {
+                name: 'name2',
+                gender: '1',
+                age: 45
+              }];
+            var collection = new this.list.Students();
+            collection.model = this.list.Student;
+            var App = new this.list.AppView({studentsData: studentsData,collection: collection});
+          }
+        };
+        view.list = pub;
+      })(EB_View);
 
-			//Collection:ModelµÄ¼¯ºÏ£¬¼´ËùÓĞÑ§ÉúµÄ¼¯ºÏ
-			var Students=Backbone.Collection.extend({
-				model:Student
-			});
-
-			
-
-
-			//View:Õâ¸öÊÓÍ¼±íÊ¾Ò»ĞĞ£¬¶ÔÓ¦Ò»¸öModel
-			var StudentView=Backbone.View.extend({
-				tagName:"li",
-				template:$.templates("#item-template"),
-
-				//°ó¶¨¸ÃtrÏÂµÄÊÂ¼ş
-				events:{
-					"dblclick em":"edit"
-				},
-
-
-				//this.$elÎª¸Ãli½ÚµãÔªËØ£¬½«templateäÖÈ¾½ø¸Ã½Úµã£¬²¢°ÑmodelµÄÖµĞ´Èë
-				render:function(){
-					this.$el.html(this.template.render(this.model.toJSON()));
-					return this;
-				},
-
-				//Ë«»÷li½«ÑùÊ½±äÎª¿É±à¼­
-				edit:function(e){
-					alert($(e.currentTarget).text());
-				}
-			});
-
-
-			//View:Õâ¸öÊÓÍ¼±íÊ¾$("#content")
-			var AppView=Backbone.View.extend({
-				el:$("#content"),
-
-				events:{
-
-				},
-
-				initialize:function(){
-					//CollectionÖĞÔö¼ÓÒ»¸öModel¾Í´¥·¢addÊÂ¼ş
-					var students=new Students();
-					this.listenTo(students,'add',this.addOne);
-					var studentsData = this.options.studentsData;
-					students.add(studentsData);
-				},
-
-				
-
-				//Ôö¼ÓÒ»¸öÑ§Éú£¬Í¬Ê±½«model´«ÈëStudentViewÖĞ
-				addOne:function(student){
-					var view=new StudentView({model:student});
-					//½«äÖÈ¾ºóµÄÃ¿Ò»ÁĞÌí¼Óµ½±í¸ñÖĞ
-					this.$("#list").append(view.render().el);
-				}
-
-				
-			});
-
-			//´´½¨View
-			var studentsData =[{
-				name:'name1',
-				gender:'0',
-				age:23
-			},{
-				name:'name2',
-				gender:'1',
-				age:45
-			}];
-			var App=new AppView({studentsData:studentsData});
-		});
-	</script>
+      $(function() {
+        EB_View.list.initPage();
+      });
+    </script>
   </body>
 </html>
 
 <script id="item-template" type="text/x-jsrender">
-<em> Name:</em> {{:name}} 
+  {{for #data}}
+  <li>
+  <em> Name:</em> {{:name}} 
+  </li>
+  {{/for}}
 </script>

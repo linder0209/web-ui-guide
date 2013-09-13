@@ -1,0 +1,21 @@
+<!doctype html>
+<html ng-app="directive">
+  <head>
+    <style type="text/css">
+      div[contentEditable] {
+        cursor: pointer;
+        background-color: #D0D0D0;
+        margin-bottom: 1em;
+        padding: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <div contentEditable="true" ng-model="content">Edit Me</div>
+    <pre>model = {{content}}</pre>
+    <script type="text/javascript" src="../angular.js"></script>
+    <script type="text/javascript">
+
+    </script>
+  </body>
+</html>

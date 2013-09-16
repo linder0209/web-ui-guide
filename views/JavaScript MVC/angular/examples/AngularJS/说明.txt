@@ -1,0 +1,7 @@
+选自《AngularJS》中的例子
+
+中文内容参考：
+https://github.com/pairwinter/angularjs-cn
+
+例子代码下载：
+https://github.com/shyamseshadri/angularjs-book

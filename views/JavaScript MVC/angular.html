@@ -80,8 +80,75 @@
       <div>
         <h4>AngularJS 命名空间</h4>
         <p>为了防止意外的命名冲突， AngularJS为可能冲突的对象名加以前缀"$"。所以请不要在你自己的代码里用"$"做前缀，以免和AngularJS代码发生冲突。
-           所以一$为前缀的对象是Angular本身定义的对象。
+          所以一$为前缀的对象是Angular本身定义的对象。
         </p>
+        <h4>几个主要概念的理解</h4>
+        <p>ng-app</p>
+        <p>创建app，待整理
+          angular.module('shoppingCartApp',[]);
+        </p>
+        <p>ng-controller</p>
+        <p>
+          全局controller和局部controller
+          angular.module('shoppingCartApp',[]).controller('CartController', ['$scope', function ($scope) {
+          $scope.items = [
+          {title: 'Paint pots', quantity: 8, price: 3.95},
+          {title: 'Polka dots', quantity: 17, price: 12.95},
+          {title: 'Pebbles', quantity: 5, price: 6.95}
+          ];
+          $scope.remove = function(index) {
+          $scope.items.splice(index, 1);
+          }
+          }]);
+        </p>
+
+        <p>
+          对于表单标签用这种方式： &lt;input ng-model="item.quantity" /&gt;
+          对于其他用这种方式：&lt;span&gt;{{item.title}}&lt;/span&gt;
+        </p>
+
+        <p>
+          ng-repeat内置的属性 $index 等
+        </p>
+
+        <h4>模板和数据绑定</h4>
+        <h5>显示文本</h5>
+        <p>我们可以使用ng-bind指令在UI的任何地方显示和更新文本，也可以使用双花括号形式来绑定文本。</p>
+        <p>双花括号形式例子：</p>
+        <pre>    &lt;p&gt;{{greeting}}&lt;/p&gt;  </pre>
+        <p>使用ng-bind基于属性的指令例子：</p>
+        <pre>    &lt;p ng-bind="greeting"&gt;&lt;p&gt;  </pre>
+        <p>这两者的输出是等价的。 如果模型中的变量greeting设置为"Hi, there", Angular将生成这样的HTML：</p>
+        <pre>    &lt;p&gt;Hi, there&lt;/p&gt;  </pre>
+        <p>浏览器将显示"Hi, There"。</p>
+        <p>一般情况下我们使用双花括号的形式，这样读起来更加方便自然。但有时需要开始的时候就显示模板内容，这样开始显示双花括号，Angular解析完显示实际的值，
+          这种方式用户体验差些，我们可以用指令的方式，使之开始什么都不显示。
+        </p>
+
+        <h5>表单输入</h5>
+        <p>在Angular中处理表单元素是很简单的，只需使用ng-model属性绑定到你的模型属性元素上即可。
+          ng-model适用于所有标准的表单元素, 例如文本输入框, 单选按钮, 复选框等等。我们可以像这样绑定一个复选框：</p>
+          <pre>    &lt;form controller="SomeController"&gt;
+          &lt;input type="checkbox" ng-model="youCheckedIt"&gt;
+    &lt;/form&gt;  </pre>
+        <p>这意味着：</p>
+        <ol>
+          <li>当用户选择复选框, SomeController的$scope中一个名为youCheckedIt的属性将变成true。取消选择时使youCheckedIt变成false。</li>
+          <li>如果你在SomeController中设置$scope.youCheckedIt为true， 这个复选框在UI中会被自动选择。设置它为false则取消选择。</li>
+        </ol>
+        <p>我们也可以在form表单上注册一些事件，比如change，click等，例如：</p>
+        <pre>&lt;form ng-controller="StartUpController"&gt;
+      Starting: &lt;input ng-change="computeNeeded()" ng-model="funding.startingEstimate"&gt;
+      Recommendation: {{funding.needed}}
+&lt;/form&gt;
+function StartUpController($scope){
+      $scope.funding = { startingEstimate: 0 };
+      $scope.computeNeeded = function(){
+        $scope.needed = $scope.startingEstimate * 10;
+    };
+}</pre>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
       </div>
     </div>
   </body>

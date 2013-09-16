@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html ng-app="FormApp">
+  <head>
+    <meta charset="utf-8">
+    <title>表单输入 例子 </title>
+  </head>
+  <body>
+    <form ng-controller="StartUpController">
+      Starting: <input type="text" ng-change="computeNeeded()" ng-model="funding.startingEstimate">
+      Recommendation: {{funding.needed}}
+    </form>
+    <script type="text/javascript" src="../../../angular.js"></script>
+    <script type="text/javascript">
+          //创建一个app，并在该app下创建一个controller
+          angular.module('FormApp', []).controller('StartUpController', ['$scope', function($scope) {
+              $scope.funding = {
+                startingEstimate: 0,
+                needed: 0
+              };
+
+              $scope.computeNeeded = function() {
+                $scope.funding.needed = $scope.funding.startingEstimate * 10;
+              };
+            }]);
+
+    </script>
+  </body>
+</html>

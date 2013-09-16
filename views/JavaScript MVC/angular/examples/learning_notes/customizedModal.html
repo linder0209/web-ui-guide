@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="MyApp">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>数据正向绑定</title>
+  </head>
+  <body>
+    <div ng-controller="TestCtrl">
+      <input type="text" value="" id="a" />
+    </div>
+
+    <script type="text/javascript" src="../../../../../platform/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+        var TestCtrl = function() {
+          console.log('ok');
+        }
+
+        //angular.bootstrap(document.documentElement);
+        angular.module('MyApp', [], function() {
+          console.log('here');
+        });
+    </script>
+
+  </body>
+</html>

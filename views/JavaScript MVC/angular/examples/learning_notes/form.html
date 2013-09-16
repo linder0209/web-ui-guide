@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>form</title>
+  </head>
+  <body>
+    <form name="test_form" ng-controller="TestCtrl">
+    <input type="text" name="a" required ng-model="a"  />
+    <input type="text" name="b" required ng-model="b" ng-minlength="2" />
+    <span ng-click="see()">{{ test_form.$error }}</span>
+  </form>
+  
+  <form name="test_form2" ng-controller="TestCtrl2" ng-init="o=[0,1,2,3]; a=o[1];">
+    <select ng-model="a2" ng-options="x for x in o" ng-change="show()">
+      <option value="">可以加这个空值</option>
+    </select>
+  </form>
+  
+
+  
+
+    <script type="text/javascript" src="../../../../../platform/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+        var TestCtrl = function($scope){
+			$scope.see = function(){
+			  console.log($scope.test_form.$error);
+			}
+		};
+		var TestCtrl2 = function($scope){
+    $scope.show = function(){
+      console.log($scope.a2);
+    }
+  }
+    </script>
+
+  </body>
+</html>

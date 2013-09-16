@@ -5,23 +5,32 @@
     <title>表单输入 例子 </title>
   </head>
   <body>
-    <form ng-controller="StartUpController">
+    <form  ng-submit="requestFunding()" ng-controller="StartUpController">
       Starting: <input type="text" ng-change="computeNeeded()" ng-model="funding.startingEstimate">
       Recommendation: {{funding.needed}}
+      <button type="submit" ng-click="requestFunding()">Fund my startup!</button>
+      <button type="button" ng-click="reset()">Reset</button>
     </form>
     <script type="text/javascript" src="../../../angular.js"></script>
     <script type="text/javascript">
-          //创建一个app，并在该app下创建一个controller
-          angular.module('FormApp', []).controller('StartUpController', ['$scope', function($scope) {
-              $scope.funding = {
-                startingEstimate: 0,
-                needed: 0
-              };
+        //创建一个app，并在该app下创建一个controller
+        angular.module('FormApp', []).controller('StartUpController', ['$scope', function($scope) {
+            $scope.funding = {
+              startingEstimate: 0,
+              needed: 0
+            };
 
-              $scope.computeNeeded = function() {
-                $scope.funding.needed = $scope.funding.startingEstimate * 10;
-              };
-            }]);
+            $scope.computeNeeded = function() {
+              $scope.funding.needed = $scope.funding.startingEstimate * 10;
+            };
+            $scope.requestFunding = function() {
+              window.alert("Sorry, please get more customers first.");
+            };
+            $scope.reset = function() {
+              $scope.funding.startingEstimate = 0;
+              $scope.funding.needed = 0;
+            };
+          }]);
 
     </script>
   </body>

@@ -38,6 +38,7 @@
                         <div id="panel" class="h-body-panel"> \n\
                             <div class="h-body-content-ct" id="body_content_ct"> \n\
                                 <div class="h-clearfix"> \n\
+                                    单独访问该页面 <a id="page_link" href="" target="_blank"></a>\n\
                                     <span class="h-body-content-zoom h-float-r" id="body_content_zoom"></span> \n\
                                 </div> \n\
                                 <div class="h-line h-margin10-TB"></div> \n\
@@ -183,14 +184,16 @@
 
     },
     //点击左侧菜单项时回调函数
-    linkMenuLoadContent: function(url, nodeId) {
+    linkMenuLoadContent: function(url, nodeId, nodeName) {
       //记录所有上下文模块
       var _modules = url.split('/');
       this.currentModules = _modules[0] + '|' + nodeId;
       url = this.context + url;
-      this.loadExamples(url, nodeId);
+      this.loadExamples(url, nodeId, nodeName);
     },
-    loadExamples: function(path, nodeId) {
+    loadExamples: function(path, nodeId, nodeName) {
+      //设置单独访问该页面链接
+      $('#page_link').text(nodeName).attr('href', path);
       //Set the hash to the actual page without ".html"
       var part = path.replace(/\/[^\/]+\.html/, '').replace(this.context, '');
       var hash = part;

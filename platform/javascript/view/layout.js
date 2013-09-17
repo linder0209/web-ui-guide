@@ -213,12 +213,12 @@
         /**
          * 之前的写法是这样的
          * repSource = repSource.replace(/((href|src)=["'])(?!(http|#|\/))/ig, '$1' + directory + '/');
-         * 这种情况会替换以下内容，即开头是&lt;的情况，这种转移后的html内容我们是不希望被替换的
+         * 这种情况会替换以下内容，即开头是&lt;的情况，实际上这种转移后的html内容我们是不希望被替换的
          * &lt;link href="./stylesheet/bootstrap/bootstrap.min.css" rel="stylesheet" media="screen"&gt;
          */
         repSource = repSource.replace(/(<link|<img|<a|<script).*\s*((href|src)=["'])(?!(http|#|\/))/ig, '$1' + ' ' + '$2' + directory + '/');
         //替换绝对路径，加上root
-        repSource = repSource.replace(/((href|src)=["'])\//ig, '$1' + root + '/');
+        //repSource = repSource.replace(/((href|src)=["'])\//ig, '$1' + root + '/');
         //替换样式中图片背景
         repSource = repSource.replace(/(url\(\s*["']?\s*)(?!(http|#|data))/ig, '$1' + directory + '/');
         //repSource = repSource.replace(/\/\//g,'/');

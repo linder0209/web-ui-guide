@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <meta charset="utf-8">
+    <title>scope demo </title>
+  </head>
+  <body>
+    <div ng-controller="CountController">
+      {{count}}
+      <button ng-click="count = 3">Count Three</button>
+      <button ng-click='setCount()'>Set count to three</button>
+    </div>
+    <script type="text/javascript" src="../../../angular.js"></script>
+    <script type="text/javascript">
+      function CountController($scope) {
+        $scope.setCount = function() {
+          $scope.count = 3;
+        };
+      }
+    </script>
+  </body>
+</html>

@@ -6,9 +6,9 @@
   </head>
   <body>
     <div ng-controller='StudentListController'>
-      <ul>
+      <ul style="list-style-type: none;">
         <li ng-repeat='student in students'>
-          <a ng-href='/student/view/{{student.id}}'>{{student.name}}</a>
+          {{$index + 1}} . <a ng-href='/student/view/{{student.id}}'>{{student.name}}</a>
         </li>
       </ul>
       <button ng-click="insertTom()">Insert Tom</button>

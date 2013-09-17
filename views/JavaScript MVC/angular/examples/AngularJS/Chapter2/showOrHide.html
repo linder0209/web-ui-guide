@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <meta charset="utf-8">
+    <title>show Or Hide 例子 </title>
+  </head>
+  <body>
+    <div ng-controller="DeathrayMenuController">
+      <p><button ng-click="toggleMenu()">Toggle Menu</button></p>
+      <ul ng-show="menuState.show">
+        <li ng-click="stun()">Stun</li>
+        <li ng-click="disintegrate()">Disintegrate</li>
+        <li ng-click="erase()">Erase from history</li>
+      </ul>
+    </div>
+    <script type="text/javascript" src="../../../angular.js"></script>
+    <script type="text/javascript">
+        function DeathrayMenuController($scope) {
+          $scope.menuState = {};
+          $scope.menuState.show = false;
+
+          $scope.toggleMenu = function() {
+            $scope.menuState.show = !$scope.menuState.show;
+          };
+          $scope.stun = function() {
+            alert('stun');
+          };
+          $scope.disintegrate = function() {
+            alert('disintegrate');
+          };
+          $scope.erase = function() {
+            alert('erase');
+          };
+        }
+    </script>
+  </body>
+</html>

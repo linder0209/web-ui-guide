@@ -128,7 +128,7 @@
         <h5>表单输入</h5>
         <p>在Angular中处理表单元素是很简单的，只需使用ng-model属性绑定到你的模型属性元素上即可。
           ng-model适用于所有标准的表单元素, 例如文本输入框, 单选按钮, 复选框等等。我们可以像这样绑定一个复选框：</p>
-          <pre>    &lt;form controller="SomeController"&gt;
+        <pre>    &lt;form controller="SomeController"&gt;
           &lt;input type="checkbox" ng-model="youCheckedIt"&gt;
     &lt;/form&gt;  </pre>
         <p>这意味着：</p>
@@ -149,7 +149,38 @@ function StartUpController($scope){
 }</pre>
         <h4>列表, 表格和其他重复的元素</h4>
         <h4>隐藏与显示</h4>
-        <p>&nbsp;</p>
+        <h4>CSS类和样式</h4>
+        <p> Angular提供了ng-class和ng-style指令. 它们都接受一个表达式. 这个表达式的计算结果可以是下列之一:</p>
+        <ul>
+          <li>一个使用空格分割类名的字符串</li>
+          <li>一个类名数组</li>
+          <li>类名到布尔值的映射</li>
+        </ul>
+        
+        <h4>src和href属性注意事项</h4>
+        <p>当数据绑定给一个&lt;img&gt;或者&lt;a&gt;标签时, 像上面一样在src或者href属性中使用{{ }}处理路径将无法正常工作. 因为在浏览器中图片与其他内容是并行加载的, 所以Angular无法拦截数据绑定的请求.</p>
+        <p>对于&lt;img&gt;而言最明显的语法错误就是：</p>
+          <pre>    &lt;img src="/images/cats/{{favoriteCat}}"&gt;  </pre>
+        <p>正确的，我们应该使用ng-src属性并像下面这样编写模板：</p>
+          <pre>    &lt;img ng-src="/images/cats/{{favoriteCat}}"&gt;  </pre>
+        <p>同样的道理，对于&lt;a&gt;标签你应该使用ng-href：</p>
+          <pre>    &lt;a ng-href="/shop/category={{numberOfBalloons}}"&gt;some text&lt;/a&gt;</pre>
+        </p>
+        
+        <h4>表达式</h4>
+        <p>表达式背后的思想是让你巧妙的在你的模板, 应用程序逻辑以及数据之间创建钩子而与此同时防止应用程序逻辑偷偷摸摸的进入模版中.</p>
+        <p>直到现在, 我们一直主要是引用原生的数据作为表达式传递给Angular指令. 但是其实这些表达式可以做更多的事情. 你可以处理简单的数学运算(+, -, /, *, %), 进行比较(==, !=, &gt;, &lt;, &gt;=, &lt;=), 执行布尔逻辑运算(&amp;&amp;, !!, !)以及按位运算(^, &amp;, |). 你可以调用暴露在控制器的$scope对象上的函数, 你还可以引用数据和对象表示法([], {}, …).</p>
+        <p>下面都是有效表达式的例子:</p>
+        <div>
+          <pre>    &lt;div ng-controller="SomeController"&gt;          &lt;div&gt;{{recompute() / 10}}&lt;div&gt;          &lt;ul ng-repeat="thing in things"&gt;              &lt;li ng-class="{highlight: $index % 4 &gt;= threshold($index)}"&gt;                  {{otherFunction($index)}}              &lt;/li&gt;          &lt;/ul&gt;      &lt;/div&gt;  </pre>
+        </div>
+        <p>这里的第一个表达式recompute() / 10是有效的, 是在模板中设置逻辑很好的好例子, 但是应该避免这种方式. 保持视图和控制器之间的职责分离可以确保它们容易理解和测试.</p>
+        <p>虽然你可以使用表达式做很多事情, 它们由Angular自定义的解释器部分计算. 他们并不使用JavaScript的eval()执行, eval()有相当多的限制.</p>
+        <p>相反, 它们使用Angular自带的自定义解释器执行. 在里面, 你不会看到循环结构(for, while等等), 流程控制语句(if-else, throw)或者改变数据的运算符(++, --). 当你需要使用这些类型的运算时, 你应该在你的控制器中使用指令进行处理.</p>
+        <p>尽管表达式在很多方面比JavaScript更加严格, 但它们对undefined和null并不是很严格(更宽松). 模板只是简单的渲染一些东西, 并不会抛出一个NullPointerException的错误. 这样就允许你安全的使用模型而没有限制, 并且只要它们得到数据填充就让它们出现在用户界面中.</p>
+        <h4>使用$watch监控模型变化</h4>
+        
+        <h4>使用过滤器格式化数据</h4>
       </div>
     </div>
   </body>

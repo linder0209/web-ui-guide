@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="ngBindDemo">
+  <head>
+    <meta charset="utf-8">
+    <title>ng-bind demo</title>
+  </head>
+  <body ng-controller="ngBindDemoController">
+    <input ng-model='greeting.text' />
+    <p>{{greeting.text}}, World</p>
+    <p>以下用法是错误的</p>
+    <input name="wrong" style="border: 1px solid #ED2754;" {{attribute}}/>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+        //创建一个app，并在该app下创建一个controller
+        angular.module('ngBindDemo', []).controller('ngBindDemoController', ['$scope', function($scope) {
+            $scope.greeting = {
+              text: 'Hello'
+            };
+          }]);
+    </script>
+  </body>
+</html>

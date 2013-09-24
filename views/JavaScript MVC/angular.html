@@ -61,7 +61,8 @@
     <ol class="h-web-catalogue">
       <li><a paragraph href="#">Angular 介绍</a></li>
       <li><a paragraph href="#">Angular 例子</a></li>
-      <li><a paragraph href="#">Angular 学习整理</a></li>
+      <li><a paragraph href="#">Angular 注意事项</a></li>
+      <li><a paragraph href="#">Angular 学习笔记</a></li>
     </ol>
     <div class="h-web-paragraph">
       <h3 paragraph>Angular 介绍</h3>
@@ -76,12 +77,69 @@
       <div>
         <p><a href="./angular/examples/demo1.html">入门例子</a></p>
       </div>
-      <h3 paragraph>Angular 学习整理</h3>
+      <h3 paragraph>Angular 注意事项</h3>
       <div>
+        <h4>浏览器支持</h4>
+        <p>
+          对 IE 方面，它兼容 IE8 及以上的版本。
+        </p>
+        <h4>使用 ng 时不要冒然去改变相关 DOM 的结构</h4>
         <h4>AngularJS 命名空间</h4>
         <p>为了防止意外的命名冲突， AngularJS为可能冲突的对象名加以前缀"$"。所以请不要在你自己的代码里用"$"做前缀，以免和AngularJS代码发生冲突。
-          所以一$为前缀的对象是Angular本身定义的对象。
+          所以以$为前缀的对象都是Angular本身定义的对象。
         </p>
+      </div>
+      <h3 paragraph>Angular 学习笔记</h3>
+      <div>
+        <h4>AngularJS 常用指令（API）</h4>
+
+        <h5>显示文本</h5>
+        <p>我们可以使用ng-bind指令在UI的任何地方显示和更新文本，也可以使用双花括号形式来绑定文本。</p>
+        <p>双花括号形式例子：</p>
+        <pre>    &lt;p&gt;{{greeting}}&lt;/p&gt;  </pre>
+        <p>使用ng-bind基于属性的指令例子：</p>
+        <pre>    &lt;p ng-bind="greeting"&gt;&lt;p&gt;  </pre>
+        <p>这两者的输出是等价的。 如果模型中的变量greeting设置为"Hi, there", Angular将生成这样的HTML：</p>
+        <pre>    &lt;p&gt;Hi, there&lt;/p&gt;  </pre>
+        <p>浏览器将显示"Hi, There"。</p>
+        <p>一般情况下我们使用双花括号的形式，这样读起来更加方便自然。但有时页面在开始的时候加载模板内容，这样就会先显示双花括号，等Angular解析完后再显示实际的值，
+          这会造成用户体验差，这时我们就可以用指令的方式，使之开始什么都不显示。当然还有一种方式就是开始的时候隐藏模板内容，等Angular解析完后再动态显示（可以利用jQuery来完成操作）。
+        </p>
+        <p>这里需要注意的是：{{expression}}只作为显示值来用，而不能作为字符串和html拼接 。听起来不太明白，还是看例子吧，以下用法是错误的（在1.0.8版本中测试）。</p>
+        <pre>
+          &lt;input {{expression}} /&gt;
+        </pre>
+        <p>正确的用法应该是</p>
+        <pre>
+          &lt;input attribute="{{expression}}" /&gt;
+        </pre>
+        <p>以下是一个完整的例子</p>
+        <pre>
+ &lt;!DOCTYPE html&gt;
+ &lt;html ng-app="ngBindDemo"&gt;
+   &lt;head&gt;
+     &lt;meta charset="utf-8"&gt;
+     &lt;title&gt;ng-bind demo &lt;/title&gt;
+   &lt;/head&gt;
+   &lt;body ng-controller="ngBindDemoController"&gt;
+     &lt;input ng-model='greeting.text' /&gt;
+     &lt;p&gt;{{greeting.text}}, World &lt;/p&gt;
+     &lt;p&gt;以下用法是错误的 &lt;/p&gt;
+     &lt;input name="wrong" style="border: 1px solid #ED2754;" {{attribute}}/&gt;
+     &lt;script type="text/javascript" src="../../angular.js"&gt; &lt;/script&gt;
+     &lt;script type="text/javascript"&gt;
+        //创建一个app，并在该app下创建一个controller
+        angular.module('ngBindDemo', []).controller('ngBindDemoController', ['$scope', function($scope) {
+            $scope.greeting = {
+              text: 'Hello'
+            };
+          }]);
+     &lt;/script&gt;
+   &lt;/body&gt;
+ &lt;/html&gt;
+        </pre>
+        <p><a href="./angular/examples/myExamples/ng-bind-demo.html">运行效果</a></p>
+        
         <h4>几个主要概念的理解</h4>
         <p>ng-app</p>
         <p>创建app，待整理
@@ -112,18 +170,7 @@
         </p>
 
         <h4>模板和数据绑定</h4>
-        <h5>显示文本</h5>
-        <p>我们可以使用ng-bind指令在UI的任何地方显示和更新文本，也可以使用双花括号形式来绑定文本。</p>
-        <p>双花括号形式例子：</p>
-        <pre>    &lt;p&gt;{{greeting}}&lt;/p&gt;  </pre>
-        <p>使用ng-bind基于属性的指令例子：</p>
-        <pre>    &lt;p ng-bind="greeting"&gt;&lt;p&gt;  </pre>
-        <p>这两者的输出是等价的。 如果模型中的变量greeting设置为"Hi, there", Angular将生成这样的HTML：</p>
-        <pre>    &lt;p&gt;Hi, there&lt;/p&gt;  </pre>
-        <p>浏览器将显示"Hi, There"。</p>
-        <p>一般情况下我们使用双花括号的形式，这样读起来更加方便自然。但有时需要开始的时候就显示模板内容，这样开始显示双花括号，Angular解析完显示实际的值，
-          这种方式用户体验差些，我们可以用指令的方式，使之开始什么都不显示。
-        </p>
+
 
         <h5>表单输入</h5>
         <p>在Angular中处理表单元素是很简单的，只需使用ng-model属性绑定到你的模型属性元素上即可。
@@ -156,30 +203,30 @@ function StartUpController($scope){
           <li>一个类名数组</li>
           <li>类名到布尔值的映射</li>
         </ul>
-        
+
         <h4>src和href属性注意事项</h4>
         <p>当数据绑定给一个&lt;img&gt;或者&lt;a&gt;标签时, 像上面一样在src或者href属性中使用{{ }}处理路径将无法正常工作. 因为在浏览器中图片与其他内容是并行加载的, 所以Angular无法拦截数据绑定的请求.</p>
         <p>对于&lt;img&gt;而言最明显的语法错误就是：</p>
-          <pre>    &lt;img src="/images/cats/{{favoriteCat}}"&gt;  </pre>
+        <pre>    &lt;img src="/images/cats/{{favoriteCat}}"&gt;  </pre>
         <p>正确的，我们应该使用ng-src属性并像下面这样编写模板：</p>
-          <pre>    &lt;img ng-src="/images/cats/{{favoriteCat}}"&gt;  </pre>
+        <pre>    &lt;img ng-src="/images/cats/{{favoriteCat}}"&gt;  </pre>
         <p>同样的道理，对于&lt;a&gt;标签你应该使用ng-href：</p>
-          <pre>    &lt;a ng-href="/shop/category={{numberOfBalloons}}"&gt;some text&lt;/a&gt;</pre>
+        <pre>    &lt;a ng-href="/shop/category={{numberOfBalloons}}"&gt;some text&lt;/a&gt;</pre>
         </p>
-        
+
         <h4>表达式</h4>
         <p>表达式背后的思想是让你巧妙的在你的模板, 应用程序逻辑以及数据之间创建钩子而与此同时防止应用程序逻辑偷偷摸摸的进入模版中.</p>
-        <p>直到现在, 我们一直主要是引用原生的数据作为表达式传递给Angular指令. 但是其实这些表达式可以做更多的事情. 你可以处理简单的数学运算(+, -, /, *, %), 进行比较(==, !=, &gt;, &lt;, &gt;=, &lt;=), 执行布尔逻辑运算(&amp;&amp;, !!, !)以及按位运算(^, &amp;, |). 你可以调用暴露在控制器的$scope对象上的函数, 你还可以引用数据和对象表示法([], {}, …).</p>
+        <p>直到现在, 我们一直主要是引用原生的数据作为表达式传递给Angular指令. 但是其实这些表达式可以做更多的事情. 你可以处理简单的数学运算(+, -, /, *, %), 进行比较(==, !=,&gt;, &lt;,&gt;=, &lt;=), 执行布尔逻辑运算(&amp;&amp;, !!, !)以及按位运算(^, &amp;, |). 你可以调用暴露在控制器的$scope对象上的函数, 你还可以引用数据和对象表示法([], {}, …).</p>
         <p>下面都是有效表达式的例子:</p>
         <div>
-          <pre>    &lt;div ng-controller="SomeController"&gt;          &lt;div&gt;{{recompute() / 10}}&lt;div&gt;          &lt;ul ng-repeat="thing in things"&gt;              &lt;li ng-class="{highlight: $index % 4 &gt;= threshold($index)}"&gt;                  {{otherFunction($index)}}              &lt;/li&gt;          &lt;/ul&gt;      &lt;/div&gt;  </pre>
+          <pre>    &lt;div ng-controller="SomeController"&gt;          &lt;div&gt;{{recompute() / 10}}&lt;div&gt;          &lt;ul ng-repeat="thing in things"&gt;              &lt;li ng-class="{highlight: $index % 4&gt;= threshold($index)}"&gt;                  {{otherFunction($index)}}              &lt;/li&gt;          &lt;/ul&gt;      &lt;/div&gt;  </pre>
         </div>
         <p>这里的第一个表达式recompute() / 10是有效的, 是在模板中设置逻辑很好的好例子, 但是应该避免这种方式. 保持视图和控制器之间的职责分离可以确保它们容易理解和测试.</p>
         <p>虽然你可以使用表达式做很多事情, 它们由Angular自定义的解释器部分计算. 他们并不使用JavaScript的eval()执行, eval()有相当多的限制.</p>
         <p>相反, 它们使用Angular自带的自定义解释器执行. 在里面, 你不会看到循环结构(for, while等等), 流程控制语句(if-else, throw)或者改变数据的运算符(++, --). 当你需要使用这些类型的运算时, 你应该在你的控制器中使用指令进行处理.</p>
         <p>尽管表达式在很多方面比JavaScript更加严格, 但它们对undefined和null并不是很严格(更宽松). 模板只是简单的渲染一些东西, 并不会抛出一个NullPointerException的错误. 这样就允许你安全的使用模型而没有限制, 并且只要它们得到数据填充就让它们出现在用户界面中.</p>
         <h4>使用$watch监控模型变化</h4>
-        
+
         <h4>使用过滤器格式化数据</h4>
       </div>
     </div>

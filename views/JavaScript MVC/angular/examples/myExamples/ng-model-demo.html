@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="ngModelDemo">
+  <head>
+    <meta charset="utf-8">
+    <title>ng-model demo</title>
+  </head>
+  <body ng-controller="ngModelDemoController">
+    <form>
+      <div style="border: 1px solid #0060BF;padding: 10px; width: 300px;">
+        Starting: <input ng-change="computeNeeded()" ng-model="funding.startingEstimate">
+        Recommendation: {{funding.needed}}
+      </div>
+      <div style="border: 1px solid #007788;margin-top: 10px;padding: 10px; width: 300px;">
+        多选框： <input type="checkbox" ng-model="youCheckedIt" />
+        <br />
+        checkbox选择情况：{{youCheckedIt}}
+      </div>
+    </form>
+
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+      //创建一个app，并在该app下创建一个controller
+      angular.module('ngModelDemo', []).controller('ngModelDemoController', ['$scope', function($scope) {
+          $scope.funding = {startingEstimate: 0};
+          $scope.computeNeeded = function() {
+            $scope.funding.needed = $scope.funding.startingEstimate * 10;
+          };
+          $scope.youCheckedIt = false;
+        }]);
+    </script>
+  </body>
+</html>

@@ -139,7 +139,68 @@
  &lt;/html&gt;
         </pre>
         <p><a href="./angular/examples/myExamples/ng-bind-demo.html">运行效果</a></p>
+
+        <h5>表单输入(ng-model，数据双向绑定)</h5>
+        <p>在Angular中处理表单元素是很简单的，只需使用ng-model属性绑定到你的模型属性元素上即可。
+          ng-model适用于所有标准的表单元素, 例如文本输入框, 单选按钮, 复选框等等。我们可以像这样绑定一个复选框：</p>
+        <pre>    &lt;form controller="SomeController"&gt;
+          &lt;input type="checkbox" ng-model="youCheckedIt"&gt;
+    &lt;/form&gt;  </pre>
+        <p>这意味着：</p>
+        <ol>
+          <li>当用户选择复选框, SomeController的$scope中一个名为youCheckedIt的属性将变成true。取消选择时使youCheckedIt变成false。</li>
+          <li>如果你在SomeController中设置$scope.youCheckedIt为true， 这个复选框在UI中会被自动选择。设置它为false则取消选择。</li>
+        </ol>
+        <p>我们也可以在form表单上注册一些事件，比如change，click等，例如：</p>
+        <pre>&lt;form ng-controller="StartUpController"&gt;
+      Starting: &lt;input ng-change="computeNeeded()" ng-model="funding.startingEstimate"&gt;
+      Recommendation: {{funding.needed}}
+&lt;/form&gt;
+function StartUpController($scope){
+      $scope.funding = { startingEstimate: 0 };
+      $scope.computeNeeded = function(){
+        $scope.needed = $scope.startingEstimate * 10;
+    };
+}</pre>
         
+        <p>以下是一个完整的例子：</p>
+        <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html ng-app="ngModelDemo"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;ng-model demo&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body ng-controller="ngModelDemoController"&gt;
+    &lt;form&gt;
+      &lt;div style="border: 1px solid #0060BF;padding: 10px; width: 300px;"&gt;
+        Starting: &lt;input ng-change="computeNeeded()" ng-model="funding.startingEstimate"&gt;
+        Recommendation: {{funding.needed}}
+      &lt;/div&gt;
+      &lt;div style="border: 1px solid #007788;margin-top: 10px;padding: 10px; width: 300px;"&gt;
+        多选框： &lt;input type="checkbox" ng-model="youCheckedIt" /&gt;
+        &lt;br /&gt;
+        checkbox选择情况：{{youCheckedIt}}
+      &lt;/div&gt;
+    &lt;/form&gt;
+
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+      //创建一个app，并在该app下创建一个controller
+      angular.module('ngModelDemo', []).controller('ngModelDemoController', ['$scope', function($scope) {
+          $scope.funding = {startingEstimate: 0};
+          $scope.computeNeeded = function() {
+            $scope.funding.needed = $scope.funding.startingEstimate * 10;
+          };
+          $scope.youCheckedIt = false;
+        }]);
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+        </pre>
+        <p><a href="./angular/examples/myExamples/ng-model-demo.html">运行效果</a></p>
+
+        <p>&nbsp;</p>
         <h4>几个主要概念的理解</h4>
         <p>ng-app</p>
         <p>创建app，待整理
@@ -172,28 +233,7 @@
         <h4>模板和数据绑定</h4>
 
 
-        <h5>表单输入</h5>
-        <p>在Angular中处理表单元素是很简单的，只需使用ng-model属性绑定到你的模型属性元素上即可。
-          ng-model适用于所有标准的表单元素, 例如文本输入框, 单选按钮, 复选框等等。我们可以像这样绑定一个复选框：</p>
-        <pre>    &lt;form controller="SomeController"&gt;
-          &lt;input type="checkbox" ng-model="youCheckedIt"&gt;
-    &lt;/form&gt;  </pre>
-        <p>这意味着：</p>
-        <ol>
-          <li>当用户选择复选框, SomeController的$scope中一个名为youCheckedIt的属性将变成true。取消选择时使youCheckedIt变成false。</li>
-          <li>如果你在SomeController中设置$scope.youCheckedIt为true， 这个复选框在UI中会被自动选择。设置它为false则取消选择。</li>
-        </ol>
-        <p>我们也可以在form表单上注册一些事件，比如change，click等，例如：</p>
-        <pre>&lt;form ng-controller="StartUpController"&gt;
-      Starting: &lt;input ng-change="computeNeeded()" ng-model="funding.startingEstimate"&gt;
-      Recommendation: {{funding.needed}}
-&lt;/form&gt;
-function StartUpController($scope){
-      $scope.funding = { startingEstimate: 0 };
-      $scope.computeNeeded = function(){
-        $scope.needed = $scope.startingEstimate * 10;
-    };
-}</pre>
+
         <h4>列表, 表格和其他重复的元素</h4>
         <h4>隐藏与显示</h4>
         <h4>CSS类和样式</h4>

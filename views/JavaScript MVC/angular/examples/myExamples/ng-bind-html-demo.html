@@ -1,0 +1,71 @@
+<!doctype html>
+<html ng-app="ngBindHtmlDemoApp">
+  <head>
+    <meta charset="utf-8">
+    <title>ng-bind-html and ng-bind-html-unsafe demo</title>
+  </head>
+  <body>
+    <div ng-controller="ngBindHtmlDemoCtrl">
+      Snippet: <textarea ng-model="snippet" cols="60" rows="3"></textarea>
+      <table style="border: 1px solid #005B73;">
+        <tr>
+          <td>Filter</td>
+          <td>Source</td>
+          <td>Rendered</td>
+        </tr>
+        <tr id="html-filter">
+          <td>html filter</td>
+          <td>
+            <pre>&lt;div ng-bind-html="snippet"&gt;<br/>&lt;/div&gt;</pre>
+          </td>
+          <td>
+            <div ng-bind-html="snippet"></div>
+          </td>
+        </tr>
+        <tr id="html-filter">
+          <td>AngularJS Google Group提供的利用指令实现同样的过滤效果</td>
+          <td>
+            <pre>&lt;div html-title="snippet" &gt;<br/>&lt;/div&gt;</pre>
+          </td>
+          <td>
+            <div  html-title="{{snippet}}"></div>
+          </td>
+        </tr>
+        <tr id="escaped-html">
+          <td>no filter</td>
+          <td><pre>&lt;div ng-bind="snippet"&gt;<br/>&lt;/div&gt;</pre></td>
+          <td><div ng-bind="snippet"></div></td>
+        </tr>
+        <tr id="html-unsafe-filter">
+          <td>unsafe html filter</td>
+          <td><pre>&lt;div ng-bind-html-unsafe="snippet"&gt;<br/>&lt;/div&gt;</pre></td>
+          <td><div ng-bind-html-unsafe="snippet"></div></td>
+        </tr>
+      </table>
+    </div>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript" src="../../angular-sanitize.js"></script>
+
+    <script type="text/javascript">
+            //创建一个app，并在该app下创建一个controller
+            angular.module('ngBindHtmlDemoApp', ['ngSanitize']).controller('ngBindHtmlDemoCtrl', ['$scope', function($scope) {
+                $scope.snippet =
+                        '<p style="color:blue">an html\n' +
+                        '<em onmouseover="this.textContent=\'PWN3D!\'" onmouseout="this.textContent=\'the mouse over\'">the mouse over</em>\n' +
+                        'snippet</p>';
+              }]).directive('htmlTitle', function($sanitize) {
+              return {
+                restrict: 'A',
+                link: function(scope, element, attrs) {
+                  attrs.$observe('htmlTitle', function(title) {
+                    // convert &value; to HTML
+                    var html = angular.element('<div></div>').html($sanitize(title)).text();
+                    element.attr('title', html);
+                    element.html(html);
+                  });
+                }
+              };
+            });
+    </script>
+  </body>
+</html>

@@ -93,7 +93,7 @@
       <div>
         <h4>AngularJS 常用指令（API）</h4>
 
-        <h5>显示文本</h5>
+        <h5>显示文本（ng-bind）</h5>
         <p>我们可以使用ng-bind指令在UI的任何地方显示和更新文本，也可以使用双花括号形式来绑定文本。</p>
         <p>双花括号形式例子：</p>
         <pre>    &lt;p&gt;{{greeting}}&lt;/p&gt;  </pre>
@@ -140,6 +140,89 @@
         </pre>
         <p><a href="./angular/examples/myExamples/ng-bind-demo.html">运行效果</a></p>
 
+        <h5>绑定html内容（ng-bind-html 和 ng-bind-html-unsafe）</h5>
+        <p>angular提供了这两个指令通过innerHTML来给指定的元素设置内容。ng-bind-html会调用angular提供的  <a href="http://code.angularjs.org/1.0.8/docs/api/ngSanitize.$sanitize">$sanitize</a>（$sanitize(html);）过滤后再赋给innerHTML，而 ng-bind-html-unsafe不会处理直接赋给innerHTML，当确保提供的html片段是安全的，我们可以用ng-bind-html-unsafe。</p>
+        <p class="h-web-font-red">注意：使用ng-bind-html指令时，需要引入文件angular-sanitize.js，并且要把 "ngSanitize" 加入到相应的module中。</p>
+        <pre>
+   angular.module('app', ['ngSanitize']);
+        </pre>
+        <p>下面是官方提供的例子（有修改）：</p>
+        <pre>     
+&lt;!doctype html&gt;
+&lt;html ng-app="ngBindHtmlDemoApp"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;ng-bind-html and ng-bind-html-unsafe demo&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div ng-controller="ngBindHtmlDemoCtrl"&gt;
+      Snippet: &lt;textarea ng-model="snippet" cols="60" rows="3"&gt;&lt;/textarea&gt;
+      &lt;table style="border: 1px solid #005B73;"&gt;
+        &lt;tr&gt;
+          &lt;td&gt;Filter&lt;/td&gt;
+          &lt;td&gt;Source&lt;/td&gt;
+          &lt;td&gt;Rendered&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr id="html-filter"&gt;
+          &lt;td&gt;html filter&lt;/td&gt;
+          &lt;td&gt;
+            &lt;pre&gt;&lt;div ng-bind-html="snippet"&gt;&lt;br/&gt;&lt;/div&gt;&lt;/pre&gt;
+          &lt;/td&gt;
+          &lt;td&gt;
+            &lt;div ng-bind-html="snippet"&gt;&lt;/div&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr id="html-filter"&gt;
+          &lt;td&gt;AngularJS Google Group提供的利用指令实现同样的过滤效果&lt;/td&gt;
+          &lt;td&gt;
+            &lt;pre&gt;&lt;div html-title="snippet" &gt;&lt;br/&gt;&lt;/div&gt;&lt;/pre&gt;
+          &lt;/td&gt;
+          &lt;td&gt;
+            &lt;div  html-title="{{snippet}}"&gt;&lt;/div&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr id="escaped-html"&gt;
+          &lt;td&gt;no filter&lt;/td&gt;
+          &lt;td&gt;&lt;pre&gt;&lt;div ng-bind="snippet"&gt;&lt;br/&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;div ng-bind="snippet"&gt;&lt;/div&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr id="html-unsafe-filter"&gt;
+          &lt;td&gt;unsafe html filter&lt;/td&gt;
+          &lt;td&gt;&lt;pre&gt;&lt;div ng-bind-html-unsafe="snippet"&gt;&lt;br/&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;div ng-bind-html-unsafe="snippet"&gt;&lt;/div&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="../../angular-sanitize.js"&gt;&lt;/script&gt;
+
+    &lt;script type="text/javascript"&gt;
+            //创建一个app，并在该app下创建一个controller
+            angular.module('ngBindHtmlDemoApp', ['ngSanitize']).controller('ngBindHtmlDemoCtrl', ['$scope', function($scope) {
+                $scope.snippet =
+                        '&lt;p style="color:blue"&gt;an html\n' +
+                        '&lt;em onmouseover="this.textContent=\'PWN3D!\'" onmouseout="this.textContent=\'the mouse over\'"&gt;the mouse over&lt;/em&gt;\n' +
+                        'snippet&lt;/p&gt;';
+              }]).directive('htmlTitle', function($sanitize) {
+              return {
+                restrict: 'A',
+                link: function(scope, element, attrs) {
+                  attrs.$observe('htmlTitle', function(title) {
+                    // convert &value; to HTML
+                    var html = angular.element('&lt;div&gt;&lt;/div&gt;').html($sanitize(title)).text();
+                    element.attr('title', html);
+                    element.html(html);
+                  });
+                }
+              };
+            });
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+        </pre>  
+
+        <p><a href="./angular/examples/myExamples/ng-bind-html-demo.html">运行效果</a></p>
+        
         <h5>表单输入(ng-model，数据双向绑定)</h5>
         <p>在Angular中处理表单元素是很简单的，只需使用ng-model属性绑定到你的模型属性元素上即可。
           ng-model适用于所有标准的表单元素, 例如文本输入框, 单选按钮, 复选框等等。我们可以像这样绑定一个复选框：</p>
@@ -162,7 +245,7 @@ function StartUpController($scope){
         $scope.needed = $scope.startingEstimate * 10;
     };
 }</pre>
-        
+
         <p>以下是一个完整的例子：</p>
         <pre>
 &lt;!DOCTYPE html&gt;

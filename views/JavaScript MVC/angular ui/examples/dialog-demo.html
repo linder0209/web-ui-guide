@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html ng-app="plunker">
+  <head>
+    <meta charset="utf-8">
+    <title>dialog demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+  </head>
+  <body>
+    <div ng-controller="ModalDemoCtrl">
+      <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title">Modal title</h4>
+        </div>
+        <div class="modal-body">
+        <ul>
+        <li ng-repeat="item in items">
+        <a ng-click="selected.item = item">{{ item }}</a>
+        </li>
+        </ul>
+        Selected: <b>{{ selected.item }}</b>
+        </div>
+        <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+        </div>
+      </script>
+
+      <button class="btn btn-default" ng-click="open()">Open me!</button>
+      <div ng-show="selected">Selection from a modal: {{selected}}</div>
+    </div>
+
+
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript" src="../js/ui-bootstrap-custom-0.6.0.js"></script>
+    <script type="text/javascript">
+      angular.module('plunker', ['ui.bootstrap']);
+      var ModalDemoCtrl = function($scope, $modal, $log) {
+
+        $scope.items = ['item1', 'item2', 'item3'];
+
+        $scope.open = function() {
+
+          var modalInstance = $modal.open({
+            templateUrl: 'myModalContent.html',
+            controller: ModalInstanceCtrl,
+            resolve: {
+              items: function() {
+                return $scope.items;
+              }
+            }
+          });
+
+          modalInstance.result.then(function(selectedItem) {
+            $scope.selected = selectedItem;
+          }, function() {
+            $log.info('Modal dismissed at: ' + new Date());
+          });
+        };
+      };
+
+      var ModalInstanceCtrl = function($scope, $modalInstance, items) {
+
+        $scope.items = items;
+        $scope.selected = {
+          item: $scope.items[0]
+        };
+
+        $scope.ok = function() {
+          $modalInstance.close($scope.selected.item);
+        };
+
+        $scope.cancel = function() {
+          $modalInstance.dismiss('cancel');
+        };
+      };
+    </script>
+  </body>
+</html>

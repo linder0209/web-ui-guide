@@ -20,6 +20,14 @@
                 return values[name] !== undefined ? values[name] : '';
             });
         }
+        
+         //替换{0}的情况，回头糅合到一块
+//         var re = /\{(\d+)\}/g;
+//        applyTemplate: function(template, values) {
+//            return template.replace(re, function(match, key, index, source) {
+//                return values[key] !== undefined ? values[key] : '';
+//            });
+//        }
 
     };
 

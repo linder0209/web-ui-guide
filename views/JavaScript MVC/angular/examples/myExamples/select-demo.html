@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html ng-app="selectDemoApp">
+  <head>
+    <meta charset="utf-8">
+    <title>select demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/bootstrap.css" type="text/css"/>
+  </head>
+  <body >
+    <div ng-controller="selectDemoController" class="well">
+      <ul>
+        <li ng-repeat="color in colors">
+          Name: <input ng-model="color.name">
+          [<a href ng-click="colors.splice($index, 1)">X</a>]
+        </li>
+        <li>
+          [<a href ng-click="colors.push({})">add</a>]
+        </li>
+      </ul>
+      <hr/>
+      Color (null not allowed):
+      <select ng-model="color" ng-options="c.name for c in colors"></select><br>
+      Color (null allowed):
+      <span class="nullable">
+        <select ng-model="color" >
+          <option value="">-- chose color --</option>
+        </select>
+      </span><br/>
+      Color grouped by shade:
+      <select ng-model="color" ng-options="c.name group by c.shade for c in colors">
+      </select><br/>
+      Select <a href ng-click="color = {name: 'not in list'}">bogus</a>.<br>
+      <hr/>
+      Currently selected: {{ {selected_color:color} }}
+      <div style="border:solid 1px black; height:20px"
+           ng-style="{'background-color':color.name}">
+      </div>
+      <div>以上是摘自官方的例子，下面自己总结几种情况的例子：</div>
+      <div>
+        for array data sources: 
+        <ol>
+          <li>
+            select as label for value in array<br/>
+            <select ng-model="student" ng-options="student.name as label student.name as value for student in students"></select>
+          </li>
+        </ol>
+      </div>
+      
+      
+      <div>
+        for object data sources: 
+        <ol>
+          <li>
+            label for (key , value) in object<br/>
+            <select ng-model="student" ng-options="name for (id , name) in students"></select>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+              //创建一个app，并在该app下创建一个controller
+              angular.module('selectDemoApp', []).controller('selectDemoController', ['$scope', function($scope) {
+                  $scope.colors = [
+                    {name: 'black', shade: 'dark'},
+                    {name: 'white', shade: 'light'},
+                    {name: 'red', shade: 'dark'},
+                    {name: 'blue', shade: 'dark'},
+                    {name: 'yellow', shade: 'light'}
+                  ];
+                  //$scope.color = $scope.colors[2]; // red
+
+                  $scope.students = [{
+                      name: 'zhangsan',
+                      id: '123'
+                    }, {
+                      name: 'lisi',
+                      id: '456'
+                    }];
+                }]);
+    </script>
+  </body>
+</html>

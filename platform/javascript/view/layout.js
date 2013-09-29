@@ -216,7 +216,15 @@
          * 这种情况会替换以下内容，即开头是&lt;的情况，实际上这种转移后的html内容我们是不希望被替换的
          * &lt;link href="./stylesheet/bootstrap/bootstrap.min.css" rel="stylesheet" media="screen"&gt;
          */
-        repSource = repSource.replace(/(<link|<img|<a|<script).*\s*((href|src)=["'])(?!(http|#|\/))/ig, '$1' + ' ' + '$2' + directory + '/');
+        
+        //例子，单一一种情况，只替换a标签
+        //repSource = repSource.replace(/(<a.*?\s*href=["'])(?!(http|#|\/))/ig, '$1' + directory + '/');
+        
+        //这样写有问题：repSource = repSource.replace(/(<link|<img|<a|<script).*?\s*((href|src)=["'])(?!(http|#|\/))/ig, '$1' + ' ' + '$2' + directory + '/');
+        //字符串"ccc<a id='linkId' href='index/8800387989517#/faq'>Frequently Asked Questions</a>" 替换后，a 和 href之间的内容也会被替换，而且这是贪婪匹配，如果有多个的话，只会匹配最后一个
+        //以下是改进版
+        //这里用到了懒惰匹配 *?
+        repSource = repSource.replace(/((<link|<img|<a|<script).*?\s*((href|src)=["']))(?!(http|#|\/))/ig, '$1' + directory + '/');
         //替换绝对路径，加上root
         //repSource = repSource.replace(/((href|src)=["'])\//ig, '$1' + root + '/');
         //替换样式中图片背景

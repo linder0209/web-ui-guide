@@ -69,6 +69,12 @@
 <input type="text" class="{validateUsername: true}" id="username" name="username" /> 
 <input type="text" class="{required:true,email:true}" id="username" name="username" /> 
         </pre>
+        
+        <h5>在最新版本1.11.1中，校验规则range和rangelength的声明应该是这样的：rang="12,23"</h5>
+        <p>
+          而以下声明是错误的，这点需特别注意
+        </p>
+        <pre>rang="[12,23]"</pre>
         <h4>Options for the validate() method。下面对options中几个常用的参数说明一下，各参数的说明可以查看下面的例子</h4>
         <p>
         <style type="text/css">

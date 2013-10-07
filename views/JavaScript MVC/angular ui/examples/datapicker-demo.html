@@ -1,38 +1,39 @@
 <!DOCTYPE html>
-<html ng-app="plunker">
+<html ng-app="demoApp">
   <head>
     <meta charset="utf-8">
     <title>datapicker-demo</title>
-    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <link rel="stylesheet" href="../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
   </head>
-  <body>
-
+  <body style="padding:10px;">
     <div ng-controller="DatepickerDemoCtrl">
       <pre>Selected date is: <em>{{dt| date:'fullDate' }}</em></pre>
 
-      <div class="well well-small pull-left" ng-model="dt">
+      <div ng-model="dt" style="width: 280px">
         <datepicker min="minDate" show-weeks="showWeeks"></datepicker>
       </div>
 
-      <div class="form-horizontal">
-        <input type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" />
-        <button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>
+      <hr>
+
+      <div class="input-group">
+        <input class="form-control" type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" />
+        <span class="input-group-btn">
+          <button class="btn btn-info" ng-click="open()"> <span class="glyphicon glyphicon-calendar"></span> </button>
+        </span>
       </div>
 
       <hr />
-      <button class="btn btn-small btn-inverse" ng-click="today()">Today</button>
-      <button class="btn btn-small btn-inverse" ng-click="dt = '2009-08-24'">2009-08-24</button>
-      <button class="btn btn-small btn-success" ng-click="toggleWeeks()" tooltip="For inline datepicker">Toggle Weeks</button>
-      <button class="btn btn-small btn-danger" ng-click="clear()">Clear</button>
-      <button class="btn btn-small" ng-click="toggleMin()" tooltip="After today restriction">Min date</button>
+      <button class="btn btn-sm btn-info" ng-click="today()">Today</button>
+      <button class="btn btn-sm btn-info" ng-click="dt = '2009-08-24'">2009-08-24</button>
+      <button class="btn btn-sm btn-success" ng-click="toggleWeeks()" tooltip="For inline datepicker">Toggle Weeks</button>
+      <button class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>
+      <button class="btn btn-sm btn-default" ng-click="toggleMin()" tooltip="After today restriction">Min date</button>
     </div>
 
-    
-
-    <script type="text/javascript" src="../../angular.js"></script>
-    <script type="text/javascript" src="../js/ui-bootstrap-custom-0.6.0.js"></script>
+    <script type="text/javascript" src="../../angular/angular.js"></script>
+    <script type="text/javascript" src="../angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script type="text/javascript">
-        angular.module('plunker', ['ui.bootstrap']);
+        angular.module('demoApp', ['ui.bootstrap']);
         var DatepickerDemoCtrl = function($scope, $timeout) {
           $scope.today = function() {
             $scope.dt = new Date();

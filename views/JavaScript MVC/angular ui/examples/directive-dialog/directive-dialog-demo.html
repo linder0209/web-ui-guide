@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html ng-app="dialogDemoApp">
+  <head>
+    <title>directive-dialog demo</title>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+  </head>
+
+  <body>
+    <div ng-controller="DialogDemoController">
+      <div style="margin: 50px auto;padding:20px;">
+        <button class="btn btn-default" ng-click="dialogShow = true">show</button>
+      </div>
+
+      <dialog dialog-title="dialogTitle"
+              show="dialogShow"
+              ok="changePassword();"
+              on-hidden="closeForm();">
+        
+        <form id="changePasswordForm" name="changePasswordForm" class="form-horizontal" change-password-validator>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="currPassword"><i class="red">*</i><span class="sr-only">This information is required</span> Current password</label>
+            <div class="col-sm-6">
+              <input ng-model="userPassword.oldPassword" type="password" required="" tabindex="" name="currPassword" id="currPassword" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="firstPassword"><i class="red">*</i><span class="sr-only">This information is required</span> New password</label>
+            <div class="col-sm-6">
+              <input ng-model="userPassword.newPassword" type="password" required="" tabindex="" name="firstPassword" id="firstPassword" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="confirmPassword"><i class="red">*</i><span class="sr-only">This information is required</span> Confirm Password</label>
+            <div class="col-sm-6">
+              <input type="password" required="" tabindex="" minlength="8" maxlength="64" name="confirmPassword" id="confirmPassword" class="form-control">
+            </div>
+          </div>
+        </form>
+      </dialog>
+    </div>
+    <script type="text/javascript" src="../../../../../platform/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../platform/javascript/jquery-validation/jquery.validate.js"></script>
+    <script type="text/javascript" src="../../../../../platform/javascript/bootstrap/bootstrap.js"></script>
+    <script type="text/javascript" src="../../../angular/angular.js"></script>
+    <script type="text/javascript" src="directive-dialog-demo.js"></script>
+    <script type="text/javascript" src="directive-dialog.js"></script>
+  </body>
+</html>

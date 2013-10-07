@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>google Map demo</title>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <link rel="stylesheet" href="../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      .map-canvas { height: 700px; }
+    </style>
+  </head>
+
+  <body>
+    <section id="map" ng-controller="MapCtrl" >
+      <div ui-map="myMap" ui-options="mapOptions" class="map-canvas"></div>
+    </section>
+    <script type="text/javascript" src="../../../../platform/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../../angular/angular.js"></script>
+    
+    <script type="text/javascript" src="../google-maps/bower_components/angular-ui-utils/modules/event/event.js"></script>
+    <script type="text/javascript" src="../google-maps/ui-map.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
+    
+    <script type="text/javascript">
+      function onGoogleReady() {
+        angular.bootstrap(document.getElementById("map"), ['app.ui-map']);
+      }
+      var myAppModule = angular.module('app.ui-map', ['ui.map']);
+      myAppModule.controller('MapCtrl', ['$scope', function($scope) {
+          $scope.mapOptions = {
+            center: new google.maps.LatLng(35.784, -78.670),
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
+        }]);
+    </script>
+  </body>
+</html>

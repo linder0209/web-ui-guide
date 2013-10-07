@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html ng-app="demoApp">
+  <head>
+    <meta charset="utf-8">
+    <title>datapicker-demo</title>
+    <link rel="stylesheet" href="../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+  </head>
+  <body style="padding:10px;">
+    <p>以下是自己写的例子，用法更简单，灵活</p>
+
+    <div ng-controller="myDatepickerDemoCtrl">
+      <div class="input-group">
+        <input class="form-control" type="text" datepicker-popup ng-model="myDate"/>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-info" ng-click="openDate($event)"> <span class="glyphicon glyphicon-calendar"></span> </button>
+        </span>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="../../../../platform/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../../angular/angular.js"></script>
+    <script type="text/javascript" src="../angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script type="text/javascript">
+            angular.module('demoApp', ['ui.bootstrap']);
+            var myDatepickerDemoCtrl = function($scope, $timeout) {
+              $scope.openDate = function(event) {
+                $timeout(function() {
+                  $(event.target).parent().prev().prev().focus();
+                });
+              };
+            };
+    </script>
+  </body>
+</html>

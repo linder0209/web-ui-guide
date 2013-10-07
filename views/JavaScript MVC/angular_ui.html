@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Angular UI 学习</title>
+    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+    <link type="text/css" rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
+
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+
+    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        $('.h-web-catalogue li a').click(function(e) {
+          e.preventDefault();
+          var paragraphNum,
+                  paragraph,
+                  offset;
+          var el = this;
+          $(this).closest('ol').find('li a').each(function(index, element) {
+            if (this === el) {
+              paragraphNum = index;
+              return false;
+            }
+          });
+          paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+          offset = paragraph.offset();
+          if (offset) {
+            $(window).scrollTop(offset.top);
+          }
+        });
+        //初始化内容折叠事件
+        $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+          $(this).next().toggle();
+        });
+
+        //SyntaxHighlighter
+        $('pre').replaceWith(function() {
+          var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
+          html += $(this).html();
+          html += '</pre>';
+          return html;
+        });
+        SyntaxHighlighter.highlight();
+      });
+    </script>
+  </head>
+  <body>
+    <h3 class="h-web-paragraph-title">目录</h3>
+    <ol class="h-web-catalogue">
+      <li><a paragraph href="#">Angular UI 介绍</a></li>
+      <li><a paragraph href="#">angular-bootstrap</a></li>
+      <li><a paragraph href="#">google-maps</a></li>
+    </ol>
+    <div class="h-web-paragraph">
+      <h3 paragraph>Angular UI 介绍</h3>
+      <div>
+        <p><a href="http://angular-ui.github.io/">Angular UI 官网</a></p>
+      </div>
+      <h3 paragraph>angular-bootstrap</h3>
+      <div>
+        <p><a href="angular ui/examples/datapicker-demo.html">datepicker 官方例子</a></p>
+        <p><a href="angular ui/examples/datapicker-my-demo.html">datepicker my demo</a></p>
+        
+        <p><a href="angular ui/examples/dialog-demo.html">dialog 官方例子</a></p>
+        <p><a href="angular ui/examples/directive-dialog/directive-dialog-demo.html">dialog 基于指令实现的例子，依赖于bootstrap js</a></p>
+        <p><a href="http://www.cnblogs.com/lcllao/archive/2012/09/09/2677190.html">以上基于指令实现的例子参考</a></p>
+      </div>
+      <h3 paragraph>google-maps</h3>
+      <div>
+        <p><a href="angular ui/examples/google-maps-demo.html">官网例子</a></p>
+      </div>
+    </div>
+  </body>
+</html>

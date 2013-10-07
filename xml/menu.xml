@@ -68,5 +68,7 @@
         <name>Javascript MVC 框架</name>
         <children id="backbone" name="Backbone" href="JavaScript MVC/backbone.html"/>
         <children id="angular" name="Angular" href="JavaScript MVC/angular.html"/>
+        <children id="angular_ui" name="Angular UI" href="JavaScript MVC/angular_ui.html"/>
+        <children id="angular_plugin" name="Angular Plugin" href="JavaScript MVC/angular_plugin.html"/>
     </menu>
 </menus>

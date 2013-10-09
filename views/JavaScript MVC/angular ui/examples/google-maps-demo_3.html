@@ -31,7 +31,7 @@
             <!-- this is the confusing part. we have to point the map marker directive
                 at an existing google.maps.Marker object, so it can hook up events -->
             <div ng-repeat="marker in myMarkers" ui-map-marker="myMarkers[$index]"
-                 ui-event="{'map-click': 'openMarkerInfo(marker)'}">
+                 ui-event="{'map-click': 'openMarkerInfo(marker)','map-dragstart':'onDragstart()','map-dragend':'onDragend(marker)'}">
             </div>
 
             <div ui-map-info-window="myInfoWindow" style="height:200px;">
@@ -45,7 +45,7 @@
           google maps-->
 
           <div ui-map="myMap" ui-options="mapOptions" class="map-canvas col-sm-8 map" 
-               ui-event="{'map-click': 'addMarker($event, $params)', 'map-zoom_changed': 'setZoomMessage(myMap.getZoom())' }"></div>
+               ui-event="{'map-click': 'addMarker($event, $params)', 'map-zoom_changed': 'setZoomMessage(myMap.getZoom())'}"></div>
 
 
         </div>
@@ -59,51 +59,86 @@
 
     <script type="text/javascript" src="../google-maps/bower_components/angular-ui-utils/modules/event/event.js"></script>
     <script type="text/javascript" src="../google-maps/ui-map.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&callback=onGoogleReady&language=en"></script>
 
     <script type="text/javascript">
-      function onGoogleReady() {
-        console.log("Google maps api initialized.");
-        angular.bootstrap(document.getElementById("map"), ['app.ui-map']);
-      }
-      var myAppModule = angular.module('app.ui-map', ['ui.map']);
+                function onGoogleReady() {
+                  console.log("Google maps api initialized.");
+                  angular.bootstrap(document.getElementById("map"), ['app.ui-map']);
+                }
+                var myAppModule = angular.module('app.ui-map', ['ui.map']);
 
-      myAppModule.controller('MapCtrl', ['$scope', function($scope) {
-          $scope.myMarkers = [new google.maps.Marker({
-              map: $scope.myMap,
-              position: new google.maps.LatLng(37.09024, -95.712891)
-            })];
-          
-          $scope.mapOptions = {
-            center: new google.maps.LatLng(35.784, -78.670),
-            zoom: 15,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-          };
+                myAppModule.controller('MapCtrl', ['$scope', '$timeout', function($scope, $timeout) {
+                    $scope.mapOptions = {
+                      center: new google.maps.LatLng(35.784, -78.670),
+                      zoom: 15,
+                      mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
 
-          $scope.addMarker = function($event, $params) {
-            $scope.myMarkers.push(new google.maps.Marker({
-              map: $scope.myMap,
-              position: $params[0].latLng
-            }));
-          };
+                    $scope.addMarker = function($event, $params) {
+                      $scope.myMarkers.push(new google.maps.Marker({
+                        map: $scope.myMap,
+                        position: $params[0].latLng
+                      }));
+                    };
 
-          $scope.setZoomMessage = function(zoom) {
-            $scope.zoomMessage = 'You just zoomed to ' + zoom + '!';
-            console.log(zoom, 'zoomed');
-          };
+                    $scope.setZoomMessage = function(zoom) {
+                      $scope.zoomMessage = 'You just zoomed to ' + zoom + '!';
+                      console.log(zoom, 'zoomed');
+                    };
 
-          $scope.openMarkerInfo = function(marker) {
-            $scope.currentMarker = marker;
-            $scope.currentMarkerLat = marker.getPosition().lat();
-            $scope.currentMarkerLng = marker.getPosition().lng();
-            $scope.myInfoWindow.open($scope.myMap, marker);
-          };
+                    $scope.openMarkerInfo = function(marker) {
+                      $scope.currentMarker = marker;
+                      $scope.currentMarkerLat = marker.getPosition().lat();
+                      $scope.currentMarkerLng = marker.getPosition().lng();
+                      $scope.myInfoWindow.open($scope.myMap, marker);
+                    };
 
-          $scope.setMarkerPosition = function(marker, lat, lng) {
-            marker.setPosition(new google.maps.LatLng(lat, lng));
-          };
+                    $scope.setMarkerPosition = function(marker, lat, lng) {
+                      marker.setPosition(new google.maps.LatLng(lat, lng));
+                    };
 
-        }]);
+                    $scope.setBounds = function() {
+                      var bounds = new google.maps.LatLngBounds();
+                      angular.forEach($scope.myMarkers, function(m, i) {
+                        bounds.extend(m.getPosition());
+                      });
+                      $scope.myMap.fitBounds(bounds);
+                    };
+                    
+                    $scope.onDragstart = function(){
+                      $scope.myInfoWindow.close();
+                    };
+                    $scope.onDragend = function(marker){
+                      $scope.currentMarker = marker;
+                      $scope.currentMarkerLat = marker.getPosition().lat();
+                      $scope.currentMarkerLng = marker.getPosition().lng();
+                      $scope.geocoder.geocode({
+                            'location' : new google.maps.LatLng($scope.currentMarkerLat,$scope.currentMarkerLng)
+                        }, function(results, status) {
+                            if (status == google.maps.GeocoderStatus.OK) {
+                                if (results[0]) {
+                                    console.info(results[0].formatted_address);
+                                }
+                            }
+                        });
+                      $scope.myInfoWindow.open($scope.myMap, marker);
+                    };
+                    
+                    $timeout(function() {
+                      $scope.myMarkers = [new google.maps.Marker({
+                          map: $scope.myMap,
+                          position: new google.maps.LatLng(37.09024, -95.712891),
+                          draggable: true
+                        }), new google.maps.Marker({
+                          map: $scope.myMap,
+                          position: new google.maps.LatLng(38.09024, -94.712891),
+                          draggable: true
+                        })];
+                      $scope.setBounds();
+                      $scope.geocoder = new google.maps.Geocoder();
+                    });
+                  }]);
     </script>
   </body>
 </html>

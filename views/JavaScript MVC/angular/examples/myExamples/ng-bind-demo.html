@@ -5,8 +5,8 @@
     <title>ng-bind demo</title>
   </head>
   <body ng-controller="ngBindDemoController">
-    <input ng-model='greeting.text' />
-    <p>{{greeting.text}}, World</p>
+    <input ng-model="greeting.text" />
+    <p>{{greeting.text | lowercase}}, World</p>
     <p>以下用法是错误的</p>
     <input name="wrong" style="border: 1px solid #ED2754;" {{attribute}}/>
     <script type="text/javascript" src="../../angular.js"></script>

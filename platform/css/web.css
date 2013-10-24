@@ -9,12 +9,15 @@
 /*******************************************************************************/
 
 .h-web-catalogue {
-    margin: 5px 0 5px 30px;
+    margin: 5px 0 5px 15px;
     list-style-type: decimal;
     color: #005B73;
 }
+.h-web-catalogue ol{
+    margin-left:15px;
+}
 .h-web-catalogue li{
-    list-style-type: decimal;
+    list-style-type: none;
     padding: 5px 10px 5px 0;
 }
 .h-web-catalogue a{
@@ -22,7 +25,36 @@
     color: #005B73;
     font-size: 14px;
 }
+.h-web-catalogue{
+    counter-reset:catalogue1;
+}
+.h-web-catalogue > li > a:before{
+    content: counter(catalogue1) ". " ;
+    counter-increment:catalogue1;
+    font-size: 13px;
+    font-weight: bold;
+}
 
+.h-web-catalogue2{
+    counter-reset:catalogue2;
+}
+
+.h-web-catalogue2 > li > a:before{
+    content: counter(catalogue1) "." counter(catalogue2) ". ";
+    counter-increment:catalogue2;
+    font-size: 13px;
+    font-weight: bold;
+}
+.h-web-catalogue3{
+    counter-reset:catalogue3;
+}
+
+.h-web-catalogue3 > li > a:before{
+    content: counter(catalogue1) "." counter(catalogue2) "." counter(catalogue3) ". ";
+    counter-increment:catalogue3;
+    font-size: 13px;
+    font-weight: bold;
+}
 /**
 * 段落:用到了css中内容生成（Generated Content）属性
 * counter-increment 和 counter-reset ie8以上支持

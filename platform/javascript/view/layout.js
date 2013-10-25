@@ -103,24 +103,46 @@
       });
 
       //初始化目录列表事件
-      $('#body_content_frame').on('click', '.h-web-catalogue li a', function(e) {
+      var onClickCatalogue = function(e) {
         e.preventDefault();
-        var paragraphNum,
-                paragraph,
-                offset;
-        var el = this;
-        $(this).closest('ol').find('li a').each(function(index, element) {
-          if (this === el) {
-            paragraphNum = index;
-            return false;
-          }
-        });
-        paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
-        offset = paragraph.offset();
+        var level = e.data.level;
+        var levelNum = '';
+        var el = e.target;
+        var parentEl = $(el).closest('ol');
+        for (var i = level; i > 0; i--) {
+          parentEl.find('>li>a').each(function(index, element) {
+            if (this === el) {
+              levelNum = '.' + index + levelNum;
+              return false;
+            }
+          });
+          el = parentEl.prev('a')[0];
+          parentEl = parentEl.parent().closest('ol');
+        }
+        //console.info(levelNum);
+
+        //example: $('.h-web-paragraph h3[paragraph]:eq(3) + div h4:eq(0) ~ h5:eq(1)');
+        var selector = '.h-web-paragraph';
+        levelNum = levelNum.substring(1);
+        var levelNums = levelNum.split('.');
+        var hs = [' h3[paragraph]', ' + div h4', ' ~ h5'];
+        for (var i = 0, len = levelNums.length; i < len; i++) {
+          selector += hs[i] + ':eq(' + levelNums[i] + ')';
+        }
+
+        //console.info(selector);
+        var paragraph = $(selector);
+        var offset = paragraph.offset();
         if (offset) {
           $(window).scrollTop(offset.top);
         }
-      });
+      };
+
+      //支持 三级 目录
+      $('#body_content_frame').on('click', '.h-web-catalogue>li>a', {level: 1}, onClickCatalogue)
+              .on('click', '.h-web-catalogue2>li>a', {level: 2}, onClickCatalogue)
+              .on('click', '.h-web-catalogue3>li>a', {level: 3}, onClickCatalogue);
+
       //初始化内容折叠事件
       $('#body_content_frame').on('click', 'h3[paragraph]', function(e) {
         $(this).next().toggle();
@@ -216,10 +238,10 @@
          * 这种情况会替换以下内容，即开头是&lt;的情况，实际上这种转移后的html内容我们是不希望被替换的
          * &lt;link href="./stylesheet/bootstrap/bootstrap.min.css" rel="stylesheet" media="screen"&gt;
          */
-        
+
         //例子，单一一种情况，只替换a标签
         //repSource = repSource.replace(/(<a.*?\s*href=["'])(?!(http|#|\/))/ig, '$1' + directory + '/');
-        
+
         //这样写有问题：repSource = repSource.replace(/(<link|<img|<a|<script).*?\s*((href|src)=["'])(?!(http|#|\/))/ig, '$1' + ' ' + '$2' + directory + '/');
         //字符串"ccc<a id='linkId' href='index/8800387989517#/faq'>Frequently Asked Questions</a>" 替换后，a 和 href之间的内容也会被替换，而且这是贪婪匹配，如果有多个的话，只会匹配最后一个
         //以下是改进版
@@ -237,6 +259,54 @@
         SyntaxHighlighter.highlight();
 
       }, 'html');
+    },
+    /**
+     * 创建目录: 三级目录
+     * 树结构
+     * var node = {
+     text: '',
+     nodes: []
+     };
+     * @returns {}
+     */
+    createCatalogue: function() {
+      var hs = [' + div h4', ' ~ h5'];
+      var fn = function(el, index) {
+        var nodes = [];
+        for (var i = 0, len = el.length; i < len; i++) {
+          var subEl = $(el[i]);
+          var node = {
+            text: subEl.text()
+          };
+          subEl = subEl.find(hs[index + 1]);
+          if (subEl.length > 0) {
+            node.nodes = fn(subEl, index + 1);
+          }
+          nodes.push(node);
+        }
+        return nodes;
+      };
+
+      var catalogues = fn($('.h-web-paragraph  h3[paragraph]'), -1);
+      console.log(catalogues);
+
+
+      var fn2 = function(nodes, index) {
+        var html = '  <ol class="h-web-catalogue' + (index == 0 ? '' : index + 1) + '">\n';
+        for (var i = 0, len = nodes.length; i < len; i++) {
+          var node = nodes[i];
+          html += '    <li>\n<a' + (index == 0 ? ' paragraph' : '') + ' href="#">' + node.text + '</a>\n';
+          if (node.nodes && node.nodes.length > 0) {
+            html += fn2(node.nodes, index + 1);
+          }
+          html += '</li>\n';
+        }
+        html += '  </ol>\n';
+        return html;
+      };
+
+      var cataloguesHtml = fn2(catalogues, 0);
+      console.log(cataloguesHtml);
     }
   };
 

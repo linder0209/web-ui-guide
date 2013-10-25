@@ -64,7 +64,7 @@
         <children id="bootstrap_2" name="Bootstrap 学习" href="bootstrap/Bootstrap 学习.html"/>
     </menu>
     <menu>
-        <id>JavascriptMVC</id>
+        <id>JavaScript MVC</id>
         <name>Javascript MVC 框架</name>
         <children id="backbone" name="Backbone" href="JavaScript MVC/backbone.html"/>
         <children id="angular" name="Angular" href="JavaScript MVC/angular.html"/>

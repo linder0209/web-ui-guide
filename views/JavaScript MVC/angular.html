@@ -1,132 +1,164 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Angular 学习</title>
-    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
-    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
-    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
-    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
-    <link type="text/css" rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Angular 学习</title>
+        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+        <link type="text/css" rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
 
-    <style>
-      body{
-        padding:10px;
-      }
-    </style>
-
-    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
-
-    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
-    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
-    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
-    <script type="text/javascript">
-      $(function() {
-        $('.h-web-catalogue li a').click(function(e) {
-          e.preventDefault();
-          var paragraphNum,
-                  paragraph,
-                  offset;
-          var el = this;
-          $(this).closest('ol').find('li a').each(function(index, element) {
-            if (this === el) {
-              paragraphNum = index;
-              return false;
+        <style>
+            body{
+                padding:10px;
             }
-          });
-          paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
-          offset = paragraph.offset();
-          if (offset) {
-            $(window).scrollTop(offset.top);
-          }
-        });
-        //初始化内容折叠事件
-        $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
-          $(this).next().toggle();
-        });
+        </style>
 
-        //SyntaxHighlighter
-        $('pre').replaceWith(function() {
-          var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
-          html += $(this).html();
-          html += '</pre>';
-          return html;
-        });
-        SyntaxHighlighter.highlight();
-      });
-    </script>
-  </head>
-  <body>
-    <h3 class="h-web-paragraph-title">目录</h3>
-    <ol class="h-web-catalogue">
-      <li><a paragraph href="#">Angular 介绍</a></li>
-      <li><a paragraph href="#">Angular 例子</a></li>
-      <li><a paragraph href="#">Angular 注意事项</a></li>
-      <li>
-        <a paragraph href="#">Angular 学习笔记</a>
-        <ol class="h-web-catalogue2">
-          <li>
-            <a href="#">AngularJS 常用指令（API）</a>
-            <ol class="h-web-catalogue3">
-              <li>
-                <a href="#">显示文本（ng-bind）</a>
-              </li>
-            </ol>
-          </li>
+        <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+        <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $('.h-web-catalogue li a').click(function(e) {
+                    e.preventDefault();
+                    var paragraphNum,
+                            paragraph,
+                            offset;
+                    var el = this;
+                    $(this).closest('ol').find('li a').each(function(index, element) {
+                        if (this === el) {
+                            paragraphNum = index;
+                            return false;
+                        }
+                    });
+                    paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+                    offset = paragraph.offset();
+                    if (offset) {
+                        $(window).scrollTop(offset.top);
+                    }
+                });
+                //初始化内容折叠事件
+                $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+                    $(this).next().toggle();
+                });
+
+                //SyntaxHighlighter
+                $('pre').replaceWith(function() {
+                    var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
+                    html += $(this).html();
+                    html += '</pre>';
+                    return html;
+                });
+                SyntaxHighlighter.highlight();
+            });
+        </script>
+    </head>
+    <body>
+        <h3 class="h-web-paragraph-title">目录</h3>
+        <ol class="h-web-catalogue">
+            <li><a paragraph href="#">Angular 介绍</a>
+            </li>
+            <li><a paragraph href="#">Angular 例子</a>
+            </li>
+            <li><a paragraph href="#">Angular 注意事项</a>
+                <ol class="h-web-catalogue2">
+                    <li><a href="#">浏览器支持</a>
+                    </li>
+                    <li><a href="#">使用 ng 时不要冒然去改变相关 DOM 的结构</a>
+                    </li>
+                    <li><a href="#">AngularJS 命名空间</a>
+                    </li>
+                </ol>
+            </li>
+            <li><a paragraph href="#">Angular 学习笔记</a>
+                <ol class="h-web-catalogue2">
+                    <li><a href="#">AngularJS 常用指令（API）</a>
+                        <ol class="h-web-catalogue3">
+                            <li><a href="#">显示文本（ng-bind）</a>
+                            </li>
+                            <li><a href="#">绑定html内容（ng-bind-html 和 ng-bind-html-unsafe）</a>
+                            </li>
+                            <li><a href="#">表单输入(ng-model，数据双向绑定)</a>
+                            </li>
+                        </ol>
+                    </li>
+                    <li><a href="#">几个主要概念的理解</a>
+                    </li>
+                    <li><a href="#">模板和数据绑定</a>
+                    </li>
+                    <li><a href="#">列表, 表格和其他重复的元素</a>
+                    </li>
+                    <li><a href="#">隐藏与显示</a>
+                    </li>
+                    <li><a href="#">CSS类和样式</a>
+                    </li>
+                    <li><a href="#">src和href属性注意事项</a>
+                    </li>
+                    <li><a href="#">表达式</a>
+                    </li>
+                    <li><a href="#">使用$watch监控模型变化</a>
+                    </li>
+                    <li><a href="#">使用过滤器格式化数据</a>
+                    </li>
+                </ol>
+            </li>
         </ol>
-      </li>
-    </ol>
-    <div class="h-web-paragraph">
-      <h3 paragraph>Angular 介绍</h3>
-      <div>
-        <p>Angular 是一个为动态WEB应用设计的结构框架。它能让你使用HTML作为模板语言，通过扩展HTML的语法，让你能更清楚、简洁地构建你的应用组件。它的创新点在于，利用 <strong>数据绑定</strong> 和 <strong>依赖注入</strong>，它使你不用再写大量的代码了。这些全都是通过浏览器端的Javascript实现，这也使得它能够完美地和任何服务器端技术结合。</p>
-        <p>Angular 是为了克服HTML在构建应用上的不足而设计的。HTML是一门很好的为静态文本展示设计的声明式语言，但要构建WEB应用的话它就显得乏力了。所以我做了一些工作（你也可以觉得是小花招）来让浏览器做我想要的事。</p>
-        <p><a href="http://angularjs.org/">官网</a></p>
-        <p><a href="http://www.angularjs.cn/">中文社区</a></p>
-        <p><a href="http://angular-ui.github.io/">Angular UI</a></p>
-      </div>
-      <h3 paragraph>Angular 例子</h3>
-      <div>
-        <p><a href="./angular/examples/demo1.html">入门例子</a></p>
-      </div>
-      <h3 paragraph>Angular 注意事项</h3>
-      <div>
-        <h4>浏览器支持</h4>
-        <p>
-          对 IE 方面，它兼容 IE8 及以上的版本。
-        </p>
-        <h4>使用 ng 时不要冒然去改变相关 DOM 的结构</h4>
-        <h4>AngularJS 命名空间</h4>
-        <p>为了防止意外的命名冲突， AngularJS为可能冲突的对象名加以前缀"$"。所以请不要在你自己的代码里用"$"做前缀，以免和AngularJS代码发生冲突。
-          所以以$为前缀的对象都是Angular本身定义的对象。
-        </p>
-      </div>
-      <h3 paragraph>Angular 学习笔记</h3>
-      <div>
-        <h4>AngularJS 常用指令（API）</h4>
 
-        <h5>显示文本（ng-bind）</h5>
-        <p>我们可以使用ng-bind指令在UI的任何地方显示和更新文本，也可以使用双花括号形式来绑定文本。</p>
-        <p>双花括号形式例子：</p>
-        <pre>    &lt;p&gt;{{greeting}}&lt;/p&gt;  </pre>
-        <p>使用ng-bind基于属性的指令例子：</p>
-        <pre>    &lt;p ng-bind="greeting"&gt;&lt;p&gt;  </pre>
-        <p>这两者的输出是等价的。 如果模型中的变量greeting设置为"Hi, there", Angular将生成这样的HTML：</p>
-        <pre>    &lt;p&gt;Hi, there&lt;/p&gt;  </pre>
-        <p>浏览器将显示"Hi, There"。</p>
-        <p>一般情况下我们使用双花括号的形式，这样读起来更加方便自然。但有时页面在开始的时候加载模板内容，这样就会先显示双花括号，等Angular解析完后再显示实际的值，
-          这会造成用户体验差，这时我们就可以用指令的方式，使之开始什么都不显示。当然还有一种方式就是开始的时候隐藏模板内容，等Angular解析完后再动态显示（可以利用jQuery来完成操作）。
-        </p>
-        <p>这里需要注意的是：{{expression}}只作为显示值来用，而不能作为字符串和html拼接 。听起来不太明白，还是看例子吧，以下用法是错误的（在1.0.8版本中测试）。</p>
-        <pre>
+
+
+        <div class="h-web-paragraph">
+            <h3 paragraph>Angular 介绍</h3>
+            <div>
+                <p>Angular 是一个为动态WEB应用设计的结构框架。它能让你使用HTML作为模板语言，通过扩展HTML的语法，让你能更清楚、简洁地构建你的应用组件。它的创新点在于，利用 <strong>数据绑定</strong> 和 <strong>依赖注入</strong>，它使你不用再写大量的代码了。这些全都是通过浏览器端的Javascript实现，这也使得它能够完美地和任何服务器端技术结合。</p>
+                <p>Angular 是为了克服HTML在构建应用上的不足而设计的。HTML是一门很好的为静态文本展示设计的声明式语言，但要构建WEB应用的话它就显得乏力了。所以我做了一些工作（你也可以觉得是小花招）来让浏览器做我想要的事。</p>
+                <p><a href="http://angularjs.org/">官网</a></p>
+                <p><a href="http://www.angularjs.cn/">中文社区</a></p>
+                <p><a href="http://angular-ui.github.io/">Angular UI</a></p>
+            </div>
+            <h3 paragraph>Angular 例子</h3>
+            <div>
+                <p><a href="./angular/examples/demo1.html">入门例子</a></p>
+            </div>
+            <h3 paragraph>Angular 注意事项</h3>
+            <div>
+                <h4>浏览器支持</h4>
+                <p>
+                    对 IE 方面，它兼容 IE8 及以上的版本。
+                </p>
+                <h4>使用 ng 时不要冒然去改变相关 DOM 的结构</h4>
+                <h4>AngularJS 命名空间</h4>
+                <p>为了防止意外的命名冲突， AngularJS为可能冲突的对象名加以前缀"$"。所以请不要在你自己的代码里用"$"做前缀，以免和AngularJS代码发生冲突。
+                    所以以$为前缀的对象都是Angular本身定义的对象。
+                </p>
+            </div>
+            <h3 paragraph>Angular 学习笔记</h3>
+            <div>
+                <h4>AngularJS 常用指令（API）</h4>
+                <h5>显示文本（ng-bind）</h5>
+                <p>我们可以使用ng-bind指令在UI的任何地方显示和更新文本，也可以使用双花括号形式来绑定文本。</p>
+                <p>双花括号形式例子：</p>
+                <pre>    &lt;p&gt;{{greeting}}&lt;/p&gt;  </pre>
+                <p>使用ng-bind基于属性的指令例子：</p>
+                <pre>    &lt;p ng-bind="greeting"&gt;&lt;p&gt;  </pre>
+                <p>这两者的输出是等价的。 如果模型中的变量greeting设置为"Hi, there", Angular将生成这样的HTML：</p>
+                <pre>    &lt;p&gt;Hi, there&lt;/p&gt;  </pre>
+                <p>浏览器将显示"Hi, There"。</p>
+                <p>一般情况下我们使用双花括号的形式，这样读起来更加方便自然。但有时页面在开始的时候加载模板内容，这样就会先显示双花括号，等Angular解析完后再显示实际的值，
+                    这会造成用户体验差，这时我们就可以用指令的方式，使之开始什么都不显示。当然还有一种方式就是开始的时候隐藏模板内容，等Angular解析完后再动态显示（可以利用jQuery来完成操作）。
+                </p>
+                <p>这里需要注意的是：{{expression}}只作为显示值来用，而不能作为字符串和html拼接 。听起来不太明白，还是看例子吧，以下用法是错误的（在1.0.8版本中测试）。</p>
+                <pre>
           &lt;input {{expression}} /&gt;
-        </pre>
-        <p>正确的用法应该是</p>
-        <pre>
+                </pre>
+                <p>正确的用法应该是</p>
+                <pre>
           &lt;input attribute="{{expression}}" /&gt;
-        </pre>
-        <p>以下是一个完整的例子</p>
-        <pre>
+                </pre>
+                <p>以下是一个完整的例子</p>
+                <pre>
  &lt;!DOCTYPE html&gt;
  &lt;html ng-app="ngBindDemo"&gt;
    &lt;head&gt;
@@ -149,17 +181,17 @@
      &lt;/script&gt;
    &lt;/body&gt;
  &lt;/html&gt;
-        </pre>
-        <p><a href="./angular/examples/myExamples/ng-bind-demo.html">运行效果</a></p>
+                </pre>
+                <p><a href="./angular/examples/myExamples/ng-bind-demo.html">运行效果</a></p>
 
-        <h5>绑定html内容（ng-bind-html 和 ng-bind-html-unsafe）</h5>
-        <p>angular提供了这两个指令通过innerHTML来给指定的元素设置内容。ng-bind-html会调用angular提供的  <a href="http://code.angularjs.org/1.0.8/docs/api/ngSanitize.$sanitize">$sanitize</a>（$sanitize(html);）过滤后再赋给innerHTML，而 ng-bind-html-unsafe不会处理直接赋给innerHTML，当确保提供的html片段是安全的，我们可以用ng-bind-html-unsafe。</p>
-        <p class="h-web-font-red">注意：使用ng-bind-html指令时，需要引入文件angular-sanitize.js，并且要把 "ngSanitize" 加入到相应的module中。</p>
-        <pre>
+                <h5>绑定html内容（ng-bind-html 和 ng-bind-html-unsafe）</h5>
+                <p>angular提供了这两个指令通过innerHTML来给指定的元素设置内容。ng-bind-html会调用angular提供的  <a href="http://code.angularjs.org/1.0.8/docs/api/ngSanitize.$sanitize">$sanitize</a>（$sanitize(html);）过滤后再赋给innerHTML，而 ng-bind-html-unsafe不会处理直接赋给innerHTML，当确保提供的html片段是安全的，我们可以用ng-bind-html-unsafe。</p>
+                <p class="h-web-font-red">注意：使用ng-bind-html指令时，需要引入文件angular-sanitize.js，并且要把 "ngSanitize" 加入到相应的module中。</p>
+                <pre>
    angular.module('app', ['ngSanitize']);
-        </pre>
-        <p>下面是官方提供的例子（有修改）：</p>
-        <pre>     
+                </pre>
+                <p>下面是官方提供的例子（有修改）：</p>
+                <pre>     
 &lt;!doctype html&gt;
 &lt;html ng-app="ngBindHtmlDemoApp"&gt;
   &lt;head&gt;
@@ -231,23 +263,23 @@
     &lt;/script&gt;
   &lt;/body&gt;
 &lt;/html&gt;
-        </pre>  
+                </pre>  
 
-        <p><a href="./angular/examples/myExamples/ng-bind-html-demo.html">运行效果</a></p>
+                <p><a href="./angular/examples/myExamples/ng-bind-html-demo.html">运行效果</a></p>
 
-        <h5>表单输入(ng-model，数据双向绑定)</h5>
-        <p>在Angular中处理表单元素是很简单的，只需使用ng-model属性绑定到你的模型属性元素上即可。
-          ng-model适用于所有标准的表单元素, 例如文本输入框, 单选按钮, 复选框等等。我们可以像这样绑定一个复选框：</p>
-        <pre>    &lt;form controller="SomeController"&gt;
+                <h5>表单输入(ng-model，数据双向绑定)</h5>
+                <p>在Angular中处理表单元素是很简单的，只需使用ng-model属性绑定到你的模型属性元素上即可。
+                    ng-model适用于所有标准的表单元素, 例如文本输入框, 单选按钮, 复选框等等。我们可以像这样绑定一个复选框：</p>
+                <pre>    &lt;form controller="SomeController"&gt;
           &lt;input type="checkbox" ng-model="youCheckedIt"&gt;
     &lt;/form&gt;  </pre>
-        <p>这意味着：</p>
-        <ol>
-          <li>当用户选择复选框, SomeController的$scope中一个名为youCheckedIt的属性将变成true。取消选择时使youCheckedIt变成false。</li>
-          <li>如果你在SomeController中设置$scope.youCheckedIt为true， 这个复选框在UI中会被自动选择。设置它为false则取消选择。</li>
-        </ol>
-        <p>我们也可以在form表单上注册一些事件，比如change，click等，例如：</p>
-        <pre>&lt;form ng-controller="StartUpController"&gt;
+                <p>这意味着：</p>
+                <ol>
+                    <li>当用户选择复选框, SomeController的$scope中一个名为youCheckedIt的属性将变成true。取消选择时使youCheckedIt变成false。</li>
+                    <li>如果你在SomeController中设置$scope.youCheckedIt为true， 这个复选框在UI中会被自动选择。设置它为false则取消选择。</li>
+                </ol>
+                <p>我们也可以在form表单上注册一些事件，比如change，click等，例如：</p>
+                <pre>&lt;form ng-controller="StartUpController"&gt;
       Starting: &lt;input ng-change="computeNeeded()" ng-model="funding.startingEstimate"&gt;
       Recommendation: {{funding.needed}}
 &lt;/form&gt;
@@ -258,8 +290,8 @@ function StartUpController($scope){
     };
 }</pre>
 
-        <p>以下是一个完整的例子：</p>
-        <pre>
+                <p>以下是一个完整的例子：</p>
+                <pre>
 &lt;!DOCTYPE html&gt;
 &lt;html ng-app="ngModelDemo"&gt;
   &lt;head&gt;
@@ -292,78 +324,78 @@ function StartUpController($scope){
     &lt;/script&gt;
   &lt;/body&gt;
 &lt;/html&gt;
-        </pre>
-        <p><a href="./angular/examples/myExamples/ng-model-demo.html">运行效果</a></p>
+                </pre>
+                <p><a href="./angular/examples/myExamples/ng-model-demo.html">运行效果</a></p>
 
-        <p>&nbsp;</p>
-        <h4>几个主要概念的理解</h4>
-        <p>ng-app</p>
-        <p>创建app，待整理
-          angular.module('shoppingCartApp',[]);
-        </p>
-        <p>ng-controller</p>
-        <p>
-          全局controller和局部controller
-          angular.module('shoppingCartApp',[]).controller('CartController', ['$scope', function ($scope) {
-          $scope.items = [
-          {title: 'Paint pots', quantity: 8, price: 3.95},
-          {title: 'Polka dots', quantity: 17, price: 12.95},
-          {title: 'Pebbles', quantity: 5, price: 6.95}
-          ];
-          $scope.remove = function(index) {
-          $scope.items.splice(index, 1);
-          }
-          }]);
-        </p>
+                <p>&nbsp;</p>
+                <h4>几个主要概念的理解</h4>
+                <p>ng-app</p>
+                <p>创建app，待整理
+                    angular.module('shoppingCartApp',[]);
+                </p>
+                <p>ng-controller</p>
+                <p>
+                    全局controller和局部controller
+                    angular.module('shoppingCartApp',[]).controller('CartController', ['$scope', function ($scope) {
+                    $scope.items = [
+                    {title: 'Paint pots', quantity: 8, price: 3.95},
+                    {title: 'Polka dots', quantity: 17, price: 12.95},
+                    {title: 'Pebbles', quantity: 5, price: 6.95}
+                    ];
+                    $scope.remove = function(index) {
+                    $scope.items.splice(index, 1);
+                    }
+                    }]);
+                </p>
 
-        <p>
-          对于表单标签用这种方式： &lt;input ng-model="item.quantity" /&gt;
-          对于其他用这种方式：&lt;span&gt;{{item.title}}&lt;/span&gt;
-        </p>
+                <p>
+                    对于表单标签用这种方式： &lt;input ng-model="item.quantity" /&gt;
+                    对于其他用这种方式：&lt;span&gt;{{item.title}}&lt;/span&gt;
+                </p>
 
-        <p>
-          ng-repeat内置的属性 $index 等
-        </p>
+                <p>
+                    ng-repeat内置的属性 $index 等
+                </p>
 
-        <h4>模板和数据绑定</h4>
+                <h4>模板和数据绑定</h4>
 
 
 
-        <h4>列表, 表格和其他重复的元素</h4>
-        <h4>隐藏与显示</h4>
-        <h4>CSS类和样式</h4>
-        <p> Angular提供了ng-class和ng-style指令. 它们都接受一个表达式. 这个表达式的计算结果可以是下列之一:</p>
-        <ul>
-          <li>一个使用空格分割类名的字符串</li>
-          <li>一个类名数组</li>
-          <li>类名到布尔值的映射</li>
-        </ul>
+                <h4>列表, 表格和其他重复的元素</h4>
+                <h4>隐藏与显示</h4>
+                <h4>CSS类和样式</h4>
+                <p> Angular提供了ng-class和ng-style指令. 它们都接受一个表达式. 这个表达式的计算结果可以是下列之一:</p>
+                <ul>
+                    <li>一个使用空格分割类名的字符串</li>
+                    <li>一个类名数组</li>
+                    <li>类名到布尔值的映射</li>
+                </ul>
 
-        <h4>src和href属性注意事项</h4>
-        <p>当数据绑定给一个&lt;img&gt;或者&lt;a&gt;标签时, 像上面一样在src或者href属性中使用{{ }}处理路径将无法正常工作. 因为在浏览器中图片与其他内容是并行加载的, 所以Angular无法拦截数据绑定的请求.</p>
-        <p>对于&lt;img&gt;而言最明显的语法错误就是：</p>
-        <pre>    &lt;img src="/images/cats/{{favoriteCat}}"&gt;  </pre>
-        <p>正确的，我们应该使用ng-src属性并像下面这样编写模板：</p>
-        <pre>    &lt;img ng-src="/images/cats/{{favoriteCat}}"&gt;  </pre>
-        <p>同样的道理，对于&lt;a&gt;标签你应该使用ng-href：</p>
-        <pre>    &lt;a ng-href="/shop/category={{numberOfBalloons}}"&gt;some text&lt;/a&gt;</pre>
-        </p>
+                <h4>src和href属性注意事项</h4>
+                <p>当数据绑定给一个&lt;img&gt;或者&lt;a&gt;标签时, 像上面一样在src或者href属性中使用{{ }}处理路径将无法正常工作. 因为在浏览器中图片与其他内容是并行加载的, 所以Angular无法拦截数据绑定的请求.</p>
+                <p>对于&lt;img&gt;而言最明显的语法错误就是：</p>
+                <pre>    &lt;img src="/images/cats/{{favoriteCat}}"&gt;  </pre>
+                <p>正确的，我们应该使用ng-src属性并像下面这样编写模板：</p>
+                <pre>    &lt;img ng-src="/images/cats/{{favoriteCat}}"&gt;  </pre>
+                <p>同样的道理，对于&lt;a&gt;标签你应该使用ng-href：</p>
+                <pre>    &lt;a ng-href="/shop/category={{numberOfBalloons}}"&gt;some text&lt;/a&gt;</pre>
+                </p>
 
-        <h4>表达式</h4>
-        <p>表达式背后的思想是让你巧妙的在你的模板, 应用程序逻辑以及数据之间创建钩子而与此同时防止应用程序逻辑偷偷摸摸的进入模版中.</p>
-        <p>直到现在, 我们一直主要是引用原生的数据作为表达式传递给Angular指令. 但是其实这些表达式可以做更多的事情. 你可以处理简单的数学运算(+, -, /, *, %), 进行比较(==, !=,&gt;, &lt;,&gt;=, &lt;=), 执行布尔逻辑运算(&amp;&amp;, !!, !)以及按位运算(^, &amp;, |). 你可以调用暴露在控制器的$scope对象上的函数, 你还可以引用数据和对象表示法([], {}, …).</p>
-        <p>下面都是有效表达式的例子:</p>
-        <div>
-          <pre>    &lt;div ng-controller="SomeController"&gt;          &lt;div&gt;{{recompute() / 10}}&lt;div&gt;          &lt;ul ng-repeat="thing in things"&gt;              &lt;li ng-class="{highlight: $index % 4&gt;= threshold($index)}"&gt;                  {{otherFunction($index)}}              &lt;/li&gt;          &lt;/ul&gt;      &lt;/div&gt;  </pre>
+                <h4>表达式</h4>
+                <p>表达式背后的思想是让你巧妙的在你的模板, 应用程序逻辑以及数据之间创建钩子而与此同时防止应用程序逻辑偷偷摸摸的进入模版中.</p>
+                <p>直到现在, 我们一直主要是引用原生的数据作为表达式传递给Angular指令. 但是其实这些表达式可以做更多的事情. 你可以处理简单的数学运算(+, -, /, *, %), 进行比较(==, !=,&gt;, &lt;,&gt;=, &lt;=), 执行布尔逻辑运算(&amp;&amp;, !!, !)以及按位运算(^, &amp;, |). 你可以调用暴露在控制器的$scope对象上的函数, 你还可以引用数据和对象表示法([], {}, …).</p>
+                <p>下面都是有效表达式的例子:</p>
+                <div>
+                    <pre>    &lt;div ng-controller="SomeController"&gt;          &lt;div&gt;{{recompute() / 10}}&lt;div&gt;          &lt;ul ng-repeat="thing in things"&gt;              &lt;li ng-class="{highlight: $index % 4&gt;= threshold($index)}"&gt;                  {{otherFunction($index)}}              &lt;/li&gt;          &lt;/ul&gt;      &lt;/div&gt;  </pre>
+                </div>
+                <p>这里的第一个表达式recompute() / 10是有效的, 是在模板中设置逻辑很好的好例子, 但是应该避免这种方式. 保持视图和控制器之间的职责分离可以确保它们容易理解和测试.</p>
+                <p>虽然你可以使用表达式做很多事情, 它们由Angular自定义的解释器部分计算. 他们并不使用JavaScript的eval()执行, eval()有相当多的限制.</p>
+                <p>相反, 它们使用Angular自带的自定义解释器执行. 在里面, 你不会看到循环结构(for, while等等), 流程控制语句(if-else, throw)或者改变数据的运算符(++, --). 当你需要使用这些类型的运算时, 你应该在你的控制器中使用指令进行处理.</p>
+                <p>尽管表达式在很多方面比JavaScript更加严格, 但它们对undefined和null并不是很严格(更宽松). 模板只是简单的渲染一些东西, 并不会抛出一个NullPointerException的错误. 这样就允许你安全的使用模型而没有限制, 并且只要它们得到数据填充就让它们出现在用户界面中.</p>
+                <h4>使用$watch监控模型变化</h4>
+
+                <h4>使用过滤器格式化数据</h4>
+            </div>
         </div>
-        <p>这里的第一个表达式recompute() / 10是有效的, 是在模板中设置逻辑很好的好例子, 但是应该避免这种方式. 保持视图和控制器之间的职责分离可以确保它们容易理解和测试.</p>
-        <p>虽然你可以使用表达式做很多事情, 它们由Angular自定义的解释器部分计算. 他们并不使用JavaScript的eval()执行, eval()有相当多的限制.</p>
-        <p>相反, 它们使用Angular自带的自定义解释器执行. 在里面, 你不会看到循环结构(for, while等等), 流程控制语句(if-else, throw)或者改变数据的运算符(++, --). 当你需要使用这些类型的运算时, 你应该在你的控制器中使用指令进行处理.</p>
-        <p>尽管表达式在很多方面比JavaScript更加严格, 但它们对undefined和null并不是很严格(更宽松). 模板只是简单的渲染一些东西, 并不会抛出一个NullPointerException的错误. 这样就允许你安全的使用模型而没有限制, 并且只要它们得到数据填充就让它们出现在用户界面中.</p>
-        <h4>使用$watch监控模型变化</h4>
-
-        <h4>使用过滤器格式化数据</h4>
-      </div>
-    </div>
-  </body>
+    </body>
 </html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html ng-app="formDemoApp">
+  <head>
+    <meta charset="utf-8">
+    <title>ng-form demo</title>
+  </head>
+  <body>
+    <div ng-controller="MainCntl">
+      <a href="#form_demo">form_demo</a> |
+      <a href="#hello">hello</a>
+       <div ng-view style="margin-top:30px;"></div>
+    </div>
+    
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript" src="../../angular-route.js"></script>
+    
+    <script type="text/javascript">
+      var formDemoApp = angular.module('formDemoApp', ['ngRoute']).config(function($routeProvider) {
+        $routeProvider
+                .when('/form_demo', {
+                  templateUrl: 'ng-form-demo/template1.html',
+                  controller: 'Controller1'
+                })
+                .when('/hello', {
+                  templateUrl: 'ng-form-demo/template2.html',
+                  controller: 'Controller2'
+                })
+                .otherwise({
+                  redirectTo: '/hello'
+                });
+      });
+      formDemoApp.controller('MainCntl', ['$scope', '$route', '$routeParams', '$location', function($scope, $route, $routeParams, $location) {
+          $scope.$route = $route;
+          $scope.$location = $location;
+          $scope.$routeParams = $routeParams;
+        }]);
+      formDemoApp.controller('Controller1', ['$scope', function($scope) {
+          $scope.userType = 'guest';
+          $scope.myFormSubmit = function() {
+            console.info('submit');
+          };
+        }]);
+      formDemoApp.controller('Controller2', ['$scope', function($scope) {
+          $scope.world = 'World!';
+        }]);
+    </script>
+  </body>
+</html>

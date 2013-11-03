@@ -1,0 +1,34 @@
+<!doctype html>
+<html ng-app>
+  <head>
+    <meta charset="utf-8">
+    <title>ng-form demo</title>
+  </head>
+  <body>
+    <form name="myForm" ng-submit="myFormSubmit();">
+      userType: <input name="input" ng-model="userType" required>
+      <span class="error" ng-show="myForm.input.$error.required">Required!</span><br>
+      <tt>userType = {{userType}}</tt><br>
+      <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br>
+      <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br>
+      <tt>myForm.$valid = {{myForm.$valid}}</tt><br>
+      <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br>
+
+      username: <input name="input" ng-model="username"><br>
+      <button type="submit" ng-disabled="myForm.$pristine">提交</button>
+      <button type="button" ng-disabled="myForm.$dirty">取消</button>
+      
+    </form>
+
+    <script type="text/javascript" src="../../angular.js"></script>
+
+    <script type="text/javascript">
+        function Ctrl($scope) {
+          $scope.userType = 'guest';
+          $scope.myFormSubmit = function() {
+            console.info('submit');
+          };
+        }
+    </script>
+  </body>
+</html>

@@ -43,29 +43,32 @@
         </tr>
       </table>
     </div>
+    
+<!--    <script type="text/javascript" src="../../version-1.0.8/angular.js"></script>
+    <script type="text/javascript" src="../../version-1.0.8/angular-sanitize.js"></script>-->
+    
     <script type="text/javascript" src="../../angular.js"></script>
     <script type="text/javascript" src="../../angular-sanitize.js"></script>
-
     <script type="text/javascript">
-            //创建一个app，并在该app下创建一个controller
-            angular.module('ngBindHtmlDemoApp', ['ngSanitize']).controller('ngBindHtmlDemoCtrl', ['$scope', function($scope) {
-                $scope.snippet =
-                        '<p style="color:blue">an html\n' +
-                        '<em onmouseover="this.textContent=\'PWN3D!\'" onmouseout="this.textContent=\'the mouse over\'">the mouse over</em>\n' +
-                        'snippet</p>';
-              }]).directive('htmlTitle', function($sanitize) {
-              return {
-                restrict: 'A',
-                link: function(scope, element, attrs) {
-                  attrs.$observe('htmlTitle', function(title) {
-                    // convert &value; to HTML
-                    var html = angular.element('<div></div>').html($sanitize(title)).text();
-                    element.attr('title', html);
-                    element.html(html);
+                  //创建一个app，并在该app下创建一个controller
+                  angular.module('ngBindHtmlDemoApp', ['ngSanitize']).controller('ngBindHtmlDemoCtrl', ['$scope', function($scope) {
+                      $scope.snippet =
+                              '<p style="color:blue">an html\n' +
+                              '<em onmouseover="this.textContent=\'PWN3D!\'" onmouseout="this.textContent=\'the mouse over\'">the mouse over</em>\n' +
+                              'snippet</p>';
+                    }]).directive('htmlTitle', function($sanitize) {
+                    return {
+                      restrict: 'A',
+                      link: function(scope, element, attrs) {
+                        attrs.$observe('htmlTitle', function(title) {
+                          // convert &value; to HTML
+                          var html = angular.element('<div></div>').html($sanitize(title)).text();
+                          element.attr('title', html);
+                          element.html(html);
+                        });
+                      }
+                    };
                   });
-                }
-              };
-            });
     </script>
   </body>
 </html>

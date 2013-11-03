@@ -4,11 +4,15 @@
     <meta charset="utf-8">
     <title>ng-bind demo</title>
   </head>
-  <body ng-controller="ngBindDemoController">
+  <body id="demo" ng-controller="ngBindDemoController">
     <input ng-model="greeting.text" />
     <p>{{greeting.text | lowercase}}, World</p>
     <p>以下用法是错误的</p>
+    <pre>
+      &lt;input name="wrong" style="border: 1px solid #ED2754;" \{\{greeting.text\}\}/&gt;
+    </pre>
     <input name="wrong" style="border: 1px solid #ED2754;" {{attribute}}/>
+    <script type="text/javascript" src="../../../../../platform/javascript/jquery/jquery.js"></script>
     <script type="text/javascript" src="../../angular.js"></script>
     <script type="text/javascript">
         //创建一个app，并在该app下创建一个controller

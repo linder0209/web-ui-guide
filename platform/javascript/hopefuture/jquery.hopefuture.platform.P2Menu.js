@@ -170,7 +170,7 @@
                 e.preventDefault();
                 var currentSubMenu = $(this).parent().find(menuSubItemCt);
                 if (currentSubMenu.is(':visible')) {
-                    return;
+                    currentSubMenu.hide();
                 } else {
                     me.container.find(menuItemCt).removeClass('active');
                     me.container.find(menuSubItemCt).hide();

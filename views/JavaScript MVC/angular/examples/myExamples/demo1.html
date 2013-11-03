@@ -1,0 +1,24 @@
+<!doctype html>
+<html ng-app>
+  <head>
+  </head>
+  <body>
+    <div>
+      <b>Invoice:</b>
+      <br>
+      <br>
+      <table>
+        <tr><td>Quantity</td><td>Cost</td></tr>
+        <tr>
+          <td><input type="integer" min="0" ng-model="qty" required ></td>
+          <td><input type="number" ng-model="cost" required ></td>
+        </tr>
+      </table>
+      <hr>
+      <!-- 利用 {{}} 来处理数据 -->
+      <b>Total:</b> {{qty * cost | currency}}
+    </div>
+
+    <script type="text/javascript" src="../../angular.js"></script>
+  </body>
+</html>

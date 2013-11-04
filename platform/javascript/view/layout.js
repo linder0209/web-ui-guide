@@ -39,6 +39,7 @@
                             <div class="h-body-content-ct" id="body_content_ct"> \n\
                                 <div class="h-clearfix"> \n\
                                     单独访问该页面 <a id="page_link" href="" target="_blank"></a>\n\
+                                    <button type="button" class="h-margin10-L h-web-btn h-web-btn-primary" id="create_catalogue">生成目录代码</button>\n\
                                     <span class="h-body-content-zoom h-float-r" id="body_content_zoom"></span> \n\
                                 </div> \n\
                                 <div class="h-line h-margin10-TB"></div> \n\
@@ -146,6 +147,31 @@
       //初始化内容折叠事件
       $('#body_content_frame').on('click', 'h3[paragraph]', function(e) {
         $(this).next().toggle();
+      });
+
+      //初始化生成目录代码事件
+      $('#create_catalogue').click(function() {
+        var codeDialog = $('#codeDialog');
+        if (codeDialog.length == 0) {
+          codeDialog = $('<div id="codeDialog"><pre></pre></div>').appendTo(document.body);
+          codeDialog.dialog({
+            autoOpen: false,
+            title: '目录代码',
+            width: 800,
+            height: 600,
+            buttons: {
+              Ok: {
+                click: function() {
+                  codeDialog.dialog('close');
+    },
+                text: '确定'
+              }
+            }
+          });
+        }
+        var html = pub.createCatalogue();
+        codeDialog.find('pre').text(html);
+        codeDialog.dialog('open');
       });
     },
     //实现当window滚动时，顶端的菜单栏位置不变，始终置于页面顶部
@@ -288,25 +314,28 @@
       };
 
       var catalogues = fn($('.h-web-paragraph  h3[paragraph]'), -1);
-      console.log(catalogues);
+      //console.log(catalogues);
 
-
-      var fn2 = function(nodes, index) {
-        var html = '  <ol class="h-web-catalogue' + (index == 0 ? '' : index + 1) + '">\n';
+      var blank = ['  ','    ','      ','        ','          ','            ','              '];
+      var fn2 = function(nodes, index, blankIndex) {
+        var html = blank[blankIndex];
+        html += '<ol class="h-web-catalogue' + (index == 0 ? '' : index + 1) + '">\n';
         for (var i = 0, len = nodes.length; i < len; i++) {
           var node = nodes[i];
-          html += '    <li>\n<a' + (index == 0 ? ' paragraph' : '') + ' href="#">' + node.text + '</a>\n';
+          html += blank[blankIndex + 1] + '<li>\n';
+          html += blank[blankIndex + 2] + '<a' + (index == 0 ? ' paragraph' : '') + ' href="#">' + node.text + '</a>\n';
           if (node.nodes && node.nodes.length > 0) {
-            html += fn2(node.nodes, index + 1);
+            html += fn2(node.nodes, index + 1, blankIndex + 2);
           }
-          html += '</li>\n';
+          html += blank[blankIndex + 1] + '</li>\n';
         }
-        html += '  </ol>\n';
+        html += blank[blankIndex] + '</ol>\n';
         return html;
       };
 
-      var cataloguesHtml = fn2(catalogues, 0);
-      console.log(cataloguesHtml);
+      var cataloguesHtml = fn2(catalogues, 0, 0);
+      //console.log(cataloguesHtml);
+      return cataloguesHtml;
     }
   };
 

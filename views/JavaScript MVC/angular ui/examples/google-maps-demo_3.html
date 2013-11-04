@@ -44,7 +44,7 @@
           <!--Giving the div an id="map_canvas" fix problems with twitter bootstrap affecting
           google maps-->
 
-          <div ui-map="myMap" ui-options="mapOptions" class="map-canvas col-sm-8 map" 
+          <div ui-map="myMap" ui-options="mapOptions" class="map-canvas col-sm-8" 
                ui-event="{'map-click': 'addMarker($event, $params)', 'map-zoom_changed': 'setZoomMessage(myMap.getZoom())'}"></div>
 
 
@@ -59,7 +59,7 @@
 
     <script type="text/javascript" src="../google-maps/bower_components/angular-ui-utils/modules/event/event.js"></script>
     <script type="text/javascript" src="../google-maps/ui-map.js"></script>
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&callback=onGoogleReady&language=en"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&callback=onGoogleReady&language=en"></script>
 
     <script type="text/javascript">
                 function onGoogleReady() {

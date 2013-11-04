@@ -336,7 +336,7 @@ function StartUpController($scope){
           <li>ng-dirty Is set if the form is dirty.</li>
         </ul>
         <p>ng-pristine，在js中可以这样使用$scope.formName.$pristine，如果表单中有值改变，该值会改变。利用该属性可以处理判断用户是否改变了当前页面中的值，
-        也可以利用该属性实现以下功能，首先把提交按钮置为disabled，当有值变化时，去掉disabled。ng-dirty 实现的功能正好相反</p>
+          也可以利用该属性实现以下功能，首先把提交按钮置为disabled，当有值变化时，去掉disabled。ng-dirty 实现的功能正好相反</p>
         <p>关于click和submit事件的处理，angular定义了以下规则</p>
         <p>To prevent double execution of the handler, use only one of the <a href="http://docs.angularjs.org/api/ng.directive:ngSubmit">ngSubmit</a> or <a href="http://docs.angularjs.org/api/ng.directive:ngClick">ngClick</a> directives.  This is because of the following form submission rules in the HTML specification:</p>
         <ul>
@@ -383,6 +383,187 @@ function StartUpController($scope){
         </pre>
         <p><a href="./angular/examples/myExamples/ng-form.html">运行效果</a></p>
 
+        <h5>input，textarea 的用法</h5>
+        <p>这两个元素的用法相对简单，主要有以下指令，详细用法见官网Api。其中angular提供的校验很好，但需要手工书写错误信息，本人建议还是使用jquery validate比较方便。</p>
+        <pre>
+        &lt;input
+    ng-model="{string}"
+    [name="{string}"]
+    [required]
+    [ng-required="{boolean}"]
+    [ng-minlength="{number}"]
+    [ng-maxlength="{number}"]
+    [ng-pattern="{string}"]
+    [ng-change="{string}"]&gt;
+    &lt;/input&gt;
+        </pre>
+        
+        <h5>input checkbox的用法</h5>
+        <p>checkbox用法比较简单，可以结合ng-true-value 和ng-false-value 指令来设置选中和没选中的值，
+          如果没有用这两个指令的话，默认选中为true，反之为false
+        </p>
+        <pre>
+<form name="myForm" ng-controller="Ctrl">
+  Value1: <input type="checkbox" ng-model="value1"> <br/>
+  Value2: <input type="checkbox" ng-model="value2"
+  ng-true-value="YES" ng-false-value="NO"> <br/>
+  <tt>value1 = {{value1}}</tt><br/>
+  <tt>value2 = {{value2}}</tt><br/>
+</form>
+        </pre>
+        <p>对于一组checkbox来说，我们可以利用ng-repeat指令来处理</p>
+        <pre>
+      Checkbox group: 
+      <div ng-repeat="field in checkboxFields">
+        {{field.name}} : <input type="checkbox" ng-model="field.value"> 
+      </div>
+
+      <hr/>
+      <p>
+        设置结果：
+      </p>
+      <div ng-repeat="field in checkboxFields">
+        <tt>{{field.name}} = {{field.value}}</tt>
+      </div>
+        </pre>
+
+        <p>以下是一个完整的例子</p>
+        <pre>
+&lt;!doctype html&gt;
+&lt;html ng-app&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;checkbox demo&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;form name="myForm" ng-controller="Ctrl"&gt;
+      Value1: &lt;input type="checkbox" ng-model="value1"&gt; &lt;br/&gt;
+      Value2: &lt;input type="checkbox" ng-model="value2"
+                     ng-true-value="YES" ng-false-value="NO"&gt; &lt;br/&gt;
+      &lt;tt&gt;value1 = {{value1}}&lt;/tt&gt;&lt;br/&gt;
+      &lt;tt&gt;value2 = {{value2}}&lt;/tt&gt;&lt;br/&gt;&lt;br/&gt;
+
+      对于一组checkbox来说，可以利用循环来实现&lt;br/&gt;
+      Checkbox group: &lt;br/&gt;
+      &lt;div ng-repeat="field in checkboxFields"&gt;
+        {{field.name}} : &lt;input type="checkbox" ng-model="field.value"&gt; 
+      &lt;/div&gt;
+
+      &lt;hr/&gt;
+      &lt;p&gt;
+        设置结果：
+      &lt;/p&gt;
+      &lt;div ng-repeat="field in checkboxFields"&gt;
+        &lt;tt&gt;{{field.name}} = {{field.value}}&lt;/tt&gt;&lt;br/&gt;
+      &lt;/div&gt;
+    &lt;/form&gt;
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+          function Ctrl($scope) {
+            $scope.checkboxFields = [{
+                name: '北京',
+                value: false
+              }, {
+                name: '天津',
+                value: true
+              }, {
+                name: '上海',
+                value: false
+              }];
+            $scope.value1 = true;
+            $scope.value2 = 'YES';
+          }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+        </pre>
+        <p><a href="./angular/examples/myExamples/ng-checkbox-demo.html">运行效果</a></p>
+        
+        <h5>input radio 的用法</h5>
+        <p>radio处理起来比checkbox更加方便，对于一组radio来说，他只有一个值，他们共用一个ng-model，但每个radio的值不同。看下面的例子</p>
+        <pre>
+&lt;!doctype html&gt;
+&lt;html ng-app&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;radio demo&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;form name="myForm" ng-controller="Ctrl"&gt;
+      &lt;input type="radio" ng-model="color" value="red"&gt; Red &lt;br/&gt;
+      &lt;input type="radio" ng-model="color" value="green"&gt; Green &lt;br/&gt;
+      &lt;input type="radio" ng-model="color" value="blue"&gt; Blue &lt;br/&gt;
+      &lt;tt&gt;color = {{color}}&lt;/tt&gt;&lt;br/&gt;
+    &lt;/form&gt;
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+        function Ctrl($scope) {
+          $scope.color = 'blue';
+        }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+        </pre>
+        <p><a href="./angular/examples/myExamples/ng-radio-demo.html">运行效果</a></p>
+        
+        <h5>select 的用法</h5>
+        <p>select的用法，angular提供了一套比较牛b的实现，而且用法也比较灵活，select是结合ngOptions指令来实现的</p>
+        <p>ngOptions指令表达式值有以下几种情况（官方文档）</p>
+        <ul>
+          <li>for array data sources:
+            <ul>
+              <li>label <strong>for</strong> value <strong>in</strong> array</li>
+              <li>select <strong>as</strong> label <strong>for</strong> value <strong>in</strong> array</li>
+              <li>label <strong>group by</strong> group <strong>for</strong> value <strong>in</strong> array</li>
+              <li>select <strong>as</strong> label <strong>group by</strong> group <strong>for</strong> value <strong>in</strong> array <strong>track by</strong> trackexpr</li>
+            </ul>
+          </li>
+          <li>for object data sources:
+            <ul>
+              <li>label <strong>for (</strong>key <strong>,</strong> value<strong>) in</strong> object</li>
+              <li>select <strong>as</strong> label <strong>for (</strong>key <strong>,</strong> value<strong>) in</strong> object</li>
+              <li>label <strong>group by</strong> group <strong>for (</strong>key<strong>,</strong> value<strong>) in</strong> object</li>
+              <li>select <strong>as</strong> label <strong>group by</strong> group <strong>for (</strong>key<strong>,</strong> value<strong>) in</strong> object</li>
+            </ul>
+          </li>
+        </ul>
+        <p>Where:</p>
+        <ul>
+          <li>array / object: an expression which evaluates to an array / object to iterate over.</li>
+          <li>value: local variable which will refer to each item in the array or each property value   of object during iteration.</li>
+          <li>key: local variable which will refer to a property name in object during iteration.</li>
+          <li>label: The result of this expression will be the label for &lt;option&gt; element. The  expression will most likely refer to the value variable (e.g. value.propertyName).</li>
+          <li>select: The result of this expression will be bound to the model of the parent &lt;select&gt;   element. If not specified, select expression will default to value.</li>
+          <li>group: The result of this expression will be used to group options using the &lt;optgroup&gt;   DOM element.</li>
+          <li>trackexpr: Used when working with an array of objects. The result of this expression will be   used to identify the objects in the array. The trackexpr will most likely refer to the  value variable (e.g. value.propertyName).</li>
+        </ul>
+        
+        <p>下面针对各用法给出详细解释</p>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <p>&nbsp;</p>
         <h4>几个主要概念的理解</h4>
         <p>ng-app</p>
@@ -455,7 +636,7 @@ function StartUpController($scope){
         <h5>在终端控制台调试</h5>
         <p>先看一例子</p>
         <pre>
-  &lt;p id="test" ng-controller="TestCtrl"&gt;{{ a }}&lt;/p&gt;
+  &lt;p id="test" ng-controller="TestCtrl"&gt;{{ a}}&lt;/p&gt;
   
   &lt;script type="text/javascript"&gt;
   var TestCtrl = function($scope){

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="selectDemoApp">
+  <head>
+    <meta charset="utf-8">
+    <title>ng-style demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/bootstrap.css" type="text/css"/>
+  </head>
+  <body >
+    <div ng-controller="demoController" class="well">
+      <input type="button" value="set" ng-click="myStyle = {color: 'red'}">
+      <input type="button" value="clear" ng-click="myStyle = {}">
+      <br/>
+      <span ng-style="myStyle || {color: 'red',height:'400px'}">Sample Text</span>
+      <pre>myStyle={{myStyle}}</pre>
+    </div>
+    <div  tabindex="-1">
+      <div class="modal-dialog" ng-style="customStyle || 'width:400px; '" styles="{{customStyle}}">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" title="Close">&times;</button>
+            <h4 class="modal-title">{{ dialogTitle}}<a href="#" class="sr-only">{{ dialogTitle}}</a></h4>
+          </div> 
+          <div class="modal-body">dsfdfsdfdfsdf</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" ng-click="ok()">{{okText|| 'OK'}}</button>
+            <button type="button" class="btn btn-default" ng-click="close()">{{cancelText|| 'Cancel'}}</button>  
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+          //创建一个app，并在该app下创建一个controller
+          angular.module('selectDemoApp', []).controller('demoController', ['$scope', function($scope) {
+            }]);
+    </script>
+  </body>
+</html>

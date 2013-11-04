@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="main">
   <head>
     <title>google Map demo</title>
     <meta charset="utf-8">
@@ -10,21 +10,35 @@
     </style>
   </head>
 
-  <body>
-    <section id="map" ng-controller="MapCtrl" >
-      <div ui-map="myMap" ui-options="mapOptions" class="map-canvas"></div>
-    </section>
+  <body ng-controller="MainCtrl">
+    {{mainDemo}}
+    <button id="buttonMap">
+      创建地图
+    </button>
     <script type="text/javascript" src="../../../../platform/javascript/jquery/jquery.js"></script>
     <script type="text/javascript" src="../../angular/angular.js"></script>
     
     <script type="text/javascript" src="../google-maps/bower_components/angular-ui-utils/modules/event/event.js"></script>
     <script type="text/javascript" src="../google-maps/ui-map.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
     
     <script type="text/javascript">
+      var loadedGoogle = false;
+      $('#buttonMap').click(function(){
+        if(loadedGoogle){
+          $(document.body).prepend('<section id="map" ng-controller="MapCtrl" >\n\
+      <div ui-map="myMap" ui-options="mapOptions" class="map-canvas"></div>\n\
+    </section>\n\
+<div ng-bind="mainDemo"></div>');
+          angular.bootstrap(document.getElementById("map"), ['app.ui-map']);
+        }
+      });
       function onGoogleReady() {
-        angular.bootstrap(document.getElementById("map"), ['app.ui-map']);
+        loadedGoogle = true;
       }
+      angular.module('main',[]).controller('MainCtrl', ['$scope', function($scope) {
+          $scope.mainDemo='ee';
+      }]);
       var myAppModule = angular.module('app.ui-map', ['ui.map']);
       myAppModule.controller('MapCtrl', ['$scope', function($scope) {
           $scope.mapOptions = {

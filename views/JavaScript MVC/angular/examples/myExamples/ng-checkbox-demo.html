@@ -1,0 +1,47 @@
+<!doctype html>
+<html ng-app>
+  <head>
+    <meta charset="utf-8">
+    <title>checkbox demo</title>
+  </head>
+  <body>
+    <form name="myForm" ng-controller="Ctrl">
+      Value1: <input type="checkbox" ng-model="value1"> <br/>
+      Value2: <input type="checkbox" ng-model="value2"
+                     ng-true-value="YES" ng-false-value="NO"> <br/>
+      <tt>value1 = {{value1}}</tt><br/>
+      <tt>value2 = {{value2}}</tt><br/><br/>
+
+      对于一组checkbox来说，可以利用循环来实现<br/>
+      Checkbox group: <br/>
+      <div ng-repeat="field in checkboxFields">
+        {{field.name}} : <input type="checkbox" ng-model="field.value"> 
+      </div>
+
+      <hr/>
+      <p>
+        设置结果：
+      </p>
+      <div ng-repeat="field in checkboxFields">
+        <tt>{{field.name}} = {{field.value}}</tt><br/>
+      </div>
+    </form>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+          function Ctrl($scope) {
+            $scope.checkboxFields = [{
+                name: '北京',
+                value: false
+              }, {
+                name: '天津',
+                value: true
+              }, {
+                name: '上海',
+                value: false
+              }];
+            $scope.value1 = true;
+            $scope.value2 = 'YES';
+          }
+    </script>
+  </body>
+</html>

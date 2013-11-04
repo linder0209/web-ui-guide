@@ -1,0 +1,21 @@
+<!doctype html>
+<html ng-app>
+  <head>
+    <meta charset="utf-8">
+    <title>radio demo</title>
+  </head>
+  <body>
+    <form name="myForm" ng-controller="Ctrl">
+      <input type="radio" ng-model="color" value="red"> Red <br/>
+      <input type="radio" ng-model="color" value="green"> Green <br/>
+      <input type="radio" ng-model="color" value="blue"> Blue <br/>
+      <tt>color = {{color}}</tt><br/>
+    </form>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+        function Ctrl($scope) {
+          $scope.color = 'blue';
+        }
+    </script>
+  </body>
+</html>

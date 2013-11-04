@@ -144,6 +144,7 @@
         <ul>
           <li>
             invalidHandler
+            <p>Callback for custom code when an invalid form is submitted. Called with an event object as the first argument, and the validator as the second.</p>
             <p>验证时执行，比如可以定义错误显示</p>
             <p><strong>Example</strong>: Displays a message above the form, indicating how many fields are invalid when the user tries to submit an invalid form.</p>
 
@@ -222,7 +223,7 @@
             <p>上面的例子把fname和 lname分成一组，这组中校验时显示的验证信息会统一在#lastname后显示，其中username是任意的字符串。</p>
           </li>
         </ul>
-        <p>以上列出了部分options，更多可查看<a href="http://validation.bassistance.de/validate/" target="_blank">这里</a></p>
+        <p>以上列出了部分options，更多可查看<a href="http://jqueryvalidation.org/validate" target="_blank">这里</a></p>
         <h4>下面是一个项目中的综合例子，代码中重写了源代码中部分方法、定制了部分options参数，并且扩展了一个方法（hideErrors）：隐藏或删除错误提示信息</h4>
         <p><a href="jquery-validation/custom-examples/custom-validation.html">综合例子请点击这里</a></p>
         <p>以下是js的源代码</p>

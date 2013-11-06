@@ -116,5 +116,129 @@
                 yellow: {name: 'yellow', shade: 'light', code: '5'}};
         }]);
     </script>
+    
+    <div>例子代码</div>
+    <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html ng-app="selectDemoApp"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;select demo&lt;/title&gt;
+    &lt;link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/&gt;
+  &lt;/head&gt;
+  &lt;body &gt;
+    &lt;div ng-controller="selectDemoController" class="well"&gt;
+      &lt;div style="margin:20px;"&gt;ngOptions 是array的情况&lt;/div&gt;
+      &lt;ul&gt;
+        &lt;li ng-repeat="color in colors"&gt;
+          Name: &lt;input ng-model="color.name"&gt;
+          [&lt;a href ng-click="colors.splice($index, 1)"&gt;X&lt;/a&gt;]
+        &lt;/li&gt;
+        &lt;li&gt;
+          [&lt;a href ng-click="colors.push({})"&gt;add&lt;/a&gt;]
+        &lt;/li&gt;
+      &lt;/ul&gt;
+      &lt;hr/&gt;
+
+      注意：ng-options会产生一个空值，看下面几种情况&lt;br/&gt;
+      1.产生一个value和text都为空的option&lt;br/&gt;
+      &lt;select ng-model="color1" ng-options="c.name for c in colors"&gt;&lt;/select&gt;&lt;br/&gt;&lt;br/&gt;
+      2.默认设置一个value为空字符的option&lt;br/&gt;
+      &lt;select ng-model="color2"  ng-options="c.name for c in colors"&gt;
+        &lt;option value=""&gt;-- chose color --&lt;/option&gt;
+      &lt;/select&gt;&lt;br/&gt;&lt;br/&gt;
+      3.为ng-model赋一个初始值，当然这个值是ng-options中存在的值&lt;br/&gt;
+      &lt;span ng-init="color3 = colors[2];"&gt;&lt;/span&gt;
+      &lt;select ng-model="color3"  ng-options="c.name for c in colors"&gt;
+      &lt;/select&gt;&lt;br/&gt;&lt;br/&gt;
+      4.用ng-repeat循环显示option&lt;br/&gt;
+      &lt;span ng-init="color4 = '3';"&gt;&lt;/span&gt;
+      &lt;select ng-model="color4"&gt;
+        &lt;option ng-repeat="c in colors" value="{{c.code}}" ng-selected="c.code == color4"&gt;{{ c.name}}&lt;/option&gt;
+      &lt;/select&gt;&lt;br/&gt;&lt;br/&gt;
+      5.用track by trackexpr 设置默认值&lt;br/&gt;
+      在第3种情况中我们给ng-model赋了一个初始值，这个初始值是取ng-options中的某个值，如果我们这样设置，是不起作用的&lt;br/&gt;
+      &lt;span ng-init="color5 = {name: 'red', shade: 'dark', code: '3'};"&gt;&lt;/span&gt;
+      &lt;select ng-model="color5"  ng-options="c.name for c in colors"&gt;
+      &lt;/select&gt;&lt;br/&gt;&lt;br/&gt;
+      这时我们就可以用track by trackexpr来处理了，trackexpr表达式(e.g. value.propertyName)可以是数组中对象的任意属性&lt;br/&gt;
+      &lt;span ng-init="color5 = {name: 'red', shade: 'dark', code: '3'};"&gt;&lt;/span&gt;
+      &lt;select ng-model="color5"  ng-options="c.name for c in colors track by c.code"&gt;
+      &lt;/select&gt;&lt;br/&gt;&lt;br/&gt;
+
+      &lt;hr/&gt;
+      &lt;div&gt;下面是array的几种情况&lt;/div&gt;&lt;br/&gt;
+      1.label for value in array&lt;br/&gt;
+      &lt;span ng-init="color_label = colors[1];"&gt;&lt;/span&gt;
+      &lt;select ng-model="color_label"  ng-options="c.name for c in colors"&gt;
+      &lt;/select&gt;&lt;br/&gt;
+      {{color_label}}&lt;br/&gt;&lt;br/&gt;
+
+      2.select as label for value in array&lt;br/&gt;
+      &lt;span ng-init="color_select = '1';"&gt;&lt;/span&gt;
+      &lt;select ng-model="color_select"  ng-options="c.code as c.name for c in colors"&gt;
+      &lt;/select&gt;&lt;br/&gt;
+      {{color_select}}&lt;br/&gt;&lt;br/&gt;
+
+      3.label group by group for value in array&lt;br/&gt;
+      &lt;span ng-init="color_label_group = colors[1];"&gt;&lt;/span&gt;
+      &lt;select ng-model="color_label_group"  ng-options="c.name group by c.shade for c in colors"&gt;
+      &lt;/select&gt;&lt;br/&gt;
+      {{color_label_group}}&lt;br/&gt;&lt;br/&gt;
+
+      4.select as label group by group for value in array track by trackexpr&lt;br/&gt;
+      &lt;span ng-init="color_label_group2 = {name: 'white', shade: 'light', code: '2'};"&gt;&lt;/span&gt;
+      &lt;select ng-model="color_label_group2"  ng-options="c as c.name group by c.shade for c in colors track by c.name"&gt;
+      &lt;/select&gt;&lt;br/&gt;
+      {{color_label_group2}}&lt;br/&gt;&lt;br/&gt;
+      &lt;hr/&gt;
+
+      &lt;div style="margin:20px;"&gt;以上例子都是采用array来实现的，下面我们看一下object的例子&lt;/div&gt;
+
+      1.label for (key , value) in object&lt;br/&gt;
+      &lt;span ng-init="color2_label = colors2['black'];"&gt;&lt;/span&gt;
+      &lt;select ng-model="color2_label"  ng-options="value.name | uppercase for (key , value) in colors2"&gt;
+      &lt;/select&gt;&lt;br/&gt;
+      {{color2_label}}&lt;br/&gt;&lt;br/&gt;
+
+      2.select as label for (key , value) in object&lt;br/&gt;
+      &lt;span ng-init="color2_select = '3';"&gt;&lt;/span&gt;
+      &lt;select ng-model="color2_select"  ng-options="value.code as value.name for (key , value) in colors2"&gt;
+      &lt;/select&gt;&lt;br/&gt;
+      {{color2_select}}&lt;br/&gt;&lt;br/&gt;
+
+      3.label group by group for (key, value) in object&lt;br/&gt;
+      &lt;span ng-init="color2_group = colors2['black'];"&gt;&lt;/span&gt;
+      &lt;select ng-model="color2_group"  ng-options="value.name group by value.shade for (key , value) in colors2"&gt;
+      &lt;/select&gt;&lt;br/&gt;
+      {{color2_group}}&lt;br/&gt;&lt;br/&gt;
+
+      4.select as label group by group for (key, value) in object&lt;br/&gt;
+      &lt;span ng-init="color2_group2 = '4';"&gt;&lt;/span&gt;
+      &lt;select ng-model="color2_group2"  ng-options="value.code as value.name group by value.shade for (key , value) in colors2"&gt;
+      &lt;/select&gt;&lt;br/&gt;
+      {{color2_group2}}&lt;br/&gt;&lt;br/&gt;
+    &lt;/div&gt;
+
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+        //创建一个app，并在该app下创建一个controller
+        angular.module('selectDemoApp', []).controller('selectDemoController', ['$scope', function($scope) {
+        $scope.colors = [{name: 'black', shade: 'dark', code: '1'},
+                {name: 'white', shade: 'light', code: '2'},
+                {name: 'red', shade: 'dark', code: '3'},
+                {name: 'blue', shade: 'dark', code: '4'},
+                {name: 'yellow', shade: 'light', code: '5'}];
+        $scope.colors2 = {
+        black: {name: 'black', shade: 'dark', code: '1'},
+                white: {name: 'white', shade: 'light', code: '2'},
+                red: {name: 'red', shade: 'dark', code: '3'},
+                blue: {name: 'blue', shade: 'dark', code: '4'},
+                yellow: {name: 'yellow', shade: 'light', code: '5'}};
+        }]);
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
   </body>
 </html>

@@ -21,40 +21,38 @@
     <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
     <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
     <script type="text/javascript">
-      $(function() {
-        $('.h-web-catalogue li a').click(function(e) {
-          e.preventDefault();
-          var paragraphNum,
-                  paragraph,
-                  offset;
-          var el = this;
-          $(this).closest('ol').find('li a').each(function(index, element) {
-            if (this === el) {
+              $(function() {
+              $('.h-web-catalogue li a').click(function(e) {
+              e.preventDefault();
+                      var paragraphNum,
+                      paragraph,
+                      offset;
+                      var el = this;
+                      $(this).closest('ol').find('li a').each(function(index, element) {
+              if (this === el) {
               paragraphNum = index;
-              return false;
-            }
-          });
-          paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
-          offset = paragraph.offset();
-          if (offset) {
-            $(window).scrollTop(offset.top);
-          }
-        });
-        //初始化内容折叠事件
-        $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
-          $(this).next().toggle();
-        });
-
-        //SyntaxHighlighter
-        $('pre').replaceWith(function() {
-          var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
-          html += $(this).html();
-          html += '</pre>';
-          return html;
-        });
-        SyntaxHighlighter.highlight();
-      });
-    </script>
+                      return false;
+              }
+              });
+                      paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+                      offset = paragraph.offset();
+                      if (offset) {
+              $(window).scrollTop(offset.top);
+              }
+              });
+                      //初始化内容折叠事件
+                      $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+              $(this).next().toggle();
+              });
+                      //SyntaxHighlighter
+                      $('pre').replaceWith(function() {
+              var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
+                      html += $(this).html();
+                      html += '</pre>';
+                      return html;
+              });
+                      SyntaxHighlighter.highlight();
+              });</script>
   </head>
   <body>
     <h3 class="h-web-paragraph-title">目录</h3>
@@ -397,34 +395,34 @@ function StartUpController($scope){
     [ng-change="{string}"]&gt;
     &lt;/input&gt;
         </pre>
-        
+
         <h5>input checkbox的用法</h5>
         <p>checkbox用法比较简单，可以结合ng-true-value 和ng-false-value 指令来设置选中和没选中的值，
           如果没有用这两个指令的话，默认选中为true，反之为false
         </p>
         <pre>
-<form name="myForm" ng-controller="Ctrl">
-  Value1: <input type="checkbox" ng-model="value1"> <br/>
-  Value2: <input type="checkbox" ng-model="value2"
-  ng-true-value="YES" ng-false-value="NO"> <br/>
-  <tt>value1 = {{value1}}</tt><br/>
-  <tt>value2 = {{value2}}</tt><br/>
-</form>
+    <form name="myForm" ng-controller="Ctrl">
+      Value1: <input type="checkbox" ng-model="value1"> <br/>
+      Value2: <input type="checkbox" ng-model="value2"
+      ng-true-value="YES" ng-false-value="NO"> <br/>
+      <tt>value1 = {{value1}}</tt><br/>
+      <tt>value2 = {{value2}}</tt><br/>
+    </form>
         </pre>
         <p>对于一组checkbox来说，我们可以利用ng-repeat指令来处理</p>
         <pre>
       Checkbox group: 
-      <div ng-repeat="field in checkboxFields">
-        {{field.name}} : <input type="checkbox" ng-model="field.value"> 
-      </div>
+      &lt;div ng-repeat="field in checkboxFields"&gt;
+        {{field.name}} : &lt;input type="checkbox" ng-model="field.value"&gt; 
+      &lt;/div&gt;
 
-      <hr/>
-      <p>
+      &lt;hr/&gt;
+      &lt;p&gt;
         设置结果：
-      </p>
-      <div ng-repeat="field in checkboxFields">
-        <tt>{{field.name}} = {{field.value}}</tt>
-      </div>
+      &lt;/p&gt;
+      &lt;div ng-repeat="field in checkboxFields"&gt;
+        &lt;tt&gt;{{field.name}} = {{field.value}}&lt;/tt&gt;
+      &lt;/div&gt;
         </pre>
 
         <p>以下是一个完整的例子</p>
@@ -478,7 +476,7 @@ function StartUpController($scope){
 &lt;/html&gt;
         </pre>
         <p><a href="./angular/examples/myExamples/ng-checkbox-demo.html">运行效果</a></p>
-        
+
         <h5>input radio 的用法</h5>
         <p>radio处理起来比checkbox更加方便，对于一组radio来说，他只有一个值，他们共用一个ng-model，但每个radio的值不同。看下面的例子</p>
         <pre>
@@ -505,7 +503,7 @@ function StartUpController($scope){
 &lt;/html&gt;
         </pre>
         <p><a href="./angular/examples/myExamples/ng-radio-demo.html">运行效果</a></p>
-        
+
         <h5>select 的用法</h5>
         <p>select的用法，angular提供了一套比较牛b的实现，而且用法也比较灵活，select是结合ngOptions指令来实现的</p>
         <p>ngOptions指令表达式值有以下几种情况（官方文档）</p>
@@ -537,33 +535,144 @@ function StartUpController($scope){
           <li>group: The result of this expression will be used to group options using the &lt;optgroup&gt;   DOM element.</li>
           <li>trackexpr: Used when working with an array of objects. The result of this expression will be   used to identify the objects in the array. The trackexpr will most likely refer to the  value variable (e.g. value.propertyName).</li>
         </ul>
-        
+
         <p>下面针对各用法给出详细解释</p>
+
+        <p>注意：<span class="h-web-font-red">用ng-options指令迭代option，如果select对应的ng-model没有初始值，会产生一个空的option，解决的方法可以为ng-model赋初始值，也可以默认设置一个空的option，还可以利用track by trackexpr来设置默认值。
+            如果不想要空值，并且也不知道ng-model初始值，我们只能用ng-repeat来循环option了。</span></p>
+        <pre>
+          <div ng-init="colors = [
+                    {name: 'black', shade: 'dark', code: '1'},
+                    {name: 'white', shade: 'light', code: '2'},
+                    {name: 'red', shade: 'dark', code: '3'},
+                    {name: 'blue', shade: 'dark', code: '4'},
+                    {name: 'yellow', shade: 'light', code: '5'}
+            ];"></div>
+          1.产生一个value和text都为空的option
+          <select ng-model="color1" ng-options="c.name for c in colors"></select>
+
+          2.默认设置一个value为空字符的option
+          <select ng-model="color2"  ng-options="c.name for c in colors">
+            <option value="">-- chose color --</option>
+          </select>
+
+          3.为ng-model赋一个初始值，当然这个值是ng-options中存在的值
+          <span ng-init="color3 = colors[2];"></span>
+          <select ng-model="color3"  ng-options="c.name for c in colors">
+          </select>
+
+          4.用ng-repeat循环显示option
+          <span ng-init="color4 = '3';"></span>
+          <select ng-model="color4">
+            <option ng-repeat="c in colors" value="{{c.code}}" ng-selected="c.code == color4">{{ c.name}}</option>
+          </select>
+
+          5.用track by trackexpr 设置默认值
+          在第3种情况中我们给ng-model赋了一个初始值，这个初始值是取ng-options中的某个值，如果我们这样设置，是不起作用的
+          <span ng-init="color5 = {name: 'red', shade: 'dark', code: '3'};"></span>
+          <select ng-model="color5"  ng-options="c.name for c in colors">
+          </select>
+
+          这时我们就可以用track by trackexpr来处理了，trackexpr表达式(e.g. value.propertyName)可以是数组中对象的任意属性
+          <span ng-init="color5 = {name: 'red', shade: 'dark', code: '3'};"></span>
+          <select ng-model="color5"  ng-options="c.name for c in colors track by c.code">
+          </select>
+        </pre>
+        <p>track by trackexpr的用法，官方提供了一个例子 <a href="http://jsfiddle.net/yTpcu/">例子</a></p>
         
+        <p>我们看一下ng-options arrays 和 objects的详细用法，首先看 arrays 的几种情况</p>
+        <pre>
+           <div ng-init="colors = [
+                    {name: 'black', shade: 'dark', code: '1'},
+                    {name: 'white', shade: 'light', code: '2'},
+                    {name: 'red', shade: 'dark', code: '3'},
+                    {name: 'blue', shade: 'dark', code: '4'},
+                    {name: 'yellow', shade: 'light', code: '5'}
+            ];"></div>
+           1.label for value in array
+          <span ng-init="color_label = colors[1];"></span>
+          <select ng-model="color_label"  ng-options="c.name for c in colors">
+          </select>
+          {{color_label}}
+
+          2.select as label for value in array
+          <span ng-init="color_select = '1';"></span>
+          <select ng-model="color_select"  ng-options="c.code as c.name for c in colors">
+          </select>
+          {{color_select}}
+
+          3.label group by group for value in array
+          <span ng-init="color_label_group = colors[1];"></span>
+          <select ng-model="color_label_group"  ng-options="c.name group by c.shade for c in colors">
+          </select>
+          {{color_label_group}}
+
+          4.select as label group by group for value in array track by trackexpr
+          <span ng-init="color_label_group2 = {name: 'white', shade: 'light', code: '2'};"></span>
+          <select ng-model="color_label_group2"  ng-options="c as c.name group by c.shade for c in colors track by c.name">
+          </select>
+          {{color_label_group2}}
+        </pre>
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        <p>以上是arrays的例子，下面看一下objects的几种情况</p>
+        <pre>
+          <div ng-init="$scope.colors2 = {
+                    black: {name: 'black', shade: 'dark', code: '1'},
+                    white: {name: 'white', shade: 'light', code: '2'},
+                    red: {name: 'red', shade: 'dark', code: '3'},
+                    blue: {name: 'blue', shade: 'dark', code: '4'},
+                    yellow: {name: 'yellow', shade: 'light', code: '5'}
+                  };"></div>
+          1.label for (key , value) in object
+          <span ng-init="color2_label = colors2['black'];"></span>
+          <select ng-model="color2_label"  ng-options="value.name | uppercase for (key , value) in colors2">
+          </select>
+          {{color2_label}}
+
+          2.select as label for (key , value) in object
+          <span ng-init="color2_select = '3';"></span>
+          <select ng-model="color2_select"  ng-options="value.code as value.name for (key , value) in colors2">
+          </select>
+          {{color2_select}}
+
+          3.label group by group for (key, value) in object
+          <span ng-init="color2_group = colors2['black'];"></span>
+          <select ng-model="color2_group"  ng-options="value.name group by value.shade for (key , value) in colors2">
+          </select>
+          {{color2_group}}
+
+          4.select as label group by group for (key, value) in object
+          <span ng-init="color2_group2 = '4';"></span>
+          <select ng-model="color2_group2"  ng-options="value.code as value.name group by value.shade for (key , value) in colors2">
+          </select>
+          {{color2_group2}}
+        </pre>
+
+        <p>关于object的用法可以查看官方<a href="http://jsfiddle.net/salcman/jUP6K/">例子</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <p>&nbsp;</p>
         <h4>几个主要概念的理解</h4>
         <p>ng-app</p>

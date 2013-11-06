@@ -3,10 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title>select demo</title>
-    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/bootstrap.css" type="text/css"/>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
   </head>
   <body >
     <div ng-controller="selectDemoController" class="well">
+      <div style="margin:20px;">ngOptions 是array的情况</div>
       <ul>
         <li ng-repeat="color in colors">
           Name: <input ng-model="color.name">
@@ -17,66 +18,103 @@
         </li>
       </ul>
       <hr/>
-      Color (null not allowed):
-      <select ng-model="color" ng-options="c.name for c in colors"></select><br>
-      Color (null allowed):
-      <span class="nullable">
-        <select ng-model="color" >
-          <option value="">-- chose color --</option>
-        </select>
-      </span><br/>
-      Color grouped by shade:
-      <select ng-model="color" ng-options="c.name group by c.shade for c in colors">
-      </select><br/>
-      Select <a href ng-click="color = {name: 'not in list'}">bogus</a>.<br>
+
+      注意：ng-options会产生一个空值，看下面几种情况<br/>
+      1.产生一个value和text都为空的option<br/>
+      <select ng-model="color1" ng-options="c.name for c in colors"></select><br/><br/>
+      2.默认设置一个value为空字符的option<br/>
+      <select ng-model="color2"  ng-options="c.name for c in colors">
+        <option value="">-- chose color --</option>
+      </select><br/><br/>
+      3.为ng-model赋一个初始值，当然这个值是ng-options中存在的值<br/>
+      <span ng-init="color3 = colors[2];"></span>
+      <select ng-model="color3"  ng-options="c.name for c in colors">
+      </select><br/><br/>
+      4.用ng-repeat循环显示option<br/>
+      <span ng-init="color4 = '3';"></span>
+      <select ng-model="color4">
+        <option ng-repeat="c in colors" value="{{c.code}}" ng-selected="c.code == color4">{{ c.name}}</option>
+      </select><br/><br/>
+      5.用track by trackexpr 设置默认值<br/>
+      在第3种情况中我们给ng-model赋了一个初始值，这个初始值是取ng-options中的某个值，如果我们这样设置，是不起作用的<br/>
+      <span ng-init="color5 = {name: 'red', shade: 'dark', code: '3'};"></span>
+      <select ng-model="color5"  ng-options="c.name for c in colors">
+      </select><br/><br/>
+      这时我们就可以用track by trackexpr来处理了，trackexpr表达式(e.g. value.propertyName)可以是数组中对象的任意属性<br/>
+      <span ng-init="color5 = {name: 'red', shade: 'dark', code: '3'};"></span>
+      <select ng-model="color5"  ng-options="c.name for c in colors track by c.code">
+      </select><br/><br/>
+
       <hr/>
-      Currently selected: {{ {selected_color:color} }}
-      <div style="border:solid 1px black; height:20px"
-           ng-style="{'background-color':color.name}">
-      </div>
-      <div>以上是摘自官方的例子，下面自己总结几种情况的例子：</div>
-      <div>
-        for array data sources: 
-        <ol>
-          <li>
-            select as label for value in array<br/>
-            <select ng-model="student" ng-options="student.name as label student.name as value for student in students"></select>
-          </li>
-        </ol>
-      </div>
-      
-      
-      <div>
-        for object data sources: 
-        <ol>
-          <li>
-            label for (key , value) in object<br/>
-            <select ng-model="student" ng-options="name for (id , name) in students"></select>
-          </li>
-        </ol>
-      </div>
+      <div>下面是array的几种情况</div><br/>
+      1.label for value in array<br/>
+      <span ng-init="color_label = colors[1];"></span>
+      <select ng-model="color_label"  ng-options="c.name for c in colors">
+      </select><br/>
+      {{color_label}}<br/><br/>
+
+      2.select as label for value in array<br/>
+      <span ng-init="color_select = '1';"></span>
+      <select ng-model="color_select"  ng-options="c.code as c.name for c in colors">
+      </select><br/>
+      {{color_select}}<br/><br/>
+
+      3.label group by group for value in array<br/>
+      <span ng-init="color_label_group = colors[1];"></span>
+      <select ng-model="color_label_group"  ng-options="c.name group by c.shade for c in colors">
+      </select><br/>
+      {{color_label_group}}<br/><br/>
+
+      4.select as label group by group for value in array track by trackexpr<br/>
+      <span ng-init="color_label_group2 = {name: 'white', shade: 'light', code: '2'};"></span>
+      <select ng-model="color_label_group2"  ng-options="c as c.name group by c.shade for c in colors track by c.name">
+      </select><br/>
+      {{color_label_group2}}<br/><br/>
+      <hr/>
+
+      <div style="margin:20px;">以上例子都是采用array来实现的，下面我们看一下object的例子</div>
+
+      1.label for (key , value) in object<br/>
+      <span ng-init="color2_label = colors2['black'];"></span>
+      <select ng-model="color2_label"  ng-options="value.name | uppercase for (key , value) in colors2">
+      </select><br/>
+      {{color2_label}}<br/><br/>
+
+      2.select as label for (key , value) in object<br/>
+      <span ng-init="color2_select = '3';"></span>
+      <select ng-model="color2_select"  ng-options="value.code as value.name for (key , value) in colors2">
+      </select><br/>
+      {{color2_select}}<br/><br/>
+
+      3.label group by group for (key, value) in object<br/>
+      <span ng-init="color2_group = colors2['black'];"></span>
+      <select ng-model="color2_group"  ng-options="value.name group by value.shade for (key , value) in colors2">
+      </select><br/>
+      {{color2_group}}<br/><br/>
+
+      4.select as label group by group for (key, value) in object<br/>
+      <span ng-init="color2_group2 = '4';"></span>
+      <select ng-model="color2_group2"  ng-options="value.code as value.name group by value.shade for (key , value) in colors2">
+      </select><br/>
+      {{color2_group2}}<br/><br/>
     </div>
+
     <script type="text/javascript" src="../../angular.js"></script>
     <script type="text/javascript">
-              //创建一个app，并在该app下创建一个controller
-              angular.module('selectDemoApp', []).controller('selectDemoController', ['$scope', function($scope) {
-                  $scope.colors = [
-                    {name: 'black', shade: 'dark'},
-                    {name: 'white', shade: 'light'},
-                    {name: 'red', shade: 'dark'},
-                    {name: 'blue', shade: 'dark'},
-                    {name: 'yellow', shade: 'light'}
-                  ];
-                  //$scope.color = $scope.colors[2]; // red
-
-                  $scope.students = [{
-                      name: 'zhangsan',
-                      id: '123'
-                    }, {
-                      name: 'lisi',
-                      id: '456'
-                    }];
-                }]);
+        //创建一个app，并在该app下创建一个controller
+        angular.module('selectDemoApp', []).controller('selectDemoController', ['$scope', function($scope) {
+        $scope.colors = [{name: 'black', shade: 'dark', code: '1'},
+                {name: 'white', shade: 'light', code: '2'},
+                {name: 'red', shade: 'dark', code: '3'},
+                {name: 'blue', shade: 'dark', code: '4'},
+                {name: 'yellow', shade: 'light', code: '5'}];
+        $scope.colors2 = {
+        black: {name: 'black', shade: 'dark', code: '1'},
+                white: {name: 'white', shade: 'light', code: '2'},
+                red: {name: 'red', shade: 'dark', code: '3'},
+                blue: {name: 'blue', shade: 'dark', code: '4'},
+                yellow: {name: 'yellow', shade: 'light', code: '5'}};
+        }]);
     </script>
   </body>
 </html>

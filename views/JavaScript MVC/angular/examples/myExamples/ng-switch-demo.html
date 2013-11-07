@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ng-switch demo</title>
+    <style type="text/css">
+      .animate-switch-container {
+        position:relative;
+        background:white;
+        border:1px solid black;
+        height:40px;
+        overflow:hidden;
+      }
+
+      .animate-switch {
+        padding:10px;
+      }
+
+      .animate-switch.ng-animate {
+        -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+        transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+
+        position:absolute;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+      }
+
+      .animate-switch.ng-leave.ng-leave-active,
+      .animate-switch.ng-enter {
+        top:-50px;
+      }
+      .animate-switch.ng-leave,
+      .animate-switch.ng-enter.ng-enter-active {
+        top:0;
+      }
+    </style>
+  </head>
+  <body >
+    <div ng-controller="Ctrl">
+      <select ng-model="selection" ng-options="item for item in items">
+      </select>
+      <tt>selection={{selection}}</tt>
+      <hr/>
+      <div class="animate-switch-container"
+           ng-switch on="selection">
+        <div class="animate-switch" ng-switch-when="settings">Settings Div</div>
+        <div class="animate-switch" ng-switch-when="home">Home Span</div>
+        <div class="animate-switch" ng-switch-default>default</div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript" src="../../angular-animate.js"></script>
+    <script type="text/javascript">
+        function Ctrl($scope) {
+          $scope.items = ['settings', 'home', 'other'];
+          $scope.selection = $scope.items[0];
+        }
+        angular.bootstrap(document.documentElement);
+    </script>
+  </body>
+</html>

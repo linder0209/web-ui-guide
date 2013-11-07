@@ -1,0 +1,35 @@
+<!doctype html>
+<html ng-app="ngtemplatetest">
+  <head>
+    <meta charset="utf-8">
+    <title>script demo</title>
+  </head>
+  <body>
+    <script type="text/ng-template" id="/tpl.html">
+      <div>
+      <!-- note, templates must have exactly one root element -->
+      <h1>{{ title }}</h1>
+      <div class="content" ng-transclude></div>
+      </div>
+    </script>
+
+  <thing title="title of the template">
+    <p>Some transcluded content</p>
+  </thing>
+  <script type="text/javascript" src="../../angular.js"></script>
+
+  <script type="text/javascript">
+    angular.module('ngtemplatetest', [])
+        .directive(
+                'thing', function() {
+                  return {
+                    restrict: 'E'
+                    , templateUrl: '/tpl.html'
+                    , replace: true
+                    , transclude: true
+                    , scope: {'title': '@'}
+                  }
+                })
+  </script>
+</body>
+</html>

@@ -163,7 +163,7 @@
               Ok: {
                 click: function() {
                   codeDialog.dialog('close');
-    },
+                },
                 text: '确定'
               }
             }
@@ -296,7 +296,13 @@
      * @returns {}
      */
     createCatalogue: function() {
-      var hs = [' + div h4', ' ~ h5'];
+      var hs = [{
+          method: 'find',
+          params: [' + div h4']
+        }, {
+          method: 'nextUntil',
+          params: ['h4', 'h5']
+        }];
       var fn = function(el, index) {
         var nodes = [];
         for (var i = 0, len = el.length; i < len; i++) {
@@ -304,9 +310,13 @@
           var node = {
             text: subEl.text()
           };
-          subEl = subEl.find(hs[index + 1]);
-          if (subEl.length > 0) {
-            node.nodes = fn(subEl, index + 1);
+          if (hs[index + 1] != undefined) {
+            var method = hs[index + 1].method;
+            var params = hs[index + 1].params;
+            subEl = subEl[method](params[0], params[1]);
+            if (subEl.length > 0) {
+              node.nodes = fn(subEl, index + 1);
+            }
           }
           nodes.push(node);
         }
@@ -316,7 +326,7 @@
       var catalogues = fn($('.h-web-paragraph  h3[paragraph]'), -1);
       //console.log(catalogues);
 
-      var blank = ['  ','    ','      ','        ','          ','            ','              '];
+      var blank = ['  ', '    ', '      ', '        ', '          ', '            ', '              '];
       var fn2 = function(nodes, index, blankIndex) {
         var html = blank[blankIndex];
         html += '<ol class="h-web-catalogue' + (index == 0 ? '' : index + 1) + '">\n';

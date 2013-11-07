@@ -57,49 +57,97 @@
   <body>
     <h3 class="h-web-paragraph-title">目录</h3>
     <ol class="h-web-catalogue">
-      <li><a paragraph href="#">Angular 介绍</a>
+      <li>
+        <a paragraph href="#">Angular 介绍</a>
       </li>
-      <li><a paragraph href="#">Angular 例子</a>
+      <li>
+        <a paragraph href="#">Angular 例子</a>
       </li>
-      <li><a paragraph href="#">Angular 注意事项</a>
+      <li>
+        <a paragraph href="#">Angular 注意事项</a>
         <ol class="h-web-catalogue2">
-          <li><a href="#">浏览器支持</a>
+          <li>
+            <a href="#">浏览器支持</a>
           </li>
-          <li><a href="#">使用 ng 时不要冒然去改变相关 DOM 的结构</a>
+          <li>
+            <a href="#">使用 ng 时不要冒然去改变相关 DOM 的结构</a>
           </li>
-          <li><a href="#">AngularJS 命名空间</a>
+          <li>
+            <a href="#">AngularJS 命名空间</a>
           </li>
         </ol>
       </li>
-      <li><a paragraph href="#">Angular 学习笔记</a>
+      <li>
+        <a paragraph href="#">Angular 学习笔记</a>
         <ol class="h-web-catalogue2">
-          <li><a href="#">AngularJS 常用指令（API）</a>
+          <li>
+            <a href="#">AngularJS 常用指令（API）</a>
             <ol class="h-web-catalogue3">
-              <li><a href="#">显示文本（ng-bind）</a>
+              <li>
+                <a href="#">显示文本（ng-bind）</a>
               </li>
-              <li><a href="#">绑定html内容（ng-bind-html 和 ng-bind-html-unsafe）</a>
+              <li>
+                <a href="#">绑定html内容（ng-bind-html 和 ng-bind-html-unsafe,version1.2.0中已删除该指令）</a>
               </li>
-              <li><a href="#">表单输入(ng-model，数据双向绑定)</a>
+              <li>
+                <a href="#">表单输入(ng-model，数据双向绑定)</a>
               </li>
             </ol>
           </li>
-          <li><a href="#">几个主要概念的理解</a>
+          <li>
+            <a href="#">表单元素的用法</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">form</a>
+              </li>
+              <li>
+                <a href="#">input，textarea 的用法</a>
+              </li>
+              <li>
+                <a href="#">input checkbox的用法</a>
+              </li>
+              <li>
+                <a href="#">input radio 的用法</a>
+              </li>
+              <li>
+                <a href="#">select 的用法</a>
+              </li>
+            </ol>
           </li>
-          <li><a href="#">模板和数据绑定</a>
+          <li>
+            <a href="#">几个主要概念的理解</a>
           </li>
-          <li><a href="#">列表, 表格和其他重复的元素</a>
+          <li>
+            <a href="#">模板和数据绑定</a>
           </li>
-          <li><a href="#">隐藏与显示</a>
+          <li>
+            <a href="#">列表, 表格和其他重复的元素</a>
           </li>
-          <li><a href="#">CSS类和样式</a>
+          <li>
+            <a href="#">隐藏与显示</a>
           </li>
-          <li><a href="#">src和href属性注意事项</a>
+          <li>
+            <a href="#">CSS类和样式</a>
           </li>
-          <li><a href="#">表达式</a>
+          <li>
+            <a href="#">src和href属性注意事项</a>
           </li>
-          <li><a href="#">使用$watch监控模型变化</a>
+          <li>
+            <a href="#">表达式</a>
           </li>
-          <li><a href="#">使用过滤器格式化数据</a>
+          <li>
+            <a href="#">使用$watch监控模型变化</a>
+          </li>
+          <li>
+            <a href="#">使用过滤器格式化数据</a>
+          </li>
+          <li>
+            <a href="#">学习angular技巧</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">在终端控制台调试</a>
+              </li>
+            </ol>
           </li>
         </ol>
       </li>
@@ -132,7 +180,7 @@
       </div>
       <h3 paragraph>Angular 学习笔记</h3>
       <div>
-        <h4>AngularJS 常用指令（API）</h4>
+        <h4>数据与模板相关指令</h4>
         <h5>显示文本（ng-bind）</h5>
         <p>我们可以使用ng-bind指令在UI的任何地方显示和更新文本，也可以使用双花括号形式来绑定文本。</p>
         <p>双花括号形式例子：</p>
@@ -323,7 +371,154 @@ function StartUpController($scope){
         </pre>
         <p><a href="./angular/examples/myExamples/ng-model-demo.html">运行效果</a></p>
 
+        <h5>ngValue指令</h5>
+        <p>该指令主要用来设置input，select初始值，该指令与ng-model和ng-repeat结合使用</p>
+        <p><a href="./angular/examples/myExamples/ng-value-demo.html">点击查看例子</a></p>
+        
+        <h5>ngInit指令</h5>
+        <p>该指令用来给变量赋初始值，理解起来比较简单，直接看例子吧。</p>
+        <p><a href="./angular/examples/myExamples/ng-init-demo.html">点击查看例子</a></p>
+        
+        
+        <h5>ngCloak</h5>
+        <p>该指令是介于ngBind和ngBindHtml之间的，如果我们用{{}}来处理页面显示数据，就会在页面加载的初始显示没有编译的{{}}，angular编译后显示相应的值，这样用户体验效果差些。
+          为了避免这种不好的体验效果，angular提供了一个指令ngCloak，该指令是用class来控制的，当没有编译前，如果包含了ngCloak指令时，该元素（包括他的子节点）隐藏，编译后删除class来显示。
+          用到的class在angular.js中已集成。
+        </p>
+        <pre>
+          [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+          }
+        </pre>
+        <p>由于ie7中不支持[ng\:cloak] selector。我们需要为其设置class，看下面的例子</p>
+        <pre>
+&lt;!doctype html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;ng-cloak demo&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="template1" ng-cloak&gt;{{ 'hello'}}&lt;/div&gt;
+    &lt;div id="template2" ng-cloak class="ng-cloak"&gt;{{ 'hello IE7'}}&lt;/div&gt;
+    
+    &lt;div&gt;{{ '没有用ngCloak指令显示效果'}}&lt;/div&gt;
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+
+    &lt;script type="text/javascript"&gt;
+      setTimeout(function() {
+        angular.bootstrap(document.documentElement);
+      }, 2000);
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+        </pre>
+        <p><a href="./angular/examples/myExamples/ng-cloak-demo.html">运行效果</a></p>
+
+        <h5>ngBindTemplate</h5>
+        <p>
+          相比ngBind，该指令提供了更灵活的赋值，可以设置{{expressions}}，而ngBind是不可以的。另外，该指令只会把ngBindTemplate中设置的值当文本来处理，而不会当成html来处理。
+          看下面的例子
+        </p>
+        <pre>
+&lt;!doctype html&gt;
+&lt;html ng-app&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;ng-bind-template demo&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div ng-controller="Ctrl"&gt;
+      Salutation: &lt;input type="text" ng-model="salutation"&gt;&lt;br&gt;
+      Name: &lt;input type="text" ng-model="name"&gt;&lt;br&gt;
+      &lt;pre ng-bind-template="{{salutation}} ' , ' &lt;span&gt;&lt;/span&gt;{{name}}! 你好"&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;span ng-bind-template="nihao"&gt;&lt;/span&gt;
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+
+    &lt;script type="text/javascript"&gt;
+        function Ctrl($scope) {
+          $scope.salutation = 'Hello';
+          $scope.name = 'World';
+        }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;          
+        </pre>
+        <p><a href="./angular/examples/myExamples/ng-bind-template-demo.html">运行效果</a></p>
+
+        <h5>ngInclude</h5>
+        <p>
+          ngInclude指令可以包含模板文件（外部定义的文件，内部用&lt;script type="text/ng-template" id="tpl"&gt;content, {{ 1 + 1}}&lt;/script&gt;）。该指令的用法为：
+        </p>
+        <pre>
+    as element:
+    <ng-include
+    src="{string}"
+    [onload="{string}"]
+    [autoscroll="{string}"]>
+    </ng-include>
+
+    as attribute
+    <ANY ng-include="{string}"
+    [onload="{string}"]
+    [autoscroll="{string}"]>
+    ...
+    </ANY>
+
+    as class
+    <ANY class="ng-include: {string}; [onload: {string};] [autoscroll: {string};]">
+    ...
+    </ANY>
+        </pre>
+        <p>该指令可以结合animate来实现动画效果。</p>
+        <p>
+          注意：<span class="h-web-font-red">1.This directive creates new scope.<br/> 
+            2.This directive executes at priority level 400. <br/>
+            3.还需注意安全问题，ngInclude won't work for cross-domain requests on all browsers and for file:// access on some browsers.<br/>
+            4.模板中不支持script，但支持style。</span></p>
+
+        <p><a href="./angular/examples/myExamples/ng-include-demo.html">点击查看实例</a></p>
+
+
+        <h4>内容控制指令</h4>
+        <h5>ngShow和ngHide指令</h5>
+        <p>
+          用来显示或隐藏指令包含的内容，这里需要注意的是<span class="h-web-font-red">1.0.8版本是通过style="display:none;"来控制隐藏和显示的，而最新版本1.2.0中使用ng-hide class样式来控制的。
+            为了在angular编译前，不显示该元素，对于1.0.8版本，我们可以为该元素设置style="display:none;"；而对于1.2.0版本我们可以提前设置ng-hide class样式</span>。如下代码： </p>
+        <pre>
+          <span ng-hide="hideContent" style="display:none;">{{ '隐藏的内容（1.0.8）'}}</span>
+          <span ng-hide="hideContent" class="ng-hide">{{  '隐藏的内容（1.2.0）'}}</span>
+        </pre>
+        <p>这样在编译前，该元素也会隐藏，编译后如果hideContent值为true也会隐藏，保存编译前后显示一致，尤其是对于加载慢的页面来说，这样设置，用户体验效果会更好些。</p>
+        <p>另外同时设置了ng-show 和 ng-hide , 如果ng-show的值改变了，就按ng-show处理。同样，如果ng-hide的值改变了，就按ng-hide处理</p>
+        <p><a href="./angular/examples/myExamples/ng-show-or-ng-hide-demo.html">点击查看实例</a></p>
+
+        <h5>ngIf指令</h5>
+        <p>该指令根据值为true或false来创建或删除指令包含的内容，该指令不同于ngShow和ngHide，不是隐藏或显示指令中的内容，每次都会重新创建或删除内容</p>
+
+        <p><a href="./angular/examples/myExamples/ng-if-demo.html">点击查看实例</a></p>
+
+        <h5>ngSwitch 指令</h5>
+        <p>ngSwitch 指令会根据不同的条件显示不同的内容，需要跟ngSwitchWhen or ngSwitchDefault 结合使用</p>
+        <p>注意：<span class="h-web-font-red">1.This directive creates new scope. 2.This directive executes at priority level 800.</span>
+        </p>
+        <p>所以，我们创建时，里面的ng-model最好用父节点设置的变量</p>
+        <pre>
+   ng-model应该采用父scope中定义的变量
+
+   <div ng-init="a=2">
+    <ul ng-switch on="a">
+      <li ng-switch-when="1"><input type="radio" value="1" ng-model="geoAddress.radio" /></li>
+      <li ng-switch-when="2"><input type="radio" value="2" ng-model="geoAddress.radio" /></li>
+      <li ng-switch-default><input type="radio" value="3" ng-model="geoAddress.radio" /></li>
+    </ul>
+  </div>
+        </pre>
+        <p><a href="./angular/examples/myExamples/ng-switch-demo.html">点击查看实例</a></p>
+        
         <h4>表单元素的用法</h4>
+
         <h5>form</h5>
         <p>angular 对form表单提供了校验，form表单中的元素是否被修改，click和submit事件处理的规则</p>
         <p><strong>CSS classes</strong></p>
@@ -579,7 +774,7 @@ function StartUpController($scope){
           </select>
         </pre>
         <p>track by trackexpr的用法，官方提供了一个<a href="http://jsfiddle.net/yTpcu/">例子</a></p>
-        
+
         <p>我们看一下ng-options 中arrays 和 objects的详细用法，首先看 arrays 的几种情况</p>
         <pre>
            <div ng-init="colors = [
@@ -588,7 +783,7 @@ function StartUpController($scope){
                     {name: 'red', shade: 'dark', code: '3'},
                     {name: 'blue', shade: 'dark', code: '4'},
                     {name: 'yellow', shade: 'light', code: '5'}
-            ];"></div>
+             ];"></div>
            1.label for value in array
           <span ng-init="color_label = colors[1];"></span>
           <select ng-model="color_label"  ng-options="c.name for c in colors">
@@ -613,7 +808,7 @@ function StartUpController($scope){
           </select>
           {{color_label_group2}}
         </pre>
-        
+
         <p>以上是arrays的例子，下面看一下objects的几种情况</p>
         <pre>
           <div ng-init="$scope.colors2 = {
@@ -622,7 +817,7 @@ function StartUpController($scope){
                     red: {name: 'red', shade: 'dark', code: '3'},
                     blue: {name: 'blue', shade: 'dark', code: '4'},
                     yellow: {name: 'yellow', shade: 'light', code: '5'}
-                  };"></div>
+            };"></div>
           1.label for (key , value) in object
           <span ng-init="color2_label = colors2['black'];"></span>
           <select ng-model="color2_label"  ng-options="value.name | uppercase for (key , value) in colors2">
@@ -652,8 +847,56 @@ function StartUpController($scope){
 
         <p><a href="./angular/examples/myExamples/select-demo.html">点击这里</a>查看完整的例子</p>
 
+        <h4>a标签和script标签</h4>
+        <h5>a标签</h5>
+        <p>这里需要注意的是，A tag中当href为空时，angular修改了其默认行为（阻止了其默认行为的发生），即href为空时，点击a标签不会刷新页面</p>
+        <p>我们可以这样使用</p>
+        <pre>
+     <a href="" ng-click="list.addItem()">Add Item</a>
+        </pre>
 
+        <h5>script标签</h5>
+        <p>secript tag在 angular中主要用于处理模板，我们只要设置 type 属性为 text/ng-template即可。 
+          template can be used by ngInclude, ngView or directive templates.</p>
+        <p>例子</p>
+        <pre>
+&lt;!doctype html&gt;
+&lt;html ng-app="ngtemplatetest"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;script demo&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script type="text/ng-template" id="/tpl.html"&gt;
+      &lt;div&gt;
+      &lt;!-- note, templates must have exactly one root element --&gt;
+      &lt;h1&gt;{{ title}}&lt;/h1&gt;
+      &lt;div class="content" ng-transclude&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/script&gt;
 
+  &lt;thing title="title of the template"&gt;
+    &lt;p&gt;Some transcluded content&lt;/p&gt;
+  &lt;/thing&gt;
+  &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+
+  &lt;script type="text/javascript"&gt;
+    angular.module('ngtemplatetest', [])
+        .directive(
+                'thing', function() {
+                  return {
+                    restrict: 'E'
+                    , templateUrl: '/tpl.html'
+                    , replace: true
+                    , transclude: true
+                    , scope: {'title': '@'}
+                  }
+                })
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+        </pre>
+        <p><a href="./angular/examples/myExamples/script-demo.html">运行效果</a></p>
 
 
 

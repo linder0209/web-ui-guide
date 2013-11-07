@@ -1,0 +1,31 @@
+<!doctype html>
+<html ng-app>
+  <head>
+    <meta charset="utf-8">
+    <title>ng-include demo</title>
+    <link rel="stylesheet" href="./ng-include-demo/animate.css" type="text/css"/>
+  </head>
+  <body>
+    <div ng-controller="Ctrl">
+      <select ng-model="template" ng-options="t.name for t in templates">
+        <option value="">(blank)</option>
+      </select>
+      url of the template: <tt>{{template.url}}</tt>
+      <hr/>
+      <div class="slide-animate-container">
+        <div class="slide-animate" ng-include="template.url"></div>
+      </div>
+    </div>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript" src="../../angular-animate.js"></script>
+
+    <script type="text/javascript">
+          function Ctrl($scope) {
+            $scope.templates =
+                    [{name: 'template1.html', url: 'ng-include-demo/template1.html'}
+                      , {name: 'template2.html', url: 'ng-include-demo/template2.html'}];
+            $scope.template = $scope.templates[0];
+          }
+    </script>
+  </body>
+</html>

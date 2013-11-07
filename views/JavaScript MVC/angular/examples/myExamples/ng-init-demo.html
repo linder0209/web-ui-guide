@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ng-init demo</title>
+  </head>
+  <body >
+    <div ng-controller="Ctrl">
+      <div ng-repeat="innerList in list" ng-init="outerIndex = $index">
+        <div ng-repeat="value in innerList" ng-init="innerIndex = $index">
+          <span class="example-init">list[ {{outerIndex}} ][ {{innerIndex}} ] = {{value}};</span>
+        </div>
+      </div>
+    </div>
+    <p>&nbsp;</p>
+    <div>
+      例子代码：
+    </div>
+    <pre style="border:1px solid #004080;padding:10px;">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;ng-init demo&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body &gt;
+    &lt;div ng-controller="Ctrl"&gt;
+      &lt;div ng-repeat="innerList in list" ng-init="outerIndex = $index"&gt;
+        &lt;div ng-repeat="value in innerList" ng-init="innerIndex = $index"&gt;
+          &lt;span class="example-init"&gt;list[ {{outerIndex}} ][ {{innerIndex}} ] = {{value}};&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;p&gt;&nbsp;&lt;/p&gt;
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="../../angular-animate.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+        function Ctrl($scope) {
+          $scope.list = [['a', 'b'], ['c', 'd']];
+        }
+        angular.bootstrap(document.documentElement);
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript" src="../../angular-animate.js"></script>
+    <script type="text/javascript">
+        function Ctrl($scope) {
+          $scope.list = [['a', 'b'], ['c', 'd']];
+        }
+        angular.bootstrap(document.documentElement);
+    </script>
+  </body>
+</html>

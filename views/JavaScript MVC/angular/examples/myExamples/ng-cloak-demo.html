@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ng-cloak demo</title>
+  </head>
+  <body>
+    <div id="template1" ng-cloak>{{ 'hello'}}</div>
+    <div id="template2" ng-cloak class="ng-cloak">{{ 'hello IE7'}}</div>
+    
+    <div>{{ '没有用ngCloak指令显示效果'}}</div>
+    <script type="text/javascript" src="../../angular.js"></script>
+
+    <script type="text/javascript">
+      setTimeout(function() {
+        angular.bootstrap(document.documentElement);
+      }, 2000);
+    </script>
+  </body>
+</html>

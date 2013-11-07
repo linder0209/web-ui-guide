@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ng-show and ng-hide demo</title>
+    <style type="text/css">
+      .animate-hide {
+        -webkit-transition:all linear 0.5s;
+        transition:all linear 0.5s;
+        line-height:20px;
+        opacity:1;
+        padding:10px;
+        border:1px solid black;
+        background:white;
+      }
+
+      .animate-hide.ng-hide-add,
+      .animate-hide.ng-hide-remove {
+        display:block!important;
+      }
+
+      .animate-hide.ng-hide {
+        line-height:0;
+        opacity:0;
+        padding:0 10px;
+      }
+
+      .check-element {
+        padding:10px;
+        border:1px solid black;
+        background:white;
+      }
+    </style>
+  </head>
+  <body >
+    Click me: <input type="checkbox" ng-model="checked"><br/>
+    <div>
+      Show:
+      <div class="check-element animate-hide ng-hide" ng-show="checked">
+        <span class="icon-thumbs-up"></span> I show up when your checkbox is checked. 通过设置 ng-hide class样式，页面开始加载的时候也不显示
+      </div>
+    </div>
+    <div>
+      Hide:
+      <div class="check-element animate-hide ng-hide" ng-hide="checked">
+        <span class="icon-thumbs-down"></span> I hide when your checkbox is checked.通过设置 ng-hide class样式，页面开始加载的时候也不显示
+      </div>
+    </div>
+    <hr />
+    <br/>
+    <div>
+      同时设置了ng-show 和 ng-hide , 如果ng-show的值改变了，就按ng-show处理。同样，如果ng-hide的值改变了，就按ng-hide处理
+      <br/>
+      <br/>
+      <div ng-hide="hideContent" ng-show="showContent" style="border: 1px solid #003580;width:300px;">
+         内容
+      </div>
+      <br/>
+      <br/>
+      hideContent : <input type="checkbox" ng-model="hideContent" /><br/>
+      showContent : <input type="checkbox" ng-model="showContent" />
+    </div>
+    
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript" src="../../angular-animate.js"></script>
+    <script type="text/javascript">
+      setTimeout(function(){
+        angular.bootstrap(document.documentElement);
+      },1000);
+    </script>
+  </body>
+</html>

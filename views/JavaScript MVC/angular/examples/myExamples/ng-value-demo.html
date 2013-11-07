@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ng-value demo</title>
+  </head>
+  <body >
+    <form ng-controller="Ctrl">
+      <h4 id="example_which-is-your-favorite">Which is your favorite?</h4>
+      <label ng-repeat="name in names" for="{{name}}">
+        <input type="radio"
+               ng-model="my.favorite"
+               ng-value="name"
+               id="{{name}}"
+               name="favorite">
+        {{name}}
+        <br />
+      </label>
+      <div>You chose {{my.favorite}}</div>
+    </form>
+    <p>&nbsp;</p>
+    <div>
+      例子代码：
+    </div>
+    <pre style="border:1px solid #004080;padding:10px;">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;ng-value demo&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body &gt;
+    &lt;form ng-controller="Ctrl"&gt;
+      &lt;h4 id="example_which-is-your-favorite"&gt;Which is your favorite?&lt;/h4&gt;
+      &lt;label ng-repeat="name in names" for="{{name}}"&gt;
+        &lt;input type="radio"
+               ng-model="my.favorite"
+               ng-value="name"
+               id="{{name}}"
+               name="favorite"&gt;
+        {{name}}
+        &lt;br /&gt;
+      &lt;/label&gt;
+      &lt;div&gt;You chose {{my.favorite}}&lt;/div&gt;
+    &lt;/form&gt;
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="../../angular-animate.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+        function Ctrl($scope) {
+          $scope.names = ['pizza', 'unicorns', 'robots'];
+          $scope.my = {favorite: 'unicorns'};
+        }
+        angular.bootstrap(document.documentElement);
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript" src="../../angular-animate.js"></script>
+    <script type="text/javascript">
+        function Ctrl($scope) {
+          $scope.names = ['pizza', 'unicorns', 'robots'];
+          $scope.my = {favorite: 'unicorns'};
+        }
+        angular.bootstrap(document.documentElement);
+    </script>
+  </body>
+</html>

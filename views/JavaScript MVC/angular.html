@@ -371,15 +371,57 @@ function StartUpController($scope){
         </pre>
         <p><a href="./angular/examples/myExamples/ng-model-demo.html">运行效果</a></p>
 
+        <h5>ngList指令</h5>
+        <p>该指令能把array转换为字符串，默认字符串的拼接用逗号（,），该指令类似于array的join方法</p>
+
+        <p>注意：<span class="h-web-font-red">该指令只能和ngModel配合使用，也就是说只能用在input等表单元素上。</span></p>
+        <p>对于嵌套数组也会解析的，只是内层解析后 ,后面没有空格，不知道这是不是angular的一个bug。还有对于数组中的对象元素，会调用toString()方法</p>
+        <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html ng-app&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;ng-list demo&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body &gt;
+    &lt;form name="myForm" ng-controller="Ctrl"&gt;
+      &lt;div&gt;
+        List: &lt;input name="namesInput" ng-model="names" ng-list /&gt;
+      &lt;/div&gt;
+      &lt;div style="margin-top:10px;"&gt;
+        List(如果ng-model的值为非数组则返回空): &lt;input name="namesInput2" ng-model="namesStr" ng-list /&gt;
+      &lt;/div&gt;
+      &lt;div style="margin-top:10px;"&gt;
+        List(嵌套数组): &lt;input name="namesInput3" ng-model="nestedArray" ng-list size="100" /&gt;
+      &lt;/div&gt;
+
+      &lt;div style="margin-top:10px;"&gt;
+        List(没有设置ng-model会报错): &lt;input name="namesInput4" ng-list /&gt;
+      &lt;/div&gt;
+    &lt;/form&gt;
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+          function Ctrl($scope) {
+            $scope.names = ['igor', 'misko', 'vojta'];
+            $scope.namesStr = 'string';
+            $scope.nestedArray = [['igor', 'misko', new Date(), ['inner1', 'inner2'],{}], 'igor', 'misko', 'vojta'];
+          }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;          
+        </pre>
+
+        <p><a href="./angular/examples/myExamples/ng-list-demo.html">运行效果</a></p>
+
         <h5>ngValue指令</h5>
         <p>该指令主要用来设置input，select初始值，该指令与ng-model和ng-repeat结合使用</p>
         <p><a href="./angular/examples/myExamples/ng-value-demo.html">点击查看例子</a></p>
-        
+
         <h5>ngInit指令</h5>
         <p>该指令用来给变量赋初始值，理解起来比较简单，直接看例子吧。</p>
         <p><a href="./angular/examples/myExamples/ng-init-demo.html">点击查看例子</a></p>
-        
-        
+
+
         <h5>ngCloak</h5>
         <p>该指令是介于ngBind和ngBindHtml之间的，如果我们用{{}}来处理页面显示数据，就会在页面加载的初始显示没有编译的{{}}，angular编译后显示相应的值，这样用户体验效果差些。
           为了避免这种不好的体验效果，angular提供了一个指令ngCloak，该指令是用class来控制的，当没有编译前，如果包含了ngCloak指令时，该元素（包括他的子节点）隐藏，编译后删除class来显示。
@@ -507,7 +549,7 @@ function StartUpController($scope){
         <pre>
    ng-model应该采用父scope中定义的变量
 
-   <div ng-init="a=2">
+   <div ng-init="a = 2">
     <ul ng-switch on="a">
       <li ng-switch-when="1"><input type="radio" value="1" ng-model="geoAddress.radio" /></li>
       <li ng-switch-when="2"><input type="radio" value="2" ng-model="geoAddress.radio" /></li>
@@ -516,7 +558,11 @@ function StartUpController($scope){
   </div>
         </pre>
         <p><a href="./angular/examples/myExamples/ng-switch-demo.html">点击查看实例</a></p>
-        
+
+        <h5>ngRepeat指令</h5>
+
+
+
         <h4>表单元素的用法</h4>
 
         <h5>form</h5>
@@ -898,12 +944,119 @@ function StartUpController($scope){
         </pre>
         <p><a href="./angular/examples/myExamples/script-demo.html">运行效果</a></p>
 
+        <h4>$animate ngAnimate 动画</h4>
+        <p>$animate是作为一个service来实现的，动画实现过程主要是通过调用以下几个方法来实现的  </p>
+        <ol>
+          <li>addClass(element, className, doneCallback)</li>
+          <li>enabled(value)</li>
+          <li>enter(element, parentElement, afterElement, doneCallback)</li>
+          <li>leave(element, doneCallback)</li>
+          <li>move(element, parentElement, afterElement, doneCallback)</li>
+          <li>removeClass(element, className, doneCallback)</li>
+        </ol>
+        <p>这几个方法的调用过程详见官网api <a href="http://docs.angularjs.org/api/ngAnimate.$animate">$animate</a></p>
+        <p>为了实现动画效果，我们需要引入angular-animate.js，并且在app中依赖该module</p>
+        <pre>
+    angular.module('app', ['ngAnimate']);
+        </pre>
+        <p>同时还需要为动画效果定制css</p>
+        <p>ngAnimate动画支持的指令有：ngRepeat, ngInclude, ngIf, ngSwitch, ngShow, ngHide, ngView and ngClass.当然我们可以自定义指令通过调用$animate service实现更高级的动画效果。</p>
+        <p>Below is a more detailed breakdown of the supported animation events provided by pre-existing ng directives:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Directive</th>
+              <th>Supported Animations</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="http://docs.angularjs.org/api/ng.directive:ngRepeat#usage_animations">ngRepeat</a></td>
+              <td>enter, leave and move</td>
+            </tr>
+            <tr>
+              <td><a href="http://docs.angularjs.org/api/ngRoute.directive:ngView#usage_animations">ngView</a></td>
+              <td>enter and leave</td>
+            </tr>
+            <tr>
+              <td><a href="http://docs.angularjs.org/api/ng.directive:ngInclude#usage_animations">ngInclude</a></td>
+              <td>enter and leave</td>
+            </tr>
+            <tr>
+              <td><a href="http://docs.angularjs.org/api/ng.directive:ngSwitch#usage_animations">ngSwitch</a></td>
+              <td>enter and leave</td>
+            </tr>
+            <tr>
+              <td><a href="http://docs.angularjs.org/api/ng.directive:ngIf#usage_animations">ngIf</a></td>
+              <td>enter and leave</td>
+            </tr>
+            <tr>
+              <td><a href="http://docs.angularjs.org/api/ng.directive:ngClass#usage_animations">ngClass</a></td>
+              <td>add and remove</td>
+            </tr>
+            <tr>
+              <td><a href="http://docs.angularjs.org/api/ng.directive:ngShow#usage_animations">ngShow &amp; ngHide</a></td>
+              <td>add and remove (the ng-hide class value)</td>
+            </tr>
+          </tbody>
+        </table>
 
+        <p>Below is an example of how to apply animations to a directive that supports animation hooks。我们可以根据需要来定义这样css样式</p>
+        <pre>
+    &lt;style type="text/css"&gt;
+    .slide.ng-enter, .slide.ng-leave {
+    -webkit-transition:0.5s linear all;
+    transition:0.5s linear all;
+    }
+     
+    .slide.ng-enter { } /* starting animations for enter */
+    .slide.ng-enter-active { } /* terminal animations for enter */
+    .slide.ng-leave { } /* starting animations for leave */
+    .slide.ng-leave-active { } /* terminal animations for leave */
+    &lt;/style&gt;
+     
+    &lt;!--
+    the animate service will automatically add .ng-enter and .ng-leave to the element
+    to trigger the CSS transition/animations
+    --&gt;
+    &lt;ANY class="slide" ng-include="..."&gt;&lt;/ANY>
+        </pre>
+        
+        <p>angular animate是基于css3（CSS Transitions /CSS Keyframe Animations）实现动画的，如果想让不支持css3的浏览器实现动画效果，我们需要自己重写js代码，如下：</p>
+        <pre>
+    var ngModule = angular.module('YourApp', []);
+    ngModule.animation('.my-crazy-animation', function() {
+      return {
+        enter: function(element, done) {
+          //run the animation here and call done when the animation is complete
+          return function(cancelled) {
+            //this (optional) function will be called when the animation
+            //completes or when the animation is cancelled (the cancelled
+            //flag will be set to true if cancelled).
+          }
+        }
+        leave: function(element, done) { },
+        move: function(element, done) { },
 
+        //animation that can be triggered before the class is added
+        beforeAddClass: function(element, className, done) { },
 
+        //animation that can be triggered after the class is added
+        addClass: function(element, className, done) { },
 
+        //animation that can be triggered before the class is removed
+        beforeRemoveClass: function(element, className, done) { },
 
-
+        //animation that can be triggered after the class is removed
+        removeClass: function(element, className, done) { }
+      };
+    });
+        </pre>
+        <p class="h-web-font-red">所以说，angular animate提供了三种实现方式：CSS Transitions Animations ，CSS Keyframe Animations 和 javascript Animations</p>
+        <p>可以参考这里学习<a href="http://www.yearofmoo.com/2013/08/remastered-animation-in-angularjs-1-2.html">angular animate</a>，该站点提供了几个实用的例子，<span class="h-web-font-red">非常棒</span>。 </p>
+        <p class="h-web-font-red">注意：ng-animate指令在最新版本中不赞成实用，而相应的用css来设置</p>
+        <p>关于animate详细的应用，我们可以参考<a href="./angular/examples/myExamples/ng-animate-demo.html">例子</a>，
+          因为例子是最好的教程。这些例子摘自上面的<a href="http://www.yearofmoo.com/2013/08/remastered-animation-in-angularjs-1-2.html">链接</a></p>
 
 
 

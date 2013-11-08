@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html ng-app="ngAnimateApp">
+  <head>
+    <meta charset="utf-8">
+    <title>animate demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body >
+    <div ng-controller="AnimateCtrl">
+      <div style="margin:10px 0;">example1：ng-repeat 进入、离开动画效果</div>
+      <style type="text/css">
+        .repeat-item.ng-enter,
+        .repeat-item.ng-leave {
+          -webkit-transition:0.5s linear all;
+          -moz-transition:0.5s linear all;
+          -o-transition:0.5s linear all;
+          transition:0.5s linear all;
+        }
+
+        .repeat-item.ng-enter,
+        .repeat-item.ng-leave.ng-leave-active {
+          opacity:0;
+        }
+        .repeat-item.ng-leave,
+        .repeat-item.ng-enter.ng-enter-active {
+          opacity:1;
+        }
+      </style>
+      <div ng-init="items = ['a', 'b', 'c', 'd', 'e', 'x']">
+        <input placeholder="filter" ng-model="f" />
+        <div ng-repeat="item in items| filter:f" class="repeat-item">
+          {{item}}
+        </div>
+      </div>
+      <hr/>
+      <div style="margin:10px 0;">example2：用angular animate提供的三种方式实现动画效果</div>
+
+      <h3>CSS Transitions Animations</h3>
+      <style type="text/css">
+        .my-repeat-animation.ng-enter, 
+        .my-repeat-animation.ng-leave, 
+        .my-repeat-animation.ng-move {
+          -webkit-transition: 0.5s linear all;
+          -moz-transition: 0.5s linear all;
+          -o-transition: 0.5s linear all;
+          transition: 0.5s linear all;
+          position:relative;
+        }
+
+        .my-repeat-animation.ng-enter {
+          left:-10px;
+          opacity:0;
+        }
+        .my-repeat-animation.ng-enter.ng-enter-active {
+          left:0;
+          opacity:1;
+        }
+
+        .my-repeat-animation.ng-leave {
+          left:0;
+          opacity:1;
+        }
+        .my-repeat-animation.ng-leave.ng-leave-active {
+          left:-10px;
+          opacity:0;
+        }
+
+        .my-repeat-animation.ng-move {
+          opacity:0.5;
+        }
+        .my-repeat-animation.ng-move.ng-move-active {
+          opacity:1;
+        }
+
+      </style>
+      <div ng-init="items_transitions = [1, 2, 3, 4, 5, 6, 7, 8, 9]">
+        <input placeholder="Filter Repeat Items..." ng-model="transitions" /> 
+        <div data-ng-repeat="item in items_transitions| filter:transitions track by item" class="my-repeat-animation">
+          {{item}}
+        </div>
+      </div>
+      <hr/>
+      
+      <h3>CSS Keyframe Animations</h3>
+      <style type="text/css">
+        .my-repeat-animation-keyframe.ng-enter,
+        .my-repeat-animation-keyframe.ng-leave,
+        .my-repeat-animation-keyframe.ng-move {
+          position:relative;
+        }
+
+        .my-repeat-animation-keyframe.ng-enter {
+          -webkit-animation: 0.5s repeat-animation-enter;
+          -moz-animation: 0.5s repeat-animation-enter;
+          -o-animation: 0.5s repeat-animation-enter;
+          animation: 0.5s repeat-animation-enter;
+        }
+
+        .my-repeat-animation-keyframe.ng-leave {
+          -webkit-animation: 0.5s repeat-animation-leave;
+          -moz-animation: 0.5s repeat-animation-leave;
+          -o-animation: 0.5s repeat-animation-leave;
+          animation: 0.5s repeat-animation-leave;
+        }
+
+        .my-repeat-animation-keyframe.ng-move {
+          -webkit-animation: 0.5s repeat-animation-move;
+          -moz-animation: 0.5s repeat-animation-move;
+          -o-animation: 0.5s repeat-animation-move;
+          animation: 0.5s repeat-animation-move;
+        }
+
+        @keyframes repeat-animation-enter {
+          from {
+            left:-10px;
+            opacity:0;
+          }
+          to {
+            left:0;
+            opacity:1;
+          }
+        }
+
+        @-webkit-keyframes repeat-animation-enter {
+          from {
+            left:-10px;
+            opacity:0;
+          }
+          to {
+            left:0;
+            opacity:1;
+          }
+        }
+
+        @-moz-keyframes repeat-animation-enter {
+          from {
+            left:-10px;
+            opacity:0;
+          }
+          to {
+            left:0;
+            opacity:1;
+          }
+        }
+
+        @-o-keyframes repeat-animation-enter {
+          from {
+            left:-10px;
+            opacity:0;
+          }
+          to {
+            left:0;
+            opacity:1;
+          }
+        }
+
+        @keyframes repeat-animation-leave {
+          from {
+            left:0;
+            opacity:1;
+          }
+          to {
+            left:-10px;
+            opacity:0;
+          }
+        }
+
+        @-webkit-keyframes repeat-animation-leave {
+          from {
+            left:0;
+            opacity:1;
+          }
+          to {
+            left:-10px;
+            opacity:0;
+          }
+        }
+
+        @-moz-keyframes repeat-animation-leave {
+          from {
+            left:0;
+            opacity:1;
+          }
+          to {
+            left:-10px;
+            opacity:0;
+          }
+        }
+
+        @-o-keyframes repeat-animation-leave {
+          from {
+            left:0;
+            opacity:1;
+          }
+          to {
+            left:-10px;
+            opacity:0;
+          }
+        }
+
+        @keyframes repeat-animation-move {
+          from { opacity:0.5; }
+          to { opacity:1; }
+        }
+
+        @-webkit-keyframes repeat-animation-move {
+          from { opacity:0.5; }
+          to { opacity:1; }
+        }
+
+        @-moz-keyframes repeat-animation-move {
+          from { opacity:0.5; }
+          to { opacity:1; }
+        }
+
+        @-o-keyframes repeat-animation-move {
+          from { opacity:0.5; }
+          to { opacity:1; }
+        }
+      </style>
+
+      <div ng-init="items_keyframes = [1, 2, 3, 4, 5, 6, 7, 8, 9]">
+        <input placeholder="Filter Repeat Items..." ng-model="keyframes" /> 
+        <div data-ng-repeat="item in items_keyframes| filter:keyframes track by item" class="my-repeat-animation-keyframe">
+          {{item}}
+        </div>
+      </div>
+      <hr/>
+      
+      <h3>javascript Animations</h3>
+      <div ng-init="items_javascript = [1, 2, 3, 4, 5, 6, 7, 8, 9]">
+          <input placeholder="Filter Repeat Items..." ng-model="javascript" /> 
+          <div data-ng-repeat="item in items_javascript| filter:javascript track by item" class="my-repeat-animation-javascript">
+            {{item}}
+          </div>
+        </div>
+      <hr/>
+      
+      <div style="margin:10px 0;">example3：自定义指令实现的动画效果</div>
+      <style type="text/css">
+        .my-slide-animation {
+          width:200px;
+          height:200px;
+          position:absolute;
+          left:50%;
+          top:50%;
+          margin-left:-100px;
+          margin-top:-100px;
+          background:#eee;
+          border:1px solid black;
+        }
+        .my-slide-animation.step-0-add,
+        .my-slide-animation.step-1-add,
+        .my-slide-animation.step-2-add {
+          -webkit-transition:0.5s linear all;
+          -moz-transition:0.5s linear all;
+          -o-transition:0.5s linear all;
+          transition:0.5s linear all;
+        }
+
+        .my-slide-animation.step-0,
+        .my-slide-animation.step-0-add.step-0-add-active {
+          -webkit-transform:scale(1);
+          -moz-transform:scale(1);
+          -o-transform:scale(1);
+          transform:scale(1);
+          background:blue;
+        }
+
+        .my-slide-animation.step-1,
+        .my-slide-animation.step-1-add.step-1-add-active {
+          -webkit-transform:scale(1.5);
+          -moz-transform:scale(1.5);
+          -o-transform:scale(1.5);
+          transform:scale(1.5);
+          background:red;
+        }
+
+        .my-slide-animation.step-2,
+        .my-slide-animation.step-2-add.step-2-add-active {
+          -webkit-transform:scale(2);
+          -moz-transform:scale(2);
+          -o-transform:scale(2);
+          transform:scale(2);
+          background:green;
+        }
+      </style>
+
+      <div class="my-slide-animation" app-click-toggle>
+        example3: Click Me! 给你个惊喜，哈哈！
+      </div>
+
+    </div>
+    
+    <script type="text/javascript" src="../../../../../platform/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript" src="../../angular-animate.js"></script>
+    <script type="text/javascript">
+           var animateApp = angular.module('ngAnimateApp', ['ngAnimate']).controller('AnimateCtrl', ['$scope', function($scope) {
+
+           }]);
+           //通过javascript实现动画效果
+           animateApp.animation('.my-repeat-animation-javascript', function() {
+            return {
+              enter: function(element, done) {
+                jQuery(element).css({
+                  position: 'relative',
+                  left: -10,
+                  opacity: 0
+                });
+                jQuery(element).animate({
+                  left: 0,
+                  opacity: 1
+                }, done);
+              },
+              leave: function(element, done) {
+                jQuery(element).css({
+                  position: 'relative',
+                  left: 0,
+                  opacity: 1
+                });
+                jQuery(element).animate({
+                  left: -10,
+                  opacity: 0
+                }, done);
+              },
+              move: function(element, done) {
+                jQuery(element).css({
+                  opacity: 0.5
+                });
+                jQuery(element).animate({
+                  opacity: 1
+                }, done);
+              }
+            };
+          });        
+          
+          //自定义指令
+          animateApp.directive('appClickToggle', function($animate) {
+            return function(scope, element) {
+              var currentStep = 0;
+              var maxStep = 3;
+              element.bind('click', function() {
+                var remove = 'step-' + currentStep;
+                $animate.removeClass(element, remove);
+                currentStep = (currentStep + 1) % maxStep;
+                var add = 'step-' + currentStep;
+                $animate.addClass(element, add);
+              });
+            }
+          });
+
+    </script>
+  </body>
+</html>

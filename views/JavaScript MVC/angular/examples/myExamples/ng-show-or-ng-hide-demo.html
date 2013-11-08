@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="showOrHideApp">
   <head>
     <meta charset="utf-8">
     <title>ng-show and ng-hide demo</title>
@@ -53,20 +53,18 @@
       <br/>
       <br/>
       <div ng-hide="hideContent" ng-show="showContent" style="border: 1px solid #003580;width:300px;">
-         内容
+        内容
       </div>
       <br/>
       <br/>
       hideContent : <input type="checkbox" ng-model="hideContent" /><br/>
       showContent : <input type="checkbox" ng-model="showContent" />
     </div>
-    
+
     <script type="text/javascript" src="../../angular.js"></script>
     <script type="text/javascript" src="../../angular-animate.js"></script>
     <script type="text/javascript">
-      setTimeout(function(){
-        angular.bootstrap(document.documentElement);
-      },1000);
+        angular.module('showOrHideApp', ['ngAnimate']);
     </script>
   </body>
 </html>

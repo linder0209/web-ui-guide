@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <meta charset="utf-8">
+    <title>ng-ng-non-bindable demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body >
+    <div>Normal: {{1 + 2}}</div>
+    <div ng-non-bindable>
+      Ignored: {{1 + 2}}
+      <span ng-init="info='这是一个ng-non-bindable例子' ">初始化值</span><br/>
+      <input type="text" ng-model="info" /><br/>
+      {{info}}<br/>
+    </div>
+    <script type="text/javascript" src="../../angular.js"></script>
+
+    <p>例子代码</p>
+    <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html ng-app&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;ng-ng-non-bindable demo&lt;/title&gt;
+    &lt;link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/&gt;
+    &lt;style type="text/css"&gt;
+      body{
+        padding: 10px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body &gt;
+    &lt;div&gt;Normal: {{1 + 2}}&lt;/div&gt;
+    &lt;div ng-non-bindable&gt;
+      Ignored: {{1 + 2}}
+     &lt;span ng-init="info='这是一个ng-non-bindable例子' "&gt;初始化值&lt;/span&gt;&lt;br/&gt;
+      &lt;input type="text" ng-model="info" /&gt;&lt;br/&gt;
+      {{info}}&lt;br/&gt;
+    &lt;/div&gt;
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+  </body>
+</html>

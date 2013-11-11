@@ -81,7 +81,7 @@
         <a paragraph href="#">Angular 学习笔记</a>
         <ol class="h-web-catalogue2">
           <li>
-            <a href="#">AngularJS 常用指令（API）</a>
+            <a href="#">数据与模板相关指令</a>
             <ol class="h-web-catalogue3">
               <li>
                 <a href="#">显示文本（ng-bind）</a>
@@ -90,7 +90,88 @@
                 <a href="#">绑定html内容（ng-bind-html 和 ng-bind-html-unsafe,version1.2.0中已删除该指令）</a>
               </li>
               <li>
+                <a href="#">ngNonBindable指令，不绑定angular</a>
+              </li>
+              <li>
                 <a href="#">表单输入(ng-model，数据双向绑定)</a>
+              </li>
+              <li>
+                <a href="#">ngList指令</a>
+              </li>
+              <li>
+                <a href="#">ngValue指令</a>
+              </li>
+              <li>
+                <a href="#">ngInit指令</a>
+              </li>
+              <li>
+                <a href="#">ngCloak</a>
+              </li>
+              <li>
+                <a href="#">ngBindTemplate</a>
+              </li>
+              <li>
+                <a href="#">ngInclude</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#">内容控制指令</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">ngShow和ngHide指令</a>
+              </li>
+              <li>
+                <a href="#">ngIf指令</a>
+              </li>
+              <li>
+                <a href="#">ngSwitch 指令</a>
+              </li>
+              <li>
+                <a href="#">ngRepeat指令</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#">节点属性控制指令</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">ngStyle</a>
+              </li>
+              <li>
+                <a href="#">ngClass</a>
+              </li>
+              <li>
+                <a href="#">ngHref</a>
+              </li>
+              <li>
+                <a href="#">ngChecked ngDisabled ngReadonly ngSelected ngSrc 指令</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#">事件绑定指令</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">ngBlur</a>
+              </li>
+              <li>
+                <a href="#">ngChange</a>
+              </li>
+              <li>
+                <a href="#">ngClick和ngDblclick</a>
+              </li>
+              <li>
+                <a href="#">ngFocus</a>
+              </li>
+              <li>
+                <a href="#">键盘事件：ngKeydown ngKeypress 和 ngKeyup</a>
+              </li>
+              <li>
+                <a href="#">鼠标事件：ngMousedown ngMouseup ngMousemove ngMouseover ngMouseenter 和 ngMouseleave</a>
+              </li>
+              <li>
+                <a href="#">复制，剪切，粘贴指令 ngCopy ngCut ngPaste </a>
               </li>
             </ol>
           </li>
@@ -113,6 +194,20 @@
                 <a href="#">select 的用法</a>
               </li>
             </ol>
+          </li>
+          <li>
+            <a href="#">a标签和script标签</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">a标签</a>
+              </li>
+              <li>
+                <a href="#">script标签</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#">$animate ngAnimate 动画</a>
           </li>
           <li>
             <a href="#">几个主要概念的理解</a>
@@ -310,6 +405,15 @@
         </pre>  
 
         <p><a href="./angular/examples/myExamples/ng-bind-html-demo.html">运行效果</a></p>
+
+        <h5>ngNonBindable指令，不绑定angular指令</h5>
+        <p>对于部分html片段，虽然代码中有angular相关指令，但我们不想让这些指令执行，这是用ngNonBindable指令就能解决</p>
+        <pre>
+          <div ng-non-bindable>Ignored: {{1 + 2}}</div>
+          会解析为
+          Ignored: {{1 + 2}}
+        </pre>
+        <p><a href="./angular/examples/myExamples/ng-non-bindable-demo.html">点击查看例子</a></p>
 
         <h5>表单输入(ng-model，数据双向绑定)</h5>
         <p>在Angular中处理表单元素是很简单的，只需使用ng-model属性绑定到你的模型属性元素上即可。
@@ -560,6 +664,216 @@ function StartUpController($scope){
         <p><a href="./angular/examples/myExamples/ng-switch-demo.html">点击查看实例</a></p>
 
         <h5>ngRepeat指令</h5>
+        <p>ngRepeat 指令 会实例化一个模板，每个迭代item会用该模板创建内容并生成自己的scope，该template scope提供了以下属性</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Type</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>$index</td>
+              <td>number</td>
+              <td>iterator offset of the repeated element (0..length-1)</td>
+            </tr>
+            <tr>
+              <td>$first</td>
+              <td>boolean</td>
+              <td>true if the repeated element is first in the iterator.</td>
+            </tr>
+            <tr>
+              <td>$middle</td>
+              <td>boolean</td>
+              <td>true if the repeated element is between the first and last in the iterator.</td>
+            </tr>
+            <tr>
+              <td>$last</td>
+              <td>boolean</td>
+              <td>true if the repeated element is last in the iterator.</td>
+            </tr>
+            <tr>
+              <td>$even</td>
+              <td>boolean</td>
+              <td>true if the iterator position $index is even (otherwise false).</td>
+            </tr>
+            <tr>
+              <td>$odd</td>
+              <td>boolean</td>
+              <td>true if the iterator position $index is odd (otherwise false).</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>在最新版本中增加了两个指令 ng-repeat-start 和 ng-repeat-end。这两个指令处理循环会更加方便，我们可以这样使用他</p>
+        <pre>
+    <header ng-repeat-start="item in items">
+      Header {{ item}}
+    </header>
+      <div class="body">
+      Body {{ item}}
+      </div>
+    <footer ng-repeat-end>
+      Footer {{ item}}
+    </footer>
+        </pre>
+        <p>如果为items设置了 ['A','B'] 后，运行结果为：</p>
+        <pre>
+    <header>
+    Header A
+    </header>
+    <div class="body">
+    Body A
+    </div>
+    <footer>
+    Footer A
+    </footer>
+    <header>
+    Header B
+    </header>
+    <div class="body">
+    Body B
+    </div>
+    <footer>
+    Footer B
+    </footer>
+        </pre>
+
+        <p>该指令支持的动画 Animations 有</p>
+        <ul>
+          <li>enter - when a new item is added to the list or when an item is revealed after a filter</li>
+          <li>leave - when an item is removed from the list or when an item is filtered out</li>
+          <li>move - when an adjacent item is filtered out causing a reorder or when the item contents are reordered</li>
+        </ul>
+
+        <p>ngRepeat包含的表达式，除了支持array，还支持json，比如(name, age) in {'adam':10, 'amalie':12}，
+          还可以用这样的表达式：variable in expression track by tracking_expression ，by后面可以是function，也可以是变量，例如：
+          item in items track by $id(item)，item in items track by item.id。这里需要注意的是，<span class="h-web-font-red">by后面的表达式表示记录中该属性的值不能重复，否则会报错，这样就可以确保记录的唯一性</span>。 </p>
+
+        <p><a href="./angular/examples/myExamples/ng-repeat-demo.html">点击查看实例</a></p>
+
+        <h4>节点属性控制指令</h4>
+        <h5>ngStyle</h5>
+        <p>用来设置样式，该指令比原生的style使用起来更加灵活，其表达式值是 key-value 的json值</p>
+        <pre>
+          <span ng-style="{color:'red','font-size':'14px'}">Sample Text</span>
+        </pre>
+
+        <p>我们需要注意的是，<span class="h-web-font-red">1.ng-style会覆盖style中设置同名的样式值，而不会覆盖不同命的样式值。<br />
+            &lt;span style="font-weight: bold;color: red;" ng-style="{color: 'blue'}"&gt;Sample Text&lt;/span&gt;<br />
+            color会被覆盖，但font-weight不会消失
+
+            2.在IE中如果给原生的style动态的赋值，是不起作用的</span>。例如：
+          &lt;span ng-init="customStyle = 'width: 100px;font-size: 20px;border: 1px solid #004080'"&gt; 初始化值 &lt;/span&gt;
+          &lt;span style="{{customStyle}}"&gt;原生的style&lt;/span&gt;</p>
+
+        <p><a href="./angular/examples/myExamples/ng-style-demo.html">点击查看实例</a></p>
+
+        <h5>ngClass</h5>
+        <p>该指令对应的表达式值支持 array，json map 或以空格分隔的字符串</p>
+        <pre>
+          <p ng-class="{strike: strike, bold: bold, red: red}">Map Syntax Example</p>
+          <p ng-class=" 'bold strike red'">Using String Syntax</p>
+          <p ng-class="['bold', 'strike', 'red']">Using Array Syntax</p>
+        </pre>
+        <p>该指令支持的动画效果有 animate</p>
+        <ul>
+          <li>add - happens just before the class is applied to the element</li>
+          <li>remove - happens just before the class is removed from the element</li>
+        </ul>
+        <p>该指令不会重复添加之前设置的class</p>
+
+        <p>与该指令对应的还有两个 ngClassEven 和 ngClassOdd ，这两个指令与ngRepeat结合使用，来设置单数行和双数行的样式</p>
+        <pre>
+  <ul ng-init="l = [1, 2, 3, 4]">
+    <li ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="m in l">{{m}}</li>
+  </ul>
+        </pre>
+        <p><a href="./angular/examples/myExamples/ng-class-demo.html">点击查看实例</a></p>
+
+        <h5>ngHref</h5>
+        <p>该指令主要解决当angular还没有编译完成时，如果用户单击了 a link可能会产生错误</p>
+        <p>The wrong way to write it:</p>
+        <pre><a href="http://www.gravatar.com/avatar/{{hash}}"/></pre>
+
+        <p>The correct way to write it:</p>
+        <pre><a ng-href="http://www.gravatar.com/avatar/{{hash}}"/></pre>
+        <p><a href="./angular/examples/myExamples/ng-href-demo.html">点击查看实例</a></p>
+
+        <h5>ngChecked ngDisabled ngReadonly ngSelected ngSrc 指令</h5>
+        <p>这几个指令都是用来设置属性的，用法与ngHref类似，这里主要讲一下注意事项</p>
+        <ul>
+          <li><em>ng-checked</em> 选中状态
+            <p>原生的checked，在input表单标签中只需设置该属性，而不论他的值是什么，都是选择状态。ng-checked解决了这个问题，可以根据设置的值来判断选中状态，
+              例子：&lt;input type="checkbox" ng-checked="master"&gt; 。会根据master的值判断是否选中。
+            </p>
+          </li>
+          <li><em>ng-disabled</em> 禁用状态
+            <p>The following markup will make the button enabled on Chrome/Firefox but not on IE8 and older IEs: </p>
+            <pre>
+   <div ng-init="scope = { isDisabled: false }">
+    <button disabled="{{scope.isDisabled}}">Disabled</button>
+   </div>
+            </pre>
+            <p>ng-disabled解决了这个问题</p>
+          </li>
+          <li><em>ng-readonly</em> 只读状态
+            <p>
+              与 checked属性解决的问题一样
+            </p>
+          </li>
+          <li><em>ng-selected</em> 被选择状态
+            <p>
+              与 checked属性解决的问题一样
+            </p>
+          </li>
+          <li><em>ng-src</em> src属性
+            <p>
+              与 ngHref 指令解决的问题一样
+            </p>
+          </li>
+        </ul>
+        
+        <h5>ngOpen</h5>
+        <p>待研究</p>
+        
+        <h5>ngSrcset</h5>
+        <p>待研究</p>
+        
+        <h4>事件绑定指令</h4>
+        <h5>ngBlur</h5>
+        <p>
+          这个指令是新加入的，1.0.8版本中没有该指令，需自己注册事件。该指令可用在window, input, select, textarea, a上。对于老版本可以自己创建指令。
+          可以参考该 <a href="http://jsfiddle.net/tidelipop/wyjdT/">例子</a>。 待研究。
+        </p>
+        <h5>ngChange</h5>
+        <p>该指令必须要有ng-model，否则会报错</p>
+        <p><a href="./angular/examples/myExamples/ng-change-demo.html">点击查看实例</a></p>
+        <h5>ngClick和ngDblclick</h5>
+        <p>这两个指令好理解，这里不多说。</p>
+
+        <h5>ngFocus</h5>
+        <p>该指令同 ngBlur</p>
+
+        <h5>键盘事件：ngKeydown ngKeypress 和 ngKeyup</h5>
+        <p>对应原生的事件keydown keypress 和keyup，键盘被按下，按键 和键盘抬起的事件</p>
+
+        <h5>鼠标事件：ngMousedown ngMouseup ngMousemove ngMouseover ngMouseenter 和 ngMouseleave</h5>
+        <p>这是一系列鼠标事件，对于浏览器不支持的mouseenter和mouseleave，angular实现了他，关于实现可以参考jQuery实现代码，现在常用js框架都会实现这两个事件。</p>
+
+        <h5>复制，剪切，粘贴指令 ngCopy ngCut ngPaste </h5>
+        <p>这三个指令跟ngBlur类似，只能用在以下标签上 window, input, select, textarea, a</p>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1021,7 +1335,7 @@ function StartUpController($scope){
     --&gt;
     &lt;ANY class="slide" ng-include="..."&gt;&lt;/ANY>
         </pre>
-        
+
         <p>angular animate是基于css3（CSS Transitions /CSS Keyframe Animations）实现动画的，如果想让不支持css3的浏览器实现动画效果，我们需要自己重写js代码，如下：</p>
         <pre>
     var ngModule = angular.module('YourApp', []);
@@ -1053,8 +1367,8 @@ function StartUpController($scope){
     });
         </pre>
         <p class="h-web-font-red">所以说，angular animate提供了三种实现方式：CSS Transitions Animations ，CSS Keyframe Animations 和 javascript Animations</p>
-        <p>可以参考这里学习<a href="http://www.yearofmoo.com/2013/08/remastered-animation-in-angularjs-1-2.html">angular animate</a>，该站点提供了几个实用的例子，<span class="h-web-font-red">非常棒</span>。 </p>
-        <p class="h-web-font-red">注意：ng-animate指令在最新版本中不赞成实用，而相应的用css来设置</p>
+        <p>我们可以参考这里学习<a href="http://www.yearofmoo.com/2013/08/remastered-animation-in-angularjs-1-2.html">angular animate</a>，该站点提供了几个实用的例子，<span class="h-web-font-red">非常棒</span>。 </p>
+        <p class="h-web-font-red">注意：ng-animate指令在最新版本中不赞成使用，而相应的用css来设置</p>
         <p>关于animate详细的应用，我们可以参考<a href="./angular/examples/myExamples/ng-animate-demo.html">例子</a>，
           因为例子是最好的教程。这些例子摘自上面的<a href="http://www.yearofmoo.com/2013/08/remastered-animation-in-angularjs-1-2.html">链接</a></p>
 

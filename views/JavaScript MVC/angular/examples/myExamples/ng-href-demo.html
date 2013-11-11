@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html ng-app="ngHrefDemoApp">
+  <head>
+    <meta charset="utf-8">
+    <title>ng-href demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body >
+    <input ng-model="value" /><br />
+    <a id="link-1" href ng-click="value = 1">link 1</a> (link, don't reload)<br />
+    <a id="link-2" href="" ng-click="value = 2">link 2</a> (link, don't reload)<br />
+    <a id="link-3" ng-href="/{{'123'}}">link 3</a> (link, reload!)<br />
+    <a id="link-4" href="" name="xx" ng-click="value = 4">anchor</a> (link, don't reload)<br />
+    <a id="link-5" name="xxx" ng-click="value = 5">anchor</a> (no link)<br />
+    <a id="link-6" ng-href="{{value}}">link</a> (link, change location)
+
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+      angular.module('ngHrefDemoApp', []);
+    </script>
+
+    <p>例子代码</p>
+    <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html ng-app="ngHrefDemoApp"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;ng-href demo&lt;/title&gt;
+    &lt;link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/&gt;
+    &lt;style type="text/css"&gt;
+      body{
+        padding: 10px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body &gt;
+    &lt;input ng-model="value" /&gt;&lt;br /&gt;
+    &lt;a id="link-1" href ng-click="value = 1"&gt;link 1&lt;/a&gt; (link, don't reload)&lt;br /&gt;
+    &lt;a id="link-2" href="" ng-click="value = 2"&gt;link 2&lt;/a&gt; (link, don't reload)&lt;br /&gt;
+    &lt;a id="link-3" ng-href="/{{'123'}}"&gt;link 3&lt;/a&gt; (link, reload!)&lt;br /&gt;
+    &lt;a id="link-4" href="" name="xx" ng-click="value = 4"&gt;anchor&lt;/a&gt; (link, don't reload)&lt;br /&gt;
+    &lt;a id="link-5" name="xxx" ng-click="value = 5"&gt;anchor&lt;/a&gt; (no link)&lt;br /&gt;
+    &lt;a id="link-6" ng-href="{{value}}"&gt;link&lt;/a&gt; (link, change location)
+
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+      angular.module('ngHrefDemoApp', []);
+    &lt;/script&gt;
+
+    &lt;p&gt;例子代码&lt;/p&gt;
+    &lt;pre&gt;
+    &lt;/pre&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+  </body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html ng-app="ngRepeatApp">
+  <head>
+    <meta charset="utf-8">
+    <title>ng repeat demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+      .example-animate-container {
+        background:white;
+        border:1px solid black;
+        list-style:none;
+        margin:0;
+        padding:0 10px;
+      }
+
+      .animate-repeat {
+        line-height:40px;
+        list-style:none;
+        box-sizing:border-box;
+      }
+
+      .animate-repeat.ng-move,
+      .animate-repeat.ng-enter,
+      .animate-repeat.ng-leave {
+        -webkit-transition:all linear 0.5s;
+        transition:all linear 0.5s;
+      }
+
+      .animate-repeat.ng-leave.ng-leave-active,
+      .animate-repeat.ng-move,
+      .animate-repeat.ng-enter {
+        opacity:0;
+        max-height:0;
+      }
+
+      .animate-repeat.ng-leave,
+      .animate-repeat.ng-move.ng-move-active,
+      .animate-repeat.ng-enter.ng-enter-active {
+        opacity:1;
+        max-height:40px;
+      }
+    </style>
+  </head>
+  <body >
+    <div ng-init="friends = [
+{name:'John', age:25, gender:'boy'},
+{name:'Jessie', age:30, gender:'girl'},
+{name:'Johanna', age:28, gender:'girl'},
+{name:'Joy', age:15, gender:'girl'},
+{name:'Mary', age:28, gender:'girl'},
+{name:'Peter', age:95, gender:'boy'},
+{name:'Sebastian', age:50, gender:'boy'},
+{name:'Patrick', age:40, gender:'boy'},
+{name:'Erika', age:27, gender:'girl'},
+{name:'Samantha', age:60, gender:'girl'}]">
+      I have {{friends.length}} friends. They are:
+      <input type="search" ng-model="q" placeholder="filter friends..." />
+      <ul class="example-animate-container">
+        <li class="animate-repeat" ng-repeat="friend in friends| filter:q track by friend.name">
+          [{{$index + 1}}] {{friend.name}} who is {{friend.age}} years old.
+        </li>
+      </ul>
+    </div>
+
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript" src="../../angular-animate.js"></script>
+    <script type="text/javascript">
+         angular.module('ngRepeatApp', ['ngAnimate']);
+    </script>
+
+    <p>例子代码</p>
+
+    <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html ng-app="ngRepeatApp"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;ng repeat demo&lt;/title&gt;
+    &lt;link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/&gt;
+    &lt;style type="text/css"&gt;
+      body{
+        padding: 10px;
+      }
+      .example-animate-container {
+        background:white;
+        border:1px solid black;
+        list-style:none;
+        margin:0;
+        padding:0 10px;
+      }
+
+      .animate-repeat {
+        line-height:40px;
+        list-style:none;
+        box-sizing:border-box;
+      }
+
+      .animate-repeat.ng-move,
+      .animate-repeat.ng-enter,
+      .animate-repeat.ng-leave {
+        -webkit-transition:all linear 0.5s;
+        transition:all linear 0.5s;
+      }
+
+      .animate-repeat.ng-leave.ng-leave-active,
+      .animate-repeat.ng-move,
+      .animate-repeat.ng-enter {
+        opacity:0;
+        max-height:0;
+      }
+
+      .animate-repeat.ng-leave,
+      .animate-repeat.ng-move.ng-move-active,
+      .animate-repeat.ng-enter.ng-enter-active {
+        opacity:1;
+        max-height:40px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body &gt;
+    &lt;div ng-init="friends = [
+{name:'John', age:25, gender:'boy'},
+{name:'Jessie', age:30, gender:'girl'},
+{name:'Johanna', age:28, gender:'girl'},
+{name:'Joy', age:15, gender:'girl'},
+{name:'Mary', age:28, gender:'girl'},
+{name:'Peter', age:95, gender:'boy'},
+{name:'Sebastian', age:50, gender:'boy'},
+{name:'Patrick', age:40, gender:'boy'},
+{name:'Erika', age:27, gender:'girl'},
+{name:'Samantha', age:60, gender:'girl'}]"&gt;
+      I have {{friends.length}} friends. They are:
+      &lt;input type="search" ng-model="q" placeholder="filter friends..." /&gt;
+      &lt;ul class="example-animate-container"&gt;
+        &lt;li class="animate-repeat" ng-repeat="friend in friends| filter:q track by friend.name"&gt;
+          [{{$index + 1}}] {{friend.name}} who is {{friend.age}} years old.
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="../../angular-animate.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+         angular.module('ngRepeatApp', ['ngAnimate']);
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+  </body>
+</html>

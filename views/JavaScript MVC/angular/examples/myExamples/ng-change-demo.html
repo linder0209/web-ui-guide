@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <meta charset="utf-8">
+    <title>ng-href demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body >
+    <div ng-controller="Controller">
+      <input type="checkbox" ng-model="confirmed" ng-change="change()" id="ng-change-example1" />
+      <input type="checkbox" ng-model="confirmed" id="ng-change-example2" />
+      <label for="ng-change-example2">Confirmed</label><br />
+      debug = {{confirmed}}<br />
+      counter = {{counter}}
+    </div>
+
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+        function Controller($scope) {
+          $scope.counter = 0;
+          $scope.change = function() {
+            $scope.counter++;
+          };
+        }
+    </script>
+
+    <p>例子代码</p>
+    <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html ng-app&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;ng-href demo&lt;/title&gt;
+    &lt;link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/&gt;
+    &lt;style type="text/css"&gt;
+      body{
+        padding: 10px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body &gt;
+    &lt;div ng-controller="Controller"&gt;
+      &lt;input type="checkbox" ng-model="confirmed" ng-change="change()" id="ng-change-example1" /&gt;
+      &lt;input type="checkbox" ng-model="confirmed" id="ng-change-example2" /&gt;
+      &lt;label for="ng-change-example2"&gt;Confirmed&lt;/label&gt;&lt;br /&gt;
+      debug = {{confirmed}}&lt;br /&gt;
+      counter = {{counter}}
+    &lt;/div&gt;
+
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+        function Controller($scope) {
+          $scope.counter = 0;
+          $scope.change = function() {
+            $scope.counter++;
+          };
+        }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+  </body>
+</html>

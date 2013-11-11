@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html ng-app="ngClassDemoApp">
+  <head>
+    <meta charset="utf-8">
+    <title>ng-class demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+      .strike {
+        text-decoration: line-through;
+      }
+      .bold {
+        font-weight: bold;
+      }
+      .red {
+        color: red;
+      }
+      .base-class {
+        -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+        transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+      }
+
+      .base-class.my-class {
+        color: red;
+        font-size:3em;
+      }
+      .odd {
+        color: red;
+      }
+      .even {
+        color: blue;
+      }
+    </style>
+  </head>
+  <body >
+    <p ng-class="{strike: strike, bold: bold, red: red}">Map Syntax Example</p>
+    <input type="checkbox" ng-model="bold"> bold
+    <input type="checkbox" ng-model="strike"> strike
+    <input type="checkbox" ng-model="red"> red
+    <hr>
+    <p ng-class="style">Using String Syntax</p>
+    <input type="text" ng-model="style" placeholder="Type: bold strike red">
+    <hr>
+    <p ng-class="[style1, style2, style3]">Using Array Syntax</p>
+    <input ng-model="style1" placeholder="Type: bold"><br>
+    <input ng-model="style2" placeholder="Type: strike"><br>
+    <input ng-model="style3" placeholder="Type: red"><br>
+
+    <hr />
+    <p style="margin-top:10px;">动画效果</p>
+
+    <input type="button" value="set" ng-click="myVar = 'my-class'">
+    <input type="button" value="clear" ng-click="myVar = ''">
+    <br>
+    <span class="base-class" ng-class="myVar">Sample Text</span>
+    <hr />
+    <p style="margin-top:10px;">ngClassEven and ngClassOdd</p>
+    <ol ng-init="names = ['John', 'Mary', 'Cate', 'Suz']">
+      <li ng-repeat="name in names">
+        <span ng-class-odd="'odd'" ng-class-even="'even'">
+          {{name}} &nbsp; &nbsp; &nbsp;
+        </span>
+      </li>
+    </ol>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+            angular.module('ngClassDemoApp', []);
+    </script>
+
+    <p>例子代码</p>
+    <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html ng-app="ngClassDemoApp"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;ng-class demo&lt;/title&gt;
+    &lt;link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/&gt;
+    &lt;style type="text/css"&gt;
+      body{
+        padding: 10px;
+      }
+      .strike {
+        text-decoration: line-through;
+      }
+      .bold {
+        font-weight: bold;
+      }
+      .red {
+        color: red;
+      }
+      .base-class {
+        -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+        transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+      }
+
+      .base-class.my-class {
+        color: red;
+        font-size:3em;
+      }
+      .odd {
+        color: red;
+      }
+      .even {
+        color: blue;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body &gt;
+    &lt;p ng-class="{strike: strike, bold: bold, red: red}"&gt;Map Syntax Example&lt;/p&gt;
+    &lt;input type="checkbox" ng-model="bold"&gt; bold
+    &lt;input type="checkbox" ng-model="strike"&gt; strike
+    &lt;input type="checkbox" ng-model="red"&gt; red
+    &lt;hr&gt;
+    &lt;p ng-class="style"&gt;Using String Syntax&lt;/p&gt;
+    &lt;input type="text" ng-model="style" placeholder="Type: bold strike red"&gt;
+    &lt;hr&gt;
+    &lt;p ng-class="[style1, style2, style3]"&gt;Using Array Syntax&lt;/p&gt;
+    &lt;input ng-model="style1" placeholder="Type: bold"&gt;&lt;br&gt;
+    &lt;input ng-model="style2" placeholder="Type: strike"&gt;&lt;br&gt;
+    &lt;input ng-model="style3" placeholder="Type: red"&gt;&lt;br&gt;
+
+    &lt;hr /&gt;
+    &lt;p style="margin-top:10px;"&gt;动画效果&lt;/p&gt;
+
+    &lt;input type="button" value="set" ng-click="myVar = 'my-class'"&gt;
+    &lt;input type="button" value="clear" ng-click="myVar = ''"&gt;
+    &lt;br&gt;
+    &lt;span class="base-class" ng-class="myVar"&gt;Sample Text&lt;/span&gt;
+    &lt;hr /&gt;
+    &lt;p style="margin-top:10px;"&gt;ngClassEven and ngClassOdd&lt;/p&gt;
+    &lt;ol ng-init="names = ['John', 'Mary', 'Cate', 'Suz']"&gt;
+      &lt;li ng-repeat="name in names"&gt;
+        &lt;span ng-class-odd="'odd'" ng-class-even="'even'"&gt;
+          {{name}} &nbsp; &nbsp; &nbsp;
+        &lt;/span&gt;
+      &lt;/li&gt;
+    &lt;/ol&gt;
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+            angular.module('ngClassDemoApp', []);
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+  </body>
+</html>

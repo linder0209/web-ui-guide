@@ -90,7 +90,7 @@
                 <a href="#">绑定html内容（ng-bind-html 和 ng-bind-html-unsafe,version1.2.0中已删除该指令）</a>
               </li>
               <li>
-                <a href="#">ngNonBindable指令，不绑定angular</a>
+                <a href="#">ngNonBindable指令，不绑定angular指令</a>
               </li>
               <li>
                 <a href="#">表单输入(ng-model，数据双向绑定)</a>
@@ -113,7 +113,13 @@
               <li>
                 <a href="#">ngInclude</a>
               </li>
+              <li>
+                <a href="#">ngTransclude</a>
+              </li>
             </ol>
+          </li>
+          <li>
+            <a href="#">angular中的表达式</a>
           </li>
           <li>
             <a href="#">内容控制指令</a>
@@ -133,7 +139,7 @@
             </ol>
           </li>
           <li>
-            <a href="#">节点属性控制指令</a>
+            <a href="#">节点属性指令</a>
             <ol class="h-web-catalogue3">
               <li>
                 <a href="#">ngStyle</a>
@@ -146,6 +152,12 @@
               </li>
               <li>
                 <a href="#">ngChecked ngDisabled ngReadonly ngSelected ngSrc 指令</a>
+              </li>
+              <li>
+                <a href="#">ngOpen</a>
+              </li>
+              <li>
+                <a href="#">ngSrcset</a>
               </li>
             </ol>
           </li>
@@ -210,31 +222,16 @@
             <a href="#">$animate ngAnimate 动画</a>
           </li>
           <li>
-            <a href="#">几个主要概念的理解</a>
+            <a href="#">ngApp指令</a>
           </li>
           <li>
-            <a href="#">模板和数据绑定</a>
+            <a href="#">ngController指令</a>
           </li>
           <li>
-            <a href="#">列表, 表格和其他重复的元素</a>
-          </li>
-          <li>
-            <a href="#">隐藏与显示</a>
-          </li>
-          <li>
-            <a href="#">CSS类和样式</a>
-          </li>
-          <li>
-            <a href="#">src和href属性注意事项</a>
-          </li>
-          <li>
-            <a href="#">表达式</a>
+            <a href="#">使用过滤器 filter 格式化数据</a>
           </li>
           <li>
             <a href="#">使用$watch监控模型变化</a>
-          </li>
-          <li>
-            <a href="#">使用过滤器格式化数据</a>
           </li>
           <li>
             <a href="#">学习angular技巧</a>
@@ -626,6 +623,32 @@ function StartUpController($scope){
 
         <p><a href="./angular/examples/myExamples/ng-include-demo.html">点击查看实例</a></p>
 
+        <h5>ngTransclude</h5>
+        <p>
+          该指令用在父指令的模板中，angular编译时，用父指令中的内容替换ng-transclude。不能像其他指令直接使用。
+        </p>
+        <p><a href="./angular/examples/myExamples/ng-transclude-demo.html">点击查看实例</a></p>
+
+        <h4>Angular中的表达式</h4>
+        <p>表达式可以使我们在处理模板，程序逻辑和数据变得更加灵活方便。</p>
+        <p>表达式可以处理简单的数学运算(+, -, /, *, %), 进行比较(==, !=,&gt;, &lt;,&gt;=, &lt;=), 执行布尔逻辑运算(&amp;&amp;, ||, !)以及按位运算(^, &amp;, |)，字符串连接(+)，引用数据和对象表示法([], {}, …)。
+          还可以调用暴露在控制器$scope对象上的属性和方法。</p>
+        <p>下面都是有效表达式的例子:</p>
+        <pre>
+    &lt;div ng-controller="SomeController"&gt;
+          &lt;div&gt;{{recompute() / 10}}&lt;div&gt;
+          &lt;ul ng-repeat="thing in things"&gt;
+              &lt;li ng-class="{highlight: $index % 4&gt;= threshold($index)}"&gt;
+                  {{otherFunction($index)}}
+              &lt;/li&gt;
+          &lt;/ul&gt;
+      &lt;/div&gt;
+        </pre>
+        <p>这里的第一个表达式recompute() / 10是有效的，是用函数recompute()返回的值除以10，但我们应该避免这样使用。保持视图和控制器之间的职责分离可以确保它们容易理解和测试。</p>
+        <p>Angular提供的表达式可以做很多事情, 它们是由Angular自定义的解释器计算，并不使用JavaScript的eval()执行, 因为eval()效率低而且有相当多的限制。</p>
+        <p>Angular自带的自定义解释器中不支持循环结构(for, while等), 流程控制语句(if-else, throw)或者改变数据的运算符(++, --)。 当你需要使用这些类型的运算时, 你应该在你的控制器中使用指令进行处理。</p>
+        <p>尽管表达式在很多方面比JavaScript更加严格，但它们对undefined和null并不是很严格(更宽松)。模板只是简单的渲染一些东西, 并不会抛出一个错误。
+          这样我们就能安全的使用模型而没有限制, 并且用得到的数据填充到用户界面中。</p>
 
         <h4>内容控制指令</h4>
         <h5>ngShow和ngHide指令</h5>
@@ -754,7 +777,7 @@ function StartUpController($scope){
 
         <p><a href="./angular/examples/myExamples/ng-repeat-demo.html">点击查看实例</a></p>
 
-        <h4>节点属性控制指令</h4>
+        <h4>节点属性指令</h4>
         <h5>ngStyle</h5>
         <p>用来设置样式，该指令比原生的style使用起来更加灵活，其表达式值是 key-value 的json值</p>
         <pre>
@@ -772,7 +795,12 @@ function StartUpController($scope){
         <p><a href="./angular/examples/myExamples/ng-style-demo.html">点击查看实例</a></p>
 
         <h5>ngClass</h5>
-        <p>该指令对应的表达式值支持 array，json map 或以空格分隔的字符串</p>
+        <p>该指令对应的表达式值支持以下三种</p>
+        <ul>
+          <li>一个使用空格分割类名的字符串</li>
+          <li>一个类名数组 array </li>
+          <li>类名到布尔值的映射 map</li>
+        </ul>
         <pre>
           <p ng-class="{strike: strike, bold: bold, red: red}">Map Syntax Example</p>
           <p ng-class=" 'bold strike red'">Using String Syntax</p>
@@ -827,21 +855,22 @@ function StartUpController($scope){
           <li><em>ng-selected</em> 被选择状态
             <p>
               与 checked属性解决的问题一样
-            </p>
           </li>
           <li><em>ng-src</em> src属性
-            <p>
-              与 ngHref 指令解决的问题一样
-            </p>
+            <p>当数据绑定给一个&lt;img&gt;标签时, 在src属性中使用{{ }}处理路径将无法正常工作。因为在浏览器中图片与其他内容是并行加载的, 所以Angular无法拦截数据绑定的请求。</p>
+            <p>对于&lt;img&gt;而言最明显的语法错误就是：</p>
+            <pre>    &lt;img src="/images/cats/{{favoriteCat}}"&gt;  </pre>
+            <p>正确的，我们应该使用ng-src属性并像下面这样编写模板：</p>
+            <pre>    &lt;img ng-src="/images/cats/{{favoriteCat}}"&gt;  </pre>
           </li>
         </ul>
-        
+
         <h5>ngOpen</h5>
         <p>待研究</p>
-        
+
         <h5>ngSrcset</h5>
         <p>待研究</p>
-        
+
         <h4>事件绑定指令</h4>
         <h5>ngBlur</h5>
         <p>
@@ -1207,8 +1236,8 @@ function StartUpController($scope){
 
         <p><a href="./angular/examples/myExamples/select-demo.html">点击这里</a>查看完整的例子</p>
 
-        <h4>a标签和script标签</h4>
-        <h5>a标签</h5>
+        <h4>A 标签和 script 标签</h4>
+        <h5>A 标签</h5>
         <p>这里需要注意的是，A tag中当href为空时，angular修改了其默认行为（阻止了其默认行为的发生），即href为空时，点击a标签不会刷新页面</p>
         <p>我们可以这样使用</p>
         <pre>
@@ -1230,7 +1259,7 @@ function StartUpController($scope){
     &lt;script type="text/ng-template" id="/tpl.html"&gt;
       &lt;div&gt;
       &lt;!-- note, templates must have exactly one root element --&gt;
-      &lt;h1&gt;{{ title}}&lt;/h1&gt;
+      &lt;h1&gt;{{title}}&lt;/h1&gt;
       &lt;div class="content" ng-transclude&gt;&lt;/div&gt;
       &lt;/div&gt;
     &lt;/script&gt;
@@ -1372,85 +1401,158 @@ function StartUpController($scope){
         <p>关于animate详细的应用，我们可以参考<a href="./angular/examples/myExamples/ng-animate-demo.html">例子</a>，
           因为例子是最好的教程。这些例子摘自上面的<a href="http://www.yearofmoo.com/2013/08/remastered-animation-in-angularjs-1-2.html">链接</a></p>
 
-
-
-
-
-
-
-
-
-
-
-
-        <p>&nbsp;</p>
-        <h4>几个主要概念的理解</h4>
-        <p>ng-app</p>
-        <p>创建app，待整理
-          angular.module('shoppingCartApp',[]);
+        <h4>ngApp指令</h4>
+        <p>
+          创建app： angular.module('shoppingCartApp',[]);
         </p>
-        <p>ng-controller</p>
+
+        <h4>ngController指令</h4>
         <p>
           全局controller和局部controller
-          angular.module('shoppingCartApp',[]).controller('CartController', ['$scope', function ($scope) {
-          $scope.items = [
-          {title: 'Paint pots', quantity: 8, price: 3.95},
-          {title: 'Polka dots', quantity: 17, price: 12.95},
-          {title: 'Pebbles', quantity: 5, price: 6.95}
-          ];
-          $scope.remove = function(index) {
-          $scope.items.splice(index, 1);
-          }
-          }]);
         </p>
 
+        <h4>使用过滤器 filter 格式化数据</h4>
         <p>
-          对于表单标签用这种方式： &lt;input ng-model="item.quantity" /&gt;
-          对于其他用这种方式：&lt;span&gt;{{item.title}}&lt;/span&gt;
+          过滤器允许你在模板中使用插值方式声明如何转换数据并显示给用户. 使用过滤器的语法如下:
         </p>
+        <pre>
+    {{expression| filterName : parameter1 : … parameterN }}
+    {{ expression | filter1 | filter2 | ... }}
+        </pre>
+        <p>其中表达式是任意的Angular表达式, filterName是你想使用的过滤器名称, 过滤器的参数使用冒号分割。 参数自身也可以是任意有效的Angular表达式。
+          第二个表达式中表明过滤器的结果可以用到另一个过滤器中</p>
+        <p>Angular自带了几个过滤器, 像我们已经看到的currency</p>
+        <pre>{{12.9| currency}}  </pre>
+        <p>这段代码显示如下:</p>
+        <p>$12.9</p>
+        <p>我们不仅限于使用绑定的过滤器(Angular内置的), 你可以简单的编写自己的过滤器. 例如, 如果我们想创建一个过滤器来让标题的首字母大写, 我们可以像下面这样做:</p>
+        <pre>
+    var homeModule = angular.module('HomeModule', []);
+    homeModule.filter('titleCase', function(){
+        var titleCaseFilter = function(input){
+            var words = input.split(' ');
+            for(var i = 0; i < words.length; i++){
+                words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+            }
 
-        <p>
-          ng-repeat内置的属性 $index 等
-        </p>
+            return words.join(' ');
+        };
+        return titleCaseFilter;
+    });
+        </pre>
 
-        <h4>模板和数据绑定</h4>
+        <p>titleCase例子:</p>
+        <pre>
+    &lt;body ng-app="HomeModule" ng-controller="HomeController"&gt;
+          &lt;h1&gt;{{pageHeading| titleCase}}&lt;/h1&gt;
+    &lt;/body&gt;
+        </pre>
+        <p>我们也可以调用$provide 和 $filterProvider来注册一个过滤器</p>
 
+        <pre>
+    // Filter registration
+    function MyModule($provide, $filterProvider) {
+        // create a service to demonstrate injection (not always needed)
+        $provide.value('greet', function(name){
+           return 'Hello ' + name + '!';
+        });
+     
+    // register a filter factory which uses the
+    // greet service to demonstrate DI.
+    $filterProvider.register('greet', function(greet){
+      // return the filter function which uses the greet service
+      // to generate salutation
+      return function(text) {
+        // filters need to be forgiving so check input validity
+        return text && greet(text) || text;
+        };
+      });
+    }
+        </pre>
 
+        <p><a href="./angular/examples/myExamples/filter-demo.html">点击查看例子</a></p>
 
-        <h4>列表, 表格和其他重复的元素</h4>
-        <h4>隐藏与显示</h4>
-        <h4>CSS类和样式</h4>
-        <p> Angular提供了ng-class和ng-style指令. 它们都接受一个表达式. 这个表达式的计算结果可以是下列之一:</p>
+        <p>Angular默认提供了以下几个过滤器</p>
         <ul>
-          <li>一个使用空格分割类名的字符串</li>
-          <li>一个类名数组</li>
-          <li>类名到布尔值的映射</li>
+          <li>currency</li>
+          <li>date</li>
+          <li>filter</li>
+          <li>json</li>
+          <li>limitTo</li>
+          <li>lowercase</li>
+          <li>number</li>
+          <li>orderBy</li>
+          <li>uppercase</li>
         </ul>
 
-        <h4>src和href属性注意事项</h4>
-        <p>当数据绑定给一个&lt;img&gt;或者&lt;a&gt;标签时, 像上面一样在src或者href属性中使用{{ }}处理路径将无法正常工作. 因为在浏览器中图片与其他内容是并行加载的, 所以Angular无法拦截数据绑定的请求.</p>
-        <p>对于&lt;img&gt;而言最明显的语法错误就是：</p>
-        <pre>    &lt;img src="/images/cats/{{favoriteCat}}"&gt;  </pre>
-        <p>正确的，我们应该使用ng-src属性并像下面这样编写模板：</p>
-        <pre>    &lt;img ng-src="/images/cats/{{favoriteCat}}"&gt;  </pre>
-        <p>同样的道理，对于&lt;a&gt;标签你应该使用ng-href：</p>
-        <pre>    &lt;a ng-href="/shop/category={{numberOfBalloons}}"&gt;some text&lt;/a&gt;</pre>
+        <h5>currency</h5>
+        <p>用法：</p>
+        <p>In HTML Template Binding： {{ currency_expression | currency[:symbol] }}</p>
+        <p>In JavaScript： $filter('currency')(amount[, symbol])</p>
 
-        <h4>表达式</h4>
-        <p>表达式背后的思想是让你巧妙的在你的模板, 应用程序逻辑以及数据之间创建钩子而与此同时防止应用程序逻辑偷偷摸摸的进入模版中.</p>
-        <p>直到现在, 我们一直主要是引用原生的数据作为表达式传递给Angular指令. 但是其实这些表达式可以做更多的事情. 你可以处理简单的数学运算(+, -, /, *, %), 进行比较(==, !=,&gt;, &lt;,&gt;=, &lt;=), 执行布尔逻辑运算(&amp;&amp;, !!, !)以及按位运算(^, &amp;, |). 你可以调用暴露在控制器的$scope对象上的函数, 你还可以引用数据和对象表示法([], {}, …).</p>
-        <p>下面都是有效表达式的例子:</p>
-        <div>
-          <pre>    &lt;div ng-controller="SomeController"&gt;          &lt;div&gt;{{recompute() / 10}}&lt;div&gt;          &lt;ul ng-repeat="thing in things"&gt;              &lt;li ng-class="{highlight: $index % 4&gt;= threshold($index)}"&gt;                  {{otherFunction($index)}}              &lt;/li&gt;          &lt;/ul&gt;      &lt;/div&gt;  </pre>
-        </div>
-        <p>这里的第一个表达式recompute() / 10是有效的, 是在模板中设置逻辑很好的好例子, 但是应该避免这种方式. 保持视图和控制器之间的职责分离可以确保它们容易理解和测试.</p>
-        <p>虽然你可以使用表达式做很多事情, 它们由Angular自定义的解释器部分计算. 他们并不使用JavaScript的eval()执行, eval()有相当多的限制.</p>
-        <p>相反, 它们使用Angular自带的自定义解释器执行. 在里面, 你不会看到循环结构(for, while等等), 流程控制语句(if-else, throw)或者改变数据的运算符(++, --). 当你需要使用这些类型的运算时, 你应该在你的控制器中使用指令进行处理.</p>
-        <p>尽管表达式在很多方面比JavaScript更加严格, 但它们对undefined和null并不是很严格(更宽松). 模板只是简单的渲染一些东西, 并不会抛出一个NullPointerException的错误. 这样就允许你安全的使用模型而没有限制, 并且只要它们得到数据填充就让它们出现在用户界面中.</p>
+        <h5></h5>
+        <p>用法：</p>
+        <p>In HTML Template Binding：
+          {{ date_expression | date[:format] }}</p>
+        <p>In JavaScript：
+          $filter('date')(date[, format]) </p>
+        <p>例子</p>
+        <pre>
+<span ng-non-bindable>{{1288323623006| date:'medium'}}</span>:
+{{1288323623006| date:'medium'}}<br>
+<span ng-non-bindable>{{1288323623006| date:'yyyy-MM-dd HH:mm:ss Z'}}</span>:
+{{1288323623006| date:'yyyy-MM-dd HH:mm:ss Z'}}<br>
+<span ng-non-bindable>{{1288323623006| date:'MM/dd/yyyy @ h:mma'}}</span>:
+{{'1288323623006'| date:'MM/dd/yyyy @ h:mma'}}<br>
+        </pre>
+
+        <p>format string can be composed of the following elements:</p>
+        <ul>
+          <li>'yyyy': 4 digit representation of year (e.g. AD 1 =&gt; 0001, AD 2010 =&gt; 2010)</li>
+          <li>'yy': 2 digit representation of year, padded (00-99). (e.g. AD 2001 =&gt; 01, AD 2010 =&gt; 10)</li>
+          <li>'y': 1 digit representation of year, e.g. (AD 1 =&gt; 1, AD 199 =&gt; 199)</li>
+          <li>'MMMM': Month in year (January-December)</li>
+          <li>'MMM': Month in year (Jan-Dec)</li>
+          <li>'MM': Month in year, padded (01-12)</li>
+          <li>'M': Month in year (1-12)</li>
+          <li>'dd': Day in month, padded (01-31)</li>
+          <li>'d': Day in month (1-31)</li>
+          <li>'EEEE': Day in Week,(Sunday-Saturday)</li>
+          <li>'EEE': Day in Week, (Sun-Sat)</li>
+          <li>'HH': Hour in day, padded (00-23)</li>
+          <li>'H': Hour in day (0-23)</li>
+          <li>'hh': Hour in am/pm, padded (01-12)</li>
+          <li>'h': Hour in am/pm, (1-12)</li>
+          <li>'mm': Minute in hour, padded (00-59)</li>
+          <li>'m': Minute in hour (0-59)</li>
+          <li>'ss': Second in minute, padded (00-59)</li>
+          <li>'s': Second in minute (0-59)</li>
+          <li>'.sss' or ',sss': Millisecond in second, padded (000-999)</li>
+          <li>'a': am/pm marker</li>
+          <li>'Z': 4 digit (+sign) representation of the timezone offset (-1200-+1200)</li>
+        </ul>
+        <p>format string can also be one of the following predefined <a href="http://docs.angularjs.org/guide/i18n">localizable formats</a>:</p>
+        <ul>
+          <li>'medium': equivalent to 'MMM d, y h:mm:ss a' for en_US locale  (e.g. Sep 3, 2010 12:05:08 pm)</li>
+          <li>'short': equivalent to 'M/d/yy h:mm a' for en_US  locale (e.g. 9/3/10 12:05 pm)</li>
+          <li>'fullDate': equivalent to 'EEEE, MMMM d,y' for en_US  locale  (e.g. Friday, September 3, 2010)</li>
+          <li>'longDate': equivalent to 'MMMM d, y' for en_US  locale (e.g. September 3, 2010)</li>
+          <li>'mediumDate': equivalent to 'MMM d, y' for en_US  locale (e.g. Sep 3, 2010)</li>
+          <li>'shortDate': equivalent to 'M/d/yy' for en_US locale (e.g. 9/3/10)</li>
+          <li>'mediumTime': equivalent to 'h:mm:ss a' for en_US locale (e.g. 12:05:08 pm)</li>
+          <li>'shortTime': equivalent to 'h:mm a' for en_US locale (e.g. 12:05 pm)</li>
+        </ul>
+        <p>format string can contain literal values. These need to be quoted with single quotes (e.g.  "h 'in the morning'"). In order to output single quote, use two single quotes in a sequence  (e.g. "h 'o''clock'").</p>
+
+        <h5>filter 过滤数组列表</h5>
+        <p>用法：</p>
+        <p>In HTML Template Binding：
+          {{ filter_expression | filter:expression:comparator }} </p>
+        <p>In JavaScript：
+          $filter('filter')(array, expression, comparator) </p>
+        <p>expression可以是string，object或function；comparator为function</p>
+        
         <h4>使用$watch监控模型变化</h4>
-
-        <h4>使用过滤器格式化数据</h4>
-
         <h4>学习angular技巧</h4>
         <h5>在终端控制台调试</h5>
         <p>先看一例子</p>

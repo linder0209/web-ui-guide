@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <meta charset="utf-8">
+    <title>ng-transclude demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body >
+    <div ng-controller="Ctrl">
+      <input ng-model="title"><br><br>
+      <textarea ng-model="text" style="width:300px;height:100px;"></textarea> <br/><br>
+      <pane title="{{title}}">{{text}}</pane>
+    </div>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+        function Ctrl($scope) {
+          $scope.title = 'Lorem Ipsum';
+          $scope.text = 'Neque porro quisquam est qui dolorem ipsum quia dolor...';
+        }
+
+        angular.module('transclude', [])
+                .directive('pane', function() {
+                  return {
+                    restrict: 'E',
+                    transclude: true,
+                    scope: {title: '@'},
+                    template: '<div style="border: 1px solid black;">' +
+                            '<div style="background-color: gray">{{title}}</div>' +
+                            '<div ng-transclude></div>' +
+                            '</div>'
+                  };
+                });
+    </script>
+
+    <p>例子代码</p>
+    <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html ng-app="ngStyleDemoApp"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;ng-style demo&lt;/title&gt;
+    &lt;link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/&gt;
+    &lt;style type="text/css"&gt;
+      body{
+        padding: 10px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body &gt;
+    &lt;div ng-controller="StyleDemoController" class="well"&gt;
+      &lt;input type="button" value="set" ng-click="myStyle = {color: 'red', 'font-size': '20px'}"&gt;
+      &lt;input type="button" value="clear" ng-click="myStyle = {}"&gt;
+      &lt;br/&gt;
+      &lt;span style="font-weight: bold;" ng-style="myStyle || {color: 'blue'}"&gt;Sample Text&lt;/span&gt;
+      &lt;pre&gt;myStyle={{myStyle}}&lt;/pre&gt;
+
+      &lt;div&gt;原生的style和ng-style 比较&lt;/div&gt;
+      &lt;table&gt;
+        &lt;tr&gt;
+          &lt;th&gt;原生的style&lt;/th&gt;
+          &lt;th&gt;ng-style&lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td&gt;&lt;span style="{{customStyle}}"&gt;
+              原生的style，IE中不支持这种方式
+            &lt;/span&gt;
+            &lt;pre&gt;
+&lt;span style="{{customStyle}}"&gt;原生的style&lt;/span&gt;
+            &lt;/pre&gt;
+          &lt;/td&gt;
+          &lt;td&gt;
+            &lt;span ng-style="customNgStyle"&gt;ng-style&lt;/span&gt;
+            &lt;pre&gt;
+&lt;span ng-style="customNgStyle"&gt;ng-style&lt;/span&gt;
+            &lt;/pre&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+              angular.module('ngStyleDemoApp', []).controller('StyleDemoController', ['$scope', function($scope) {
+                  $scope.customStyle = 'width: 100px;font-size: 20px;border: 1px solid #004080';
+                  $scope.customNgStyle = {width: '100px', 'font-size': '20px', 'border': '1px solid #004080'};
+                }]);
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+  </body>
+</html>

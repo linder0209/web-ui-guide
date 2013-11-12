@@ -153,11 +153,11 @@
       $('#create_catalogue').click(function() {
         var codeDialog = $('#codeDialog');
         if (codeDialog.length == 0) {
-          codeDialog = $('<div id="codeDialog"><pre></pre></div>').appendTo(document.body);
+          codeDialog = $('<div id="codeDialog"><textarea style="width:970px;height:480px;"></textarea></div>').appendTo(document.body);
           codeDialog.dialog({
             autoOpen: false,
             title: '目录代码',
-            width: 800,
+            width: 1000,
             height: 600,
             buttons: {
               Ok: {
@@ -170,7 +170,7 @@
           });
         }
         var html = pub.createCatalogue();
-        codeDialog.find('pre').text(html);
+        codeDialog.find('textarea').text(html);
         codeDialog.dialog('open');
       });
     },

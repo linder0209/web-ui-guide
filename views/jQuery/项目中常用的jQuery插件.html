@@ -225,6 +225,7 @@
         </ul>
         <p>以上列出了部分options，更多可查看<a href="http://jqueryvalidation.org/validate" target="_blank">这里</a></p>
         <h4>下面是一个项目中的综合例子，代码中重写了源代码中部分方法、定制了部分options参数，并且扩展了一个方法（hideErrors）：隐藏或删除错误提示信息</h4>
+        <p class="h-web-font-red">这里需要注意事件 onfocusout 的处理，详见代码说明</p>
         <p><a href="jquery-validation/custom-examples/custom-validation.html">综合例子请点击这里</a></p>
         <p>以下是js的源代码</p>
         <pre>(function($, undefined) {
@@ -288,7 +289,18 @@
 
   $.validator.setDefaults({
     onfocusout: function(e) {
-      $(e).valid();
+      /**
+       * 这里用到了延迟校验，主要解决以下操作产生的问题
+       * A:操作
+       * 1.当鼠标停留在一个文本域上
+       * 2.此时点击提交按钮
+       * B：可能会产生的问题
+       * 1.条件:生成的错误信息改变页面的大小，使鼠标没有停留在提交按钮上，只有这种情况才会产生这个问题，如果生成的错误信息没有改变页面的大小，不会产生这个问题。
+       * 2.分析原因，可能是当鼠标点击按钮时，由于在很短的时间内，鼠标离开了提交按钮，点击事件将不会发生，引起这个问题应该跟框架有关，由于事件执行是按队列处理的，当执行focusout后，鼠标离开了提交按钮，就不会再执行click事件。
+      **/
+      setTimeout(function(){
+        $(e).valid();
+      },100);
     },
     ignore: ':hidden, :button',
     validatorGen: 0,

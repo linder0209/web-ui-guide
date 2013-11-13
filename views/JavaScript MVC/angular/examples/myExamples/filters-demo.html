@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html ng-app="filterApp">
+  <head>
+    <meta charset="utf-8">
+    <title>filters demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div ng-controller="Ctrl">
+      <input ng-model="greeting" type="text"><br>
+      No filter: {{greeting}}<br>
+      Reverse: {{greeting|reverse}}<br>
+      Reverse + uppercase: {{greeting|reverse:true}}<br><br>
+      <p>使用$filterProvider service创建过滤器</p>
+      <input ng-model="message" type="text"><br>
+      No filter: {{message}}<br>
+      Greet {{message|greet}}<br>
+
+    </div>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+        angular.module('filterApp', []).config(['$provide', '$filterProvider', function($provide, $filterProvider) {
+            // create a service to demonstrate injection (not always needed)
+            $provide.value('greet', function(name) {
+              return 'Hello ' + name + '!';
+            });
+
+            // register a filter factory which uses the
+            // greet service to demonstrate DI.
+            $filterProvider.register('greet', function(greet) {
+              // return the filter function which uses the greet service
+              // to generate salutation
+              return function(text) {
+                // filters need to be forgiving so check input validity
+                return text && greet(text) || text;
+              };
+            });
+          }]).
+                filter('reverse', function() {
+                  return function(input, uppercase) {
+                    var out = "";
+                    for (var i = 0; i < input.length; i++) {
+                      out = input.charAt(i) + out;
+                    }
+                    // conditional based on optional argument
+                    if (uppercase) {
+                      out = out.toUpperCase();
+                    }
+                    return out;
+                  };
+                });
+
+        function Ctrl($scope) {
+          $scope.greeting = 'hello';
+          $scope.message = 'message';
+        }
+
+    </script>
+
+    <p>例子代码</p>
+    <pre ng-non-bindable>
+&lt;!DOCTYPE html&gt;
+&lt;html ng-app="filterApp"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;filter demo&lt;/title&gt;
+    &lt;link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/&gt;
+    &lt;style type="text/css"&gt;
+      body{
+        padding: 10px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div ng-controller="Ctrl"&gt;
+      &lt;input ng-model="greeting" type="text"&gt;&lt;br&gt;
+      No filter: {{greeting}}&lt;br&gt;
+      Reverse: {{greeting|reverse}}&lt;br&gt;
+      Reverse + uppercase: {{greeting|reverse:true}}&lt;br&gt;&lt;br&gt;
+      &lt;p&gt;使用$filterProvider service创建过滤器&lt;/p&gt;
+      &lt;input ng-model="message" type="text"&gt;&lt;br&gt;
+      No filter: {{message}}&lt;br&gt;
+      Greet {{message|greet}}&lt;br&gt;
+
+    &lt;/div&gt;
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+        angular.module('filterApp', []).config(['$provide', '$filterProvider', function($provide, $filterProvider) {
+            // create a service to demonstrate injection (not always needed)
+            $provide.value('greet', function(name) {
+              return 'Hello ' + name + '!';
+            });
+
+            // register a filter factory which uses the
+            // greet service to demonstrate DI.
+            $filterProvider.register('greet', function(greet) {
+              // return the filter function which uses the greet service
+              // to generate salutation
+              return function(text) {
+                // filters need to be forgiving so check input validity
+                return text && greet(text) || text;
+              };
+            });
+          }]).
+                filter('reverse', function() {
+                  return function(input, uppercase) {
+                    var out = "";
+                    for (var i = 0; i &lt; input.length; i++) {
+                      out = input.charAt(i) + out;
+                    }
+                    // conditional based on optional argument
+                    if (uppercase) {
+                      out = out.toUpperCase();
+                    }
+                    return out;
+                  };
+                });
+
+        function Ctrl($scope) {
+          $scope.greeting = 'hello';
+          $scope.message = 'message';
+        }
+
+    &lt;/script&gt;
+
+    &lt;p&gt;例子代码&lt;/p&gt;
+    &lt;pre&gt;
+    &lt;/pre&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+  </body>
+</html>

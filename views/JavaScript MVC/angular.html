@@ -1411,7 +1411,7 @@ function StartUpController($scope){
           全局controller和局部controller
         </p>
 
-        <h4>使用过滤器 filter 格式化数据</h4>
+        <h4>使用过滤器格式化数据</h4>
         <p>
           过滤器允许你在模板中使用插值方式声明如何转换数据并显示给用户. 使用过滤器的语法如下:
         </p>
@@ -1470,7 +1470,7 @@ function StartUpController($scope){
     }
         </pre>
 
-        <p><a href="./angular/examples/myExamples/filter-demo.html">点击查看例子</a></p>
+        <p><a href="./angular/examples/myExamples/filters-demo.html">点击查看例子</a></p>
 
         <p>Angular默认提供了以下几个过滤器</p>
         <ul>
@@ -1550,9 +1550,155 @@ function StartUpController($scope){
           {{ filter_expression | filter:expression:comparator }} </p>
         <p>In JavaScript：
           $filter('filter')(array, expression, comparator) </p>
-        <p>expression可以是string，object或function；comparator为function</p>
-        
+        <p>expression 可以是string，object或function；comparator为function，true或false(undefined)</p>
+        <p>注意当expression 是对象时，如果设置了对象的属性为 $ 表示全属性匹配</p>
+        <pre>
+  {{ data | filter: {name: 'A'} }}
+  {{ data | filter: {$: '3'} }}
+  {{ data | filter: {$: '!3'} }}
+        </pre>
+        <p>expression 是 function时</p>
+
+        <pre>
+&lt;div ng-controller="TestCtrl"&gt;
+    {{ data | filter: f }}
+&lt;/div&gt;
+ &lt;script type="text/javascript"&gt;
+  var TestCtrl = function($scope){
+    $scope.data = [
+      {name: 'B', age: 4},  
+      {name: 'A', age: 1},  
+      {name: 'D', age: 3},  
+      {name: 'C', age: 3},  
+    ];
+  
+    $scope.f = function(e){
+      return e.age &gt; 2;
+    }
+  }
+  angular.bootstrap(document.documentElement);
+  &lt;/script&gt;
+        </pre>
+        <p><a href="./angular/examples/myExamples/filter-demo.html">点击查看例子</a></p>
+
+        <h5>json 过滤器</h5>
+        <p>convert a JavaScript object into JSON string</p>
+        <p>用法：</p>
+        <p>In HTML Template Binding：
+          {{ json_expression | json }} </p>
+        <p>In JavaScript：
+          $filter('json')(object)  </p>
+        <p>例子：{{ {'name':'value'} | json }} 输出结果为 {"name": "value"}</p>
+
+        <h5>limitTo 过滤器</h5>
+        <p>处理字符串或数组，截取前（或后）几个数据，当值为负数时，指从后往前截取到limitTo，注意：<span class="h-web-font-red">是从0开始，截取到limitTo</span></p>
+        <p><a href="./angular/examples/myExamples/limitTo-demo.html">点击查看例子</a></p>
+
+        <h5>lowercase uppercase 过滤器</h5>
+        <p>大小写转换</p>
+
+        <p>用法：</p>
+        <p>In HTML Template Binding：
+          {{ uppercase_expression | uppercase }}  </p>
+        <p>In JavaScript：
+          $filter('uppercase')()  </p>
+
+        <h5>number 过滤器</h5>
+        <p>格式化数字，用千分位处理，默认保留三位小数。如果是非数字则返回空</p>
+
+        <p>用法：</p>
+        <p>In HTML Template Binding：
+          {{ number_expression | number[:fractionSize] }}   </p>
+        <p>In JavaScript：
+          $filter('number')(number[, fractionSize])  </p>
+        <p>对于字符串转换成数字，不是简单的调用parseFloat方法，内容做了处理，待研究</p>
+        <p><a href="./angular/examples/myExamples/number-demo.html">点击查看例子</a></p>
+
+        <h5>orderBy 排序过滤器</h5>
+        <p>排序过滤器：    filter:orderBy(array, expression[, reverse]);</p>
+        <p>必须是对数组进行排序，reverse设为true为倒序，不设置或设为false为正序。expression可以是字符串，表示object的属性，也可以是function，一个比较器，还可以是array，一个function或string组成的array，
+          首先按第一个比较器比较，当相等时再按第二个比较器，以此类推。
+        </p>
+        <p><a href="./angular/examples/myExamples/orderBy-demo.html">点击查看例子</a></p>
+
         <h4>使用$watch监控模型变化</h4>
+
+        <h4>Angular global apis</h4>
+        <p>截止1.2.0版本，共提供了以下属相和方法</p>
+        <ul>
+          <li> <a href="http://docs.angularjs.org/api/angular.bind">angular.bind</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.bootstrap">angular.bootstrap</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.copy">angular.copy</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.element">angular.element</a>
+            <p>类似于jQuery，如果没有引入jQuery可以调动该方法处理dom元素</p></li>
+          <li> 
+            <a href="http://docs.angularjs.org/api/angular.equals">angular.equals</a>
+            <p>不同于javascript中原生的 ===，官方的描述</p>
+            <p>Determines if two objects or two values are equivalent. Supports value types, regular expressions, arrays and objects.
+              Two objects or values are considered equivalent if at least one of the following is true:
+              Both objects or values pass === comparison.
+              Both objects or values are of the same type and all of their properties are equal by comparing them with angular.equals.
+              Both values are NaN. (In JavaScript, NaN == NaN => false. But we consider two NaN as equal)
+              Both values represent the same regular expression (In JavasScript, /abc/ == /abc/ => false. But we consider two regular expressions as equal when their textual representation matches).
+              During a property comparison, properties of function type and properties with names that begin with $ are ignored.
+              Scope and DOMWindow objects are being compared only by identify (===).
+            </p>
+          </li>
+          <li> <a href="http://docs.angularjs.org/api/angular.extend">angular.extend</a>
+          <p> angular.extend(dst, src);dst和src都是json格式的数据，不同于jQuery中的extend，可以多个参数使用</p></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.forEach">angular.forEach</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.fromJson">angular.fromJson</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.identity">angular.identity</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.injector">angular.injector</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.isArray">angular.isArray</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.isDate">angular.isDate</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.isDefined">angular.isDefined</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.isElement">angular.isElement</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.isFunction">angular.isFunction</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.isNumber">angular.isNumber</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.isObject">angular.isObject</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.isString">angular.isString</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.isUndefined">angular.isUndefined</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.lowercase">angular.lowercase</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.mock">angular.mock</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.module">angular.module</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.noop">angular.noop</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.toJson">angular.toJson</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.uppercase">angular.uppercase</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.version">angular.version</a></li>
+        </ul>
+        <p>这里重点介绍其中一部分</p>
+
+        <h5>angular.bind</h5>
+        <p>绑定上下文函数，与 ES5 提供的bind函数不一样，待研究</p>
+        <p>例子</p>
+        <pre>
+  var f = angular.bind({a: 'xx'},
+    function(){
+      console.log(this.a);
+    }
+  );
+  f();
+        </pre>
+        <h5>angular.bootstrap</h5>
+        <p>    angular.bootstrap(element[, modules]); 用angular解析代码</p>
+
+        <h5>angular.copy</h5>
+        <p>深度copy，angular.copy(source[, destination]); 数据应该是json格式的数据，是把source copy到 destination中</p>
+        <p><a href="./angular/examples/myExamples/copy-demo.html">点击查看例子</a></p>
+        
+        <h5>angular.forEach</h5>
+        <p>    angular.forEach(obj, iterator[, context]);</p>
+        <p>这里需要注意的是该方法中提供了context，如果不设置，默认为iterator的元素</p>
+
+
+
+
+
+
+
+
+
         <h4>学习angular技巧</h4>
         <h5>在终端控制台调试</h5>
         <p>先看一例子</p>

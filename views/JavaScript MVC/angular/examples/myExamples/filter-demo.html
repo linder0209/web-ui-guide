@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="filterApp">
+<html ng-app>
   <head>
     <meta charset="utf-8">
     <title>filter demo</title>
@@ -11,61 +11,52 @@
     </style>
   </head>
   <body>
-    <div ng-controller="Ctrl">
-      <input ng-model="greeting" type="text"><br>
-      No filter: {{greeting}}<br>
-      Reverse: {{greeting|reverse}}<br>
-      Reverse + uppercase: {{greeting|reverse:true}}<br><br>
-      <p>使用$filterProvider service创建过滤器</p>
-      <input ng-model="message" type="text"><br>
-      No filter: {{message}}<br>
-      Greet {{message|greet}}<br>
-
+    <div ng-non-bindable>
+      <p>用法：</p>
+      <p>In HTML Template Binding：
+        {{ filter_expression | filter:expression:comparator }} </p>
+      <p>In JavaScript：
+        $filter('filter')(array, expression, comparator) </p>
+      <p>expression 可以是string，object或function；comparator 为function，true或false(undefined)</p>
     </div>
+    <hr>
+    <div ng-init="friends = [{name:'John', phone:'555-1276'},
+{name:'Mary', phone:'800-BIG-MARY'},
+{name:'Mike', phone:'555-4321'},
+{name:'Adam', phone:'555-5678'},
+{name:'Julie', phone:'555-8765'},
+{name:'Juliette', phone:'555-5678'}]"></div>
+    <div style="margin:10px 0;">expression 是string的情况</div>
+    Search: <input ng-model="searchText">
+    <table id="searchTextResults">
+      <tr><th>Name</th><th>Phone</th></tr>
+      <tr ng-repeat="friend in friends| filter:searchText">
+        <td>{{friend.name}}</td>
+        <td>{{friend.phone}}</td>
+      </tr>
+    </table>
+    <hr>
+    <div style="margin:10px 0;">expression 是object的情况</div>
+    Any: <input ng-model="search.$"> <br>
+    Name only <input ng-model="search.name"><br>
+    Phone only <input ng-model="search.phone"><br>
+
+    设置了comparator为true表示全字符匹配，设为false或undefined为模糊匹配。<br />
+    Equality <input type="checkbox" ng-model="strict"><br>
+    <table id="searchObjResults">
+      <tr><th>Name</th><th>Phone</th></tr>
+      <tr ng-repeat="friend in friends| filter:search:strict">
+        <td>{{friend.name}}</td>
+        <td>{{friend.phone}}</td>
+      </tr>
+    </table>
     <script type="text/javascript" src="../../angular.js"></script>
-    <script type="text/javascript">
-        angular.module('filterApp', []).config(['$provide', '$filterProvider', function($provide, $filterProvider) {
-            // create a service to demonstrate injection (not always needed)
-            $provide.value('greet', function(name) {
-              return 'Hello ' + name + '!';
-            });
 
-            // register a filter factory which uses the
-            // greet service to demonstrate DI.
-            $filterProvider.register('greet', function(greet) {
-              // return the filter function which uses the greet service
-              // to generate salutation
-              return function(text) {
-                // filters need to be forgiving so check input validity
-                return text && greet(text) || text;
-              };
-            });
-          }]).
-                filter('reverse', function() {
-                  return function(input, uppercase) {
-                    var out = "";
-                    for (var i = 0; i < input.length; i++) {
-                      out = input.charAt(i) + out;
-                    }
-                    // conditional based on optional argument
-                    if (uppercase) {
-                      out = out.toUpperCase();
-                    }
-                    return out;
-                  };
-                });
-
-        function Ctrl($scope) {
-          $scope.greeting = 'hello';
-          $scope.message = 'message';
-        }
-
-    </script>
-
+    <hr>
     <p>例子代码</p>
     <pre ng-non-bindable>
 &lt;!DOCTYPE html&gt;
-&lt;html ng-app="filterApp"&gt;
+&lt;html ng-app&gt;
   &lt;head&gt;
     &lt;meta charset="utf-8"&gt;
     &lt;title&gt;filter demo&lt;/title&gt;
@@ -77,60 +68,46 @@
     &lt;/style&gt;
   &lt;/head&gt;
   &lt;body&gt;
-    &lt;div ng-controller="Ctrl"&gt;
-      &lt;input ng-model="greeting" type="text"&gt;&lt;br&gt;
-      No filter: {{greeting}}&lt;br&gt;
-      Reverse: {{greeting|reverse}}&lt;br&gt;
-      Reverse + uppercase: {{greeting|reverse:true}}&lt;br&gt;&lt;br&gt;
-      &lt;p&gt;使用$filterProvider service创建过滤器&lt;/p&gt;
-      &lt;input ng-model="message" type="text"&gt;&lt;br&gt;
-      No filter: {{message}}&lt;br&gt;
-      Greet {{message|greet}}&lt;br&gt;
-
+    &lt;div ng-non-bindable&gt;
+      &lt;p&gt;用法：&lt;/p&gt;
+      &lt;p&gt;In HTML Template Binding：
+        {{ filter_expression | filter:expression:comparator }} &lt;/p&gt;
+      &lt;p&gt;In JavaScript：
+        $filter('filter')(array, expression, comparator) &lt;/p&gt;
+      &lt;p&gt;expression 可以是string，object或function；comparator 为function，true或false(undefined)&lt;/p&gt;
     &lt;/div&gt;
+    &lt;hr&gt;
+    &lt;div ng-init="friends = [{name:'John', phone:'555-1276'},
+{name:'Mary', phone:'800-BIG-MARY'},
+{name:'Mike', phone:'555-4321'},
+{name:'Adam', phone:'555-5678'},
+{name:'Julie', phone:'555-8765'},
+{name:'Juliette', phone:'555-5678'}]"&gt;&lt;/div&gt;
+    &lt;div style="margin:10px 0;"&gt;expression 是string的情况&lt;/div&gt;
+    Search: &lt;input ng-model="searchText"&gt;
+    &lt;table id="searchTextResults"&gt;
+      &lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Phone&lt;/th&gt;&lt;/tr&gt;
+      &lt;tr ng-repeat="friend in friends| filter:searchText"&gt;
+        &lt;td&gt;{{friend.name}}&lt;/td&gt;
+        &lt;td&gt;{{friend.phone}}&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;hr&gt;
+    &lt;div style="margin:10px 0;"&gt;expression 是object的情况&lt;/div&gt;
+    Any: &lt;input ng-model="search.$"&gt; &lt;br&gt;
+    Name only &lt;input ng-model="search.name"&gt;&lt;br&gt;
+    Phone only &lt;input ng-model="search.phone"&gt;&lt;br&gt;
+
+    设置了comparator为true表示全字符匹配，设为false或undefined为模糊匹配。&lt;br /&gt;
+    Equality &lt;input type="checkbox" ng-model="strict"&gt;&lt;br&gt;
+    &lt;table id="searchObjResults"&gt;
+      &lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Phone&lt;/th&gt;&lt;/tr&gt;
+      &lt;tr ng-repeat="friend in friends| filter:search:strict"&gt;
+        &lt;td&gt;{{friend.name}}&lt;/td&gt;
+        &lt;td&gt;{{friend.phone}}&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
     &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
-    &lt;script type="text/javascript"&gt;
-        angular.module('filterApp', []).config(['$provide', '$filterProvider', function($provide, $filterProvider) {
-            // create a service to demonstrate injection (not always needed)
-            $provide.value('greet', function(name) {
-              return 'Hello ' + name + '!';
-            });
-
-            // register a filter factory which uses the
-            // greet service to demonstrate DI.
-            $filterProvider.register('greet', function(greet) {
-              // return the filter function which uses the greet service
-              // to generate salutation
-              return function(text) {
-                // filters need to be forgiving so check input validity
-                return text && greet(text) || text;
-              };
-            });
-          }]).
-                filter('reverse', function() {
-                  return function(input, uppercase) {
-                    var out = "";
-                    for (var i = 0; i &lt; input.length; i++) {
-                      out = input.charAt(i) + out;
-                    }
-                    // conditional based on optional argument
-                    if (uppercase) {
-                      out = out.toUpperCase();
-                    }
-                    return out;
-                  };
-                });
-
-        function Ctrl($scope) {
-          $scope.greeting = 'hello';
-          $scope.message = 'message';
-        }
-
-    &lt;/script&gt;
-
-    &lt;p&gt;例子代码&lt;/p&gt;
-    &lt;pre&gt;
-    &lt;/pre&gt;
   &lt;/body&gt;
 &lt;/html&gt;
     </pre>

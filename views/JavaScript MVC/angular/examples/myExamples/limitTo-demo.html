@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <meta charset="utf-8">
+    <title>limitTo demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div ng-controller="Ctrl">
+      Limit {{numbers}} to: <input type="integer" ng-model="numLimit">
+      <p>Output numbers: {{ numbers | limitTo:numLimit }}</p>
+      Limit {{letters}} to: <input type="integer" ng-model="letterLimit">
+      <p>Output letters: {{ letters | limitTo:letterLimit }}</p>
+    </div>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+        function Ctrl($scope) {
+          $scope.numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+          $scope.letters = "abcdefghi";
+          $scope.numLimit = 3;
+          $scope.letterLimit = -3;
+        }
+    </script>
+    <hr>
+    <p>例子代码</p>
+    <pre ng-non-bindable>
+&lt;!DOCTYPE html&gt;
+&lt;html ng-app&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;limitTo demo&lt;/title&gt;
+    &lt;link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/&gt;
+    &lt;style type="text/css"&gt;
+      body{
+        padding: 10px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div ng-controller="Ctrl"&gt;
+      Limit {{numbers}} to: &lt;input type="integer" ng-model="numLimit"&gt;
+      &lt;p&gt;Output numbers: {{ numbers | limitTo:numLimit }}&lt;/p&gt;
+      Limit {{letters}} to: &lt;input type="integer" ng-model="letterLimit"&gt;
+      &lt;p&gt;Output letters: {{ letters | limitTo:letterLimit }}&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+        function Ctrl($scope) {
+          $scope.numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+          $scope.letters = "abcdefghi";
+          $scope.numLimit = 3;
+          $scope.letterLimit = -3;
+        }
+    &lt;/script&gt;
+    &lt;hr&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+  </body>
+</html>

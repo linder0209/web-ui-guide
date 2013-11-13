@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <meta charset="utf-8">
+    <title>orderBy demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div ng-controller="Ctrl">
+      <pre>Sorting predicate = {{predicate}}; reverse = {{reverse}}</pre>
+      <hr/>
+      [ <a href="" ng-click="predicate = ''">unsorted</a> ]
+      <table class="friend">
+        <tr>
+          <th><a href="" ng-click="predicate = 'name';
+              reverse = false">Name</a>
+            (<a href="" ng-click="predicate = '-name';
+                reverse = false">^</a>)</th>
+          <th><a href="" ng-click="predicate = 'phone';
+              reverse = !reverse">Phone Number</a></th>
+          <th><a href="" ng-click="predicate = 'age';
+              reverse = !reverse">Age</a></th>
+        </tr>
+        <tr ng-repeat="friend in friends| orderBy:predicate:reverse">
+          <td>{{friend.name}}</td>
+          <td>{{friend.phone}}</td>
+          <td>{{friend.age}}</td>
+        </tr>
+      </table>
+    </div>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+            function Ctrl($scope) {
+              $scope.friends =
+                      [{name: 'John', phone: '555-1212', age: 10},
+                        {name: 'Mary', phone: '555-9876', age: 19},
+                        {name: 'Mike', phone: '555-4321', age: 21},
+                        {name: 'Adam', phone: '555-5678', age: 35},
+                        {name: 'Julie', phone: '555-8765', age: 29}]
+              $scope.predicate = '-age';
+            }
+    </script>
+    <hr>
+    <p>例子代码</p>
+    <pre ng-non-bindable>
+&lt;!DOCTYPE html&gt;
+&lt;html ng-app&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;orderBy demo&lt;/title&gt;
+    &lt;link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/&gt;
+    &lt;style type="text/css"&gt;
+      body{
+        padding: 10px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div ng-controller="Ctrl"&gt;
+      &lt;pre&gt;Sorting predicate = {{predicate}}; reverse = {{reverse}}&lt;/pre&gt;
+      &lt;hr/&gt;
+      [ &lt;a href="" ng-click="predicate = ''"&gt;unsorted&lt;/a&gt; ]
+      &lt;table class="friend"&gt;
+        &lt;tr&gt;
+          &lt;th&gt;&lt;a href="" ng-click="predicate = 'name';
+              reverse = false"&gt;Name&lt;/a&gt;
+            (&lt;a href="" ng-click="predicate = '-name';
+                reverse = false"&gt;^&lt;/a&gt;)&lt;/th&gt;
+          &lt;th&gt;&lt;a href="" ng-click="predicate = 'phone';
+              reverse = !reverse"&gt;Phone Number&lt;/a&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;a href="" ng-click="predicate = 'age';
+              reverse = !reverse"&gt;Age&lt;/a&gt;&lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;tr ng-repeat="friend in friends| orderBy:predicate:reverse"&gt;
+          &lt;td&gt;{{friend.name}}&lt;/td&gt;
+          &lt;td&gt;{{friend.phone}}&lt;/td&gt;
+          &lt;td&gt;{{friend.age}}&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+            function Ctrl($scope) {
+              $scope.friends =
+                      [{name: 'John', phone: '555-1212', age: 10},
+                        {name: 'Mary', phone: '555-9876', age: 19},
+                        {name: 'Mike', phone: '555-4321', age: 21},
+                        {name: 'Adam', phone: '555-5678', age: 35},
+                        {name: 'Julie', phone: '555-8765', age: 29}]
+              $scope.predicate = '-age';
+            }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+  </body>
+</html>

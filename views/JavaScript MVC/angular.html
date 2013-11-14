@@ -119,7 +119,7 @@
             </ol>
           </li>
           <li>
-            <a href="#">angular中的表达式</a>
+            <a href="#">Angular中的表达式</a>
           </li>
           <li>
             <a href="#">内容控制指令</a>
@@ -208,10 +208,10 @@
             </ol>
           </li>
           <li>
-            <a href="#">a标签和script标签</a>
+            <a href="#">A 标签和 script 标签</a>
             <ol class="h-web-catalogue3">
               <li>
-                <a href="#">a标签</a>
+                <a href="#">A 标签</a>
               </li>
               <li>
                 <a href="#">script标签</a>
@@ -228,10 +228,73 @@
             <a href="#">ngController指令</a>
           </li>
           <li>
-            <a href="#">使用过滤器 filter 格式化数据</a>
+            <a href="#">使用过滤器格式化数据</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">currency</a>
+              </li>
+              <li>
+                <a href="#"></a>
+              </li>
+              <li>
+                <a href="#">filter 过滤数组列表</a>
+              </li>
+              <li>
+                <a href="#">json 过滤器</a>
+              </li>
+              <li>
+                <a href="#">limitTo 过滤器</a>
+              </li>
+              <li>
+                <a href="#">lowercase uppercase 过滤器</a>
+              </li>
+              <li>
+                <a href="#">number 过滤器</a>
+              </li>
+              <li>
+                <a href="#">orderBy 排序过滤器</a>
+              </li>
+            </ol>
           </li>
           <li>
             <a href="#">使用$watch监控模型变化</a>
+          </li>
+          <li>
+            <a href="#">Angular global apis</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">angular.bind</a>
+              </li>
+              <li>
+                <a href="#">angular.bootstrap</a>
+              </li>
+              <li>
+                <a href="#">angular.copy</a>
+              </li>
+              <li>
+                <a href="#">angular.forEach</a>
+              </li>
+              <li>
+                <a href="#">angular.injector</a>
+              </li>
+              <li>
+                <a href="#">angular.module</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#">路由 ngRoute</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">ngView指令</a>
+              </li>
+              <li>
+                <a href="#">$route service</a>
+              </li>
+              <li>
+                <a href="#">$routeParams service</a>
+              </li>
+            </ol>
           </li>
           <li>
             <a href="#">学习angular技巧</a>
@@ -244,6 +307,7 @@
         </ol>
       </li>
     </ol>
+
 
     <div class="h-web-paragraph">
       <h3 paragraph>Angular 介绍</h3>
@@ -1490,7 +1554,7 @@ function StartUpController($scope){
         <p>In HTML Template Binding： {{ currency_expression | currency[:symbol] }}</p>
         <p>In JavaScript： $filter('currency')(amount[, symbol])</p>
 
-        <h5></h5>
+        <h5>date</h5>
         <p>用法：</p>
         <p>In HTML Template Binding：
           {{ date_expression | date[:format] }}</p>
@@ -1645,27 +1709,47 @@ function StartUpController($scope){
             </p>
           </li>
           <li> <a href="http://docs.angularjs.org/api/angular.extend">angular.extend</a>
-          <p> angular.extend(dst, src);dst和src都是json格式的数据，不同于jQuery中的extend，可以多个参数使用</p></li>
+            <p> angular.extend(dst, src);dst和src都是json格式的数据，不同于jQuery中的extend，可以多个参数使用</p></li>
           <li> <a href="http://docs.angularjs.org/api/angular.forEach">angular.forEach</a></li>
-          <li> <a href="http://docs.angularjs.org/api/angular.fromJson">angular.fromJson</a></li>
-          <li> <a href="http://docs.angularjs.org/api/angular.identity">angular.identity</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.fromJson">angular.fromJson</a>
+            <p>    angular.fromJson(json);字符串转换为json数据，如果非字符串则返回json</p>
+          </li>
+          <li> <a href="http://docs.angularjs.org/api/angular.identity">angular.identity</a>
+            <p>该方法是返回函数第一个参数值，比如</p>
+            <p>
+              function transformer(transformationFn, value) { <br />
+              return (transformationFn || angular.identity)(value);<br />
+              };<br />
+              如果transformationFn没有定义，则返回value
+            </p>
+          </li>
           <li> <a href="http://docs.angularjs.org/api/angular.injector">angular.injector</a></li>
           <li> <a href="http://docs.angularjs.org/api/angular.isArray">angular.isArray</a></li>
           <li> <a href="http://docs.angularjs.org/api/angular.isDate">angular.isDate</a></li>
-          <li> <a href="http://docs.angularjs.org/api/angular.isDefined">angular.isDefined</a></li>
-          <li> <a href="http://docs.angularjs.org/api/angular.isElement">angular.isElement</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.isDefined">angular.isDefined</a>
+            <p>判断是否被定义了，即不等于undefined</p>
+          </li>
+          <li> <a href="http://docs.angularjs.org/api/angular.isElement">angular.isElement</a>
+            <p>判断是否是一个DOM element或者被jQuery包裹的一个DOM element元素</p></li>
           <li> <a href="http://docs.angularjs.org/api/angular.isFunction">angular.isFunction</a></li>
           <li> <a href="http://docs.angularjs.org/api/angular.isNumber">angular.isNumber</a></li>
           <li> <a href="http://docs.angularjs.org/api/angular.isObject">angular.isObject</a></li>
           <li> <a href="http://docs.angularjs.org/api/angular.isString">angular.isString</a></li>
-          <li> <a href="http://docs.angularjs.org/api/angular.isUndefined">angular.isUndefined</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.isUndefined">angular.isUndefined</a>
+            <p>判断是否是一个未定义的变量，与angular.isDefined相反</p></li>
           <li> <a href="http://docs.angularjs.org/api/angular.lowercase">angular.lowercase</a></li>
-          <li> <a href="http://docs.angularjs.org/api/angular.mock">angular.mock</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.mock">angular.mock</a>
+            <p>在文件angular-mocks.js中定义，主要是增强一些javascript原生提供的功能，比如$log，date,$timeout等</p></li>
           <li> <a href="http://docs.angularjs.org/api/angular.module">angular.module</a></li>
-          <li> <a href="http://docs.angularjs.org/api/angular.noop">angular.noop</a></li>
-          <li> <a href="http://docs.angularjs.org/api/angular.toJson">angular.toJson</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.noop">angular.noop</a>
+            <p>空函数</p></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.toJson">angular.toJson</a>
+            <p>与angular.fromJson相反，把一个json格式的数据转换为字符串，但内部做了处理，比如以$开头将或略等。</p>
+          </li>
           <li> <a href="http://docs.angularjs.org/api/angular.uppercase">angular.uppercase</a></li>
-          <li> <a href="http://docs.angularjs.org/api/angular.version">angular.version</a></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.version">angular.version</a>
+            <p>是一个属性，显示版本信息</p>
+          </li>
         </ul>
         <p>这里重点介绍其中一部分</p>
 
@@ -1686,15 +1770,166 @@ function StartUpController($scope){
         <h5>angular.copy</h5>
         <p>深度copy，angular.copy(source[, destination]); 数据应该是json格式的数据，是把source copy到 destination中</p>
         <p><a href="./angular/examples/myExamples/copy-demo.html">点击查看例子</a></p>
-        
+
         <h5>angular.forEach</h5>
-        <p>    angular.forEach(obj, iterator[, context]);</p>
-        <p>这里需要注意的是该方法中提供了context，如果不设置，默认为iterator的元素</p>
+        <p>该方法迭代处理object或array，用法如下：</p>
+        <p>
+          object : <br />
+          angular.forEach(obj, function(value, key){}[, context]); <br />
+          array : <br />
+          angular.forEach(array, function(item, index){}[, context]); <br />
+        </p>
+        <p>这里需要注意的是该方法中提供了context，如果不设置，默认为iterator函数中的第一个参数（value或item）。
+          还需注意的是value或item是一个引用，如果改变这些值的话会改变object或array的值，这与jQuery提供的each不一样，jQuery不会改变。</p>
+        <pre>
+var values = {name: 'misko', gender: 'male'};
+var log = [];
+angular.forEach(values, function(value, key){
+  //这里的this是指log
+  this.push(key + ': ' + value);
+}, log);
+console.info(log);//["name: misko", "gender: male"]
 
+//与jQuery中each方法对比
+var students = [{name: 'misko', gender: 'male'},{name: 'misko2', gender: 'female'}];
+angular.forEach(students, function(item,index){
+   item['index'] = index;
+});
+console.info(students);//[Object { name="misko", gender="male", index=0}, Object { name="misko2", gender="female", index=1}]
+students = [{name: 'misko', gender: 'male'},{name: 'misko2', gender: 'female'}];
+$(values).each(function(item,index){
+   item['index'] = index;
+});
+console.info(students);//[Object { name="misko", gender="male"}, Object { name="misko2", gender="female"}]
+        </pre>
 
+        <h5>angular.injector</h5>
+        <p>这是一个比较重要的函数，是用来创建一个注射器的，可以实现依赖注入。该方法创建了一个service，该方法比较复杂，待研究。</p>
 
+        <h5>angular.module</h5>
+        <p>用来创建或返回一个Angular modules，参数是两个或两个以上表示创建，参数是一个表示返回。
+          A module is a collection of services, directives, filters, and configuration information. angular.</p>
+        <pre>
+    // Create a new module
+    var myModule = angular.module('myModule', []);
+     
+    // register a new service
+    myModule.value('appName', 'MyCoolApp');
+     
+    // configure existing services inside initialization blocks.
+    myModule.config(function($locationProvider) {
+    // Configure existing providers
+    $locationProvider.hashPrefix('!');
+    });</pre>
 
+        <h4>路由 ngRoute</h4>
+        <p>ngRoute 是属于一个module，在最新的1.2.x版本中，如果想要使用路由功能，需要单独引入angular-route.js文件，
+          并需要加入依赖的module，angular.module('app', ['ngRoute']);</p>
+        <pre>
+    &lt;script src="angular-route.js"&gt;
+    angular.module('app', ['ngRoute']);  </pre>
+        <p>与ngRoute结合使用的service和directive有：</p>
+        <table>
+          <caption>directive</caption>
+          <tbody>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td><a href="http://docs.angularjs.org/api/ngRoute.directive:ngView">ngView</a></td>
+              <td>Overview</td>
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          <caption>service</caption>
+          <tbody>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+            </tr>
+            <tr ng-repeat="component in section.components">
+              <td><a href="http://docs.angularjs.org/api/ngRoute.$route">ngRoute.$route</a></td>
+              <td>$route is used for deep-linking URLs to controllers and views (HTML partials).</td>
+            </tr>
+            <tr ng-repeat="component in section.components">
+              <td><a href="http://docs.angularjs.org/api/ngRoute.$routeParams">ngRoute.$routeParams</a></td>
+              <td>The $routeParams service allows you to retrieve the current set of route parameters.</td>
+            </tr>
+            <tr ng-repeat="component in section.components">
+              <td><a href="http://docs.angularjs.org/api/ngRoute.$routeProvider">ngRoute.$routeProvider</a></td>
+              <td>Used for configuring routes. See $route for an example.</td>
+            </tr>
+          </tbody>
+        </table>
 
+        <h5>ngView指令</h5>
+        <p>路由中用到的指令ngView由ngRoute来控制，该指令包含了可渲染的模板内容，当路由改变时，根据不同的路由加载不同的模板，编译后渲染到ngView中，该指令支持以下animate</p>
+        <ul>
+          <li>enter - animation is used to bring new content into the browser.</li>
+          <li>leave - animation is used to animate existing content away.</li>
+          <li>The enter and leave animation occur concurrently.</li>
+        </ul>
+        <p><a href="./angular/examples/myExamples/ng-view-demo.html">点击查看例子</a></p>
+
+        <h5>$route service</h5>
+        <p>The $route service is typically used in conjunction with the ngView directive and the $routeParams service.</p>
+        <p>该service依赖$location和$routeParams，他会监视$location.url()并根据不同的路由改变其内容。</p>
+        <p>$route提供的 <br />
+          方法有reload()：重新加载路由 <br />
+          属性有： <br />
+          current 定义当前路由信息，该属性包含：controller、templateUrl、params和locals（该属性又包含$template和$scope） <br />
+          routes，包含所有路由 <br />
+          事件有： <br />
+          $routeChangeError、$routeChangeStart、$routeChangeSuccess和$routeUpdate
+        </p>
+
+        <h5>$routeParams service</h5>
+        <p>把路由中各参数返回（map形式），参数的定义格式是用:开头，例如:</p>
+
+        <pre>
+    $routeProvider.when('/Chapter/:chapterId/Section/:sectionId', {...})
+
+    // URL: http://server.com/index.html#/Chapter/1/Section/2?search=moby
+    // Route: /Chapter/:chapterId/Section/:sectionId
+    //
+    // Then
+    $routeParams ==> {chapterId:1, sectionId:2, search:'moby'}
+        </pre>
+
+        <h5>$routeProvider</h5>
+        <p>$routeProvider是用来关联模板和路由以及controller的，该service提供了两个方法</p>
+        <ol>
+          <li>when(path, route)
+            <p>设置路由，path是一个字符串，会匹配$location.path，定义格式可以是(:name)或(:name*)。例如：/color/:color/largecode/:largecode*\/edit 会匹配 /color/brown/largecode/code/with/slashs/edit，
+              匹配的值为 <br />
+              color: brown<br />
+              largecode: code/with/slashs
+            </p>
+            <p>参数 route是一个json对象，对象中可以设置以下属性</p>
+            <ul>
+              <li>controller 一个controller，字符串或函数</li>
+              <li>controllerAs controller的别名（当前上下文）</li>
+              <li>template html模板，他优先templateUrl，template也可以是一个function，用来返回html模板数据</li>
+              <li>templateUrl 字符串或函数，用来指明外部html模板</li>
+              <li>resolve  {Object.<string, function>=} 可选的</li>
+                <li>redirectTo  {(string|function())=} </li>
+                <li>[reloadOnSearch=true] - {boolean=} - reload route when only $location.search() or $location.hash() changes.
+                  If the option is set to false and url in the browser changes, then $routeUpdate event is broadcasted on the root scope.
+                </li>
+                <li>[caseInsensitiveMatch=false] - {boolean=} - match routes without being case sensitive
+                  If the option is set to true, then the particular route can be matched without being case sensitive
+                </li>
+            </ul>
+          </li>
+          <li>otherwise(params)
+            <p>设置when中定义的默认路由，例如： $routeProvider.otherwise({redirectTo: '/Book/Moby'});</p>
+          </li>
+        </ol>
+        <p>详细说明，官方没有提供更多的例子</p>
+
+        <p>对于路由的操作，ui-router提供了更好的操作，详见 <a href="https://github.com/angular-ui/ui-router">ui-router</a></p>
 
 
 

@@ -317,6 +317,7 @@
         <p><a href="http://angularjs.org/">官网</a></p>
         <p><a href="http://www.angularjs.cn/">中文社区</a></p>
         <p><a href="http://angular-ui.github.io/">Angular UI</a></p>
+        <p><a href="http://damoqiongqiu.iteye.com/blog/1885371">在Windows上安装Yeoman</a></p>
       </div>
       <h3 paragraph>Angular 例子</h3>
       <div>
@@ -1693,8 +1694,7 @@ function StartUpController($scope){
           <li> <a href="http://docs.angularjs.org/api/angular.bind">angular.bind</a></li>
           <li> <a href="http://docs.angularjs.org/api/angular.bootstrap">angular.bootstrap</a></li>
           <li> <a href="http://docs.angularjs.org/api/angular.copy">angular.copy</a></li>
-          <li> <a href="http://docs.angularjs.org/api/angular.element">angular.element</a>
-            <p>类似于jQuery，如果没有引入jQuery可以调动该方法处理dom元素</p></li>
+          <li> <a href="http://docs.angularjs.org/api/angular.element">angular.element</a></li>
           <li> 
             <a href="http://docs.angularjs.org/api/angular.equals">angular.equals</a>
             <p>不同于javascript中原生的 ===，官方的描述</p>
@@ -1770,6 +1770,72 @@ function StartUpController($scope){
         <h5>angular.copy</h5>
         <p>深度copy，angular.copy(source[, destination]); 数据应该是json格式的数据，是把source copy到 destination中</p>
         <p><a href="./angular/examples/myExamples/copy-demo.html">点击查看例子</a></p>
+
+        <h5>angular.element</h5>
+        <p>源码中是这样处理的</p>
+        <pre>
+  function bindJQuery() {
+  // bind to jQuery if present;
+  jQuery = window.jQuery;
+  // reset to jQuery or default to us.
+  if (jQuery) {
+    jqLite = jQuery;
+    extend(jQuery.fn, {
+      scope: JQLitePrototype.scope,
+      isolateScope: JQLitePrototype.isolateScope,
+      controller: JQLitePrototype.controller,
+      injector: JQLitePrototype.injector,
+      inheritedData: JQLitePrototype.inheritedData
+    });
+    // Method signature:
+    //     jqLitePatchJQueryRemove(name, dispatchThis, filterElems, getterIfNoArguments)
+    jqLitePatchJQueryRemove('remove', true, true, false);
+    jqLitePatchJQueryRemove('empty', false, false, false);
+    jqLitePatchJQueryRemove('html', false, false, true);
+  } else {
+    jqLite = JQLite;
+  }
+  angular.element = jqLite;
+}
+        </pre>
+        <p>从源码中可以看出，通过调用bindJQuery，把jqLite赋值给angular.element。
+          对于jqLite，如果引入了jQuery，则使用jQuery提供的方法，并扩展了jQuery几个属性和方法，同时对remove、empty和html进行了重写，
+          否则使用angular提供的jqLite。因此书写jQuery的方法就可以直接用angular.element来替代。</p>
+        <p>angular jqLite provides only the following jQuery methods（部分方法跟jQuery中有差别）</p>
+        <ol>
+          <li><a href="http://api.jquery.com/addClass/">addClass()</a></li>
+          <li><a href="http://api.jquery.com/after/">after()</a></li>
+          <li><a href="http://api.jquery.com/append/">append()</a></li>
+          <li><a href="http://api.jquery.com/attr/">attr()</a></li>
+          <li><a href="http://api.jquery.com/on/">bind()</a> - Does not support namespaces, selectors or eventData</li>
+          <li><a href="http://api.jquery.com/children/">children()</a> - Does not support selectors</li>
+          <li><a href="http://api.jquery.com/clone/">clone()</a></li>
+          <li><a href="http://api.jquery.com/contents/">contents()</a></li>
+          <li><a href="http://api.jquery.com/css/">css()</a></li>
+          <li><a href="http://api.jquery.com/data/">data()</a></li>
+          <li><a href="http://api.jquery.com/eq/">eq()</a></li>
+          <li><a href="http://api.jquery.com/find/">find()</a> - Limited to lookups by tag name</li>
+          <li><a href="http://api.jquery.com/hasClass/">hasClass()</a></li>
+          <li><a href="http://api.jquery.com/html/">html()</a></li>
+          <li><a href="http://api.jquery.com/next/">next()</a> - Does not support selectors</li>
+          <li><a href="http://api.jquery.com/on/">on()</a> - Does not support namespaces, selectors or eventData</li>
+          <li><a href="http://api.jquery.com/off/">off()</a> - Does not support namespaces or selectors</li>
+          <li><a href="http://api.jquery.com/parent/">parent()</a> - Does not support selectors</li>
+          <li><a href="http://api.jquery.com/prepend/">prepend()</a></li>
+          <li><a href="http://api.jquery.com/prop/">prop()</a></li>
+          <li><a href="http://api.jquery.com/ready/">ready()</a></li>
+          <li><a href="http://api.jquery.com/remove/">remove()</a></li>
+          <li><a href="http://api.jquery.com/removeAttr/">removeAttr()</a></li>
+          <li><a href="http://api.jquery.com/removeClass/">removeClass()</a></li>
+          <li><a href="http://api.jquery.com/removeData/">removeData()</a></li>
+          <li><a href="http://api.jquery.com/replaceWith/">replaceWith()</a></li>
+          <li><a href="http://api.jquery.com/text/">text()</a></li>
+          <li><a href="http://api.jquery.com/toggleClass/">toggleClass()</a></li>
+          <li><a href="http://api.jquery.com/triggerHandler/">triggerHandler()</a> - Passes a dummy event object to handlers.</li>
+          <li><a href="http://api.jquery.com/off/">unbind()</a> - Does not support namespaces</li>
+          <li><a href="http://api.jquery.com/val/">val()</a></li>
+          <li><a href="http://api.jquery.com/wrap/">wrap()</a></li>
+        </ol>
 
         <h5>angular.forEach</h5>
         <p>该方法迭代处理object或array，用法如下：</p>
@@ -1931,8 +1997,71 @@ console.info(students);//[Object { name="misko", gender="male"}, Object { name="
 
         <p>对于路由的操作，ui-router提供了更好的操作，详见 <a href="https://github.com/angular-ui/ui-router">ui-router</a></p>
 
+        <h4>Angular一些主要概念的理解</h4>
+        <h5>编译器(complier)</h5>
+        <p>编译器是AngularJS提供的一项服务，它通过遍历DOM来查找和它相关的属性。整个编译的过程分为两个阶段。</p>
+        <ul>
+          <li>
+            <strong>编译</strong>： 遍历DOM并且收集所有的相关指令，生成一个链接函数。
+          </li>
+          <li>
+            <strong>链接</strong>： 给指令绑定一个作用域，生成一个动态的视图。作用域模型的任何改变都会反映到视图上，并且视图上的任何用户操作也都会反映到作用域模型。这使得作用域模型成为你的业务逻辑里唯一要关心的东西。
+          </li>
+        </ul>
+        <p>有一些指令，比如ng-repeat会为数据集合里的每一项DOM元素都克隆一次。将整个编译过程分为<strong>编译</strong>和<strong>链接</strong>两个阶段的作法改善了整体的性能，因为克隆出来的模板总共只需要被编译一次，然后链接到各自的模型实例上就行了。</p>
 
+        <h5>指令(Directives)</h5>
+        <p>指令指示的是“当关联的HTML结构进入编译阶段时应该执行的操作”。指令可以写在元素的名称里，属性里，css类名里，注释里。下面有几个功能相同的使用ng-bind指令的例子。</p>
+        <pre>
+<span ng-bind="exp"></span>
+<span class="ng-bind: exp;"></span>
+<ng-bind></ng-bind>
+<!-- directive: ng-bind exp -->
+        </pre>
+        <p>
+          指令本质上只是一个当编译器编译到相关DOM时需要执行的函数。Angular指令的定义不仅仅包含字符串模板绑定，而且还有行为结构体的定义。
+          下面是一条能让元素变得可拖拽的指令。
+        </p>
 
+        <p>看下面的例子</p>
+        <pre>
+    <span draggable>Drag ME</span>
+    angular.module('directiveExample', []).
+        directive('draggable', function($document) {
+          var startX = 0, startY = 0, x = 0, y = 0;
+          return function(scope, element, attr) {
+            element.css({
+              position: 'relative',
+              border: '1px solid red',
+              backgroundColor: 'lightgrey',
+              cursor: 'pointer'
+            });
+            element.bind('mousedown', function(event) {
+              $document.unbind('mousemove', mousemove);
+              $document.unbind('mouseup', mouseup);
+              startX = event.screenX - x;
+              startY = event.screenY - y;
+              $document.bind('mousemove', mousemove);
+              $document.bind('mouseup', mouseup);
+            });
+
+            function mousemove(event) {
+              y = event.screenY - startY;
+              x = event.screenX - startX;
+              element.css({
+                top: y + 'px',
+                left: x + 'px'
+              });
+            }
+
+            function mouseup() {
+              $document.unbind('mousemove', mousemove);
+              $document.unbind('mouseup', mouseup);
+            }
+          };
+        });
+        </pre>
+        <p><a href="./angular/examples/myExamples/directive-demo.html">运行效果</a></p>
 
         <h4>学习angular技巧</h4>
         <h5>在终端控制台调试</h5>

@@ -3602,7 +3602,7 @@ function createInjector(modulesToLoad) {
   }
 
   ////////////////////////////////////
-  // Module Loading
+  // Module Loading 加载module
   ////////////////////////////////////
   function loadModules(modulesToLoad){
     var runBlocks = [], moduleFn, invokeQueue, i, ii;
@@ -3612,9 +3612,27 @@ function createInjector(modulesToLoad) {
 
       try {
         if (isString(module)) {
+          //调用angularModule方法返回相应的module 参见方法publishExternalAPI中的定义
           moduleFn = angularModule(module);
+          //处理requires的module
           runBlocks = runBlocks.concat(loadModules(moduleFn.requires)).concat(moduleFn._runBlocks);
-
+          
+          //invokeQueue： module中调用函数队列，对于ng module，包括
+          /**
+           * invokeQueue
+           0
+            ["$provide", "provider", Object { 0="$locale", 1=$LocaleProvider()}]
+                0
+                  "$provide"
+                1
+                  "provider"
+                2
+                  Object { 0="$locale", 1=$LocaleProvider()}
+                      0
+                        "$locale"
+                      1
+                        $LocaleProvider()
+           */
           for(invokeQueue = moduleFn._invokeQueue, i = 0, ii = invokeQueue.length; i < ii; i++) {
             var invokeArgs = invokeQueue[i],
                 provider = providerInjector.get(invokeArgs[0]);

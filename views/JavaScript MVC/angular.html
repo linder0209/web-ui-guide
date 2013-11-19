@@ -21,38 +21,38 @@
     <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
     <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
     <script type="text/javascript">
-              $(function() {
-              $('.h-web-catalogue li a').click(function(e) {
-              e.preventDefault();
-                      var paragraphNum,
-                      paragraph,
-                      offset;
-                      var el = this;
-                      $(this).closest('ol').find('li a').each(function(index, element) {
-              if (this === el) {
-              paragraphNum = index;
-                      return false;
-              }
-              });
-                      paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
-                      offset = paragraph.offset();
-                      if (offset) {
-              $(window).scrollTop(offset.top);
-              }
-              });
-                      //初始化内容折叠事件
-                      $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
-              $(this).next().toggle();
-              });
-                      //SyntaxHighlighter
-                      $('pre').replaceWith(function() {
-              var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
-                      html += $(this).html();
-                      html += '</pre>';
-                      return html;
-              });
-                      SyntaxHighlighter.highlight();
-              });</script>
+      $(function() {
+      $('.h-web-catalogue li a').click(function(e) {
+      e.preventDefault();
+      var paragraphNum,
+      paragraph,
+      offset;
+      var el = this;
+      $(this).closest('ol').find('li a').each(function(index, element) {
+      if (this === el) {
+      paragraphNum = index;
+      return false;
+      }
+      });
+      paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+      offset = paragraph.offset();
+      if (offset) {
+      $(window).scrollTop(offset.top);
+      }
+      });
+      //初始化内容折叠事件
+      $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+      $(this).next().toggle();
+      });
+      //SyntaxHighlighter
+      $('pre').replaceWith(function() {
+      var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
+      html += $(this).html();
+      html += '</pre>';
+      return html;
+      });
+      SyntaxHighlighter.highlight();
+      });</script>
   </head>
   <body>
     <h3 class="h-web-paragraph-title">目录</h3>
@@ -234,7 +234,7 @@
                 <a href="#">currency</a>
               </li>
               <li>
-                <a href="#"></a>
+                <a href="#">date</a>
               </li>
               <li>
                 <a href="#">filter 过滤数组列表</a>
@@ -272,6 +272,9 @@
                 <a href="#">angular.copy</a>
               </li>
               <li>
+                <a href="#">angular.element</a>
+              </li>
+              <li>
                 <a href="#">angular.forEach</a>
               </li>
               <li>
@@ -294,6 +297,20 @@
               <li>
                 <a href="#">$routeParams service</a>
               </li>
+              <li>
+                <a href="#">$routeProvider</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#">Angular一些主要概念的理解</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">编译器(complier)</a>
+              </li>
+              <li>
+                <a href="#">指令(Directives)</a>
+              </li>
             </ol>
           </li>
           <li>
@@ -307,6 +324,7 @@
         </ol>
       </li>
     </ol>
+
 
 
     <div class="h-web-paragraph">
@@ -1240,25 +1258,25 @@ function StartUpController($scope){
              ];"></div>
            1.label for value in array
           <span ng-init="color_label = colors[1];"></span>
-          <select ng-model="color_label"  ng-options="c.name for c in colors">
+          <select ng-model="color_lab el"  ng-options="c.name for c in colors">
           </select>
           {{color_label}}
 
           2.select as label for value in array
           <span ng-init="color_select = '1';"></span>
-          <select ng-model="color_select"  ng-options="c.code as c.name for c in colors">
+          <select ng-model="color_sel ect"  ng-options="c.code as c.name for c in colors">
           </select>
           {{color_select}}
 
           3.label group by group for value in array
           <span ng-init="color_label_group = colors[1];"></span>
-          <select ng-model="color_label_group"  ng-options="c.name group by c.shade for c in colors">
+          <select ng-model="color_lab el_group"  ng-options="c.name group by c.shade for c in colors">
           </select>
           {{color_label_group}}
 
           4.select as label group by group for value in array track by trackexpr
           <span ng-init="color_label_group2 = {name: 'white', shade: 'light', code: '2'};"></span>
-          <select ng-model="color_label_group2"  ng-options="c as c.name group by c.shade for c in colors track by c.name">
+          <select ng-model="color_lab el_group2"  ng-options="c as c.name group by c.shade for c in colors track by c.name">
           </select>
           {{color_label_group2}}
         </pre>
@@ -1274,25 +1292,25 @@ function StartUpController($scope){
             };"></div>
           1.label for (key , value) in object
           <span ng-init="color2_label = colors2['black'];"></span>
-          <select ng-model="color2_label"  ng-options="value.name | uppercase for (key , value) in colors2">
+          <select ng-model="color2_la bel"  ng-options="value.name | uppercase for (key , value) in colors2">
           </select>
           {{color2_label}}
 
           2.select as label for (key , value) in object
           <span ng-init="color2_select = '3';"></span>
-          <select ng-model="color2_select"  ng-options="value.code as value.name for (key , value) in colors2">
+          <select ng-model="color2_se lect"  ng-options="value.code as value.name for (key , value) in colors2">
           </select>
           {{color2_select}}
 
           3.label group by group for (key, value) in object
           <span ng-init="color2_group = colors2['black'];"></span>
-          <select ng-model="color2_group"  ng-options="value.name group by value.shade for (key , value) in colors2">
+          <select ng-model="color2_gr oup"  ng-options="value.name group by value.shade for (key , value) in colors2">
           </select>
           {{color2_group}}
 
           4.select as label group by group for (key, value) in object
           <span ng-init="color2_group2 = '4';"></span>
-          <select ng-model="color2_group2"  ng-options="value.code as value.name group by value.shade for (key , value) in colors2">
+          <select ng-model="color2_gr oup2"  ng-options="value.code as value.name group by value.shade for (key , value) in colors2">
           </select>
           {{color2_group2}}
         </pre>
@@ -1997,20 +2015,9 @@ console.info(students);//[Object { name="misko", gender="male"}, Object { name="
 
         <p>对于路由的操作，ui-router提供了更好的操作，详见 <a href="https://github.com/angular-ui/ui-router">ui-router</a></p>
 
-        <h4>Angular一些主要概念的理解</h4>
-        <h5>编译器(complier)</h5>
-        <p>编译器是AngularJS提供的一项服务，它通过遍历DOM来查找和它相关的属性。整个编译的过程分为两个阶段。</p>
-        <ul>
-          <li>
-            <strong>编译</strong>： 遍历DOM并且收集所有的相关指令，生成一个链接函数。
-          </li>
-          <li>
-            <strong>链接</strong>： 给指令绑定一个作用域，生成一个动态的视图。作用域模型的任何改变都会反映到视图上，并且视图上的任何用户操作也都会反映到作用域模型。这使得作用域模型成为你的业务逻辑里唯一要关心的东西。
-          </li>
-        </ul>
-        <p>有一些指令，比如ng-repeat会为数据集合里的每一项DOM元素都克隆一次。将整个编译过程分为<strong>编译</strong>和<strong>链接</strong>两个阶段的作法改善了整体的性能，因为克隆出来的模板总共只需要被编译一次，然后链接到各自的模型实例上就行了。</p>
-
-        <h5>指令(Directives)</h5>
+        <h4>指令(Directives)</h4>
+        <p>官方关于指令的详解为：<a href="http://docs.angularjs.org/api/ng.$compile">$compile</a></p>
+        <h5>指令的使用</h5>
         <p>指令指示的是“当关联的HTML结构进入编译阶段时应该执行的操作”。指令可以写在元素的名称里，属性里，css类名里，注释里。下面有几个功能相同的使用ng-bind指令的例子。</p>
         <pre>
 <span ng-bind="exp"></span>
@@ -2022,8 +2029,6 @@ console.info(students);//[Object { name="misko", gender="male"}, Object { name="
           指令本质上只是一个当编译器编译到相关DOM时需要执行的函数。Angular指令的定义不仅仅包含字符串模板绑定，而且还有行为结构体的定义。
           下面是一条能让元素变得可拖拽的指令。
         </p>
-
-        <p>看下面的例子</p>
         <pre>
     <span draggable>Drag ME</span>
     angular.module('directiveExample', []).
@@ -2063,6 +2068,163 @@ console.info(students);//[Object { name="misko", gender="male"}, Object { name="
         </pre>
         <p><a href="./angular/examples/myExamples/directive-demo.html">运行效果</a></p>
 
+        <h5>指令的执行过程</h5>
+        <p>先看一下代码是怎么实现的，首先调用$CompileProvider中的方法directive来注册指令，然后调用collectDirectives查找指令，查找指令过程中可能会调用addDirective来绑定指令，该方法也在$CompileProvider中定义。
+          找到后会返回到compileNodes方法中，获取 nodeLinkFn 和childLinkFn函数，如果linkFnFound为true，然后返回compositeLinkFn。compileNodes方法中会递归处理孩子节点的相关指令。最后回到compile函数中编译指令内容。
+          编译过程中内部会调用指令定义的函数。
+        </p>
+        <p>具体执行过程为：</p>
+        <ul>
+          <li>找到ng-app入口，把 DOM 结构扔给 $compile（$CompileProvider） 函数处理 </li>
+          <ul>
+            <li>匹配找出 DOM 中包含的所有指令引用</li>
+            <li>把指令关联到 DOM</li>
+            <li>关联到 DOM 的多个指令按权重排列</li>
+            <li>执行指令中的 compile 函数（改变 DOM 结构，返回 link 函数）</li>
+            <li>得到的所有 link 函数组成一个列表作为 $compile 函数的返回</li>
+          </ul>
+          </li>
+          <li>执行 link 函数（连接模板的 scope）。</li>
+        </ul>
+        <h5>定义指令相关属性</h5>
+        <p>一个最简单的定义就是直接返回函数，这个函数会作为directive的link属性（即代码中的nodeLinkFn，这个会在compile中会被调用）</p>
+        <pre>
+    angular.module('directiveExample', []).
+        directive('draggable', function($document) {
+          return function(scope, element, attr) {
+            //...
+          };
+        });
+        </pre>
+        <p>题外话，上例中的$document是一个依赖注入，标准写法为：['$document',function($document){}]。在angular中提供的方法中都可以依赖注入</p>
+        <p>下面看一下一个完整的directive定义相关属性</p>
+        <ul>
+          <li>name: 指令 controller 的名字，方便其它指令引用。</li>
+          <li>priority：指令执行优先级，默认为0</li>
+          <li>terminal：是否以当前指令的权重为结束界限。如果这值设置为 true ，则节点中权重小于当前指令的其它指令不会被执行。相同权重的会执行。</li>
+          <li>scope： 如果为true，则会创建新的scope，如果scope是一个object{}时，他会创建一个隔离的scope，对象中的属性是父scope中的一个别名，即该属性可以指定父scope中定义的变量，
+            变量值在内部代码中会传递给该别名。该别名类型如下：
+            <ul>
+              <li>
+                @ or @attr - <br />
+                绑定指令对应DOM元素属性值，该值必须是字符串。给定以下定义
+                &lt;input type="text" ng-model="name" /&gt;
+                &lt;widget my-attr="hello {{name}}"&gt; scope: { localName:'@myAttr' }，指令对应的html模板片段可以这样输出该值 {{localName}}。
+                当my-attr属性变化时，localName值就会改变，但当localName值改变了，name对应的ng-model值不会改变<br />
+                又如@形式：
+                &lt;custom-directive demo-title="{{title}}" &gt; scope: { demoTitle: '@' }，这时指令对应的html模板片段可以这样输出该值 {{demoTitle}}。
+              </li>
+              <li>
+                = or =attr - <br />
+                设置一个本地的scope和父scope ng-model关联（会双向影响），例如
+                &lt;input type="text" ng-model="parentModel" /&gt;
+                &lt;widget my-attr="parentModel"&gt;  scope: { localModel :'=myAttr' }，指令对应的html模板片段可以这样输出该值 {{localModel}}。
+                当parentModel的值改变了，localModel会改变，反之当localModel的值改变时，parentModel也会改变<br />
+                又如 = 形式：
+                &lt;custom-directive local-text="parentText" &gt; scope: { localText: '=' }，这时指令对应的html模板片段可以这样输出该值 {{localText}}。
+                另外需要注意的是，如果父scope中没有定义相关的ng-model，指令中调用localText会出错，我们可以用=? 或=?attr来设置避免报错。
+              </li>
+              <li>
+                &amp; or &amp;attr - <br />
+                提供一个表达式并在父scope上下文中执行，如果不设置attr name，则表明scope中声明的变量名跟指令中属性名称是一样的。例如：
+                &lt;widget my-attr="count = count + value"&gt;  scope: { localFn:'&amp;myAttr' }, 假如value在父scope的值为5，count为10，则执行后count的值就为15
+              </li>
+            </ul>
+          </li>
+          <li>controller<br />
+            可以为该指令指定一controller，这样就允许指令间彼此通讯，该controller可以依赖注入以下service等
+            <ul>
+              <li>$scope - Current scope associated with the element</li>
+              <li>$element - Current element</li>
+              <li>$attrs - Current attributes object for the element</li>
+              <li>$transclude - A transclude linking function pre-bound to the correct transclusion scope.   The scope can be overridden by an optional first argument.  function([scope], cloneLinkingFn).</li>
+            </ul>
+          </li>
+          <li>require
+          需要依赖其他指令
+          require: 'siblingDirectiveName', // or // ['^parentDirectiveName', '?optionalDirectiveName', '?^optionalParent'],
+          例如ng-switch-when需要依赖 ng-switch
+          </li>
+          <li>restrict: 指令可以以哪些方式被使用，可以同时定义多种方式。
+            <ul>
+              <li>E 元素方式 &lt;my-directive&gt;&lt;/my-directive&gt;</li>
+              <li>A 属性方式 &lt;div my-directive="exp"&gt; &lt;/div&gt;</li>
+              <li>C 类方式 &lt;div class="my-directive: exp;"&gt;&lt;/div&gt;</li>
+              <li>M 注释方式 &lt;!-- directive: my-directive exp --&gt;</li>
+            </ul>
+          </li>
+          <li>template: 模板内容</li>
+          <li>templateUrl： 外部模板url，也可以是内部用script定义的模板。可以通过$sce.getTrustedResourceUrl.传入，具体如何使用待研究</li>
+          <li>replace：是否使用模板内容替换掉整个节点， true 替换整个节点， false 替换节点内容。</li>
+          <li>transclude：可以是true或 'element' </li>
+          <li>compile: The compile function deals with transforming the template DOM. 用来编译模板内容 <br />
+            <pre>
+      compile: function compile(tElement, tAttrs, transclude) {
+       return {
+         pre: function preLink(scope, iElement, iAttrs, controller, transcludeFn) { ... },
+         post: function postLink(scope, iElement, iAttrs, controller, transcludeFn) { ... }
+       }
+       // or
+       // return function postLink( ... ) { ... }
+     },
+        </pre>
+          </li>
+          <li>link：This property is used only if the compile property is not defined.
+            <pre>
+            link: {
+             pre: function preLink(scope, iElement, iAttrs, controller, transcludeFn) { ... },
+             post: function postLink(scope, iElement, iAttrs, controller, transcludeFn) { ... }
+            }
+            or
+            link: function postLink( ... ) { ... }
+            </pre>
+          </li>
+        </ul>
+        <p>&nbsp;</p>
+        <h4>Angular一些主要概念的理解</h4>
+        <h5>编译器(complier)</h5>
+        <p>编译器是AngularJS提供的一项服务，它通过遍历DOM来查找和它相关的属性。整个编译的过程分为两个阶段。</p>
+        <ul>
+          <li>
+            <strong>编译</strong>： 遍历DOM并且收集所有的相关指令，生成一个链接函数。
+          </li>
+          <li>
+            <strong>链接</strong>： 给指令绑定一个作用域，生成一个动态的视图。作用域模型的任何改变都会反映到视图上，并且视图上的任何用户操作也都会反映到作用域模型。这使得作用域模型成为你的业务逻辑里唯一要关心的东西。
+          </li>
+        </ul>
+        <p>有一些指令，比如ng-repeat会为数据集合里的每一项DOM元素都克隆一次。将整个编译过程分为<strong>编译</strong>和<strong>链接</strong>两个阶段的作法改善了整体的性能，因为克隆出来的模板总共只需要被编译一次，然后链接到各自的模型实例上就行了。</p>
+
+        <h4>Angular 源码分析</h4>
+        <h5>Angular代码结构与加载过程</h5>
+
+        <h5>Angular 几个比较重要的属性和方法</h5>
+        <ul>
+          <li>
+            <p>annotate(fn)：内部方法，用来返回fn参数名称，返回的结果是数组，例如：</p>
+            <p>["$provide", ngModule(provide)]返回["$provide"]；ngModule($provide)返回["$provide"]</p>
+          </li>
+          <li>
+            <p>createInjector(modulesToLoad)：根据module创建 injector，返回的结果为</p>
+            <pre>
+    annotate: annotate(fn)
+    get: getService(serviceName)
+    has: function()
+    instantiate: instantiate(Type, locals)
+    invoke: invoke(fn, self, locals)
+            </pre>
+            <p>封装了以上四个内部函数，在createInjector中也实现了provider和injector的关联</p>
+          </li>
+          <li>
+            <p>$CompileProvider，该方法是编译，提供者，主要用来注册指令，编译解析指令等</p>
+          </li>
+          <li>$injector
+            <p>该方法是用来实例化已经注入的参数对象，是通过provider来实例的。实例对象，调用方法，加载modules</p>
+          </li>
+          <li>
+            <p>$compile，用来编译指令的</p>
+          </li>
+
+        </ul>
         <h4>学习angular技巧</h4>
         <h5>在终端控制台调试</h5>
         <p>先看一例子</p>

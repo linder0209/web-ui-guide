@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html ng-app="directiveExample">
+  <head>
+    <meta charset="utf-8">
+    <title>directive demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+      custom-directive{
+        display: block;
+        margin-top: 10px;
+        width: 50%;
+      }
+      input{
+        width: 500px;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="margin: 10px 0;">一个囊括directive定义时所有属性的例子。</div>
+    <div ng-controller="DirectiveCtr">
+        local-name-no-attr  -  parentNameNoAttr：<input type="text" name="parentNameNoAttr" ng-model="parentNameNoAttr" /> <br />
+        local-name-attr - parentName：<input type="text" name="parentName" ng-model="parentName" /> <br />
+
+        local-model-no-attr  - parentModelNoAttr：<input type="text" name="parentModelNoAttr" ng-model="parentModelNoAttr" /> <br />
+        local-model-attr - parentModel：<input type="text" name="parentModel" ng-model="parentModel" /> <br />
+
+      <custom-directive local-name-no-attr="{{parentNameNoAttr}}" local-name-attr="{{parentName}}" 
+                        local-model-no-attr="parentModelNoAttr" local-model-attr="parentModel" 
+                        local-fn-no-Attr="parentFnNoAttr();" local-fn-attr="parentFn();"  style="border: 1px solid #004099;padding:10px;">
+        <p>Some transcluded content</p>
+      </custom-directive>
+
+      <script type="text/ng-template" id="/tpl.html">
+        <div>
+        <!-- note, templates must have exactly one root element -->
+        <div>scope @ 类型</div>
+        localNameNoAttr: '@' ：<span ng-click="changeName();" >{{ localNameNoAttr }}</span><br />
+        localName: '@localNameAttr' ： {{ localName }}
+        <br /><br />
+
+        <div>scope = 类型</div>
+        localModelNoAttr: '=?' : <span ng-click="changeModelValue();">{{ localModelNoAttr }}</span><br />
+        localModel :'=demoModel'：<span>{{ localModel }}</span>
+        <br /><br />
+
+        <div>scope & 类型</div>
+        localFnNoAttr: '&' : <span ng-click="localFnNoAttr();">点击看看效果</span><br />
+        localFn: '&localFnAttr' : <span ng-click="localFn();">点击看看效果</span>
+         <br /><br />
+        以下为内容值
+        <div class="content" ng-transclude></div>
+        </div>
+      </script>
+    </div>
+    
+    <div ng-controller="DirectiveAnotherCtr">
+      
+    </div>
+  <script type="text/javascript" src="../../angular.js"></script>
+  <script type="text/javascript">
+      var directiveApp = angular.module('directiveExample', []);
+      directiveApp.controller('DirectiveCtr', ['$scope', function($scope) {
+          $scope.parentNameNoAttr = '设置为 @ 的形式，点击看看效果';
+          $scope.parentName = '设置为 @attr 的形式';
+          $scope.parentModelNoAttr = '设置为 = 的形式，点击看看效果';
+          $scope.parentModel = '设置为 =attr 的形式';
+          $scope.parentFnNoAttr = function(){
+            alert('调用父function: 设置为 & 的形式');
+          };
+          $scope.parentFn = function(){
+              alert('调用父function: 设置为 &attr 的形式');
+          };
+        }]);
+        
+      directiveApp.controller('DirectiveAnotherCtr', ['$scope', function($scope) {
+          $scope.name = '这是另一个controller中的name值';
+        }]);
+      directiveApp.directive('customDirective', function() {
+        return {
+          //priority: 200,//如果设置了优先级，那么该指令就会优先input调用，就抓取不到ng-model中的值
+          terminal: true,
+          restrict: 'EA',
+          templateUrl: '/tpl.html',
+          transclude: true,
+          scope: {
+            localNameNoAttr: '@',
+            localName: '@localNameAttr',
+            localModelNoAttr: '=?',//用=? 或=?attr可以避免，父scope中没有定义ng-model时，指令中调用localText会出错的问题
+            localModel: '=localModelAttr',
+            localFnNoAttr: '&',
+            localFn: '&localFnAttr'
+          },
+          controller: function($scope, $element, $attrs, $transclude) { 
+            console.info($scope);
+          },
+          //require: 'siblingDirectiveName', // or // ['^parentDirectiveName', '?optionalDirectiveName', '?^optionalParent'],
+          link: function(scope, iElement, iAttrs, controller) {
+            scope.changeName = function() {
+              console.info(scope.localNameNoAttr);
+              scope.localNameNoAttr = '点击标题改变了值，父scope中对应的 parentNameNoAttr 不会改变';
+            };
+            scope.changeModelValue = function() {
+              console.info(scope.localModelNoAttr);
+              scope.localModelNoAttr = '点击后，父scope中对应的 parentModelNoAttr 值也发生了改变';
+            };
+            
+          }
+        };
+      });
+  </script>
+</body>
+</html>

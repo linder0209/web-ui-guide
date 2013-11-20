@@ -32,7 +32,6 @@
                         local-fn-no-Attr="parentFnNoAttr();" local-fn-attr="parentFn();"  style="border: 1px solid #004099;padding:10px;">
         <p>Some transcluded content</p>
       </custom-directive>
-
       <script type="text/ng-template" id="/tpl.html">
         <div>
         <!-- note, templates must have exactly one root element -->
@@ -54,6 +53,19 @@
         <div class="content" ng-transclude></div>
         </div>
       </script>
+      
+      <div directive1 directive2>指令controller的设置，指令间利用controller的通讯</div>
+      
+      <div directive-parent><directive-sub>
+          compile pre 和 post例子，输出结果为: <br />
+          directiveParent compile<br />
+          directiveSub compile<br />
+          directiveParent link pre<br />
+          directiveSub link pre<br />
+          directiveSub link post<br />
+          directiveParent link post<br />
+       </directive-sub></div>
+      
     </div>
     
     <div ng-controller="DirectiveAnotherCtr">
@@ -80,11 +92,14 @@
         }]);
       directiveApp.directive('customDirective', function() {
         return {
+          name: 'customController',
           //priority: 200,//如果设置了优先级，那么该指令就会优先input调用，就抓取不到ng-model中的值
-          terminal: true,
+          terminal: true,//是否以当前指令的权重为结束界限。如果这值设置为 true ，则节点中权重小于当前指令的其它指令不会被执行。相同权重的会执行。
           restrict: 'EA',
           templateUrl: '/tpl.html',
+          //template: 'e',//模板内容
           transclude: true,
+          replace: false,//是否使用模板内容替换掉整个节点， true 替换整个节点， false 替换节点内容。
           scope: {
             localNameNoAttr: '@',
             localName: '@localNameAttr',
@@ -94,7 +109,14 @@
             localFn: '&localFnAttr'
           },
           controller: function($scope, $element, $attrs, $transclude) { 
-            console.info($scope);
+            console.log('controller');
+            console.log($scope);
+            var node = $transclude(function(clonedElement, scope){
+              console.log(clonedElement);
+              console.log('--');
+              console.log(scope);
+            });
+            console.log(node);
           },
           //require: 'siblingDirectiveName', // or // ['^parentDirectiveName', '?optionalDirectiveName', '?^optionalParent'],
           link: function(scope, iElement, iAttrs, controller) {
@@ -110,6 +132,70 @@
           }
         };
       });
+      
+      directiveApp.directive('directive1', function(){
+        return {
+          name: 'directive1Name',
+          restrict: 'EA',
+          controller: function($scope, $element, $attrs, $transclude){
+            console.log('directive1');
+            this.text = '这是一个自定义的指令，别名为 directive1Name';
+          },
+          compile: function(){}
+        };
+      });
+   
+      directiveApp.directive('directive2', function(){
+        return {
+          restrict: 'EA',
+          require: 'directive1Name',
+          controller: function($scope, $element, $attrs, $transclude){
+            console.log('directive2');
+          },
+          compile: function(){
+            return function($scope, $element, $attrs, $controller){
+              console.log($controller);
+            };
+          }
+        };
+      });
+      
+   
+      directiveApp.directive('directiveParent', function(){
+        return {
+          restrict: 'EA',
+          compile: function(tElement, tAttrs, transclude){
+            console.log('directiveParent compile');
+            return {
+              pre: function(){
+                console.log('directiveParent link pre');
+              },
+              post: function(){
+                console.log('directiveParent link post');
+              }
+            };
+          }
+        };
+      });
+
+      directiveApp.directive('directiveSub', function(){
+        return {
+          restrict: 'EA',
+          compile: function(tElement, tAttrs, transclude){
+            console.log('directiveSub compile');
+            return {
+              pre: function(){
+                console.log('directiveSub link pre');
+              },
+              post: function(){
+                console.log('directiveSub link post');
+              }
+            };
+          }
+        };
+      });
+      
+      
   </script>
 </body>
 </html>

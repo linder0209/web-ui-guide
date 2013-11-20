@@ -5362,12 +5362,12 @@ function $CompileProvider($provide) {
              $controller,   $rootScope,   $document,   $sce,   $animate) {
 
     var Attributes = function(element, attr) {
-      this.$$element = element;
-      this.$attr = attr || {};
+      this.$$element = element;//属性所在的节点
+      this.$attr = attr || {};//所有的属性值（key-value object）
     };
 
     Attributes.prototype = {
-      $normalize: directiveNormalize,
+      $normalize: directiveNormalize, //处理指令名称，把指令名称转换为驼峰式名称
 
 
       /**
@@ -5407,6 +5407,7 @@ function $CompileProvider($provide) {
       },
 
       /**
+       * 设置对象属性，及节点属性
        * Set a normalized attribute on the element in a way such that all directives
        * can share the attribute. This function properly handles boolean attributes.
        * @param {string} key Normalized key. (ie ngAttribute)
@@ -5501,6 +5502,7 @@ function $CompileProvider($provide) {
 
 
       /**
+       * 为属性注册侦听函数
        * @ngdoc function
        * @name ng.$compile.directive.Attributes#$observe
        * @methodOf ng.$compile.directive.Attributes

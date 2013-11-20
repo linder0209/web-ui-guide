@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html ng-app="directiveAttrExample">
+  <head>
+    <meta charset="utf-8">
+    <title>directive attr demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="margin: 10px 0;">指令处理属性的例子。</div>
+    <div ng-controller="DirectiveCtr">
+      <directive-attr-demo attr1="{{ attrVar }}" attr2 attr3="world"></directive-attr-demo>
+      <button ng-click="attrVar = attrVar +  ',World' ">修改</button>
+    </div>
+    
+  <script type="text/javascript" src="../../angular.js"></script>
+  <script type="text/javascript">
+      var directiveApp = angular.module('directiveAttrExample', []);
+      directiveApp.controller('DirectiveCtr', ['$scope', function($scope) {
+         $scope.attrVar = 'Hello';
+      }]);
+      
+      directiveApp.directive('directiveAttrDemo', function(){
+        return {
+          restrict: 'EA',
+          link: function($scope, $element, $attrs){
+            $attrs.$set('attrDemo1', 'attrDemo1');
+            $attrs.$set('attr-demo2', 'attr-demo2');
+            $attrs.$set('attr-demo3', 'attr-demo3', false);
+            $attrs.$set('attrDemo4', 'attr-demo4', true, 'attr_demo4');
+            console.debug($attrs);
+            
+            $attrs.$observe('attr1',function(newValue, oldValue){
+              console.info('attr1 oldValue: ' + oldValue);
+              console.info('attr1 newValue: ' + newValue);
+            });
+            //$watch是用来监听变量的
+            $scope.$watch('attrVar',function(newValue, oldValue){
+              console.info('attrVar oldValue: ' + oldValue);
+              console.info('attrVar newValue: ' + newValue);
+            });
+          }
+        };
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html ng-app="compileExample">
+  <head>
+    <meta charset="utf-8">
+    <title>compile demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="margin: 10px 0;">$compile 例子。</div>
+    <div ng-controller="CompileCtr"></div>
+    <div id="tmpl">A {{text}}</div>
+    <div id="content">B </div>
+    <hr />
+    <div ng-controller="CompileCtr2" ng-init="text='点击计算长度'; ">
+      <div show-length>{{ text }}</div>
+      <button ng-click="text='改变后的长度'">改变</button>
+      <hr />
+      <div more2>456</div>
+    </div>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+      var directiveApp = angular.module('compileExample', []);
+      directiveApp.controller('CompileCtr', ['$scope','$compile', function($scope,$compile) {
+        var $ = angular.element;//这里没有引入jQuery，直接用angular提供的
+        var link = $compile(document.getElementById('tmpl'));
+        //true参数表示新建一个完全隔离的scope,而不是继承的child scope
+        var scope = $scope.$new(true);
+        scope.text = '12345';
+        //var node = link(scope);
+        var node = link(scope, function(clonedElement, scope){//is the current scope with which the linking function is working with.
+          clonedElement.text(clonedElement.text() + ' ...'); //无效
+          clonedElement.text('{{ text2 }}'); //无效
+          clonedElement.addClass('new_class');
+          console.info(scope.text);
+        });
+        $(document.getElementById('content')).append(node);
+      }]);
+      
+      directiveApp.directive('more', function(){
+        return {
+           restrict: 'EA',
+           compile: function(element, attrs, transclude){
+              var sum = transclude(1, 2);
+              console.log(sum);
+              console.log(element);  
+            }
+        };
+      });
+
+      directiveApp.controller('CompileCtr2', function($scope, $compile, $element){
+        var text = '<more>123</more>';
+        var link = $compile(text, function(a, b){
+          return a + b;
+        });
+        var node = link($scope);
+        $element.append(node);
+      });
+      
+      directiveApp.directive('more2', function($rootScope, $document){
+        return {
+           restrict: 'EA',
+           transclude: 'element', // element表示 transclude the whole element including any directives defined at lower priority.
+           compile: function(element, attrs, link){
+              var node = link($rootScope);
+              node.removeAttr('more2'); //不去掉就变死循环了
+              var $ = angular.element;
+              $(document.body).append(node);
+            }
+        };
+      });
+      
+      directiveApp.directive('showLength', function(){
+         return {
+           restrict: 'EA',
+           transclude: true, // true表示只 transclude the content of the directive.
+           compile: function(element, attrs, link){
+            return function(scope, ielement, iattrs, controller){
+              var node = link(scope);
+              ielement.append(node);
+              var $ = angular.element;
+              var lnode = $('<div></div>');
+              ielement.prepend(lnode);
+              scope.$watch(function(scope){
+                lnode.text(node.text().length);
+              });
+             };
+            }
+         };
+       });
+    </script>
+  </body>
+</html>

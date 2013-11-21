@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>jasmine unit test</title>
+		<link rel="shortcut icon" type="image/png" href="../jasmine_favicon.png">
+        <link rel="stylesheet" href="../jasmine.css" type="text/css"/>
+		
+		
+		
+		<script type="text/javascript" src="../jasmine.js"></script>
+		<script type="text/javascript" src="../jasmine-html.js"></script>
+		
+		<script type="text/javascript">
+(function() {
+     var jasmineEnv = jasmine.getEnv();
+     jasmineEnv.updateInterval = 1000;
+ 
+     var trivialReporter = new jasmine.TrivialReporter();
+ 
+     jasmineEnv.addReporter(trivialReporter);
+ 
+     jasmineEnv.specFilter = function(spec) {
+      return trivialReporter.specFilter(spec);
+     };
+ 
+     var currentWindowOnload = window.onload;
+ 
+     window.onload = function() {
+          if (currentWindowOnload) {
+              currentWindowOnload();
+          }
+          execJasmine();
+     };
+ 
+     function execJasmine() {
+          jasmineEnv.execute();
+     }
+ 
+  })();			
+
+describe("测试add()函数", function() {
+    it("1 + 1 = 2", function(){
+        expect(add(1, 1)).toBe(5);
+    });
+	it("toBe相当于===", function(){
+    var a = 12;
+    var b = a;
+ 
+    expect(a).toBe(b);
+    expect(a).not.toBe(null);
+    expect(false == 0).toBe(true);
+});
+it("toBe不能当==用", function(){
+    expect(false).toBe(0);
+});
+});
+
+
+		</script>
+    </head>
+    <body>
+
+    </body>
+</html>

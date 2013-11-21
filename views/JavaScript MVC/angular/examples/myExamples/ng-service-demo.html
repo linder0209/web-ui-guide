@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html ng-app="invoice2">
+  <head>
+    <meta charset="utf-8">
+    <title>ng service demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+      div{ 
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div ng-controller="InvoiceController
+        as invoice">
+      <b>Invoice:</b>
+      <div>
+        Quantity: <input type="number" ng-model="invoice.qty" required >
+      </div>
+      <div>
+        Costs: <input type="number" ng-model="invoice.cost" required >
+        <select ng-model="invoice.inCurr">
+          <option ng-repeat="c in invoice.currencies">{{c}}</option>
+        </select>
+      </div>
+      <div>
+        <b>Total:</b>
+        <span ng-repeat="c in invoice.currencies">
+          {{invoice.total(c) | currency:c}}
+        </span>
+        <button class="btn" ng-click="invoice.pay()">Pay</button>
+      </div>
+    </div>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+        angular.module('finance2', [])
+          .factory('currencyConverter', function() {
+            var currencies = ['USD', 'EUR', 'CNY'],
+            usdToForeignRates = {
+              USD: 1,
+              EUR: 0.74,
+              CNY: 6.09
+            };
+            
+            return {
+              currencies: currencies,
+              convert: convert
+            };
+
+            function convert(amount, inCurr, outCurr) {
+                return amount * usdToForeignRates[outCurr] * 1 / usdToForeignRates[inCurr];
+            }
+          });
+       angular.module('invoice2', ['finance2'])
+          .controller('InvoiceController', ['currencyConverter', function(currencyConverter) {
+                this.qty = 1;
+                this.cost = 2;
+                this.inCurr = 'EUR';
+                this.currencies = currencyConverter.currencies;
+
+                this.total = function total(outCurr) {
+                return currencyConverter.convert(this.qty * this.cost, this.inCurr, outCurr);
+            };
+            this.pay = function pay() {
+                window.alert("Thanks!");
+            };
+         }]);
+    
+    </script>
+
+    <p>源代码</p>
+    <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html ng-app="invoice2"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;ng service demo&lt;/title&gt;
+    &lt;link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/&gt;
+    &lt;style type="text/css"&gt;
+      body{
+        padding: 10px;
+      }
+      div{ 
+        padding: 10px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div ng-controller="InvoiceController
+        as invoice"&gt;
+      &lt;b&gt;Invoice:&lt;/b&gt;
+      &lt;div&gt;
+        Quantity: &lt;input type="number" ng-model="invoice.qty" required &gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        Costs: &lt;input type="number" ng-model="invoice.cost" required &gt;
+        &lt;select ng-model="invoice.inCurr"&gt;
+          &lt;option ng-repeat="c in invoice.currencies"&gt;{{c}}&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;b&gt;Total:&lt;/b&gt;
+        &lt;span ng-repeat="c in invoice.currencies"&gt;
+          {{invoice.total(c) | currency:c}}
+        &lt;/span&gt;
+        &lt;button class="btn" ng-click="invoice.pay()"&gt;Pay&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+        angular.module('finance2', [])
+          .factory('currencyConverter', function() {
+            var currencies = ['USD', 'EUR', 'CNY'],
+            usdToForeignRates = {
+              USD: 1,
+              EUR: 0.74,
+              CNY: 6.09
+            };
+            
+            return {
+              currencies: currencies,
+              convert: convert
+            };
+
+            function convert(amount, inCurr, outCurr) {
+                return amount * usdToForeignRates[outCurr] * 1 / usdToForeignRates[inCurr];
+            }
+          });
+       angular.module('invoice2', ['finance2'])
+          .controller('InvoiceController', ['currencyConverter', function(currencyConverter) {
+                this.qty = 1;
+                this.cost = 2;
+                this.inCurr = 'EUR';
+                this.currencies = currencyConverter.currencies;
+
+                this.total = function total(outCurr) {
+                return currencyConverter.convert(this.qty * this.cost, this.inCurr, outCurr);
+            };
+            this.pay = function pay() {
+                window.alert("Thanks!");
+            };
+         }]);
+    
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+  </body>
+</html>

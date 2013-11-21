@@ -3011,7 +3011,7 @@ function annotate(fn) {
       last;
 
   if (typeof fn == 'function') {//直接传入function形式
-    if (!($inject = fn.$inject)) {//如果fn.$inject不存在
+    if (!($inject = fn.$inject)) {//如果fn.$inject不存在，因为我们可以手动设置$inject来直接注入
       $inject = [];
       if (fn.length) {
         fnText = fn.toString().replace(STRIP_COMMENTS, '');
@@ -8062,6 +8062,7 @@ var $interpolateMinErr = minErr('$interpolate');
 <doc:example module="customInterpolationApp">
 <doc:source>
 <script>
+  //数据绑定标识标签的修改
   var customInterpolationApp = angular.module('customInterpolationApp', []);
 
   customInterpolationApp.config(function($interpolateProvider) {
@@ -11070,6 +11071,7 @@ function qFactory(nextTick, exceptionHandler) {
 
 
 /**
+ * $rootScope和 $scope都是通过该函数实现的
  * @ngdoc object
  * @name ng.$rootScope
  * @description

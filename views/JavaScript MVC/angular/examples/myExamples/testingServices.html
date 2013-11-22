@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Testing Angular Services Using Jasmine</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <link rel="stylesheet" href="./jasmine/jasmine.css" type="text/css"/>
+    
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    
+  <script type="text/javascript" src="../../angular.js"></script>
+  <script type="text/javascript" src="./jasmine/jasmine.js"></script>
+  <script type="text/javascript" src="./jasmine/jasmine-html.js"></script>
+  <script type="text/javascript" src="./jasmine/jasmine-load.js"></script>
+  <script type="text/javascript">
+    angular.module('myModule', [], function($provide) {
+      $provide.factory('notify', ['$window', function(win) {
+        var msgs = [];
+        return function(msg) {
+          msgs.push(msg);
+          if (msgs.length == 3) {
+            win.alert(msgs.join("\n"));
+            msgs = [];
+          }
+        };
+      }]);
+    });
+    
+    describe("Testing Angular Services Using Jasmine", function() {
+        var mock, notify;
+     
+        beforeEach(function() {
+          mock = {alert: jasmine.createSpy()};
+
+          module(function($provide) {
+            $provide.value('$window', mock);
+          });
+
+          inject(function($injector) {
+            notify = $injector.get('notify');
+          });
+        });
+
+        it('should not alert first two notifications', function() {
+          notify('one');
+          notify('two');
+
+          expect(mock.alert).not.toHaveBeenCalled();
+        });
+
+        it('should alert all after third notification', function() {
+          notify('one');
+          notify('two');
+          notify('three');
+
+          expect(mock.alert).toHaveBeenCalledWith("one\ntwo\nthree");
+        });
+
+        it('should clear messages after alert', function() {
+          notify('one');
+          notify('two');
+          notify('third');
+          notify('more');
+          notify('two');
+          notify('third');
+
+          expect(mock.alert.callCount).toEqual(2);
+          expect(mock.alert.mostRecentCall.args).toEqual(["more\ntwo\nthird"]);
+        });
+    });
+  </script>
+</body>
+</html>

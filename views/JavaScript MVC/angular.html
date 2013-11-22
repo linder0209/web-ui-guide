@@ -21,38 +21,38 @@
     <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
     <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
     <script type="text/javascript">
-      $(function() {
-      $('.h-web-catalogue li a').click(function(e) {
-      e.preventDefault();
-      var paragraphNum,
-      paragraph,
-      offset;
-      var el = this;
-      $(this).closest('ol').find('li a').each(function(index, element) {
-      if (this === el) {
-      paragraphNum = index;
-      return false;
-      }
-      });
-      paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
-      offset = paragraph.offset();
-      if (offset) {
-      $(window).scrollTop(offset.top);
-      }
-      });
-      //初始化内容折叠事件
-      $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
-      $(this).next().toggle();
-      });
-      //SyntaxHighlighter
-      $('pre').replaceWith(function() {
-      var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
-      html += $(this).html();
-      html += '</pre>';
-      return html;
-      });
-      SyntaxHighlighter.highlight();
-      });</script>
+              $(function() {
+              $('.h-web-catalogue li a').click(function(e) {
+              e.preventDefault();
+                      var paragraphNum,
+                      paragraph,
+                      offset;
+                      var el = this;
+                      $(this).closest('ol').find('li a').each(function(index, element) {
+              if (this === el) {
+              paragraphNum = index;
+                      return false;
+              }
+              });
+                      paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+                      offset = paragraph.offset();
+                      if (offset) {
+              $(window).scrollTop(offset.top);
+              }
+              });
+                      //初始化内容折叠事件
+                      $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+              $(this).next().toggle();
+              });
+                      //SyntaxHighlighter
+                      $('pre').replaceWith(function() {
+              var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
+                      html += $(this).html();
+                      html += '</pre>';
+                      return html;
+              });
+                      SyntaxHighlighter.highlight();
+              });</script>
   </head>
   <body>
     <h3 class="h-web-paragraph-title">目录</h3>
@@ -225,7 +225,13 @@
             <a href="#">ngApp指令</a>
           </li>
           <li>
-            <a href="#">ngController指令</a>
+            <a href="#">Controller 和 ngController指令</a>
+          </li>
+          <li>
+            <a href="#">Services</a>
+          </li>
+          <li>
+            <a href="#">$location service</a>
           </li>
           <li>
             <a href="#">使用过滤器格式化数据</a>
@@ -257,10 +263,7 @@
             </ol>
           </li>
           <li>
-            <a href="#">使用$watch监控模型变化</a>
-          </li>
-          <li>
-            <a href="#">Angular global apis</a>
+            <a href="#">Angular global API</a>
             <ol class="h-web-catalogue3">
               <li>
                 <a href="#">angular.bind</a>
@@ -329,6 +332,20 @@
             </ol>
           </li>
           <li>
+            <a href="#">$rootScope 与 $scope</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">Scope Hierarchies</a>
+              </li>
+              <li>
+                <a href="#">Scope Events Propagation</a>
+              </li>
+              <li>
+                <a href="#">$rootScope method</a>
+              </li>
+            </ol>
+          </li>
+          <li>
             <a href="#">Angular一些主要概念的理解</a>
             <ol class="h-web-catalogue3">
               <li>
@@ -353,15 +370,17 @@
               <li>
                 <a href="#">在终端控制台调试</a>
               </li>
+              <li>
+                <a href="#">数据绑定标识标签的修改</a>
+              </li>
+              <li>
+                <a href="#">依赖注入的写法</a>
+              </li>
             </ol>
           </li>
         </ol>
       </li>
     </ol>
-
-
-
-
 
     <div class="h-web-paragraph">
       <h3 paragraph>Angular 介绍</h3>
@@ -1557,7 +1576,7 @@ function StartUpController($scope){
           3.Controller 可以层级嵌套，scope遵循 A. child scope 继承 parent scope，B. 先从 child scope 中查询变量，找不到再从parent scope中查找，直至rootScope <br />
           <a href="./angular/examples/myExamples/ng-controller-demo.html">点击查看Controller综合实例</a>
         </p>
-        
+
         <h4>Services</h4>
         <p>在Angular中提供了几个service，比如$http , $location等。在开发中运用是通过factory函数来定义的。定义service的好处是可以把一些公用的code和data封装到service中。
           一个service可以返回一个对象或function，在其他controller, service, filter or directive中依赖注入该service。
@@ -1584,8 +1603,28 @@ function StartUpController($scope){
         <p>service也可以依赖其他service 而注入，跟其他注入方式是一样的。另外service是单例的，在每个注射器中只有一个实例。</p>
         <p>下面看一个用service管理data的例子</p>
         <p><a href="./angular/examples/myExamples/ng-service-demo.html"> View independent business logic: Services</a></p>
-        
-        
+        <p>下面是一个用 jasmine实现的javascript unit test 例子，有错误，待修改</p>
+        <p><a href="./angular/examples/myExamples/testingServices.html"> Testing Angular Services Using Jasmine</a></p>
+
+        <h4>$location service</h4>
+        <p>$location是基于window.location来实现的，两者之间是关联的，一方发生改变，另一方也会改变。$location服务可以监听或改变url。
+          $location的改变不会引起整个浏览器的刷新，如果想让整个浏览器刷新，可以用$window.location.href.
+        </p>
+        <p><a href="./angular/examples/myExamples/$location-demo.html">例子</a></p>
+
+        <h4>编译器(complier)</h4>
+        <p>编译器是AngularJS提供的一项服务，它通过遍历DOM来查找和它相关的属性。整个编译的过程分为两个阶段。</p>
+        <ul>
+          <li>
+            <strong>编译</strong>： 遍历DOM并且收集所有的相关指令，生成一个链接函数。
+          </li>
+          <li>
+            <strong>链接</strong>： 给指令绑定一个作用域，生成一个动态的视图。作用域模型的任何改变都会反映到视图上，并且视图上的任何用户操作也都会反映到作用域模型。这使得作用域模型成为你的业务逻辑里唯一要关心的东西。
+          </li>
+        </ul>
+        <p>有一些指令，比如ng-repeat会为数据集合里的每一项DOM元素都克隆一次。将整个编译过程分为<strong>编译</strong>和<strong>链接</strong>两个阶段的作法改善了整体的性能，因为克隆出来的模板总共只需要被编译一次，然后链接到各自的模型实例上就行了。</p>
+
+
         <h4>使用过滤器格式化数据</h4>
         <p>
           过滤器允许你在模板中使用插值方式声明如何转换数据并显示给用户。内部代码是通过 $filterProvider service 实现的。 使用过滤器的语法如下:
@@ -1796,10 +1835,8 @@ function StartUpController($scope){
         </p>
         <p><a href="./angular/examples/myExamples/orderBy-demo.html">点击查看例子</a></p>
 
-        <h4>使用$watch监控模型变化</h4>
-
-        <h4>Angular global apis</h4>
-        <p>截止1.2.0版本，共提供了以下属相和方法</p>
+        <h4>Angular global API</h4>
+        <p>基于1.2.x版本，Angular共提供了以下属性和方法</p>
         <ul>
           <li> <a href="http://docs.angularjs.org/api/angular.bind">angular.bind</a></li>
           <li> <a href="http://docs.angularjs.org/api/angular.bootstrap">angular.bootstrap</a></li>
@@ -2673,32 +2710,43 @@ console.info(students);//[Object { name="misko", gender="male"}, Object { name="
             });</li>
         </ul>
 
-
-
-        <h4>Angular一些主要概念的理解</h4>
-        <h5>编译器(complier)</h5>
-        <p>编译器是AngularJS提供的一项服务，它通过遍历DOM来查找和它相关的属性。整个编译的过程分为两个阶段。</p>
-        <ul>
-          <li>
-            <strong>编译</strong>： 遍历DOM并且收集所有的相关指令，生成一个链接函数。
-          </li>
-          <li>
-            <strong>链接</strong>： 给指令绑定一个作用域，生成一个动态的视图。作用域模型的任何改变都会反映到视图上，并且视图上的任何用户操作也都会反映到作用域模型。这使得作用域模型成为你的业务逻辑里唯一要关心的东西。
-          </li>
-        </ul>
-        <p>有一些指令，比如ng-repeat会为数据集合里的每一项DOM元素都克隆一次。将整个编译过程分为<strong>编译</strong>和<strong>链接</strong>两个阶段的作法改善了整体的性能，因为克隆出来的模板总共只需要被编译一次，然后链接到各自的模型实例上就行了。</p>
-
         <h4>Angular 源码分析</h4>
         <h5>Angular代码结构与加载过程</h5>
+        <p>先看一下代码结构</p>
+        <pre>
+(function(window, document, undefined) {
+  
+  //设置严格模式，解析和加载更快，你懂得
+  'use strict';
+  //try to bind to jquery now so that one can write angular.element().read()
+  //but we will rebind on bootstrap again.
+  //尝试绑定jQuery对象
+  bindJQuery();
+ 
+  //初始化angular环境，扩展API
+  publishExternalAPI(angular);
+  
+  jqLite(document).ready(function() {
+    //当页面加载完后，初始化angular，bootstrap是定义的一个函数，用来解析，编译angular相关行为：指令等
+    angularInit(document, bootstrap);
+  });
+
+})(window, document);
+        </pre>
+        <p>首先会尝试绑定jQuery，如果没有提供，用angular自己的 JQLite；然后初始化angular环境，主要扩展API、绑定系统定义的指令、用$provide.provider初始化服务等；
+          最后就是解析加载DOM，见方法angularInit(document, bootstrap); 该方法中会判断页面是否定义了ng-app指令，如没有是不会解析加载的（可以手工调用方法 bootstrap 加载）。
+          加载过程内部处理比较复杂，主要是按照DOM结构，从定义ng-app开始依次遍历所有的节点，并处理节点中定义的指令，期间会处理view和scope数据的关联等。
+          可以看出，Angular对于document的处理主要包括初始化和解析加载DOM两部分。
+        </p>
 
         <h5>Angular 几个比较重要的属性和方法</h5>
-        <ul>
+        <ol>
           <li>
-            <p>annotate(fn)：内部方法，用来返回fn参数名称，返回的结果是数组，例如：</p>
-            <p>["$provide", ngModule(provide)]返回["$provide"]；ngModule($provide)返回["$provide"]</p>
+            annotate(fn)：内部方法，用来返回fn参数名称，返回的结果是数组，例如：<br />
+            ["$provide", ngModule(provide)]返回["$provide"]；ngModule($provide)返回["$provide"]
           </li>
           <li>
-            <p>createInjector(modulesToLoad)：根据module创建 injector，返回的结果为</p>
+            createInjector(modulesToLoad)：根据module创建 injector，返回的结果为
             <pre>
     annotate: annotate(fn)
     get: getService(serviceName)
@@ -2709,20 +2757,20 @@ console.info(students);//[Object { name="misko", gender="male"}, Object { name="
             <p>封装了以上四个内部函数，在createInjector中也实现了provider和injector的关联</p>
           </li>
           <li>
-            <p>$CompileProvider，该方法是编译，提供者，主要用来注册指令，编译解析指令等</p>
+            $CompileProvider，该方法是编译，提供者，主要用来注册指令，编译解析指令等
           </li>
-          <li>$injector
-            <p>该方法是用来实例化已经注入的参数对象，是通过provider来实例的。实例对象，调用方法，加载modules</p>
-          </li>
-          <li>
-            <p>$compile，用来编译指令的</p>
+          <li>$injector <br />
+            该方法是用来实例化已经注入的参数对象，是通过provider来实例的。实例对象，调用方法，加载modules
           </li>
           <li>
-            <p>$parse: 根据指令名返回该指令对应的函数fn，例如 ng-click="clickBtn();"，调用$parse('ng-click');后则返回clickBtn</p>
+            $compile：用来编译指令的
           </li>
-        </ul>
+          <li>
+            $parse: 根据指令名返回该指令对应的函数fn，例如 ng-click="clickBtn();"，调用$parse('ng-click');后则返回clickBtn
+          </li>
+        </ol>
 
-        <h4>学习angular技巧</h4>
+        <h4>学习angular技巧与方法</h4>
         <h5>在终端控制台调试</h5>
         <p>先看一例子</p>
         <pre>
@@ -2771,6 +2819,109 @@ console.info(students);//[Object { name="misko", gender="male"}, Object { name="
     MyController.$inject = ['$scope', '$route'];
         </pre>
       </div>
+
+      <h3 paragraph>Angular 关于浏览器的兼容性</h3>
+      <div>
+        <p>这里说的兼容性主要是指IE，官方推荐的最低版本是IE8，不过如果我们想要在ie6和ie7下运行angular，我们可以按照以下步骤来处理（本人只测试了IE7）。</p>
+        <ol>
+          <li>我们首先需要引入<a href="https://github.com/douglascrockford/JSON-js">JSON2</a>或<a href="http://bestiejs.github.com/json3/">JSON3</a>
+            <pre>
+    &lt;!doctype html&gt;
+    &lt;html&gt;
+      &lt;head&gt;
+        &lt;!--[if lte IE 8]&gt;
+          &lt;script src="json2.js"&gt;&lt;/script&gt;
+        &lt;![endif]--&gt;
+      &lt;/head&gt;
+      &lt;body&gt;
+      ...
+      &lt;/body&gt;
+    &lt;/html&gt;
+            </pre>
+          </li>
+          <li>
+            在加入指令ng-app的DOM元素（一般是html）中加入id属性， id="ng-app" 
+            <pre>
+    &lt;!doctype html&gt;
+    &lt;html id="ng-app" ng-app="optionalModuleName"&gt;
+    ...
+    &lt;/html&gt;
+            </pre>
+          </li>
+          <li>
+            我们尽量用属性的方法书写指令，比如 &lt;ng:view&gt; 可以用 &lt;div ng-view&gt; 代替。如果我们想要用自定义标签时，我们需要为ie7单独的处理
+            <pre>
+    &lt;!doctype html&gt;
+    &lt;html id="ng-app" ng-app="optionalModuleName"&gt;
+      &lt;head&gt;
+      &lt;!--[if lte IE 8]&gt;
+        &lt;script&gt;
+          document.createElement('ng-include');
+          document.createElement('ng-pluralize');
+          document.createElement('ng-view');
+
+          // Optionally these for CSS
+          document.createElement('ng:include');
+          document.createElement('ng:pluralize');
+          document.createElement('ng:view');
+        &lt;/script&gt;
+      &lt;![endif]--&gt;
+      &lt;/head&gt;
+      &lt;body&gt;
+      ...
+      &lt;/body&gt;
+    &lt;/html&gt;
+            </pre>
+            <p>这些声明必须写在页面的最上面</p>
+          </li>
+          <li>
+            对于自定义标签，我们需要为其设置默认css样式，设置样式之前确保调用了document.createElement('custom-tag');
+            <pre>
+    &lt;html&gt;
+      &lt;head&gt;
+      &lt;!--[if lte IE 8]&gt;
+        &lt;script&gt;
+          // needed to make ng-include parse properly
+          document.createElement('ng-include');
+
+          // needed to enable CSS reference
+          document.createElement('ng:view');
+        &lt;/script&gt;
+      &lt;![endif]--&gt;
+      &lt;style&gt;
+        ng\:view {
+          display: block;
+          border: 1px solid red;
+        }
+
+        ng-include {
+          display: block;
+          border: 1px solid blue;
+        }
+      &lt;/style&gt;
+      &lt;/head&gt;
+      &lt;body&gt;
+        &lt;ng:view&gt;&lt;/ng:view&gt;
+        &lt;ng-include&gt;&lt;/ng-include&gt;
+        ...
+      &lt;/body&gt;
+    &lt;/html&gt;
+            </pre>
+          </li>
+          <li>为了支持html5和css3，我们需要引入html5shiv.js 和 respond.js。html5shiv.js是用来解析html5的，respond.js是用来处理css3的（包括响应式布局等）</li>
+          <pre>
+      &lt;!--[if lt IE 9]&gt;
+        &lt;script src="html5shiv.min.js"&gt;&lt;/script&gt;
+        &lt;script src="respond.min.js"&gt;&lt;/script&gt;
+      &lt;![endif]--&gt;
+          </pre>
+        </ol>
+        
+        <p>下面给出一个在ie6，ie7下兼容性的例子</p>
+        
+        
+      </div>
+
     </div>
   </body>
 </html>

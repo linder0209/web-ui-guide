@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html id="ng-app" ng-app="IECompatibilityApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Internet Explorer Compatibility demo</title>
+    <!--[if lt IE 9]>
+      <script src="./compatibility/html5shiv.min.js"></script>
+      <script src="./compatibility/respond.min.js"></script>
+    <![endif]-->
+    <!--[if lte IE 8]>
+      <script>
+        document.createElement('ng-include');
+        document.createElement('ng-view');
+        document.createElement('custom-tag');
+
+        // Optionally these for CSS
+        document.createElement('ng:include');
+        document.createElement('ng:view');
+        document.createElement('custom:tag');
+      </script>
+       <style>
+        ng\:view, ng-view {
+          display: block;
+          border: 1px solid red;
+        }
+
+        ng\:include, ng-include {
+          display: block;
+          border: 1px solid blue;
+        }
+    
+        custom\:tag, custom-tag {
+          display: block;
+          border: 1px solid blue;
+        }
+    
+      </style>
+    <![endif]-->
+
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+      var app = angular.module('IECompatibilityApp', []);
+
+      app.directive('customTag', function() {
+        return {
+          restrict: 'EA',
+          compile: function(element, attrs, transclude) {
+            angular.element(element).append('<span>自定义标签指令在ie中的处理</span>');
+          }
+        };
+      });
+    </script>
+  </head>
+  <body>
+  <custom-tag>
+    自定义标签在ie下的处理 ：&lt;custom-tag&gt;&lt;/custom-tag&gt;
+  </custom-tag>
+  <custom:tag>
+    自定义标签在ie下的处理 ：&lt;custom:tag&gt;&lt;/custom:tag&gt;
+  </custom:tag>
+  <div custom-tag>
+    自定义标签在ie下的处理 ：&lt;div custom-tag&gt;&lt;/div&gt;
+  </div>
+</body>
+</html>

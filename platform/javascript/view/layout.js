@@ -272,7 +272,7 @@
         //字符串"ccc<a id='linkId' href='index/8800387989517#/faq'>Frequently Asked Questions</a>" 替换后，a 和 href之间的内容也会被替换，而且这是贪婪匹配，如果有多个的话，只会匹配最后一个
         //以下是改进版
         //这里用到了懒惰匹配 *?
-        repSource = repSource.replace(/((<link|<img|<a|<script).*?\s*((href|src)=["']))(?!(http|#|\/))/ig, '$1' + directory + '/');
+        repSource = repSource.replace(/((<link|<img|<a|<script).*?\s*((href|src)=["']))(?!(http|#|\/|view-source))/ig, '$1' + directory + '/');
         //替换绝对路径，加上root
         //repSource = repSource.replace(/((href|src)=["'])\//ig, '$1' + root + '/');
         //替换样式中图片背景

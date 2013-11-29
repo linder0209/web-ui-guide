@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html ng-app="myAppWithSceDisabled">
+  <head>
+    <meta charset="utf-8">
+    <title>$sce disabled demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div ng-controller="SceDemoCtrl">
+      <textarea ng-model="userHtml" style="width:500px;"> </textarea>
+      <div ng-bind-html="userHtml"></div>
+    </div>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+          angular.module('myAppWithSceDisabled', []).config(function($sceProvider) {
+            // Completely disable SCE. For demonstration purposes only!
+            // Do not use in new projects.
+            $sceProvider.enabled(false);
+          }).controller('SceDemoCtrl', function($scope) {
+            $scope.userHtml = '<div style="color:green;" class="ng-demo" custom-attr="1">把$sce设为disabled后的处理,userHtml可以是任意的html代码，包括style但不包括script（会报错）</div><style type="text/css">.ng-demo{border:1px solid orange;}</style>';
+          });
+    </script>
+    <p>例子代码</p>
+    <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html ng-app="myAppWithSceDisabledmyApp"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;$sce disabled demo&lt;/title&gt;
+    &lt;link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/&gt;
+    &lt;style type="text/css"&gt;
+      body{
+        padding: 10px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div ng-controller="SceDemoCtrl"&gt;
+      &lt;textarea ng-model="userHtml" style="width:500px;"&gt; &lt;/textarea&gt;
+      &lt;div ng-bind-html="userHtml"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+          angular.module('myAppWithSceDisabledmyApp', []).config(function($sceProvider) {
+            // Completely disable SCE. For demonstration purposes only!
+            // Do not use in new projects.
+            $sceProvider.enabled(false);
+          }).controller('SceDemoCtrl', function($scope) {
+            $scope.userHtml = '&lt;div style="color:green;" class="ng-demo" custom-attr="1"&gt;把$sce设为disabled后的处理,userHtml可以是任意的html代码，包括style但不包括script（会报错）&lt;/div&gt;&lt;style type="text/css"&gt;.ng-demo{border:1px solid orange;}&lt;/style&gt;';
+          });
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+  </body>
+</html>

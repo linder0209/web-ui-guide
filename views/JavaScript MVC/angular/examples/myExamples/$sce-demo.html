@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app="sceApp">
+  <head>
+    <meta charset="utf-8">
+    <title>$sce demo</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div ng-controller="SceDemoCtrl">
+      <table border="1">
+        <tr>
+          <th>method</th> <th>结果</th>
+        </tr>
+        <tr>
+          <td></td><td><div ng-bind-html="userHtml1"></div></td>
+        </tr>
+        <tr>
+          <td>$sceDelegate.getTrusted($sce.HTML, maybeTrusted)</td><td><div ng-bind-html="userHtml2"></div></td>
+        </tr>
+        <tr>
+          <td>$sce.getTrustedHtml(value)</td><td><div ng-bind-html="userHtml3"></div></td>
+        </tr>
+        <tr>
+          <td>$sce.trustAsHtml(value)</td><td><div ng-bind-html="userHtml4"></div></td>
+        </tr>
+      </table>
+
+    </div>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript" src="../../angular-sanitize.js"></script>
+    <script type="text/javascript">
+            angular.module('sceApp', ['ngSanitize']).controller('SceDemoCtrl', function($scope, $sce, $sceDelegate) {
+              var html1 = '<div style="color:green;" custom-attr="1">\n\
+                  使用ng-bind-html指令解析，其中内容可以用$sce提供的方法预编译</div>\n\
+                  <style type="text/css">.ng-demo{border:1px solid orange;}</style>';
+
+              var html2 = '<div style="color:green;" class="ng-demo" custom-attr="1">\n\
+                  使用ng-bind-html指令解析，其中内容可以用$sce提供的方法预编译</div>\n\
+                  <style type="text/css">.ng-demo{border:1px solid orange;}</style>';
+              $scope.userHtml1 = html1;
+              $scope.userHtml2 = $sceDelegate.getTrusted($sce.HTML, html1);
+              $scope.userHtml3 = $sce.getTrustedHtml(html1);
+              $scope.userHtml4 = $sce.trustAsHtml(html2);//$sceDelegate.trustAs($sce.HTML, html2)
+            });
+    </script>
+    <p>例子代码</p>
+    <pre>
+    </pre>
+  </body>
+</html>

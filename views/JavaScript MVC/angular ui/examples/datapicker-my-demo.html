@@ -8,27 +8,34 @@
   <body style="padding:10px;">
     <p>以下是自己写的例子，用法更简单，灵活</p>
 
-    <div ng-controller="myDatepickerDemoCtrl">
-      <div class="input-group">
-        <input class="form-control" type="text" datepicker-popup ng-model="myDate"/>
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-info" ng-click="openDate($event)"> <span class="glyphicon glyphicon-calendar"></span> </button>
-        </span>
-      </div>
+    <div ng-controller="myDatepickerDemoCtrl" ng-form="return false;">
+      <form action="">
+        <div class="input-group">
+          <input class="form-control" type="text" is-open="opened" datepicker-popup ng-model="myDate" ng-keydown="closeDatePicker($event)" id="inputDatePicker"/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-info" ng-click="openDate($event)"> <span class="glyphicon glyphicon-calendar"></span> </button>
+          </span>
+        </div>
+      </form>
     </div>
-
     <script type="text/javascript" src="../../../../platform/javascript/jquery/jquery.js"></script>
     <script type="text/javascript" src="../../angular/angular.js"></script>
     <script type="text/javascript" src="../angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script type="text/javascript">
-            angular.module('demoApp', ['ui.bootstrap']);
-            var myDatepickerDemoCtrl = function($scope, $timeout) {
-              $scope.openDate = function(event) {
-                $timeout(function() {
-                  $(event.target).parent().prev().prev().focus();
-                });
+              angular.module('demoApp', ['ui.bootstrap']);
+              var myDatepickerDemoCtrl = function($scope, $timeout) {
+                $scope.openDate = function(event) {
+                  $timeout(function() {
+                    $scope.opened = true;
+                  });
+                };
+                $scope.closeDatePicker = function(event){
+                  if(event.keyCode == 13){
+                    $scope.opened = false;
+                    $('#inputDatePicker')[0].blur();
+                  }
+                }
               };
-            };
     </script>
   </body>
 </html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="readonlyDirectiveExample">
+  <head>
+    <meta charset="utf-8">
+    <title>readonly directive</title>
+    <link rel="stylesheet" href="../../../../../platform/css/bootstrap/css/bootstrap.css" type="text/css"/>
+    <style type="text/css">
+      body{
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <select ng-readonly="true">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+    </select>
+    <script type="text/javascript" src="../../../../../platform/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../../angular.js"></script>
+    <script type="text/javascript">
+      angular.module('readonlyDirectiveExample', []).
+              directive('select', function() {
+                return {
+                  restrict: 'E',
+                  priority: 100,
+                  compile: function(element, attr) {
+                    return function(scope, element, attr) {
+                      $(element).click(function(e){
+                        this.blur();
+                      });
+                    };
+                  }
+                };
+              });
+    </script>
+  </body>
+</html>
+

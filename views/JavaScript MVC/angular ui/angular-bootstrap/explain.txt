@@ -1,1 +1,7 @@
 version: 0.6.0 bootstrap:3.0
+
+issue:
+
+1.datepicker bug
+
+button 按钮没有设置type="button" ，在firefox下会当成submit处理。

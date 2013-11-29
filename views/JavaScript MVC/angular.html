@@ -234,6 +234,9 @@
             <a href="#">$location service</a>
           </li>
           <li>
+            <a href="#">编译器(complier)</a>
+          </li>
+          <li>
             <a href="#">使用过滤器格式化数据</a>
             <ol class="h-web-catalogue3">
               <li>
@@ -346,14 +349,6 @@
             </ol>
           </li>
           <li>
-            <a href="#">Angular一些主要概念的理解</a>
-            <ol class="h-web-catalogue3">
-              <li>
-                <a href="#">编译器(complier)</a>
-              </li>
-            </ol>
-          </li>
-          <li>
             <a href="#">Angular 源码分析</a>
             <ol class="h-web-catalogue3">
               <li>
@@ -365,7 +360,7 @@
             </ol>
           </li>
           <li>
-            <a href="#">学习angular技巧</a>
+            <a href="#">学习angular技巧与方法</a>
             <ol class="h-web-catalogue3">
               <li>
                 <a href="#">在终端控制台调试</a>
@@ -380,7 +375,11 @@
           </li>
         </ol>
       </li>
+      <li>
+        <a paragraph href="#">Angular 关于浏览器的兼容性</a>
+      </li>
     </ol>
+
 
     <div class="h-web-paragraph">
       <h3 paragraph>Angular 介绍</h3>
@@ -1611,6 +1610,31 @@ function StartUpController($scope){
           $location的改变不会引起整个浏览器的刷新，如果想让整个浏览器刷新，可以用$window.location.href.
         </p>
         <p><a href="./angular/examples/myExamples/$location-demo.html">例子</a></p>
+
+        <h4>$sce service</h4>
+        <p>$sce (Strict Contextual Escaping)是用来处理html内容的service，主要用来安全的解析innerHTML片段。在1.2.x版本中
+          默认 $sce 是激活的，如果我们不想让$sce起作用，我们可以调用以下代码来设置。
+        </p>
+        <pre>
+    angular.module('myAppWithSceDisabledmyApp', []).config(function($sceProvider) {
+        // Completely disable SCE. For demonstration purposes only!
+        // Do not use in new projects.
+        $sceProvider.enabled(false);
+    });
+        </pre>
+        <p>
+          如果把$sce设为disable，那么对于 &lt;div ng-bind-html="userHtml"&gt;中userHtml可以是任意的html代码，包括style但不包括script（会报错）。
+        </p>
+        <p><a href="./angular/examples/myExamples/$sce-disabled-demo.html">例子</a></p>
+
+        <p>如果$sce设为enabled后，在解析html片段时会忽略部分属性 和 style标签等。但有时又想要完整的解析html时，我们可以调用$sce提供的方法，
+          该方法与$sceDelegate提供的方法是通用的，只是简短写法。$sceDelegate提供了getTrusted(type, maybeTrusted)，trustAs(type, value)和valueOf(value)三个方法
+          $sce中的方法都是围绕这三个方法实现的变体。
+        </p>
+        <p>注意：在$sce默认设置下，使用指令ng-bind-html时，如果不调用方法$sce需要引入angular-sanitize.js，并在module中加入依赖 ngSanitize</p>
+        <p>$sce 常用的方法有 $sce.trustAsHtml(html)，对应 $sceDelegate.trustAs($sce.HTML, html) </p>
+        
+        <p><a href="./angular/examples/myExamples/$sce-demo.html">例子</a></p>
 
         <h4>编译器(complier)</h4>
         <p>编译器是AngularJS提供的一项服务，它通过遍历DOM来查找和它相关的属性。整个编译的过程分为两个阶段。</p>
@@ -2916,10 +2940,10 @@ console.info(students);//[Object { name="misko", gender="male"}, Object { name="
       &lt;![endif]--&gt;
           </pre>
         </ol>
-        
+
         <p>下面给出一个在ie6，ie7下兼容性的例子</p>
-        
-        
+
+
       </div>
 
     </div>

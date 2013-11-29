@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Angular 自定义指令</title>
+    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+    <link type="text/css" rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
+
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+
+    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        var onClickCatalogue = function(e) {
+          e.preventDefault();
+          var level = e.data.level;
+          var levelNum = '';
+          var el = e.target;
+          var parentEl = $(el).closest('ol');
+          for (var i = level; i > 0; i--) {
+            parentEl.find('>li>a').each(function(index, element) {
+              if (this === el) {
+                levelNum = '.' + index + levelNum;
+                return false;
+              }
+            });
+            el = parentEl.prev('a')[0];
+            parentEl = parentEl.parent().closest('ol');
+          }
+          //console.info(levelNum);
+
+          //example: $('.h-web-paragraph h3[paragraph]:eq(3) + div h4:eq(0) ~ h5:eq(1)');
+          var selector = '.h-web-paragraph';
+          levelNum = levelNum.substring(1);
+          var levelNums = levelNum.split('.');
+          var hs = [' h3[paragraph]', ' + div h4', ' ~ h5'];
+          for (var i = 0, len = levelNums.length; i < len; i++) {
+            selector += hs[i] + ':eq(' + levelNums[i] + ')';
+          }
+
+          //console.info(selector);
+          var paragraph = $(selector);
+          var offset = paragraph.offset();
+          if (offset) {
+            $(window).scrollTop(offset.top);
+          }
+        };
+        //支持 三级 目录
+        $('.h-web-catalogue>li>a').click({level: 1}, onClickCatalogue);
+        $('.h-web-catalogue2>li>a').click({level: 2}, onClickCatalogue);
+        $('.h-web-catalogue3>li>a').click({level: 3}, onClickCatalogue);
+
+        //初始化内容折叠事件
+        $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+          $(this).next().toggle();
+        });
+        //SyntaxHighlighter
+        $('pre').replaceWith(function() {
+          var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
+          html += $(this).html();
+          html += '</pre>';
+          return html;
+        });
+        SyntaxHighlighter.highlight();
+      });
+    </script>
+  </head>
+  <body>
+    <h3 class="h-web-paragraph-title">目录</h3>
+    <div class="h-web-paragraph">
+      <h3 paragraph>ng-readonly 指令</h3>
+      <div>
+        <p>代码</p>
+        <pre>
+          
+        </pre>
+        <p><a href="">运行效果</a></p>
+      </div>
+    </div>
+  </body>
+</html>

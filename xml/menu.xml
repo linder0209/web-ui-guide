@@ -72,4 +72,11 @@
         <children id="angular_ui" name="Angular UI" href="JavaScript MVC/angular_ui.html"/>
         <children id="angular_plugin" name="Angular Plugin" href="JavaScript MVC/angular_plugin.html"/>
     </menu>
+    <menu>
+        <id>nodejs</id>
+        <name>nodejs</name>
+        <children id="nodejs" name="nodejs 学习笔记" href="nodejs/nodejs.html"/>
+        <children id="nodejs_platform" name="nodejs 相关" href="nodejs/nodejs_platform.html"/>
+        <children id="nodejs_cloud" name="nodejs 云空间" href="nodejs/nodejs_cloud.html"/>
+    </menu>
 </menus>

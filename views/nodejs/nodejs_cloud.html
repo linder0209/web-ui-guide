@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Backbone 学习</title>
+    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+    <link type="text/css" rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
+
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+
+    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        $('.h-web-catalogue li a').click(function(e) {
+          e.preventDefault();
+          var paragraphNum,
+                  paragraph,
+                  offset;
+          var el = this;
+          $(this).closest('ol').find('li a').each(function(index, element) {
+            if (this === el) {
+              paragraphNum = index;
+              return false;
+            }
+          });
+          paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
+          offset = paragraph.offset();
+          if (offset) {
+            $(window).scrollTop(offset.top);
+          }
+        });
+        //初始化内容折叠事件
+        $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
+          $(this).next().toggle();
+        });
+
+        //SyntaxHighlighter
+        $('pre').replaceWith(function() {
+          var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
+          html += $(this).html();
+          html += '</pre>';
+          return html;
+        });
+        SyntaxHighlighter.highlight();
+      });
+    </script>
+  </head>
+  <body>
+    <h3 class="h-web-paragraph-title">目录</h3>
+    <ol class="h-web-catalogue">
+      <li><a paragraph href="#">Backbone 介绍</a></li>
+      <li><a paragraph href="#">Backbone 例子</a></li>
+    </ol>
+    <div class="h-web-paragraph">
+      <h3 paragraph>Backbone 介绍</h3>
+      <div>
+        <p>Backbone 为复杂Javascript应用程序提供模型(models)、集合(collections)、视图(views)的结构。其中模型用于绑定键值数据和自定义事件；集合附有可枚举函数的丰富API； 视图可以声明事件处理函数，并通过RESRful JSON接口连接到应用程序。</p>
+        <p><a href="http://documentcloud.github.io/backbone/">官网</a></p>
+        <p><a href="http://www.csser.com/tools/backbone/backbone.js.html">中文API</a></p>
+        <p><a href="http://yujianshenbing.iteye.com/blog/1748447">Backbone入门指南</a></p>
+        <p><a href="http://www.the5fire.com/backbone-tutorials-catalogue.html">Backbone.js入门学习笔记</a></p>
+        <p><a href="http://www.zhihu.com/question/19720745">Backbone.js 的最佳应用场景有哪些？</a></p>
+        
+        <p><a href="./backbone中文注释">Backbone源代码中文注释</a>(基于0.9.2版本)，感谢作者<a href="http://yujianshenbing.iteye.com/">御剑神兵</a>的无私奉献</p>
+        <p><a href="http://www.iteye.com/news/28275">Angular.js 与 Ember.js比较，先放到这里，回头再整理</a></p>
+      </div>
+      <h3 paragraph>Backbone 例子</h3>
+      <div>
+        <p>从一个简单的例子开始学习Backbone吧</p>
+        <p>例子源代码</p>
+        <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /&gt;
+    &lt;title&gt;Backbone Hello World&lt;/title&gt;
+    &lt;style&gt;
+      body{
+        padding:10px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;button id="helloWorld"&gt;Hello World&lt;/button&gt;
+    &lt;div style="margin-top:10px;padding:10px; border: 1px solid #005B73;width:500px;"&gt;
+      &lt;div&gt;要说的内容&lt;/div&gt;
+      &lt;ol id="world-list"&gt;
+      &lt;/ol&gt;
+    &lt;/div&gt;
+
+    &lt;script type="text/javascript" src="../../../../platform/javascript/jquery/jquery.js"&gt;&lt;/script&gt;
+    &lt;script src="./underscore-min.js"&gt;&lt;/script&gt;
+    &lt;script src="./backbone-min.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+      $(function() {
+        /**
+         * 定义一个Model类，类名约定首字母大写
+         * 类中根据需要定义属性和方法
+         */
+        var World = Backbone.Model.extend({
+          worldMsg: undefined
+        });
+
+        /**
+         * 定义集合类
+         */
+        var Worlds = Backbone.Collection.extend({
+          initialize: function(models, options) {
+            //注册监听事件
+            this.on('add', options.view.onAddWorld);
+          }
+        });
+
+        var AppView = Backbone.View.extend({
+          el: $('body'),
+          initialize: function() {
+            //构造函数，实例化一个World集合类
+            this.worlds = new Worlds(null, {view: this});
+          },
+          events: {
+            'click #helloWorld': 'helloWorld' //事件绑定，绑定Dom中id为check的元素
+          },
+          helloWorld: function() {
+            var worldMsg = prompt('Hi, please input you want to say.');
+            if (worldMsg == '') {
+              worldMsg = 'And to I have none.';
+            }
+            var world = new World({worldMsg: worldMsg});
+            this.worlds.add(world);//会触发add事件
+          },
+          onAddWorld: function(model) {
+            $('#world-list').append('&lt;li&gt;' + model.get('worldMsg') + '&lt;/li&gt;');
+          }
+        });
+        //实例化AppView
+        var appview = new AppView;
+      });
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+        </pre>
+        <p><a href="./backbone/examples/backbone-helloworld.html">例子运行效果</a></p>
+      </div>
+    </div>
+  </body>
+</html>

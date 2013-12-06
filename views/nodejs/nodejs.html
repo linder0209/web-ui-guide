@@ -26,8 +26,106 @@
   <body>
     <h3 class="h-web-paragraph-title">目录</h3>
     <ol class="h-web-catalogue">
-      <li><a paragraph href="#">Backbone 介绍</a></li>
+      <li>
+        <a paragraph href="#">nodejs 介绍</a>
+      </li>
+      <li>
+        <a paragraph href="#">nodejs 参考资料</a>
+      </li>
+      <li>
+        <a paragraph href="#">nodejs的安装与配置</a>
+      </li>
+      <li>
+        <a paragraph href="#">nodejs 学习笔记</a>
+        <ol class="h-web-catalogue2">
+          <li>
+            <a href="#">CommonJS规范</a>
+          </li>
+          <li>
+            <a href="#">nodejs 命令行工具</a>
+          </li>
+          <li>
+            <a href="#">nodejs API</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">response.writeHead(statusCode, [reasonPhrase], [headers])</a>
+              </li>
+              <li>
+                <a href="#">fs.readFile(filename, [encoding], [callback])</a>
+              </li>
+              <li>
+                <a href="#">fs.readFileSync(filename, [encoding])</a>
+              </li>
+              <li>
+                <a href="#">events.EventEmitter</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#">使用 supervisor监听代码改动，实现热部署</a>
+          </li>
+          <li>
+            <a href="#">创建及加载模块</a>
+          </li>
+          <li>
+            <a href="#">创建包</a>
+          </li>
+          <li>
+            <a href="#">发布包</a>
+          </li>
+          <li>
+            <a href="#">npm 本地模式和全局模式安装</a>
+          </li>
+          <li>
+            <a href="#">调试</a>
+          </li>
+          <li>
+            <a href="#">常用工具 util</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">util.inherits</a>
+              </li>
+              <li>
+                <a href="#">util.inspect</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#">HTTP 服务器</a>
+          </li>
+          <li>
+            <a href="#">Node 模块加载机制</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">文件模块加载顺序</a>
+              </li>
+              <li>
+                <a href="#">加载缓存</a>
+              </li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a paragraph href="#">常用的第三方 npm 模块</a>
+        <ol class="h-web-catalogue2">
+          <li>
+            <a href="#">Express 框架快速开发web应用</a>
+          </li>
+          <li>
+            <a href="#">连接mongodb数据库</a>
+          </li>
+          <li>
+            <a href="#">markdown</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a paragraph href="#">综合参考实例</a>
+      </li>
     </ol>
+
+
     <div class="h-web-paragraph">
       <h3 paragraph>nodejs 介绍</h3>
       <div>
@@ -35,6 +133,13 @@
         <p><a href="http://www.infoq.com/cn/articles/what-is-nodejs" target="_blank">深入浅出Node.js（一）：什么是nodejs</a></p>
         <p><a href="http://baike.baidu.com/view/3974030.htm" target="_blank">百度百科：nodejs</a></p>
         <p>nodejs的官网 <a href="http://nodejs.org/">nodejs</a></p>
+      </div>
+      <h3 paragraph>nodejs 参考资料</h3>
+      <div>
+        <p><a href="./files/Node.js 入门手册.pdf" target="_blank">Node.js入门手册</a></p>
+        <p><a href="./files/Node.js开发指南_中文正版.pdf" target="_blank">Node.js开发指南_中文正版</a> <a href="sources">源码</a></p>
+        <p><a href="http://cnodejs.org/" target="_blank">Node.js中文社区</a></p>
+        <p><a href="http://www.cnblogs.com/shanyou/archive/2012/08/03/2620796.html" target="_blank">用WebStorm开发nodejs</a></p>
       </div>
       <h3 paragraph>nodejs的安装与配置</h3>
       <div>
@@ -44,25 +149,448 @@
         <p>首先到官方 <a href="http://nodejs.org/">http://nodejs.org/</a>下载最新版本，这里我们下载msi格式的安装文件，免去环境变量的配置，
           我们也可以到 <a href="http://nodejs.org/dist/">http://nodejs.org/dist/</a> 下载其他版本，下载后直接安装即可。</p>
         <p>安装的时候选择默认设置，默认设置会安装npm（NPM的全称是Node Package Manager）。我本地安装的位置为：D:\Program Files\nodejs</p>
-        <p>安装完成后，nodejs会自动设置环境变量path：D:\Program Files\nodejs\ 。这里还需要手动设置一下环境变量 NODE_PATH： D:\Program Files\nodejs\node_modules ，
-          该变量的设置可以在需要用到的地方直接用NODE_PATH即可。</p>
+        <p>安装完成后，nodejs会自动设置环境变量 path：D:\Program Files\nodejs\;C:\Users\customuser\AppData\Roaming\npm。
+          我们也可以手动设置一下环境变量 NODE_PATH： D:\Program Files\nodejs\node_modules ，该变量的设置可以在需要用到的地方直接用NODE_PATH即可。</p>
         <p>2、NPM的安装</p>
         <p>如果在安装nodejs时，没有选择安装npm时，可以执行以下命令来下载npm文件（假设下载到目录D:\node\npm下面）。</p>
         <pre>git clone --recursive git://github.com/isaacs/npm.git </pre>
         <p>下载成功后，执行以下命令即可完成npm的安装，这时打开nodejs安装目录时会发现已经成功安装了node_modules。</p>
         <pre>cd D:\node\npm
 node cli.js install npm -gf
-npm install underscore </pre>
-        <p>分别运行完以上命令后，会返回以下内容</p>
-        <pre>underscore@1.4.3 node_modules\underscore</pre>
-        <p>说明安装成功。</p>
-        <p>3、NPM相关插件的安装</p>
-        <p>默认情况下，NPM会安装系统提供的一些插件，比如request等。如果用户需要安装其他第三方插件时，需要执行以下安装命令。这里需要说明一下：<span class="h-web-font-red">如果用户把nodejs安装在c盘下，在安装npm相关插件到nodejs安装目录下时，这时需要用管理员身份运行cmd，即找到cmd.exe所在的目录，右键该文件，以管理员身份运行。</span></p>
-        <p>常用的插件有</p>
-        <pre>npm install express 可以创建一个node工程，命令： express myapp(工程名)<br><br>npm install jade</pre>
-        <p>&nbsp;</p>
+        </pre>
+        <p>安装完npm后，就可以利用npm安装需要的模块了，比如：</p>
+        <pre>npm install underscore </pre>
+        <p>运行命令后，如果返回以下内容说明安装成功。</p>
+        <pre>underscore@1.5.2 node_modules\underscore</pre>
+        <p>3、npm相关模块的安装</p>
+        <p>默认情况下，npm会安装系统提供的一些模块，比如request等。如果用户安装其他第三方模块时，需要执行以下安装命令。这里需要说明一下：
+          <span class="h-web-font-red">如果用户把nodejs安装在c盘下，在安装npm相关模块到nodejs安装目录下时，这时需要用管理员身份运行cmd，即找到cmd.exe所在的目录，右键该文件，以管理员身份运行。</span></p>
       </div>
 
+      <h3 paragraph>nodejs 学习笔记</h3>
+      <div>
+        <h4>CommonJS规范</h4>
+        <p>CommonJS 规范包括了模块（modules）、包（packages）、系统（system）、二进制（binary）、
+          控制台（console）、编码（encodings）、文件系统（filesystems）、套接字（sockets）、单元测
+          试 （unit testing ）等部分 。目前大部分标准都在拟定和讨论之中 ，已经发布的标准有
+          Modules/1.0、Modules/1.1、Modules/1.1.1、Packages/1.0、System/1.0。
+        </p>
+        <h4>nodejs 命令行工具</h4>
+        <p>输入 node --help 可以查看详细的帮助信息。</p>
+        <p>$ node -e 可以直接执行后面跟的语句</p>
+        <pre>$ node -e "console.log('Hello World');"</pre>
+        <p>还可以使用 node 的 REPL 模式，如：输入 node命令回车，再输入 console.log('Hello World');</p>
+        <pre>$ node
+&gt; console.log('Hello World');
+Hello World
+undefined</pre>
+        <h4>nodejs API</h4>
+        <h5>response.writeHead(statusCode, [reasonPhrase], [headers])</h5>
+        <p>这个方法用来发送一个响应头，statusCode是一个由3位数字所构成的HTTP状态码，比如404之类。最后一个参数headers是响应头具体内容。也可以使用一个方便人们直观理解的reasonPhrase作为第二个参数。</p>
+        <h5>fs.readFile(filename, [encoding], [callback])</h5>
+        <p>异步读取一个文件的所有内容</p>
+
+        <h5>fs.readFileSync(filename, [encoding])</h5>
+        <p>同步读取一个文件的所有内容并返回</p>
+
+        <h5>events.EventEmitter</h5>
+        <p>通过调用require('events').EventEmitter，我们可以使用事件触发器类。</p>
+        <pre>var EventEmitter = require('events').EventEmitter;
+var event = new EventEmitter();
+event.on('some_event', function() {
+  console.log('some_event occured.');
+});
+setTimeout(function() {
+  event.emit('some_event');
+}, 1000);</pre>
+        <h4>使用 supervisor监听代码改动，实现热部署</h4>
+        <p>
+          在开发过程中，每次修改代码后，还需要重启node，但是我们总是希望修改后立即看到效果，而不是每次都要终止进程并重启。
+          supervisor 可以帮助我们实现这个功能，它会监视代码的改动，并自动重启 Node.js。使用方法很简单，首先使用 npm 安装 supervisor </p>
+        <p>npm install -g supervisor (-g表示全局安装，window下默认为：C:\Users\customuser\AppData\Roaming\npm)</p>
+        <p>然后运行以下命令，supervisor app.js，当app.js代码被改动时，运行的脚本会被终止，然后重新启动。</p>
+        <h4>创建及加载模块</h4>
+        <p>Node.js 提供了 exports 和 require 两个对象，其中 exports 是模块公开的接口，require 用于从外部获取一个模块的接口，即所获取模块的 exports 对象。</p>
+        <p>require是单次加载的，也就是说无论调用多少次 require，获得的模块都是同一个。看下面的例子</p>
+        <pre>
+//module.js
+var name;
+exports.setName = function(thyName) {
+  name = thyName;
+};
+exports.sayHello = function() {
+  console.log('Hello ' + name);
+};</pre>
+        <pre>
+//loadModule.js
+var hello1 = require('./module');
+hello1.setName('BYVoid');
+var hello2 = require('./module');
+hello2.setName('BYVoid 2');
+hello1.sayHello();</pre>
+        <p>运行后发现输出结果是 Hello BYVoid 2，这是因为变量 hello1 和 hello2 指向的是同一个实例，因此 hello1.setName 的结果被 hello2.setName 覆盖，最终输出结果是由后者决定的。</p>
+        <p>可以用module.exports = Hello;或export.Hello = Hello;来创建模块，后者调用的时候需要require('moduleName').Hello来读取，显得冗余。但是，这里需要注意：
+          <span class="h-web-font-red">不可以通过对 exports 直接赋值代替对 module.exports 赋值。exports 实际上只是一个和 module.exports 指向同一个对象的变量，
+            它本身会在模块执行结束后释放，但 module 不会，因此只能通过指定module.exports 来改变访问接口。</span></p>
+
+        <h4>创建包</h4>
+        <p>Node.js 的包是一个目录，其中包含一个 JSON 格式的包说明文件 package.json。严格符合 CommonJS 规范的包应该具备以下特征：</p>
+        <ul>
+          <li>package.json 必须在包的顶层目录下；</li>
+          <li>二进制文件应该在 bin 目录下；</li>
+          <li>JavaScript 代码应该在 lib 目录下；</li>
+          <li>文档应该在 doc 目录下；</li>
+          <li>单元测试应该在 test 目录下。</li>
+        </ul>
+        <p>Node.js 对包的要求并没有这么严格，只要顶层目录下有 package.json，并符合一些规范即可。当然为了提高兼容性，我们还是建议你在制作包的时候，严格遵守 CommonJS 规范。</p>
+        <p>package.json 是 CommonJS 规定的用来描述包的文件，完全符合规范的 package.json 文件应该含有以下字段。</p>
+        <ul>
+          <li>name：包的名称，必须是唯一的，由小写英文字母、数字和下划线组成，不能包含空格。</li>
+          <li>description：包的简要说明。</li>
+          <li>version：符合语义化版本识别规范的版本字符串。</li>
+          <li>keywords：关键字数组，通常用于搜索。</li>
+          <li>maintainers：维护者数组，每个元素要包含 name、email （可选）、web （可选）字段。</li>
+          <li>contributors：贡献者数组，格式与maintainers相同。包的作者应该是贡献者数组的第一个元素。</li>
+          <li>bugs：提交bug的地址，可以是网址或者电子邮件地址。</li>
+          <li>licenses：许可证数组，每个元素要包含 type （许可证的名称）和 url （链接到许可证文本的地址）字段。</li>
+          <li>repositories：仓库托管地址数组，每个元素要包含 type （仓库的类型，如 git ）、url （仓库的地址）和 path （相对于仓库的路径，可选）字段。<li></li>
+          <li>dependencies：包的依赖，一个关联数组，由包名称和版本号组成。</li>
+        </ul>
+
+        <p>下面是一个完全符合 CommonJS 规范的 package.json 示例：</p>
+        <pre>
+{"name": "mypackage",
+"description": "Sample package for CommonJS. This package demonstrates the requiredelements of a CommonJS package.",
+"version": "0.7.0",
+"keywords": [
+	"package",
+	"example"
+],
+"maintainers": [{
+	"name": "Bill Smith",
+	"email": "bills@example.com",
+}],
+"contributors": [{
+	"name": "BYVoid",
+	"web": "http://www.byvoid.com/"
+}],
+"bugs": {
+	"mail": "dev@example.com",
+	"web": "http://www.example.com/bugs"
+},
+"licenses": [{
+	"type": "GPLv2",
+	"url": "http://www.example.org/licenses/gpl.html"
+}],
+"repositories": [{
+	"type": "git",
+	"url": "http://github.com/BYVoid/mypackage.git"
+}],
+"dependencies": {
+	"webkit": "1.2",
+	"ssl": {
+		"gnutls": ["1.0", "2.0"],
+		"openssl": "0.9.8"
+	}
+}}</pre>
+        <p>Node.js 在调用某个包时，会首先检查包中 package.json 文件的 main 字段，将其作为包的接口模块，如果 package.json 或 main 字段不存在，会尝试寻找 index.js 或 index.node 作为包的接口。</p>
+
+        <h4>发布包</h4>
+        <p>首先用命令 npm init 来安装包，然后用 npm publish来发布，当然在发布前，我们还需要获得一个账号用于今后维护自己的包，使用 npm adduser 根据提示输入用户名、密码、邮箱，等待账号创建完成。
+          完成后可以使用 npm whoami 测验是否已经取得了账号。（本人账号为linder0209）。当运行 npm publish 发布成功后，我们就可以访问 <a href="http://search.npmjs.org/">http://search.npmjs.org/</a> 
+          找到自己刚刚发布的包。</p>
+        <p>如果你的包将来有更新，只需要在 package.json 文件中修改 version 字段，然后重新使用 npm publish 命令就可以了。如果你对已发布的包不满意（比如我们发布是个毫无意义的包），
+          可以使用 npm unpublish 命令来取消发布。</p>
+
+        <h4>npm 本地模式和全局模式安装</h4>
+        <p>默认情况下我们使用 npm install 命令就是采用本地模式，即把包安装到当前目录下的 node_modules 子目录中。
+          Node.js的 require 在加载模块时会尝试搜寻 node_modules 子目录，因此使用 npm 本地模式安装的包可以直接被引用。
+          npm 还有另一种不同的安装模式被称为全局模式，使用方法为：npm [install/i] -g [package_name]与本地模式的不同之处就在于多了一个参数 -g。
+          全局模式下会安装到 C:\Users\customuser\AppData\Roaming\npm中。命令： npm help npm 会打开npm帮助页面来查看相关信息。
+          当安装到全局模式下时，就可以直接用该模块命令来运行相关功能，比如express，可以输入以下命令</p>
+        <pre>express E:/tmp/foo &amp;&amp; cd E:/tmp/foo &amp;&amp; E:</pre>
+        <p>运行该命令后，会在E:/tmp/foo下面创建一个express工程(默认名称为app)，并定位到E:/tmp/foo目录下，这时就可以运行以下命令来启动该express工程了。</p>
+        <pre>$ node app</pre>
+        <p>注意：<span class="h-web-font-red">使用全局模式安装的包并不能直接在 JavaScript 文件中用 require 获得，
+            因为 require 不会搜索 C:\Users\wangyanjun\AppData\Roaming\npm\node_modules。</span>所以在javascript中用到时，还需要本地模式再安装一次。全局模式安装只是可以在命令行下直接使用该命令。</p>
+        <p>总而言之，当我们要把某个包作为工程运行时的一部分时，通过本地模式获取，如果要在命令行下使用，则使用全局模式安装。</p>
+
+        <h4>调试</h4>
+        <p>运行调试命令，$ node debug debug.js</p>
+
+        <table cellspacing="0" cellpadding="0">
+          <caption>Node.js 调试命令</caption>
+          <tr>
+            <td width="368">命令</td>
+            <td width="510">功能</td>
+          </tr>
+          <tr>
+            <td>run</td>
+            <td>执行脚本，在第一行暂停</td>
+          </tr>
+          <tr>
+            <td>restart</td>
+            <td>重新执行脚本</td>
+          </tr>
+          <tr>
+            <td>cont,c</td>
+            <td>继续执行，直到遇到下一个断点</td>
+          </tr>
+          <tr>
+            <td>next,n</td>
+            <td>单步执行</td>
+          </tr>
+          <tr>
+            <td>step,s</td>
+            <td>单步执行并进入函数</td>
+          </tr>
+          <tr>
+            <td>out,o</td>
+            <td>从函数中步出</td>
+          </tr>
+          <tr>
+            <td>setBreakpoint(),sb()</td>
+            <td>在当前行设置断点</td>
+          </tr>
+          <tr>
+            <td>setBreakpoint(&lsquo;f()&rsquo;),sb(...)</td>
+            <td>在函数f的第一行设置断点</td>
+          </tr>
+          <tr>
+            <td>setBreakpoint(&lsquo;script.js&rsquo;,20),sb(...)</td>
+            <td>在script.js的第20行设置断点</td>
+          </tr>
+          <tr>
+            <td>clearBreakpoint,cb(...)</td>
+            <td>清除所有断点</td>
+          </tr>
+          <tr>
+            <td>backtrace,bt</td>
+            <td>显示当前的调用栈</td>
+          </tr>
+          <tr>
+            <td>list(5)</td>
+            <td>显示当前执行到的前后5行代码</td>
+          </tr>
+          <tr>
+            <td>watch(expr)</td>
+            <td>把表达式expr加入监视列表</td>
+          </tr>
+          <tr>
+            <td>unwatch(expr)</td>
+            <td>把表达式expr从监视列表移除</td>
+          </tr>
+          <tr>
+            <td>watchers</td>
+            <td>显示监视列表中所有的表达式和值</td>
+          </tr>
+          <tr>
+            <td>repl</td>
+            <td>在当前上下文打开即时求值环境</td>
+          </tr>
+          <tr>
+            <td>kill</td>
+            <td>终止当前执行的脚本</td>
+          </tr>
+          <tr>
+            <td>scripts</td>
+            <td>显示当前已加载的所有脚本</td>
+          </tr>
+          <tr>
+            <td>version</td>
+            <td>显示V8的版本</td>
+          </tr>
+        </table>
+        <p>远程调试命令为：</p>
+        <p>node --debug[=port] script.js 或 node --debug-brk[=port] script.js</p>
+        <p>我们还可以用node模块 node-inspector 来调试nodejs</p>
+        <p>首先，使用 npm install -g node-inspector 命令安装 node-inspector，
+          然后在终端中通过 node --debug-brk=5858 debug.js 命令连接你要调试的js文件，启动 node-inspector。运行：node-inspector（需要在当前目录下再开一个cmd窗口）。</p>
+        <p>在浏览器中打开 http://127.0.0.1:8080/debug?port=5858，即可显示出优雅的 Web 调试工具。需要在chrome上调试。</p>
+        <p>当然我们还可以利用IDE来调试，比如Eclipse、NetBeans、Webstorm等。</p>
+
+        <h4>常用工具 util</h4>
+        <h5>util.inherits</h5>
+        <p>util.inherits(constructor, superConstructor)是一个实现对象间原型继承
+          的函数。JavaScript 的面向对象特性是基于原型的，与常见的基于类的不同。JavaScript 没有
+          提供对象继承的语言级别特性，而是通过原型复制来实现的。</p>
+        <p>例子</p>
+        <pre>
+var util = require('util');
+function Base() {
+    this.name = 'base';
+    this.base = 1991;
+    this.sayHello = function () {
+        console.log('Hello ' + this.name);
+    };
+}
+Base.prototype.showName = function () {
+    console.log(this.name);
+};
+function Sub() {
+    this.name = 'sub';
+}
+util.inherits(Sub, Base);
+var objBase = new Base();
+objBase.showName();
+objBase.sayHello();
+console.log(objBase);
+var objSub = new Sub();
+objSub.showName();
+//objSub.sayHello();
+console.log(objSub);
+        </pre>
+        <p>注意：<span class="h-web-font-red">Sub 仅仅继承了 Base 在原型中定义的函数，而构造函数内部创造的 base 属性和 sayHello 函数都没有被 Sub 继承。</span></p>
+
+        <h5>util.inspect</h5>
+        <p>util.inspect(object,[showHidden],[depth],[colors])是一个将任意对象转换为字符串的方法，通常用于调试和错误输出。它至少接受一个参数 object，即要转换的对象。</p>
+        <p>showHidden 是一个可选参数，如果值为 true，将会输出更多隐藏信息。depth 表示最大递归的层数，如果对象很复杂，你可以指定层数以控制输出信息的多少。如果不指定depth，默认会递归2层，
+          指定为 null 表示将不限递归层数完整遍历对象。如果colors 值为 true，输出格式将会以 ANSI 颜色编码，通常用于在终端显示更漂亮的效果。特别要指出的是，
+          util.inspect 并不会简单地直接把对象转换为字符串，即使该对象定义了 toString 方法也不会调用。</p>
+        <p>除了以上我们介绍的几个函数之外，util还提供了util.isArray()、util.isRegExp()、util.isDate()、util.isError() 四个类型测试工具，以及 util.format()、util.debug() 等工具。
+          可以访问 <a href="http://nodejs.org/api/util.html" target="_blank">http://nodejs.org/api/util.html</a> 了解详细内容。</p>
+
+        <h4>HTTP 服务器</h4>
+        <p>http.Server 是 http 模块中的 HTTP 服务器对象。</p>
+        <pre>
+var http = require('http');
+http.createServer(function(req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write('&lt;h1&gt;Node.js&lt;/h1&gt;');
+  res.end('&lt;p&gt;Hello World&lt;/p&gt;');
+}).listen(3000);
+console.log("HTTP server is listening at port 3000.");
+        </pre>
+        <p>这段代码中，http.createServer 创建了一个 http.Server 的实例，将一个函数作为 HTTP 请求处理函数。这个函数接受两个参数，分别是请求对象（ req ）和响应对象（ res ）。
+          在函数体内，res 显式地写回了响应代码 200 （表示请求成功），指定响应头为'Content-Type': 'text/html'，然后写入响应体 '&lt;h1&gt;Node.js&lt;/h1&gt;'，
+          通过 res.end结束并发送。最后该实例还调用了 listen 函数，启动服务器并监听 3000 端口。</p>
+        <p>http继承自EventEmitter，提供了以下几个事件</p>
+        <p>request、connection、close、checkContinue、upgrade、clientError</p>
+        <p>在这些事件中， 最常用的就是 request 了， 因此 http 提供了一个捷径：http.createServer([requestListener]) ， 功能是创建一个 HTTP 服务器并将requestListener 作为 request 事件的监听函数，
+          这也是我们前面例子中使用的方法。事实上它显式的实现方法是：</p>
+        <pre>
+var http = require('http');
+var server = new http.Server();
+server.on('request', function(req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write('&lt;h1&gt;Node.js&lt;/h1&gt;');
+  res.end('&lt;p&gt;Hello World&lt;/p&gt;');
+});
+server.listen(3000);
+console.log("HTTP server is listening at port 3000.");
+        </pre>
+        <p>HTTP 客户端</p>
+        <p>http.request(options, callback) 发起 HTTP 请求。接受两个参数，option 是一个类似关联数组的对象，表示请求的参数，callback 是请求的回调函数。option<br>
+          常用的参数如下所示。<br>
+          . host ：请求网站的域名或 IP 地址。<br>
+          . port ：请求网站的端口，默认 80。<br>
+          . method ：请求方法，默认是 GET。<br>
+          . path ：请求的相对于根的路径，默认是“/”。QueryString 应该包含在其中。例如 /search?query=byvoid。<br>
+          . headers ：一个关联数组对象，为请求头的内容。<br>
+          callback 传递一个参数，为 http.ClientResponse 的实例。<br>
+          http.request 返回一个 http.ClientRequest 的实例。</p>
+        <p>例子</p>
+        <pre>
+var http = require('http');
+var querystring = require('querystring');
+var contents = querystring.stringify({
+  name: 'byvoid',
+  email: 'byvoid@byvoid.com',
+  address: 'Zijing 2#, Tsinghua University'
+});
+var options = {
+  host: 'www.byvoid.com',
+  path: '/application/node/post.php',
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Content-Length' : contents.length
+  }
+};
+var req = http.request(options, function(res) {
+  res.setEncoding('utf8');
+  res.on('data', function (data) {
+    console.log(data);
+  });
+});
+req.write(contents);
+req.end();
+        </pre>
+
+        <h4>Node 模块加载机制</h4>
+        <p>Node.js 的模块可以分为两大类，一类是核心模块，另一类是文件模块。核心模块就是Node.js 标准 API 中提供的模块，如 fs、http、net、vm 等，这些都是由 Node.js 官方提供的模块，编译成了二进制代码。
+          我们可以直接通过 require 获取核心模块，例如，require('fs')。核心模块拥有最高的加载优先级，换言之如果有模块与其命名冲突，Node.js 总是会加载核心模块。</p>
+        <h5>文件模块加载顺序</h5>
+        <p>文件模块是存储为单独的文件（或文件夹）的模块，可能是 JavaScript 代码、JSON 或编译好的 C/C++ 代码。文件模块的加载方法相对复杂，但十分灵活，尤其是和 npm 结合使用时。
+          在不显式指定文件模块扩展名的时候，Node.js 会分别试图加上 .js、.json 和 .node扩展名。.js 是 JavaScript 代码，.json 是 JSON 格式的文本，.node 是编译好的 C/C++ 代码。
+          优先级由高到低为：JavaScript .js、JSON .json和C/C++扩展 .node。</p>
+        <p>文件模块的加载有两种方式，一种是按路径加载，一种是查找 node_modules 文件夹。</p>
+        <p>如果 require 参数以“ / ”开头，那么就以绝对路径的方式查找模块名称，例如 require('/home/byvoid/module') 将会按照优先级依次尝试加载 /home/byvoid/module.js、/home/byvoid/module.json 和 /home/byvoid/module.node。</p>
+        <p>如果 require 参数以“ ./ ”或“ ../ ”开头，那么则以相对路径的方式来查找模块，这种方式在应用中是最常见的。</p>
+        <p>如果require参数不以“ / ”、“ ./ ”或“ ../ ”开头，而该模块又不是核心模块，那么就要通过查找 node_modules 加载模块了。</p>
+        <p>在 node_modules 目录的外面一层，我们可以直接使用 require('express') 来代替require('./node_modules/express')。这是Node.js模块加载的一个重要特性：通过查找 node_modules 目录来加载模块。</p>
+        <p>当 require 遇到一个既不是核心模块，又不是以路径形式表示的模块名称时，会试图在当前目录下的 node_modules 目录中来查找是不是有这样一个模块。
+          如果没有找到，则会在当前目录的上一层中的 node_modules 目录中继续查找，反复执行这一过程，直到遇到根目录为止。</p>
+
+        <p>下面总结一下使用 require(some_module) 时的加载顺序。<br>
+          (1) 如果some_module 是一个核心模块，直接加载，结束。<br>
+          (2) 如果some_module以“ / ”、“ ./ ”或“ ../ ”开头，按路径加载 some_module，结束。<br>
+          (3) 假设当前目录为 current_dir，按路径加载 current_dir/node_modules/some_module。如果加载成功，结束;如果加载失败，令current_dir为其父目录。重复这一过程，直到遇到根目录，抛出异常，结束。</p>
+
+        <h5>加载缓存</h5>
+        <p>我们在前面提到过，Node.js 模块不会被重复加载，这是因为 Node.js 通过文件名缓存所有加载过的文件模块，所以以后再访问到时就不会重新加载了。
+          注意，Node.js 是根据实际文件名缓存的， 而不是 require() 提供的参数缓存的， 也就是说即使你分别通过require('express') 和 require('./node_modules/express') 加载两次，也不会重复加载，
+          因为尽管两次参数不同，解析到的文件却是同一个。</p>
+
+      </div>
+
+      <h3 paragraph>常用的第三方 npm 模块</h3>
+      <div>
+        <h4>Express 框架快速开发web应用</h4>
+        <p>express是为NodeJS而生的高性能、一流的web开发框架。<a href="http://expressjs.com/">官方网站</a>
+          <a href="http://expressjs.jser.us/" target="_blank">中文官网</a></p>
+        <p> 安装命令</p>
+        <pre>npm install -g express </pre>
+        <p>可以利用express创建一个node工程，命令： express myapp(工程名) npm install jade</p>
+        <p>例如：创建一个模板为ejs的工程 express -e ejs microblog <span class="h-web-font-red">（注意express 3.x中安装ejs不再是-t而是-e，可以输入express -h查看）</span></p>
+        <p>express 3.x 中默认不支持 partials 和 layout 。
+          使用 express-partials 这个中间件可以使 express 3.x 支持 partials 和 layout。
+        <p>express-partials git地址：https://github.com/publicclass/express-partials</p>
+        <p>利用npm安装该插件 npm install express-partials</p>
+        <p>例子</p>
+        <pre>
+var express = require('express'),
+    partials = require('express-partials'), 
+    app = express();
+app.use(partials());
+        </pre>
+        <p><span class="h-web-font-red">注意：运用partials一定要放在 app.use(app.router);之前设置</span></p>
+
+        <h4>连接mongodb数据库</h4>
+        <p>我们可以用node-mongodb-native来连接 mongodb，官方网站是：
+          <a href="http://mongodb.github.com/node-mongodb-native">http://mongodb.github.com/node-mongodb-native</a></p>
+        <p>官方代码：<a href="https://github.com/christkv/node-mongodb-native" target="_blank">https://github.com/christkv/node-mongodb-native</a> 在这里可以查看源代码、例子、文档和安装步骤等。</p>
+        <p>connect-mongo模块：该模块是用来存储会话信息的，这样就不用每次操作数据库都建立连接，官网为：
+          <a href="https://github.com/kcbanner/connect-mongo" target="_blank">https://github.com/kcbanner/connect-mongo</a></p>
+        <p>他依赖于<a href="http://mongodb.github.com/node-mongodb-native">node-mongodb-native</a></p>
+        <p>另一个连接mongodb数据库的npm：Mongoose，参考网站 </p>
+        <p><a href="http://www.cnblogs.com/terrylin/archive/2013/01/26/2877774.html" target="_blank">http://www.cnblogs.com/terrylin/archive/2013/01/26/2877774.html</a> </p>
+        <p><a href="http://www.csser.com/board/4f3f516e38a5ebc9780004fe" target="_blank">http://www.csser.com/board/4f3f516e38a5ebc9780004fe</a> </p>
+        <p><a href="http://blog.sina.com.cn/s/blog_775f158f01016kae.html" target="_blank">http://blog.sina.com.cn/s/blog_775f158f01016kae.html</a></p>
+
+        <h4>markdown</h4>
+        <p>这里可以查看markdown的说明 <a target="_blank" href="http://wowubuntu.com/markdown/">http://wowubuntu.com/markdown/</a></p>
+        <p>markdown-js是node下的一个markdown解析器，它把markdown语法解析成html。我们可以在package.json的dependencies中加入 "markdown-js":"*" ，npm install安装。例子</p>
+        <pre>var html = markdown.makeHtml(req.body.post);</pre>
+      </div>
+
+      <h3 paragraph>综合参考实例</h3>
+      <div>
+        <p>1、microblog 该实例摘自Node.js开发指南_中文正版中，采用ejs和express实现，前端模板使用的是目前最流行的twitter bootstrap。</p>
+        <p><a href="microblog" target="_blank">工程代码</a></p>
+        <p>2、blog 该实例摘自<a href="http://cnodejs.org/" target="_blank">Node.js中文社区</a>，<a href="http://cnodejs.org/topic/515b00096d382773061927de" target="_blank">系列文章点击这里</a></p>
+        <p><a href="./blog" target="_blank">工程代码</a></p>
+      </div>
     </div>
   </body>
 </html>

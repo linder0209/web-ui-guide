@@ -1,0 +1,11 @@
+express 3.x 中默认不支持 partials 和 layout
+使用 express-partials 这个中间件能让 express 3.x 支持 partials 和 layout
+git地址：https://github.com/publicclass/express-partials
+利用npm安装该插件
+npm install express-partials
+
+例子
+ *    var express = require('express')
+ *      , partials = require('express-partials')
+ *      , app = express();
+ *    app.use(partials());

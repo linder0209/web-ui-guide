@@ -1,0 +1,14 @@
+<% if (!locals.user) { %>
+    <div class="hero-unit">
+        <h1>欢迎來到 博客之家</h1>
+        <p>博客之家 是一款基于 Node.js 的微博系统。</p>
+        <p>
+            <a class="btn btn-primary btn-large" href="/login">登录</a>
+            <a class="btn btn-large" href="/reg">注册</a>
+        </p>
+    </div>
+<% } else { %>
+    <%- include say %>
+<% } %>
+
+<%- include post %>

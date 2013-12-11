@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>jshint 学习笔记</title>
+
+    <link rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css" type="text/css" />
+
+    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+
+    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/view/init.js"></script>
+  </head>
+  <body>
+    <h3 class="h-web-paragraph-title">目录</h3>
+    <ol class="h-web-catalogue">
+      <li>
+        <a paragraph href="#">jshint 介绍</a>
+      </li>
+      <li>
+        <a paragraph href="#">jshint 使用</a>
+        <ol class="h-web-catalogue2">
+          <li>
+            <a href="#">web应用端使用</a>
+          </li>
+          <li>
+            <a href="#">nodejs中的使用</a>
+          </li>
+        </ol>
+      </li>
+    </ol>
+
+    <div class="h-web-paragraph">
+      <h3 paragraph>jshint 介绍</h3>
+      <div>
+        <p>JSHint 是用来检测javascript代码的一款开源工具，他可以发现代码错误、查找代码潜在的问题。通过定制JSHint配置文件，可以使团队按照俗称的规范来开发项目。</p>
+        <p>JSHint is a community-driven tool to detect errors and potential problems in JavaScript code and to enforce your team's coding conventions. It is very flexible so you can easily adjust it to your particular coding guidelines and the environment you expect your code to execute in. JSHint is open source and will always stay this way.</p>
+        <p><a href="http://www.jshint.com">官网</a></p>
+      </div>
+      <h3 paragraph>jshint 使用</h3>
+      <div>
+        <p>
+          我们可以直接从官网下载<a href="https://github.com/jshint/jshint/raw/2.x/dist/jshint.js">jshint.js</a>。对于nodejs项目，可以执行以下命令 npm install jshint -g 来安装。
+          当然对于ide，jshint提供了相应的插件，例如：eclipse、netbeans、webstorm、nodepad++等。
+        </p>
+        <h4>web应用端使用</h4>
+        <p>下载最新版的jshint.js后引入到要测试的html文件中。jshint 提供了一个全局函数 JSHINT(source, options, globals) 用来检测javascript代码，该方法中有三个参数。</p>
+        <p>第一个参数可以是一个字符串或者是一个字符串数组。如果是字符串，则他会被\n和\r分割，如果传入的参数是数组，就要保证数组的每一项是一行代码。 因此源码参数可以是javascript代码或者是一个json形式。</p>
+        <p>第二个参数 options 是一个可选配置项。options是一个json格式的object，大部分属性是 boolean 类型的，当设置为true，如果代码没有通过检验会显示错误警告的。</p>
+        <p>第三个参数 globals是指定全局变量。</p>
+        <p>调用方法 JSHINT(source, options, globals) 后，如果所有的验证都通过，JSHint会返回true，否则返回false。当返回false的时候，可以用 JSHint.errors 来获取错误信息或者用JSHint.data()来获取lint信息。 </p>
+
+        <p>我们也可以在测试代码中定义配置项，例如：</p>
+        <pre>/*jshint evil:true, boss:true */</pre>
+        <p>而设定global参数可以告诉JSHint，全局的变量配置。 例如</p>
+        <pre>/*global DISQUS: true, jQuery: false */</pre>
+        <p>以上的这个例子是告诉JSHint,DISQUS是你自己声明的全局变量，而jQuery是你引入的全局变量</p>
+
+        <p class="h-web-font-red">这里需要提供个好的方案来检查js代码，不能每次复制粘贴来检测，代研究。</p>
+
+        <h4>nodejs中的使用</h4>
+        <p>执行以下命令安装jshint</p>
+        <pre>npm install jshint -g</pre>
+        <p>安装后就可以用以下命令来检测js代码了</p>
+        <pre>$ jshint myfile.js</pre>
+        <p>配置 configuration</p>
+        <p>官方是这样描述的：JSHint comes with a default set of warnings but it was designed to be very configurable. There are three main ways to configure your copy of JSHint: you can either specify the configuration file manually via the --config flag, use a special file .jshintrc or put your config into your projects package.json file under the jshintConfig property. In case of .jshintrc, JSHint will look for this file in the current working directory and, if not found, will move one level up the directory tree all the way up to the filesystem root. (Note that if the input comes from stdin, JSHint doesn't attempt to find a configuration file)</p>
+        <p>中文大概意思是说：配置项提供了三种方式：控制台利用 --config 来设置，创建 .jshintrc  文件，在package.json属性 jshintConfig 中配置。默认.jshintrc跟package.json放在一个目录下，如果没有找到，会向上
+          查找祖先目录，直至根目录。还有如果在控制台用 --config 来配置，会忽略 .jshintrc  文件中的配置。配置文件是json格式的，例如：
+        </p>
+        <pre>
+{
+  "undef": true,
+  "unused": true,
+  "globals": { "MY_GLOBAL": false }
+}
+        </pre>
+        <p>在代码中的配置，利用注释的方式，每个用逗号隔开。比如</p>
+        <pre>
+/* jshint undef: true, unused: true */
+/* global MY_GLOBAL */         
+        </pre>
+        <p>这种配置是局部的，如果在一个function中配置，那么只会影响该function。在代码中的配置项，我们叫做Directives，主要有以下几种</p>
+        <ul>
+          <li>
+            jshint：A directive for setting JSHint options.
+            <pre>/* jshint strict: true */</pre>
+          </li>
+          <li>jslint: A directive for setting JSHint-compatible JSLint options.
+            <pre>/* jslint vars: true */</pre>
+          </li>
+          <li>
+            globals: A directive for telling JSHint about global variables that are defined elsewhere. If value is false (default), JSHint will consider that variable as read-only. 
+            Use it together with the undef option. 是否被定义
+            <pre>/* global MY_LIB: false */</pre>
+            <p>当然我们也可以把某一变量列入黑名单确保不会验证他。</p>
+            <pre>/* global -BAD_LIB */</pre>
+          </li>
+          <li>
+            exported: A directive for telling JSHint about global variables that are defined in the current file but used elsewhere. Use it together with the unused option. 是否被使用
+            <pre>/* exported EXPORTED_LIB */</pre>
+          </li>
+          <li>
+            ignore: A directive for telling JSHint to ignore a block of code. 忽略检查的代码
+            <pre>
+// Code here will be linted with JSHint.
+/* jshint ignore:start */
+// Code here will be linted with ignored by JSHint.
+/* jshint ignore:end */
+            </pre>
+            <p>以上用jshint ignore:start 和 jshint ignore:end 可以忽略多行，用jshint ignore:line 可以忽略当前行</p>
+            <pre>ignoreThis(); // jshint ignore:line</pre>
+          </li>
+        </ul>
+        <p>下面看看options相关</p>
+        <pre>
+function main(a, b) {
+  return a == null;
+}         
+        </pre>
+        <p>会输出以下内容（假设文件名为：demo1_use_node.js，下同）</p>
+        <pre>
+demo1_use_node.js: line 2, col 12, Use '===' to compare with 'null'.
+1 error
+        </pre>
+        <pre>
+/*jshint unused:true, eqnull:true */
+function main(a, b) {
+  return a == null;
+}           
+        </pre>
+        <p>加上 /*jshint unused:true, eqnull:true */ 后会输入</p>
+        <pre>
+demo1_use_node.js: line 2, col 14, 'main' is defined but never used.
+demo1_use_node.js: line 2, col 19, 'b' is defined but never used.          
+        </pre>
+        <p>有时我们想忽略警告或错误信息，我们可以这样处理，先看以下例子</p>
+        <pre>
+"use strict";
+/* ... */
+
+// From another file
+function b() {
+  "use strict";
+  /* ... */
+}
+        </pre>
+        <p>执行jshint后会输出</p>
+        <pre>
+demo1_use_node.js: line 1, col 1, Use the function form of "use strict".
+demo1_use_node.js: line 6, col 3, Unnecessary directive "use strict".
+        </pre>
+        <p>我们如果想去掉这些警告时，我们应该首先用命令 jshint --verbose myfile.js 来分析javascript文件，执行后会输出以下内容</p>
+        <pre>
+demo1_use_node.js: line 1, col 1, Use the function form of "use strict". (W097)
+demo1_use_node.js: line 6, col 3, Unnecessary directive "use strict". (W034)</pre>
+        <p>后面 W097 和 W034 是某一类的错误code，我们加上以下配置后，将忽略错误警告</p>
+        <pre>
+/* jshint -W034, -W097 */
+"use strict";
+/* ... */
+
+// From another file
+function b() {
+  "use strict";
+  /* ... */
+}
+        </pre>
+        <p>这里需要注意的是，必须是以W开头。如果加上以上配置后，所有这类错误警告将被忽略，但有时我们需要在不同的地方忽略或显示警告，我们可以用以下配置来激活已被忽略的错误警告：/* jshint +W034 */</p>
+        <pre>
+var y = Object.create(null);
+// ... 首先忽略 W089警告
+/*jshint -W089 */
+for (var prop in y) {
+    // ...
+}
+//再激活 W089警告
+/*jshint +W089 */
+        </pre>
+        <p>对于 Switch statements ，如果没有 break 或 return 会显示以下警告信息</p>
+        <pre>
+switch (cond) {
+case "one":
+  doSomething(); // JSHint will warn about missing 'break' here.
+case "two":
+  doSomethingElse();
+}
+        </pre>
+        <pre>demo1_use_node.js: line 28, col 16, Expected a 'break' statement before 'case'. (W086)</pre>
+        <p>我们加入以下注释即可忽略警告 /* falls through */</p>
+        <pre>
+switch (cond) {
+case "one":
+  doSomething();
+  /* falls through */
+case "two":
+  doSomethingElse();
+}
+        </pre>
+        <p>例子代码点击<a href="./jshint/example/demo1_use_node.js">这里</a></p>
+        <p>上面介绍的指令和配置项在web应用中也可以使用。</p>
+        <h4>在官方网站中验证代码</h4>
+        <p>除了以上两种验证代码方式外，我们还可以在 <a href="http://www.jshint.com/">官方首页</a>中输入代码来动态验证。该页面中可以根据需要设置配置项。</p>
+      </div>
+
+      <h3 paragraph>JSHint Options</h3>
+      <div>
+        <p>JSHint Options 分为 Enforcing 和 Relaxing ，相当于error 和 warning</p>
+        <h4>Enforcing Options</h4>
+        <table>
+          <caption>Enforcing Options</caption>
+          <thead>
+            <tr><th>option</th><th>检测的内容</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#bitwise">bitwise</a></td>
+              <td>This option prohibits the use of bitwise operators such as ^ (XOR), | (OR)  and others. 
+                Bitwise operators are very rare in JavaScript programs and quite  often &amp; is simply a mistyped &amp;&amp;.
+                <br />
+                如果为真，JSHint会禁用位运算符。 Javascript允许位运算，但是他却没有整型，位运算符要把参与运算的数字从浮点数变为整数，并在运算后再转换回来。这样他们的效率就不如在别的语言中那么高。
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#camelcase">camelcase</a></td>
+              <td>This option allows you to force all variable names to use either camelCase  style or UPPER_CASE with underscores.
+                <br />
+                如果设为true，则js中的变量要求使用驼峰式规则（camelCase或UPPER_CASE）
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#curly">curly</a></td>
+              <td>This option requires you to always put curly braces around blocks in loops and  conditionals. 
+                JavaScript allows you to omit curly braces when the block consists  of only one statement, for example: <em class="h-web-font-info">while (day)    shuffle();</em>
+                <br />
+                如果为true，JSHint会要求你在使用if和while等结构语句时加上{}来明确代码块。 Javascript允许在if等结构语句体只有一句的情况下不加括号。不过这样做可能会让你的代码读起来有些晦涩。
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#eqeqeq">eqeqeq</a></td>
+              <td>This options prohibits the use of == and != in favor of === and !==. The  former try to coerce values before comparing them which can lead to some  unexpected results. 
+                The latter don't do any coercion so they are generally  safer. If you would like to learn more about type coercion in JavaScript,  
+                we recommend <a href="http://javascriptweblog.wordpress.com/2011/02/07/truth-equality-and-javascript/">Truth, Equality and JavaScript</a> by Angus Croll.
+                <br />
+                如果为true，JSHint会检验代码中是否都用了 === 或 !==，而不是使用 == 或 !=。 我们建议你在比较0，''(空字符)，undefined，null，false和true的时候使用 === 和 !===。
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#es3">es3</a></td>
+              <td>This option tells JSHint that your code needs to adhere to ECMAScript 3  specification. 
+                Use this option if you need your program to be executable  in older browsers—such as Internet Explorer 6/7/8/9—and other legacy  JavaScript environments.
+                <br />
+                是否使用 es3规范，在老的浏览器中是不支持es5和es6的。
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#forin">forin</a></td>
+              <td>This option requires all for in loops to filter object's items. The for in  statement allows for looping through the names of all of the properties of an 
+                object including those inherited throught the prototype chain. 
+                This behavior can  lead to unexpected items in your object so it is generally safer to always  filter inherited properties out as shown in the example:
+                <pre>
+for (key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      // We are sure that obj[key] belongs to the object and was not inherited.
+    }
+}</pre>
+                <p>For more in-depth understanding of for in loops in JavaScript, read 
+                  <a href="http://javascriptweblog.wordpress.com/2011/01/04/exploring-javascript-for-in-loops/">Exploring JavaScript for-in loops</a> by Angus Croll.
+                  <br />
+                  如果为true，那么，JSHint要求在for in 循环里面要用hasOwnProperty处理。 for in循环一般用来遍历一个对象的属性，这其中也包括他继承自原型链的属性，
+                  而hasOwnProperty可以来判断一个属性是否是对象本身的属性而不是继承得来的。
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#freeze">freeze</a></td>
+              <td>his options prohibits overwriting prototypes of native objects such as  Array, Date and so on.
+                <br />
+                如果设为true，当复写对象prototype存在的方法时，会提示错误警告。
+                <pre>
+/* jshint freeze:true */
+Array.prototype.count = function (value) {
+ return 4; 
+};  
+// -&gt; Warning: Extending prototype of native object: 'Array'.
+                </pre></td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#immed">immed</a></td>
+              <td>This option prohibits the use of immediate function invocations without wrapping  them in parentheses. 
+                Wrapping parentheses assists readers of your code in  understanding that the expression is the result of a function, and not the  function itself.</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#indent">indent</a></td>
+              <td>This option enforces specific tab width for your code. For example, the  following code will trigger a warning on line 4:
+                <pre>
+/*jshint indent:4 */    
+var cond = true;
+if (cond) {
+  console.info('d');
+}
+                </pre>
+                indent设为 4 表示在第四行会有一个错误提示信息，注意是从/*jshint indent:4 */ 算起的，从1开始，而不是从0
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#latedef">latedef</a></td>
+              <td>This option prohibits the use of a variable before it was defined. JavaScript  has function scope only and, in addition to that, 
+                all variables are always  moved—or hoisted— to the top of the function. This behavior can lead to some  very nasty bugs and that's why it is safer to always use variable only after
+                they have been explicitly defined.
+                Setting this option to "nofunc" will allow function declarations to be ignored.
+                For more in-depth understanding of scoping and hoisting in JavaScript, read <a href="http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting">JavaScript Scoping and Hoisting</a>
+                by Ben Cherry.
+                <br />
+                latedef设为true，再调用变量或函数时，必须确保这些变量和函数在调用之前已经声明过，也就是说声明代码必须写在调用代码的前面，而不能写在后面。可以设置nofunc值忽略函数的位置而只检查变量。
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#newcap">newcap</a></td>
+              <td>This option requires you to capitalize names of constructor functions.  Capitalizing functions that are intended to be used with new operator is just
+                a convention that helps programmers to visually distinguish constructor functions  from other types of functions to help spot mistakes when using this.
+                Not doing so won't break your code in any browsers or environments but it will  be a bit harder to figure out—by reading the code—if the function was supposed 
+                to be used with or without new. And this is important because when the function  that was intended to be used with new is used without it, this will point to 
+                the global object instead of a new object.
+                <br />
+                newcap 设为true，是指如果一个函数作为构造函数时，并且在其他地方使用了new操作符实例化一个变量，那么这个构造函数中不要使用this操作符。
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#noarg">noarg</a></td>
+              <td>This option prohibits the use of arguments.caller and arguments.callee.  Both .caller and .callee make quite a few optimizations impossible so they  
+                were deprecated in future versions of JavaScript. In fact, ECMAScript 5 forbids  the use of arguments.callee in strict mode.
+                <br />
+                如果是true，则不允许使用arguments.caller和arguments.callee。
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#noempty">noempty</a></td>
+              <td>This option warns when you have an empty block in your code. JSLint was  originally warning for all empty blocks and we simply made it optional. 
+                There were no studies reporting that empty blocks in JavaScript break your code  in any way.
+                <br />
+                <span class="h-web-font-red">如果是true，不允许有空的代码块，例子待实现</span>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#nonew">nonew</a></td>
+              <td>This option prohibits the use of constructor functions for side-effects. Some  people like to call constructor functions without assigning its result to any  variable:
+                <pre>new MyConstructor();</pre>
+                There is no advantage in this approach over simply calling MyConstructor since 
+                the object that the operator new creates isn't used anywhere so you should  generally avoid constructors like this one.
+                <br />
+                如果为true，则不允许不做赋值的构造函数，例如new UIWindow();
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#plusplus">plusplus</a></td>
+              <td>This option prohibits the use of unary increment and decrement operators.  Some people think that ++ and -- reduces the quality of their coding styles 
+                and there are programming languages—such as Python—that go completely without  these operators.
+                <br />
+                如果是true，则不允许使用 ++ 或者 -- 的操作
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#quotmark">quotmark</a></td>
+              <td>This option enforces the consistency of quotation marks used throughout your  code.
+                It accepts three values: true if you don't want to enforce one  particular style but want some consistency, 
+                "single" if you want to allow only  single quotes and "double" if you want to allow only double quotes.
+                <br />
+                有3种值：如果是true，则表示要求引号一致；如果是single，则表示只允许使用单引号；如果是double，则表示只允许双引号
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#undef">undef</a></td>
+              <td>This option prohibits the use of explicitly undeclared variables. This option  is very useful for spotting leaking and mistyped variables.
+                <pre>
+/*jshint undef:true */ 
+function test() {
+  var myVar = 'Hello, World';
+  console.log(myvar);
+} </pre>
+                If your variable is defined in another file, you can use /*global ... */  directive to tell JSHint about it.
+                <br />设为true，如果变量没有定义会输出错误警告信息。
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#unused">unused</a></td>
+              <td>This option warns when you define and never use your variables. It is very  useful for general code cleanup, especially when used in addition to undef.
+                <pre>
+/*jshint unused:true */
+function test(a, b) {
+  var c, d = 2;
+  return a + d;
+}
+test(1, 2);
+// Line 3: 'b' was defined but never used.
+// Line 4: 'c' was defined but never used.
+                </pre>
+                In addition to that, this option will warn you about unused global variables  declared via /*global ... */ directive. <br />
+                This can be set to vars to only check for variables, not function parameters,  or strict to check all variables and parameters.  
+                The default (true) behavior  is to allow unused parameters that are followed by a used parameter.
+                <br />
+                设为true，表示如果声明了变量，但没有使用，会提示错误警告的。
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#strict">strict</a></td>
+              <td>
+                This option requires all functions to run in ECMAScript 5's strict mode. <a href="https://developer.mozilla.org/en/JavaScript/Strict_mode">Strict mode</a> 
+                is a way  to opt in to a restricted variant of JavaScript. Strict mode eliminates some  JavaScript pitfalls that didn't cause errors by changing them to produce errors.  
+                It also fixes mistakes that made it difficult for the JavaScript engines to  perform certain optimizations. <br />
+                <em>Note:</em> This option enables strict mode for function scope only. It <em>prohibits</em> the global scoped strict mode because it might break third-party widgets on your  page. 
+                If you really want to use global strict mode, see the <em>globalstrict</em> option.
+                <br />
+                设为true，表明SHint会要求你使用use strict;语法，strict是 ECMAScript 5定义的。他对一些js代码做了限制，比如 var o = { p: 1, p: 2 }; 会提示错误的。 
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#trailing">trailing</a></td>
+              <td>This option makes it an error to leave a trailing whitespace in your code.  Trailing whitespaces can be source of nasty bugs with multi-line strings in  JavaScript:
+                <pre>
+// This otherwise perfectly valid string will error if  
+// there is a whitespace after \  
+/*jshint trailing:true */
+var str = "Hello \
+World";
+                </pre>
+                <p>如果设为 true，以上代码会报错的。</p>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#maxparams">maxparams</a></td>
+              <td>
+                This option lets you set the max number of formal parameters allowed per  function: <br />
+                <pre>
+/*jshint maxparams:3 */
+function login(request, onSuccess) {
+  // ...
+}
+// JSHint: Too many parameters per function (4).
+function logout(request, isManual, whereAmI, onSuccess) {
+  // ...
+}                
+                </pre>
+                设置function的参数最大个数
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#maxdepth">maxdepth</a></td>
+              <td>This option lets you control how nested do you want your blocks to be:
+                <pre>
+/*jshint maxdepth:2 */
+function maxdepthFn(meaning) {
+  var day = true;
+  var tired = true;
+  var shuffle = function(){
+    tired = false;
+  };
+  var sleep = function(){
+    console.info(1);
+  };
+  if (meaning === 42) {
+    while (day) {
+      shuffle();
+      if (tired) { // JSHint: Blocks are nested too deeply (3).
+          sleep();
+      }
+    }
+  }
+}                
+                </pre>
+                限定最大嵌套数
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#maxstatements">maxstatements</a></td>
+              <td>This option lets you set the max number of statements allowed per function:
+                <pre>
+/*jshint maxstatements:4 */
+function maxstatementsFn() {
+  var i = 0;
+  var j = 0;
+
+  // Function declarations count as one statement. Their bodies
+  // don't get taken into account for the outer function.
+  function inner() {
+    var i2 = 1;
+    var j2 = 1;
+
+    return i2 + j2;
+  }
+
+  j = i + j;
+  return j; // JSHint: Too many statements per function. (5)
+}                  
+                </pre>
+                限制函数中表达式的最多行数
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#maxcomplexity">maxcomplexity</a></td>
+              <td>This option lets you control cyclomatic complexity throughout your code.  
+                Cyclomatic complexity measures the number of linearly independent paths through  a program's source code. Read more about 
+                <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity">cyclomatic complexity on Wikipedia</a>.
+                <br />
+                控制函数的复杂度
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#maxlen">maxlen</a></td>
+              <td>This option lets you set the maximum length of a line. <br />
+                设置每行最大长度。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4>Relaxing options</h4>
+
+        <table>
+          <caption>Relaxing Options</caption>
+          <thead>
+            <tr><th>option</th><th>检测的内容</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#asi">asi</a></td>
+              <td>This option suppresses warnings about missing semicolons. There is a lot of  FUD about semicolon spread by quite a few people in the community. 
+                The  common myths are that semicolons are required all the time (they are not) and  that they are unreliable. 
+                JavaScript has rules about semicolons which are  followed by <em>all</em> browsers so it is up to you to decide whether you should or  should not use semicolons in your code.
+                <br />
+                For more information about semicolons in JavaScript read <a href="http://blog.izs.me/post/2353458699/an-open-letter-to-javascript-leaders-regarding">
+                  An Open Letter to JavaScript Leaders Regarding Semicolons</a> by Isaac Schlueter and 
+                <a href="http://inimino.org/%7Einimino/blog/javascript_semicolons">JavaScript Semicolon Insertion</a>
+                <br />
+                默认JSHint会要求在每个语句后面加上分号（需要加的），如果设为false，则忽略检测。
+                <pre>
+var a = ''
+var b = ''
+//line 1, col 11, Missing semicolon. (W033)
+//line 2, col 11, Missing semicolon. (W033)
+                </pre>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#boss">boss</a></td>
+              <td>This option suppresses warnings about the use of assignments in cases where  comparisons are expected.
+                More often than not, code like if (a = 10) {} is a  typo. However, it can be useful in cases like this one:
+                <br /> You can silence this error on a per-use basis by surrounding the assignment  with parenthesis, such as:
+                <br />
+                很霸气的选项，如果为真，那么JSHint会允许在if，for，while里面编写赋值语句。 
+                一般来说，我们会在循环、判断等语句中加入值的比较来做语句的运行条件，有时候会把==错写成赋值的=，通常，JSHint会把这个认定为一个错误，但是开启这个选项的化，JSHint就不会检查判断条件中的赋值 ，
+                你是boss，你说的算:)。
+                <pre>
+if (a = 10) {} 
+for (var i = 0, person; person = people[i]; i++) {}
+for (var i = 0, person; (person = people[i]); i++) {}
+//line 1, col 11, Expected a conditional expression and instead saw an assignment. (W084)
+//line 2, col 43, Expected a conditional expression and instead saw an assignment. (W084)
+                </pre>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#debug">debug</a></td>
+              <td>
+                This option suppresses warnings about the debugger statements in your code.
+                <br />默认是不允许出现 debugger语句的
+                <pre>
+debugger;
+//line 1, col 1, Forgotten 'debugger' statement? (W087)
+                </pre>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#eqnull">eqnull</a></td>
+              <td>
+                This option suppresses warnings about == null comparisons. Such comparisons  are often useful when you want to check if a variable is null or undefined.
+                <br />如果为true，JSHint会允许使用"== null"作比较。 == null 通常用来判断一个变量是undefined或者是null（当时用==，null和undefined都会转化为false）。默认是不允许的。
+                <pre>
+var eqnullStr = '';
+if(eqnullStr == null){
+  console.info(1);
+}
+//line 1, col 9, Use '===' to compare with 'null'. (W041)
+                </pre>
+                
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#esnext">esnext</a></td>
+              <td>This option tells JSHint that your code uses ECMAScript 6 specific syntax.  Note that these features are not finalized yet and not all browsers implement  them. <br />
+                More info:<a href="http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts">Draft Specification for ES.next (ECMA-262 Ed. 6)</a>
+                <br />设置该值为true，告诉JSHint用 ECMAScript 6 规范检测js代码。
+                </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#evil">evil</a></td>
+              <td>This option suppresses warnings about the use of eval.
+                The use of eval is  discouraged because it can make your code vulnerable to various injection  attacks and it makes it hard for JavaScript interpreter to do certain  optimizations.
+                <br />如果为真，JSHint会允许使用eval eval提供了访问Javascript编译器的途径，这有时很有用，但是同时也对你的代码形成了注入攻击的危险，并且会对debug造成一些困难。 
+                记住，Function构造函数也是另一个‘eval’，另外，当传入的参数是字符串的时候，setTimeout和setInterval也会类似于eval。默认JSHint是不允许使用eval的。
+                <pre>
+eval('var aa = "bb";');
+setTimeout('function(){console.info(1);}',100);
+var fn = new Function();
+//line 1, col 1, eval can be harmful. (W061)
+//line 2, col 1, Implied eval. Consider passing a function instead of a string. (W066)
+//line 3, col 22, The Function constructor is a form of eval. (W054)
+//line 1, col 9, Missing name in function declaration. (W025)
+                </pre>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#expr">expr</a></td>
+              <td>This option suppresses warnings about the use of expressions where normally you  would expect to see assignments or function calls. 
+                Most of the time, such code  is a typo. However, it is not forbidden by the spec and that's why this warning  is optional.</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#funcscope">funcscope</a></td>
+              <td>This option suppresses warnings about declaring variables inside of control  structures while accessing them later from the outside. 
+                Even though JavaScript  has only two real scopes—global and function—such practice leads to confusion  among people new to the language and hard-to-debug bugs. This is why, 
+                by  default, JSHint warns about variables that are used outside of their intended  scope.
+                <pre>
+function test() {
+  if (true) {
+    var x = 0;
+  }
+  x += 1; 
+}
+// line 5, col 3, 'x' used out of scope. (W038)             
+                </pre>
+              <p>上面的写法会提示错误信息的，虽然js只有全局和function级别的scope，但我们还是避免上面的写法，让人看了比较不爽。</p>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="http://www.jshint.com/docs/options/#globalstrict">globalstrict</a></td>
+              <td>This option suppresses warnings about the use of global strict mode. Global  strict mode can break third-party widgets so it is not recommended. <br />
+                For more info about strict mode see the strict option.
+              全局是否用strict模式
+              </td>
+            </tr>
+            <tr>
+              <td id="iterator"><a href="http://www.jshint.com/docs/options/#iterator">iterator</a></td>
+              <td><p>This option suppresses warnings about the __iterator__ property. This property  is not supported by all browsers so use it carefully.</p></td>
+            </tr>
+            <tr>
+              <td id="lastsemic"><a href="http://www.jshint.com/docs/options/#lastsemic">lastsemic</a></td>
+              <td><p>This option suppresses warnings about missing semicolons, but only when the  semicolon is omitted for the last statement in a one-line block:</p>
+                <pre>var name = (function() { return 'Anton' }());</pre>
+                <p>This is a very niche use case that is useful only when you use automatic  JavaScript code generators.</p></td>
+            </tr>
+            <tr>
+              <td id="laxbreak"><a href="http://www.jshint.com/docs/options/#laxbreak">laxbreak</a></td>
+              <td><p>This option suppresses most of the warnings about possibly unsafe line breakings  in your code. It doesn't suppress warnings about comma-first coding style. To  suppress those you have to use laxcomma (see below).</p></td>
+            </tr>
+            <tr>
+              <td id="laxcomma"><a href="http://www.jshint.com/docs/options/#laxcomma">laxcomma</a></td>
+              <td><p>This option suppresses warnings about comma-first coding style:</p>
+                <pre>var obj = {      name: 'Anton'    , handle: 'valueof'    , role: 'SW Engineer'  };</pre></td>
+            </tr>
+            <tr>
+              <td id="loopfunc"><a href="http://www.jshint.com/docs/options/#loopfunc">loopfunc</a></td>
+              <td><p>This option suppresses warnings about functions inside of loops. Defining  functions inside of loops can lead to bugs such as this one:</p>
+                <pre>var nums = [];    for (var i = 0; i &lt; 10; i++) {    nums[i] = function (j) {      return i + j;    };  }    nums[0](2); // Prints 12 instead of 2</pre>
+                <p>To fix the code above you need to copy the value of i:</p>
+                <pre>var nums = [];    for (var i = 0; i &lt; 10; i++) {    (function (i) {      nums[i] = function (j) {          return i + j;      };    }(i));  }</pre></td>
+            </tr>
+            <tr>
+              <td id="moz"><a href="http://www.jshint.com/docs/options/#moz">moz</a></td>
+              <td><p>This options tells JSHint that your code uses Mozilla JavaScript  extensions. Unless you develop specifically for the Firefox web browser  you don't need this option.</p>
+                <p>More info:</p>
+                <ul>
+                  <li><a href="https://developer.mozilla.org/en-US/docs/JavaScript/New_in_JavaScript/1.7">New in JavaScript 1.7</a></li>
+                </ul></td>
+            </tr>
+            <tr>
+              <td id="multistr"><a href="http://www.jshint.com/docs/options/#multistr">multistr</a></td>
+              <td><p>This option suppresses warnings about multi-line strings. Multi-line strings  can be dangerous in JavaScript because all hell breaks loose if you accidentally  put a whitespace in between the escape character (\) and a new line.</p>
+                <p>Note that even though this option allows correct multi-line strings, it still  warns about multi-line strings without escape characters or with anything in  between the escape character and a whitespace.</p>
+                <pre>/*jshint multistr:true */    var text = "Hello\  World"; // All good.    text = "Hello  World"; // Warning, no escape character.    text = "Hello\  World"; // Warning, there is a space after \</pre></td>
+            </tr>
+            <tr>
+              <td id="notypeof"><a href="http://www.jshint.com/docs/options/#notypeof">notypeof</a></td>
+              <td><p>This option suppresses warnings about invalid typeof operator values.  This operator has only <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">a limited set of possible return values</a>.  By default, JSHint warns when you compare its result with an invalid  value which often can be a typo.</p>
+                <pre>// 'fuction' instead of 'function'  if (typeof a == "fuction") { // Invalid typeof value 'fuction'    /* ... */  }</pre>
+                <p>Do not use this option unless you're absolutely sure you don't want these checks.</p></td>
+            </tr>
+            <tr>
+              <td id="proto"><a href="http://www.jshint.com/docs/options/#proto">proto</a></td>
+              <td><p>This option suppresses warnings about the __proto__ property.</p></td>
+            </tr>
+            <tr>
+              <td id="scripturl"><a href="http://www.jshint.com/docs/options/#scripturl">scripturl</a></td>
+              <td><p>This option suppresses warnings about the use of script-targeted URLs—such as  javascript:....</p></td>
+            </tr>
+            <tr>
+              <td id="smarttabs"><a href="http://www.jshint.com/docs/options/#smarttabs">smarttabs</a></td>
+              <td><p>This option suppresses warnings about mixed tabs and spaces when the latter are  used for alignmnent only. The technique is called <a href="http://www.emacswiki.org/emacs/SmartTabs">SmartTabs</a>.</p></td>
+            </tr>
+            <tr>
+              <td id="shadow"><a href="http://www.jshint.com/docs/options/#shadow">shadow</a></td>
+              <td><p>This option suppresses warnings about variable shadowing i.e. declaring a  variable that had been already declared somewhere in the outer scope.</p></td>
+            </tr>
+            <tr>
+              <td id="sub"><a href="http://www.jshint.com/docs/options/#sub">sub</a></td>
+              <td><p>This option suppresses warnings about using [] notation when it can be  expressed in dot notation: person['name'] vs. person.name.</p></td>
+            </tr>
+            <tr>
+              <td id="supernew"><a href="http://www.jshint.com/docs/options/#supernew">supernew</a></td>
+              <td><p>This option suppresses warnings about "weird" constructions like  new function () { ... } and new Object;. Such constructions are sometimes  used to produce singletons in JavaScript:</p>
+                <pre>var singleton = new function() {    var privateVar;      this.publicMethod  = function () {}    this.publicMethod2 = function () {}  };</pre></td>
+            </tr>
+            <tr>
+              <td id="validthis"><a href="http://www.jshint.com/docs/options/#validthis">validthis</a></td>
+              <td><p>This option suppresses warnings about possible strict violations when the code  is running in strict mode and you use this in a non-constructor function. You  should use this option—in a function scope only—when you are positive that your  use of this is valid in the strict mode (for example, if you call your  function using Function.call).</p>
+                <p><strong>Note:</strong> This option can be used only inside of a function scope. JSHint will fail  with an error if you will try to set this option globally.</p></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+      </div>
+    </div>
+  </body>
+</html>

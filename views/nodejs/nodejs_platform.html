@@ -26,6 +26,31 @@
   </head>
   <body>
     <h3 class="h-web-paragraph-title">目录</h3>
+    <ol class="h-web-catalogue">
+      <li>
+        <a paragraph href="#">Grunt - JavaScript世界的构建工具</a>
+        <ol class="h-web-catalogue2">
+          <li>
+            <a href="#">介绍</a>
+          </li>
+          <li>
+            <a href="#">入门</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">创建一份新的grunt项目</a>
+              </li>
+              <li>
+                <a href="#">Gruntfile</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#">Gruntfile 案例分析</a>
+          </li>
+        </ol>
+      </li>
+    </ol>
+
     <div class="h-web-paragraph">
       <h3 paragraph>Grunt - JavaScript世界的构建工具</h3>
       <div>
@@ -39,7 +64,255 @@
         </pre>
         <p>grunt CLI的任务很简单：调用与Gruntfile在同一目录中grunt。这样带来的好处是，允许你在同一个系统上同时安装多个版本的grunt。</p>
         <h5>创建一份新的grunt项目</h5>
+        <ul>
+          <li>
+            我们首先用命令 npm init 创建一个基本的package.json文件。
+          </li>
+          <li>
+            然后用 npm install &lt;module&gt; --save-dev 命令安装grunt和grunt相关插件，此命令不光安装了&lt;module&gt;，还会自动将其添加到devDependencies 配置段中。比如
+            <pre>
+              npm install grunt --save-dev
+            </pre>
+          </li>
+        </ul>
+        <h5>Gruntfile</h5>
+        <p>Gruntfile.js 或 Gruntfile.coffee 文件是有效的 JavaScript 或 CoffeeScript 文件，应当放在你的项目根目录中，和package.json文件在同一目录层级，并和项目源码一起加入源码管理器。</p>
+        <p>Gruntfile 由以下几部分构成：</p>
+        <ul>
+          <li>"wrapper" 函数</li>
+          <li>项目与任务配置</li>
+          <li>加载grunt插件和任务</li>
+          <li>自定义任务</li>
+        </ul>
+        <ol>
+          <li>
+            "wrapper" 函数
+            <p>每一份Gruntfile （和grunt插件）都遵循同样的格式，你所书写的Grunt代码必须放在此函数内：</p>
+            <pre>
+module.exports = function(grunt) {
+  // Do grunt-related things in here
+};
+            </pre>
+          </li>
+          <li>
+            项目和任务配置
+            <p>大部分的Grunt任务都依赖某些配置数据，这些数据被定义在一个object内，并传递给grunt.initConfig 方法。</p>
+            <pre>
+// Project configuration.
+grunt.initConfig({
+  pkg: grunt.file.readJSON('package.json'),
+  uglify: {
+    options: {
+      banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+    },
+    build: {
+      src: 'src/<%= pkg.name %>.js',
+      dest: 'build/<%= pkg.name %>.min.js'
+    }
+  }
+});
+            </pre>
+            <p>上面代码中实现了两个功能：
+              1. grunt.file.readJSON('package.json') 将存储在package.json文件中的JSON元数据引入到grunt config中，并存入pkg 属性内，这样就可以让我们访问到package.json文件中列出的属性了 <br />
+              2. 用到了插件grunt-contrib-uglify 来编译压缩js文件。</p>
+          </li>
+          <li>
+            加载grunt插件和任务
+            <p>
+              像 <a href="https://github.com/gruntjs/grunt-contrib-concat">concatenation</a>、[minification]、
+              <a href="http://github.com/gruntjs/grunt-contrib-uglify">grunt-contrib-uglify</a> 和 
+              <a href="https://github.com/gruntjs/grunt-contrib-jshint">linting</a>这些常用的任务（task）都已经以
+              <a href="https://github.com/gruntjs">grunt插件</a>的形式被开发出来了。只要在 package.json 文件中被列为dependency（依赖）的包，
+              并通过npm install安装之后，都可以在Gruntfile中以简单命令的形式使用，例如：
+            </p>
+            <pre>
+// 加载能够提供"uglify"任务的插件。
+grunt.loadNpmTasks('grunt-contrib-uglify');
+            </pre>
+          </li>
+          <li>
+            自定义任务
+            <p>
+              通过定义 default 任务，可以让Grunt默认执行一个或多个任务。在下面的这个案例中，执行 grunt 命令时如果不指定一个任务的话，将会执行uglify任务。
+              这和执行grunt uglify 或者 grunt default的效果一样。default任务列表数组中可以指定任意数目的任务（可以带参数）。
+            </p>
+            <pre>
+// Default task(s).
+grunt.registerTask('default', ['uglify']);
+            </pre>
+            <p>
+              如果Grunt插件中的任务（task）不能满足你的项目需求，你还可以在Gruntfile中自定义任务（task）。例如，在下面的Gruntfile中自定义了一个default 任务，并且他甚至不依赖任务配置：
+            </p>
+            <pre>
+module.exports = function(grunt) {
+  // A very basic default task.
+  grunt.registerTask('default', 'Log some stuff.', function() {
+    grunt.log.write('Logging some stuff...').ok();
+  });
+};
+            </pre>
+            这里注意的是：特定于项目的任务不必在Gruntfile中定义。他们可以定义在外部.js 文件中，并通过grunt.loadTasks 方法加载。
+          </li>
+        </ol>
+        <p>下面是 Gruntfile 一个完整的例子</p>
+        <pre>
+module.exports = function(grunt) {
+
+  // Project configuration.
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    uglify: {
+      options: {
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+      },
+      build: {
+        src: 'src/<%= pkg.name %>.js',
+        dest: 'build/<%= pkg.name %>.min.js'
+      }
+    }
+  });
+
+  // 加载包含 "uglify" 任务的插件。
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+
+  // 默认被执行的任务列表。
+  grunt.registerTask('default', ['uglify']);
+
+};
+        </pre>
+        <h4>Gruntfile 案例分析</h4>
+        <p>下面就针对一个gruntfile案例做简单分析，这个案例使用到了5个grunt插件：</p>
+        <ul>
+          <li><a href="https://github.com/gruntjs/grunt-contrib-uglify">grunt-contrib-uglify</a></li>
+          <li><a href="https://github.com/gruntjs/grunt-contrib-qunit">grunt-contrib-qunit</a></li>
+          <li><a href="https://github.com/gruntjs/grunt-contrib-concat">grunt-contrib-concat</a></li>
+          <li><a href="https://github.com/gruntjs/grunt-contrib-jshint">grunt-contrib-jshint</a></li>
+          <li><a href="https://github.com/gruntjs/grunt-contrib-watch">grunt-contrib-watch</a></li>
+        </ul>
+        <p>先看该案例 Gruntfile.js 的完整代码</p>
+        <pre>
+module.exports = function(grunt) {
+
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    //配置concat插件
+    concat: {
+      options: {
+        // 定义一个用于插入合并输出文件之间的字符
+        separator: ';'
+      },
+      dist: {
+        // 将要被合并的文件
+        src: ['src/**/*.js'],
+        // 合并后的JS文件的存放位置
+        dest: 'dist/<%= pkg.name %>.js'
+      }
+    },
+    // 配置uglify插件
+    uglify: {
+      options: {
+        // 此处定义的banner注释将插入到输出文件的顶部
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+      },
+      dist: {
+        files: {
+          'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+        }
+      }
+    },
+    // 配置qunit插件
+    qunit: {
+      files: ['test/**/*.html']
+    },
+    // 配置jshint插件
+    jshint: {
+      files: ['gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+      options: {
+        //这里是覆盖JSHint默认配置的选项
+        globals: {
+          jQuery: true,
+          console: true,
+          module: true,
+          document: true
+        }
+      }
+    },
+    // 配置watch插件
+    watch: {
+      files: ['<%= jshint.files %>'],
+      tasks: ['jshint', 'qunit']
+    }
+  });
+  
+  //加载所需要的Grunt插件
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+
+  // 设置一些task,最重要的是default任务
+  // 在命令行上输入"grunt test"，test task就会被执行。
+  grunt.registerTask('test', ['jshint', 'qunit']);
+  // 只需在命令行上输入"grunt"，就会执行default task
+  grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'uglify']);
+
+};
+        </pre>
+        <p>下面简单的介绍一下每个插件</p>
+        <ol>
+          <li>
+            concat
+            <p>每个插件（即任务）的配置对象将作为Grunt配置对象(即grunt.initConfig({})所接受的配置对象)的属性，
+              并且这个属性名称与任务名相同。因此"concat"任务就是我们的配置对象中的"concat"键(属性)。concat是用来合并连接文件的。</p>
+          </li>
+          <li>
+            uglify
+            <p>uglify插件的作用是压缩（minify）JavaScript文件。这里用到了grunt中的<% %>，
+              <% %>模板字符串可以引用任意的配置属性，因此可以通过这种方式来指定诸如文件路径和文件列表类型的配置数据，从而减少一些重复的工作。</p>
+          </li>
+          <li>
+            qunit
+            <p>javascript 单元测试</p>
+          </li>
+          <li>
+            jshint
+            <p>分析javascript</p>
+          </li>
+          <li>
+            watch
+            <p>watch插件是用来检测任何你所指定的文件发生变化时，按照你所指定的顺序执行指定的任务。在上面例子中，如果我们执行 grunt watch 命令，
+              当jshint文件发生变化时，就会执行jshint 和 qunit任务。
+            </p>
+          </li>
+        </ol>
+        <h4>利用template创建grunt项目</h4>
+        <p>首先需要安装 grunt-init。grunt-init是一个用于自动创建项目脚手架的工具。
+          它会基于当前工作环境和你给出的一些配置选项构建一个完整的目录结构。至于其所生成的具体文件和内容，依赖于你所选择的模版和构建过程中你对具体信息所给出的配置选项。运行以下命令来安装：</p>
+        <pre>npm install -g grunt-init</pre>
+        <h5>用法</h5>
+        <ul>
+          <li>使用grunt-init --help来获取程序帮助以及列出可用模板清单</li>
+          <li>使用grunt-init TEMPLATE并基于可用模板创建一个项目</li>
+          <li>使用grunt-init /path/to/TEMPLATE基于任意其他目录中可用的模板创建一个项目</li>
+        </ul>
         
+        <h5>安装模板</h5>
+        <p>一旦模板被安装到你的~/.grunt-init/目录中(在Windows平台是%USERPROFILE%\.grunt-init\目录)，那么就可以通过grunt-init命令来使用它们了。
+          建议你使用git将模板克隆到项目目录中。例如, <a href="https://github.com/gruntjs/grunt-init-jquery">grunt-init-jquery</a>模板可以像下面这样安装：</p>
+        <pre>git clone git@github.com:gruntjs/grunt-init-jquery.git ~/.grunt-init/jquery</pre>
+        <p><em>注意：如果你希望在本地像"foobarbaz"这样使用模板，你应该指定~/.grunt-init/foobarbaz之后再克隆。grunt-init会使用实际在于~/.grunt-init/目录中的实际的目录名。</em></p>
+        <p>下面是一些有Grunt官方维护的grunt-init模板：</p>
+        <ul>
+          <li><a href="https://github.com/gruntjs/grunt-init-commonjs">grunt-init-commonjs</a> - Create a commonjs module, including Nodeunit unit tests. (<a href="https://github.com/gruntjs/grunt-init-commonjs-sample/tree/generated">sample "generated" repo</a> | <a href="https://github.com/gruntjs/grunt-init-commonjs-sample#project-creation-transcript">creation transcript</a>)</li>
+          <li><a href="https://github.com/gruntjs/grunt-init-gruntfile">grunt-init-gruntfile</a> - Create a basic Gruntfile. (<a href="https://github.com/gruntjs/grunt-init-gruntfile-sample/tree/generated">sample "generated" repo</a> | <a href="https://github.com/gruntjs/grunt-init-gruntfile-sample#project-creation-transcript">creation transcript</a>)</li>
+          <li><a href="https://github.com/gruntjs/grunt-init-gruntplugin">grunt-init-gruntplugin</a> - Create a Grunt plugin, including Nodeunit unit tests. (<a href="https://github.com/gruntjs/grunt-init-gruntplugin-sample/tree/generated">sample "generated" repo</a> | <a href="https://github.com/gruntjs/grunt-init-gruntplugin-sample#project-creation-transcript">creation transcript</a>)</li>
+          <li><a href="https://github.com/gruntjs/grunt-init-jquery">grunt-init-jquery</a> - Create a jQuery plugin, including QUnit unit tests. (<a href="https://github.com/gruntjs/grunt-init-jquery-sample/tree/generated">sample "generated" repo</a> | <a href="https://github.com/gruntjs/grunt-init-jquery-sample#project-creation-transcript">creation transcript</a>)</li>
+          <li><a href="https://github.com/gruntjs/grunt-init-node">grunt-init-node</a> - Create a Node.js module, including Nodeunit unit tests. (<a href="https://github.com/gruntjs/grunt-init-node-sample/tree/generated">sample "generated" repo</a> | <a href="https://github.com/gruntjs/grunt-init-node-sample#project-creation-transcript">creation transcript</a>)</li>
+        </ul>
+        <p>上面模板的安装，在windows平台下，首先需要在%USERPROFILE%下创建.grunt-init目录，当然可以直接把模板安装到项目目录下</p>
+        <pre>git clone git@github.com:gruntjs/grunt-init-jquery.git jquery</pre>
+        <p>jquery指定了本地别名，如果不设置jquery，那么会用模板本身名字创建，本例为 grunt-init-jquery</p>
       </div>
     </div>
   </body>

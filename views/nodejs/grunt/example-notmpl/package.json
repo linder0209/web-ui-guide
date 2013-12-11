@@ -1,0 +1,13 @@
+{
+  "name": "example-notmpl",
+  "description": "不用模板，手动创建一个grunt项目",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-qunit": "~0.3.0",
+    "grunt-contrib-watch": "~0.5.3"
+  }
+}

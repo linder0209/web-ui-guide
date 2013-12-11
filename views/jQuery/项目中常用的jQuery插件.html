@@ -54,13 +54,13 @@
           以下声明是错误的
         </p>
         <pre>
-<input type="text" class="{validateUsername: true}" id="username" name="username" /> 
-<input type="text" class="{required:true,email:true}" id="username" name="username" /> 
+&lt;input type="text" class="{validateUsername: true}" id="username" name="username" /&gt; 
+&lt;input type="text" class="{required:true,email:true}" id="username" name="username" /&gt; 
         </pre>
         <p>我们需要这样声明</p>
         <pre>
-<input type="text" validateUsername="true" id="username" name="username" /> 
-<input type="text" class="required email" validateUsername="true" id="username" name="username" /> 
+&lt;input type="text" validateUsername="true" id="username" name="username" /&gt; 
+&lt;input type="text" class="required email" validateUsername="true" id="username" name="username" /&gt; 
         </pre>
         <p>required和email在classRuleSettings中已定义，所以可以直接加在class中，validateUsername是自定义的，需要手动加入到classRuleSettings中，
           才可以在class中声明，不过一般不建议这样做。</p>
@@ -69,7 +69,7 @@
 <input type="text" class="{validateUsername: true}" id="username" name="username" /> 
 <input type="text" class="{required:true,email:true}" id="username" name="username" /> 
         </pre>
-        
+
         <h5>在最新版本1.11.1中，校验规则range和rangelength的声明应该是这样的：rang="12,23"</h5>
         <p>
           而以下声明是错误的，这点需特别注意
@@ -106,40 +106,39 @@
           </p>
           <p><button type="submit">确定</button></p>
         </form>
-        </p>
         <script type="text/javascript" src="jquery-validation/jquery.validate.js"></script>
         <script type="text/javascript">
-          $(function() {
-            $('#jquery_validation_form').validate({
-              debug: true,
-              focusCleanup: true,
-              //wrapper: 'div',
-              groups: {
-                userName: "firstName lastName"
-              },
-              invalidHandler: function(event, validator) {
-                var errors = validator.numberOfInvalids();
-                if (errors) {
-                  var message = errors == 1 ? 'You missed 1 field. It has been highlighted' : 'You missed ' + errors + ' fields. They have been highlighted';
-                  $("p.errorInfo").html(message).show();
-                } else {
-                  $("p.errorInfo").hide();
-                }
-              },
-              errorPlacement: function(error, element) {
-                if (element.attr("name") == "firstName" || element.attr("name") == "lastName") {
-                  error.insertAfter('#lastName');
-                } else if (element.is(':radio') || element.is(':checkbox')) {
-                  error.insertAfter(element.parent());
-                } else {
-                  error.insertAfter(element);
-                }
-              },
-              success: function(label) {
-                label.addClass("valid").text("OK!");
-              }
-            });
-          });
+      $(function() {
+        $('#jquery_validation_form').validate({
+          debug: true,
+          focusCleanup: true,
+          //wrapper: 'div',
+          groups: {
+            userName: "firstName lastName"
+          },
+          invalidHandler: function(event, validator) {
+            var errors = validator.numberOfInvalids();
+            if (errors) {
+              var message = errors == 1 ? 'You missed 1 field. It has been highlighted' : 'You missed ' + errors + ' fields. They have been highlighted';
+              $("p.errorInfo").html(message).show();
+            } else {
+              $("p.errorInfo").hide();
+            }
+          },
+          errorPlacement: function(error, element) {
+            if (element.attr("name") == "firstName" || element.attr("name") == "lastName") {
+              error.insertAfter('#lastName');
+            } else if (element.is(':radio') || element.is(':checkbox')) {
+              error.insertAfter(element.parent());
+            } else {
+              error.insertAfter(element);
+            }
+          },
+          success: function(label) {
+            label.addClass("valid").text("OK!");
+          }
+        });
+      });
         </script>
         <ul>
           <li>
@@ -449,6 +448,14 @@
   }
 
 })(jQuery);</pre>
+      </div>
+      
+      <h3 paragraph>jqgrid</h3>
+      <div>
+        <p><a href="http://www.jqgrid.com/" target="_blank">官方网站</a></p>
+        <p><a href="http://www.trirand.com/jqgridwiki/doku.php" target="_blank">Documentation and API</a> </p>
+        <p><a href="http://www.trirand.com/blog/jqgrid/jqgrid.html" target="_blank">官网demo</a></p>
+        <p><a href="http://www.trirand.com/jqgridwiki/doku.php?id=wiki:options">jqgrid options 设置</a></p>
       </div>
     </div>
   </body>

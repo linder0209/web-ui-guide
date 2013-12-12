@@ -593,7 +593,7 @@ if(eqnullStr == null){
 }
 //line 1, col 9, Use '===' to compare with 'null'. (W041)
                 </pre>
-                
+
               </td>
             </tr>
             <tr>
@@ -601,7 +601,7 @@ if(eqnullStr == null){
               <td>This option tells JSHint that your code uses ECMAScript 6 specific syntax.  Note that these features are not finalized yet and not all browsers implement  them. <br />
                 More info:<a href="http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts">Draft Specification for ES.next (ECMA-262 Ed. 6)</a>
                 <br />设置该值为true，告诉JSHint用 ECMAScript 6 规范检测js代码。
-                </td>
+              </td>
             </tr>
             <tr>
               <td><a href="http://www.jshint.com/docs/options/#evil">evil</a></td>
@@ -639,91 +639,215 @@ function test() {
 }
 // line 5, col 3, 'x' used out of scope. (W038)             
                 </pre>
-              <p>上面的写法会提示错误信息的，虽然js只有全局和function级别的scope，但我们还是避免上面的写法，让人看了比较不爽。</p>
+                <p>上面的写法会提示错误信息的，虽然js只有全局和function级别的scope，但我们还是避免上面的写法，让人看了比较不爽。</p>
               </td>
             </tr>
             <tr>
               <td><a href="http://www.jshint.com/docs/options/#globalstrict">globalstrict</a></td>
               <td>This option suppresses warnings about the use of global strict mode. Global  strict mode can break third-party widgets so it is not recommended. <br />
                 For more info about strict mode see the strict option.
-              全局是否用strict模式
+                全局是否用strict模式
               </td>
             </tr>
             <tr>
-              <td id="iterator"><a href="http://www.jshint.com/docs/options/#iterator">iterator</a></td>
-              <td><p>This option suppresses warnings about the __iterator__ property. This property  is not supported by all browsers so use it carefully.</p></td>
+              <td><a href="http://www.jshint.com/docs/options/#iterator">iterator</a></td>
+              <td>
+                This option suppresses warnings about the __iterator__ property. This property  is not supported by all browsers so use it carefully.
+                <br />默认时，对于使用 __iterator__ property 会提示错误信息的。关于javascript的版本信息，可以参考这里
+                <a href="http://www.cnblogs.com/lhb25/archive/2011/01/16/1936669.html">JavaScript版本迷局</a> 和 <a href="http://en.wikipedia.org/wiki/JavaScript">JavaScript</a>
+                <br /><a href="http://technet.microsoft.com/zh-cn/library/s4esdbwz(v=vs.94)">IE中 JavaScript 版本信息</a>
+                <pre>
+function iteratorFn (){}
+var iterator = new iteratorFn();
+console.info(iterator.__iterator__);  
+//line 3, col 35, '__iterator__' is only available in JavaScript 1.7. (W104)                
+                </pre>
+              </td>
             </tr>
             <tr>
-              <td id="lastsemic"><a href="http://www.jshint.com/docs/options/#lastsemic">lastsemic</a></td>
-              <td><p>This option suppresses warnings about missing semicolons, but only when the  semicolon is omitted for the last statement in a one-line block:</p>
-                <pre>var name = (function() { return 'Anton' }());</pre>
-                <p>This is a very niche use case that is useful only when you use automatic  JavaScript code generators.</p></td>
+              <td><a href="http://www.jshint.com/docs/options/#lastsemic">lastsemic</a></td>
+              <td>This option suppresses warnings about missing semicolons, but only when the  semicolon is omitted for the last statement in a one-line block:
+                This is a very niche use case that is useful only when you use automatic  JavaScript code generators.
+                <br />如果设为true，则只检测一行最后的分号，对于中间的分号将不检测，默认检测所有的分号
+                <pre>
+var name = (function() { return 'Anton' }());
+//line 1, col 40, Missing semicolon. (W033)
+                </pre>
+              </td>
             </tr>
             <tr>
-              <td id="laxbreak"><a href="http://www.jshint.com/docs/options/#laxbreak">laxbreak</a></td>
-              <td><p>This option suppresses most of the warnings about possibly unsafe line breakings  in your code. It doesn't suppress warnings about comma-first coding style. To  suppress those you have to use laxcomma (see below).</p></td>
+              <td><a href="http://www.jshint.com/docs/options/#laxbreak">laxbreak</a></td>
+              <td>This option suppresses most of the warnings about possibly unsafe line breakings  in your code. 
+                It doesn't suppress warnings about comma-first coding style. To  suppress those you have to use laxcomma (see below).
+                <br />如果为true，JSHint则不会检查换行。 Javascript会通过自动补充分号来修正一些错误，因此这个选项可以检查一些潜在的问题。
+              </td>
             </tr>
             <tr>
-              <td id="laxcomma"><a href="http://www.jshint.com/docs/options/#laxcomma">laxcomma</a></td>
-              <td><p>This option suppresses warnings about comma-first coding style:</p>
-                <pre>var obj = {      name: 'Anton'    , handle: 'valueof'    , role: 'SW Engineer'  };</pre></td>
+              <td><a href="http://www.jshint.com/docs/options/#laxcomma">laxcomma</a></td>
+              <td>This option suppresses warnings about comma-first coding style:
+                <br />会自动检测逗号在一行的情况，设为true则忽略。
+                <pre>
+var obj = {
+    name: 'Anton'
+  , handle: 'valueof'
+  , role: 'SW Engineer'
+};
+//line 3, col 3, Comma warnings can be turned off with 'laxcomma'. (I001)
+//line 2, col 11, Bad line breaking before ','. (W014)
+//line 3, col 13, Bad line breaking before ','. (W014)</pre>
+              </td>
             </tr>
             <tr>
-              <td id="loopfunc"><a href="http://www.jshint.com/docs/options/#loopfunc">loopfunc</a></td>
-              <td><p>This option suppresses warnings about functions inside of loops. Defining  functions inside of loops can lead to bugs such as this one:</p>
-                <pre>var nums = [];    for (var i = 0; i &lt; 10; i++) {    nums[i] = function (j) {      return i + j;    };  }    nums[0](2); // Prints 12 instead of 2</pre>
-                <p>To fix the code above you need to copy the value of i:</p>
-                <pre>var nums = [];    for (var i = 0; i &lt; 10; i++) {    (function (i) {      nums[i] = function (j) {          return i + j;      };    }(i));  }</pre></td>
+              <td><a href="http://www.jshint.com/docs/options/#loopfunc">loopfunc</a></td>
+              <td>This option suppresses warnings about functions inside of loops. Defining  functions inside of loops can lead to bugs such as this one:
+                <br />不用在循环中定义function
+                <pre>
+var nums = [];
+for (var i = 0; i < 10; i++) {
+  nums[i] = function (j) {
+    return i + j;
+  };
+}
+nums[0](2); // Prints 12 instead of 2
+                </pre>
+                To fix the code above you need to copy the value of i:
+                <pre>
+var nums = [];
+for (var i = 0; i < 10; i++) {
+  (function (i) {
+    nums[i] = function (j) {
+        return i + j;
+    };
+  }(i));
+}                  
+                </pre>
+                <p>以上实现会输出错误警告信息</p>
+                <pre>
+var nums = [];
+for (var i = 0; i < 10; i++) {
+  nums[i] = function (j) {
+    return i + j;
+  };
+}
+nums[0](2);
+
+var nums = [];
+for (var i = 0; i < 10; i++) {
+  (function (i) {
+    nums[i] = function (j) {
+        return i + j;
+    };
+  }(i));
+}
+//line 5, col 4, Don't make functions within a loop. (W083)
+//line 15, col 4, Don't make functions within a loop. (W083)
+                </pre>
             </tr>
             <tr>
-              <td id="moz"><a href="http://www.jshint.com/docs/options/#moz">moz</a></td>
-              <td><p>This options tells JSHint that your code uses Mozilla JavaScript  extensions. Unless you develop specifically for the Firefox web browser  you don't need this option.</p>
-                <p>More info:</p>
-                <ul>
-                  <li><a href="https://developer.mozilla.org/en-US/docs/JavaScript/New_in_JavaScript/1.7">New in JavaScript 1.7</a></li>
-                </ul></td>
+              <td><a href="http://www.jshint.com/docs/options/#moz">moz</a></td>
+              <td>This options tells JSHint that your code uses Mozilla JavaScript  extensions. Unless you develop specifically for the Firefox web browser  you don't need this option.
+                More info: <a href="https://developer.mozilla.org/en-US/docs/JavaScript/New_in_JavaScript/1.7">New in JavaScript 1.7</a>
+                <br />当使用mozilla javascript 扩展表达式是会提示警告信息的。
+              </td>
             </tr>
             <tr>
-              <td id="multistr"><a href="http://www.jshint.com/docs/options/#multistr">multistr</a></td>
-              <td><p>This option suppresses warnings about multi-line strings. Multi-line strings  can be dangerous in JavaScript because all hell breaks loose if you accidentally  put a whitespace in between the escape character (\) and a new line.</p>
-                <p>Note that even though this option allows correct multi-line strings, it still  warns about multi-line strings without escape characters or with anything in  between the escape character and a whitespace.</p>
-                <pre>/*jshint multistr:true */    var text = "Hello\  World"; // All good.    text = "Hello  World"; // Warning, no escape character.    text = "Hello\  World"; // Warning, there is a space after \</pre></td>
+              <td><a href="http://www.jshint.com/docs/options/#multistr">multistr</a></td>
+              <td>This option suppresses warnings about multi-line strings. Multi-line strings  can be dangerous in JavaScript because all hell breaks loose if you accidentally 
+                put a whitespace in between the escape character (\) and a new line.
+                <br />
+                Note that even though this option allows correct multi-line strings, it still  warns about multi-line strings without escape characters or with anything 
+                in  between the escape character and a whitespace.
+                <pre>
+/*jshint multistr:true */
+
+var text = "Hello\
+World"; // All good.
+
+text = "Hello
+World"; // Warning, no escape character.
+
+text = "Hello\ 
+World"; // Warning, there is a space after \ 
+                </pre>
+                默认下，JSHint不建议使用\来处理多行的字符串，我们可以利用数组来处理。
             </tr>
             <tr>
-              <td id="notypeof"><a href="http://www.jshint.com/docs/options/#notypeof">notypeof</a></td>
-              <td><p>This option suppresses warnings about invalid typeof operator values.  This operator has only <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">a limited set of possible return values</a>.  By default, JSHint warns when you compare its result with an invalid  value which often can be a typo.</p>
-                <pre>// 'fuction' instead of 'function'  if (typeof a == "fuction") { // Invalid typeof value 'fuction'    /* ... */  }</pre>
-                <p>Do not use this option unless you're absolutely sure you don't want these checks.</p></td>
+              <td><a href="http://www.jshint.com/docs/options/#notypeof">notypeof</a></td>
+              <td>This option suppresses warnings about invalid typeof operator values. 
+                This operator has only <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">a limited set of possible return values</a>. 
+                By default, JSHint warns when you compare its result with an invalid  value which often can be a typo.
+                <br /> Do not use this option unless you're absolutely sure you don't want these checks.
+                <pre>
+// 'fuction' instead of 'function'
+var a = '';
+if (typeof a == "fuction") { // Invalid typeof value 'fuction'
+  /* ... */
+}
+//line 3, col 14, Invalid typeof value 'fuction' (W122)
+                </pre>
+                如果使用typeof语句时，表达式不是javascript规定的返回值，则会显示错误警告信息。关于typeof返回的值可以参考<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">这里</a> 
+              </td>
             </tr>
             <tr>
-              <td id="proto"><a href="http://www.jshint.com/docs/options/#proto">proto</a></td>
-              <td><p>This option suppresses warnings about the __proto__ property.</p></td>
+              <td><a href="http://www.jshint.com/docs/options/#proto">proto</a></td>
+              <td>This option suppresses warnings about the __proto__ property. <br />
+                如果使用 __proto__ property 会显示错误警告
+              </td>
             </tr>
             <tr>
-              <td id="scripturl"><a href="http://www.jshint.com/docs/options/#scripturl">scripturl</a></td>
-              <td><p>This option suppresses warnings about the use of script-targeted URLs—such as  javascript:....</p></td>
+              <td><a href="http://www.jshint.com/docs/options/#scripturl">scripturl</a></td>
+              <td>This option suppresses warnings about the use of script-targeted URLs—such as  javascript:....</td>
             </tr>
             <tr>
-              <td id="smarttabs"><a href="http://www.jshint.com/docs/options/#smarttabs">smarttabs</a></td>
-              <td><p>This option suppresses warnings about mixed tabs and spaces when the latter are  used for alignmnent only. The technique is called <a href="http://www.emacswiki.org/emacs/SmartTabs">SmartTabs</a>.</p></td>
+              <td><a href="http://www.jshint.com/docs/options/#smarttabs">smarttabs</a></td>
+              <td>This option suppresses warnings about mixed tabs and spaces when the latter are  used for alignmnent only. 
+                The technique is called <a href="http://www.emacswiki.org/emacs/SmartTabs">SmartTabs</a>.
+                <br />当混合使用 tabs 和 spaces时会发出警告
+              </td>
             </tr>
             <tr>
-              <td id="shadow"><a href="http://www.jshint.com/docs/options/#shadow">shadow</a></td>
-              <td><p>This option suppresses warnings about variable shadowing i.e. declaring a  variable that had been already declared somewhere in the outer scope.</p></td>
+              <td><a href="http://www.jshint.com/docs/options/#shadow">shadow</a></td>
+              <td>This option suppresses warnings about variable shadowing i.e. 
+                declaring a  variable that had been already declared somewhere in the outer scope.
+                <br />在外层声明的变量，在里层代码就不要声明了，否则会提示警告信息。
+              </td>
             </tr>
             <tr>
-              <td id="sub"><a href="http://www.jshint.com/docs/options/#sub">sub</a></td>
-              <td><p>This option suppresses warnings about using [] notation when it can be  expressed in dot notation: person['name'] vs. person.name.</p></td>
+              <td><a href="http://www.jshint.com/docs/options/#sub">sub</a></td>
+              <td>This option suppresses warnings about using [] notation when it can be  expressed in dot notation: person['name'] vs. person.name.
+                <br />对于能使用下标的情况，尽量使用，关键字或不可以使用下标的情况下，可以使用[]形式。下面例子属性 'c-d' 不会提示错误警告信息，而b会提示。
+                <pre>
+var a = {
+  b: '',
+  'c-d': ''
+};
+console.info(a['b']);
+console.info(a['c-d']);
+//line 5, col 15, ['b'] is better written in dot notation. (W069)
+                </pre>
+              </td>
             </tr>
             <tr>
-              <td id="supernew"><a href="http://www.jshint.com/docs/options/#supernew">supernew</a></td>
-              <td><p>This option suppresses warnings about "weird" constructions like  new function () { ... } and new Object;. Such constructions are sometimes  used to produce singletons in JavaScript:</p>
-                <pre>var singleton = new function() {    var privateVar;      this.publicMethod  = function () {}    this.publicMethod2 = function () {}  };</pre></td>
+              <td><a href="http://www.jshint.com/docs/options/#supernew">supernew</a></td>
+              <td>This option suppresses warnings about "weird" constructions like  new function () { ... } and new Object;. 
+                Such constructions are sometimes  used to produce singletons in JavaScript:
+                <pre>
+var singleton = new function() {
+  this.publicMethod  = function () {};
+  this.publicMethod2 = function () {};
+};
+//line 1, col 17, Weird construction. Is 'new' unnecessary? (W057)
+//line 4, col 1, Missing '()' invoking a constructor. (W058)
+                </pre>
+                当书写怪异的javascript语句时，会发出提示警告
+              </td>
             </tr>
             <tr>
-              <td id="validthis"><a href="http://www.jshint.com/docs/options/#validthis">validthis</a></td>
-              <td><p>This option suppresses warnings about possible strict violations when the code  is running in strict mode and you use this in a non-constructor function. You  should use this option—in a function scope only—when you are positive that your  use of this is valid in the strict mode (for example, if you call your  function using Function.call).</p>
-                <p><strong>Note:</strong> This option can be used only inside of a function scope. JSHint will fail  with an error if you will try to set this option globally.</p></td>
+              <td><a href="http://www.jshint.com/docs/options/#validthis">validthis</a></td>
+              <td>This option suppresses warnings about possible strict violations when the code  is running in strict mode and you use this in a non-constructor function. 
+                You  should use this option—in a function scope only—when you are positive that your  use of this is valid in the strict mode (for example, 
+                if you call your  function using Function.call). <br />
+                <strong>Note:</strong> This option can be used only inside of a function scope. JSHint will fail  with an error if you will try to set this option globally.</td>
             </tr>
           </tbody>
         </table>

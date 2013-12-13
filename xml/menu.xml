@@ -9,7 +9,11 @@
         <children id="training_1" name="内容和目标" href="training/内容和目标.html"/>
         <children id="training_2" name="Web 学习参考资料" href="training/Web 学习参考资料.html"/>
     </menu>
-    
+    <menu>
+        <id>tools</id>
+        <name>Web 前端开发工具</name>
+        <children id="tools_1" name="代码生成工具" href="tools/codeBuild.html"/>
+    </menu>
     <menu>
         <id>html</id>
         <name>HTML</name>

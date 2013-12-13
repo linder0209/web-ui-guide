@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -68,7 +68,7 @@
       <div>
         <p>
           我们可以直接从官网下载<a href="https://github.com/jshint/jshint/raw/2.x/dist/jshint.js">jshint.js</a>。对于nodejs项目，可以执行以下命令 npm install jshint -g 来安装。
-          当然对于ide，jshint提供了相应的插件，例如：eclipse、netbeans、webstorm、nodepad++等。
+          当然对于ide，jshint提供了相应的插件，例如：eclipse、netbeans、webstorm、nodepad++等。下面的介绍是基于2.3.0版本，官方正在计划推出3.0版本。
         </p>
         <h4>web应用端使用</h4>
         <p>下载最新版的jshint.js后引入到要测试的html文件中。jshint 提供了一个全局函数 JSHINT(source, options, globals) 用来检测javascript代码，该方法中有三个参数。</p>
@@ -83,7 +83,175 @@
         <pre>/*global DISQUS: true, jQuery: false */</pre>
         <p>以上的这个例子是告诉JSHint,DISQUS是你自己声明的全局变量，而jQuery是你引入的全局变量</p>
 
-        <p class="h-web-font-red">这里需要提供个好的方案来检查js代码，不能每次复制粘贴来检测，代研究。</p>
+        <p>jsHint中几个主要的方法和属性</p>
+        <h5>JSHINT(source, options, globals) </h5>
+        <p>上面已介绍过，用来检查代码的全局函数</p>
+        <h5>JSHINT.errors</h5>
+        <p>返回是一个对象组成的数组，格式如下</p>
+        <pre>
+{
+    id: id号,
+	scope: 上下文,
+	line: 错误的行数,
+	charater: 错误的字符数,
+	reason: 问题详细描述信息,
+	evidence: 出错的代码,
+	raw: 原本的错误描述信息,
+    code: 出错代码类型,
+	a: the first detail,
+	b: the second detail,
+	c: the third detail,
+	d: the fourth detail
+}
+
+function main() {
+  eval('console.info(2);');
+  return 'Hello, World!';
+}
+main();
+
+//检测上面代码会返回以下错误信息
+{
+    id: '(error)',
+    scope: '(main)',
+	line: 2,
+	charater: 3,
+	reason: 'eval can be harmful.',
+	evidence: ' eval('console.info(2);');',
+	raw: 'eval can be harmful.',
+    code: 'W061',
+	a: undefined,
+	b: undefined,
+	c: undefined,
+	d: undefined
+}
+        </pre>
+
+        <h5>JSHINT.data()</h5>
+        <p>返回一个object格式的数据结果</p>
+        <h5>提示信息国际化</h5>
+        <p>JSHint中好像没有专门处理国际化的配置，如果想国际化，我们只能修改源代码了，找到相应的errors、warnings和info变量，修改其为中文即可，关于翻译，可以参考<a href="http://ued.ctrip.com/blog/?p=2733#more-2733">这篇文章</a>。以下是部分翻译，待整理</p>
+        <pre>
+globalMsg = {
+"Missing semicolon." : "缺少分号.",
+"Use the function form of \"use strict\"." : "使用标准化定义function.",
+"Unexpected space after ‘-’." : "在’-'后面不应出现空格.",
+"Expected a JSON value." : "请传入一个json的值.",
+"Mixed spaces and tabs.": "空格和TAB重复.",
+"Unsafe character." : "不安全的字符.",
+"Line too long.": "本行中的字符超过设定的最大长度.",
+"Trailing whitespace.": "本行末尾有过多无用空格.",
+"Script URL." : "脚本URL.",
+"Unexpected {a} in ‘{b}’." : "在 ‘{b}’ 中不该出现 {a}.",
+"Unexpected ‘{a}’." : "不该在此出现’{a}’.",
+"Strings must use doublequote." : "字符串需要用双引号",
+"Unnecessary escapement." : "不需要转义",
+"Control character in string: {a}." : "在字符串中出现了Control的字符",
+"Avoid \\’." : "避免 \\",
+"Avoid \\v." : "避免 \\v",
+"Avoid \\x-." : "避免 \\x-",
+"Bad escapement." : "错误的转义字符",
+"Bad number ‘{a}’." : "错误的数字 ‘{a}’",
+"Missing space after ‘{a}’." : "在’{a}’之后缺少空格",
+"Don’t use extra leading zeros ‘{a}’." : "不要再’{a}’的前面用多余的0″,
+"Avoid 0x-. ‘{a}’." : "避免使用 0x-. ‘{a}’.",
+"A trailing decimal point can be confused with a dot ‘{a}’." : "在’{a}’中使用点尾随小数点",
+"Unexpected comment." : "不该在此处出现注释",
+"Unescaped ‘{a}’." : "没有转义 ‘{a}’",
+"Unexpected control character in regular expression." : "在正则表达式中出现了control字符",
+"Unexpected escaped character ‘{a}’ in regular expression." : "在正则表达式中出现了没有转义的字符 ‘{a}’",
+"Expected ‘{a}’ and instead saw ‘{b}’." : "应该用 ‘{a}’代替’{b}’",
+"Spaces are hard to count. Use {{a}}." : "空格难以统计，请使用 {{a}}",
+"Insecure ‘{a}’." : "不安全的 ‘{a}’",
+"Empty class." : "空的class",
+"Expected a number and instead saw ‘{a}’.":"应该用数字代替’{a}’",
+"‘{a}’ should not be greater than ‘{b}’.":"‘{a}’不应该比’{b}’大",
+"‘hasOwnProperty’ is a really bad name.": "‘hasOwnProperty’是关键字",
+"‘{a}’ was used before it was defined.":"‘{a}’未定义就已经使用了.",
+"‘{a}’ is already defined.":"‘{a}’被重复定义",
+"A dot following a number can be confused with a decimal point.":"数字后面的一个点会被误认为是十进制的小数点",
+"Confusing minusses" : "容易混淆的负数表达-",
+"Confusing plusses." : "容易混淆的正数表达+",
+"Unmatched ‘{a}’." : "无法匹配的’{a}’",
+"Expected ‘{a}’ to match ‘{b}’ from line {c} and instead saw ‘{d}’.":"在行{c}中需要用’{a}’和’{b}’匹配，用来代替’{d}’",
+"Unexpected early end of program.":"程序不可预期的提前终止",
+"A leading decimal point can be confused with a dot: ‘.{a}’.":"‘{a}’前的点容易混淆成小数点",
+"Use the array literal notation [].":"使用数组的符号 []",
+"Expected an operator and instead saw ‘{a}’.":"需要用一个符号来代替’{a}’",
+"Unexpected space after ‘{a}’.":"在’{a}’之后不能出现空格",
+"Unexpected space before ‘{a}’.":"在’{a}’之前不能出现空格",
+"Bad line breaking before ‘{a}’.":"在’{a}’之前错误的换行",
+"Expected ‘{a}’ to have an indentation at {b} instead at {c}.":"‘{a}’需要在{c}而不是{b}处缩进",
+"Line breaking error ‘{a}’.":"换行错误 ‘{a}’",
+"Unexpected use of ‘{a}’.":"此处不能用’{a}’",
+"Bad operand.":"错误的操作数",
+"Use the isNaN function to compare with NaN.":"使用isNaN来与NaN比较",
+"Confusing use of ‘{a}’.":"容易混淆的’{a}’的使用",
+"Read only.":"只读的属性",
+"‘{a}’ is a function.":"‘{a}’是一个函数",
+‘Bad assignment.’:"错误的赋值",
+"Do not assign to the exception parameter.":"不要给额外的参数赋值",
+"Expected an identifier in an assignment and instead saw a function invocation.":"在赋值的语句中需要有一个标识符，而不是一个方法的调用",
+"Expected an identifier and instead saw ‘{a}’ (a reserved word).":"需要有一个标识符，而不是’{a}’(保留字符)",
+"Missing name in function declaration.":"在方法声明中缺少名称",
+"Expected an identifier and instead saw ‘{a}’.":"需要有一个标识符，而不是’{a}’",
+"Inner functions should be listed at the top of the outer function.":"内部函数的声明应该放在此函数的顶部。",
+"Unreachable ‘{a}’ after ‘{b}’.":"在’{b}’之后无法获取’{a}’",
+"Unnecessary semicolon.":"不必要的分号",
+"Label ‘{a}’ on {b} statement.":"将’{a}’放在{b}的声明中",
+"Label ‘{a}’ looks like a javascript url.":"‘{a}’看上去像一个js的链接",
+"Expected an assignment or function call and instead saw an expression":"需要一个赋值或者一个函数调用，而不是一个表达式.",
+"Do not use ‘new’ for side effects.":"不要用’new’语句.",
+"Unnecessary \"use strict\".":"不必要的\"use strict\".",
+"Missing \"use strict\" statement.":"缺少\"use strict\"的声明",
+"Empty block.":"空的模块",
+"Unexpected /*member ‘{a}’.":"不应出现 /*元素 ‘{a}’.",
+"‘{a}’ is a statement label.":"‘{a}’是一个声明",
+"‘{a}’ used out of scope.":"‘{a}’使用超出范围",
+"‘{a}’ is not allowed.":"不允许使用’{a}’",
+"‘{a}’ is not defined.":"‘{a}’没有被定义",
+"Use ‘{a}’ to compare with ‘{b}’.":"使用’{a}’与’{b}’相比",
+"Variables should not be deleted.":"变量需要被删除",
+"Use the object literal notation {}.":"使用对象的文字符号 {}",
+"Do not use {a} as a constructor.":"不要使用{a}作为一个构造对象",
+"The Function constructor is eval.":"The Function constructor is eval.",
+"A constructor name should start with an uppercase letter.":"一个构造对象的名称必须用大写字母开头.",
+"Bad constructor.":"错误的构造对象",
+"Weird construction. Delete ‘new’.":"构造对象有误，请删除’new’",
+"Missing ‘()’ invoking a constructor.":"缺少括号()",
+"Avoid arguments.{a}.":"避免参数.{a}.",
+"document.write can be a form of eval.":"document.write是eval的一种形式",
+‘eval is evil.’:"尽量不要使用eval",
+"Math is not a function.":"Math不是一个函数",
+"Missing ‘new’ prefix when invoking a constructor.":"此处缺少了’new’",
+"Missing radix parameter.":"缺少参数",
+"Implied eval is evil. Pass a function instead of a string.":"传递一个函数，而不是一个字符串",
+"Bad invocation.":"错误的调用",
+"['{a}'] is better written in dot notation.":"['{a}']最好用点.的方式",
+"Extra comma.":"多余的逗号",
+"Don’t make functions within a loop.":"不要用循环的方式创建函数",
+"Unexpected parameter ‘{a}’ in get {b} function.":"在{b}方法中不该用到参数’{a}’",
+"Duplicate member ‘{a}’.":"重复的’{a}’",
+"Expected to see a statement and instead saw a block.":"此处应该是语句声明.",
+"Too many var statements.":"过多var的声明",
+"Redefinition of ‘{a}’.":"‘{a}’被重复定义",
+"It is not necessary to initialize ‘{a}’ to ‘undefined’.":"无需将’{a}’初始化为’undefined’",
+"Expected a conditional expression and instead saw an assignment.":"此处需要一个表达式，而不是赋值语句",
+"Expected a ‘break’ statement before ‘case’.":"在’case’之前需要有’break’.",
+"Expected a ‘break’ statement before ‘default’.":"在’default’之前需要有’break’.",
+"This ‘switch’ should be an ‘if’.":"此处’switch’应该是’if’.",
+"All ‘debugger’ statements should be removed.":"请删除’debugger’的语句",
+"‘{a}’ is not a statement label.":"‘{a}’不是一个声明标签.",
+"Expected an assignment or function call and instead saw an expression.":"需要一个语句或者一个函数调用，而不是一个表达式",
+"Function declarations should not be placed in blocks. Use a function expression or move the statement to the top of the outer function.":"函数的声明不能放在类似if的块中，需要放在外部函数的顶部."
+}          
+        </pre>
+        <p>
+          关于怎样在开发过程中使用jshint，个人觉得每次动态的执行 JSHINT(source, options, globals)不方便，建议利用常用的ide提供的jshint插件来检测，比如Eclipse、Netbeans、Webstorm等。
+          当然我们配置一下options来限定那些检测，那些不检测，详见下面的 JSHint最佳实践。
+        </p>
+        <p>这里提供了一个简单的利用jshint检验js代码的 <a href="./jshint/examples/jshint.html">页面</a></p>
+        <p>当然我们可以借助nodejs来检测javascript代码，见下一节介绍。</p>
 
         <h4>nodejs中的使用</h4>
         <p>执行以下命令安装jshint</p>
@@ -224,7 +392,7 @@ case "two":
   doSomethingElse();
 }
         </pre>
-        <p>例子代码点击<a href="./jshint/example/demo1_use_node.js">这里</a></p>
+        <p>例子代码点击<a href="./jshint/examples/demo1_use_node.js">这里</a></p>
         <p>上面介绍的指令和配置项在web应用中也可以使用。</p>
         <h4>在官方网站中验证代码</h4>
         <p>除了以上两种验证代码方式外，我们还可以在 <a href="http://www.jshint.com/">官方首页</a>中输入代码来动态验证。该页面中可以根据需要设置配置项。</p>
@@ -232,7 +400,7 @@ case "two":
 
       <h3 paragraph>JSHint Options</h3>
       <div>
-        <p>JSHint Options 分为 Enforcing 和 Relaxing ，相当于error 和 warning</p>
+        <p>JSHint Options 分为 Enforcing 和 Relaxing，前者默认是不检测的，设为true后才检查，而后者默认是检测的，设为true将忽略。</p>
         <h4>Enforcing Options</h4>
         <table>
           <caption>Enforcing Options</caption>
@@ -246,6 +414,11 @@ case "two":
                 Bitwise operators are very rare in JavaScript programs and quite  often &amp; is simply a mistyped &amp;&amp;.
                 <br />
                 如果为真，JSHint会禁用位运算符。 Javascript允许位运算，但是他却没有整型，位运算符要把参与运算的数字从浮点数变为整数，并在运算后再转换回来。这样他们的效率就不如在别的语言中那么高。
+                <pre>
+/* jshint bitwise: true*/
+var a = 12 | 23;
+console.info(a);
+                </pre>
               </td>
             </tr>
             <tr>
@@ -253,6 +426,11 @@ case "two":
               <td>This option allows you to force all variable names to use either camelCase  style or UPPER_CASE with underscores.
                 <br />
                 如果设为true，则js中的变量要求使用驼峰式规则（camelCase或UPPER_CASE）
+                <pre>
+/* jshint camelcase: true*/
+var upper_case = '123';//正确的写法为 UPPER_CASE
+var camelCase = '';                  
+                </pre>
               </td>
             </tr>
             <tr>
@@ -261,6 +439,12 @@ case "two":
                 JavaScript allows you to omit curly braces when the block consists  of only one statement, for example: <em class="h-web-font-info">while (day)    shuffle();</em>
                 <br />
                 如果为true，JSHint会要求你在使用if和while等结构语句时加上{}来明确代码块。 Javascript允许在if等结构语句体只有一句的情况下不加括号。不过这样做可能会让你的代码读起来有些晦涩。
+                <pre>
+/* jshint curly: true*/
+var a = false;
+if (a)
+  console.info(a);                  
+                </pre>
             </tr>
             <tr>
               <td><a href="http://www.jshint.com/docs/options/#eqeqeq">eqeqeq</a></td>
@@ -269,6 +453,12 @@ case "two":
                 we recommend <a href="http://javascriptweblog.wordpress.com/2011/02/07/truth-equality-and-javascript/">Truth, Equality and JavaScript</a> by Angus Croll.
                 <br />
                 如果为true，JSHint会检验代码中是否都用了 === 或 !==，而不是使用 == 或 !=。 我们建议你在比较0，''(空字符)，undefined，null，false和true的时候使用 === 和 !===。
+                <pre>
+/* jshint eqeqeq: true*/
+if (1 == 2) {
+  console.info('宇宙消失了！');
+}                  
+                </pre>
               </td>
             </tr>
             <tr>
@@ -289,7 +479,39 @@ for (key in obj) {
     if (obj.hasOwnProperty(key)) {
       // We are sure that obj[key] belongs to the object and was not inherited.
     }
-}</pre>
+}
+/* jshint forin: true*/
+var Obj1 = function() {};
+Obj1.prototype = {
+  property1: '属性一'
+};
+var obj1 = new Obj1();
+obj1.property2 = '属性二';
+
+//如果方法体中不加hasOwnProperty判断，会提示错误警告的
+for (var p in obj1) {
+  if (obj1.hasOwnProperty(p)) {
+    console.info('自己的属性：' + p);
+  } else {
+    console.info('继承的属性：' + p);
+  }
+}
+
+//简单的继承
+var Obj1Sub = function() {};
+Obj1Sub.prototype = new Obj1();
+Obj1Sub.prototype.constructor = Obj1Sub;
+Obj1Sub.prototype.property3 = '属性三';
+
+var obj1Sub = new Obj1Sub();
+for (var p in obj1Sub) {
+  if (obj1Sub.hasOwnProperty(p)) {
+    console.info('自己的属性：' + p);
+  } else {
+    console.info('继承的属性：' + p);
+  }
+}                
+                </pre>
                 <p>For more in-depth understanding of for in loops in JavaScript, read 
                   <a href="http://javascriptweblog.wordpress.com/2011/01/04/exploring-javascript-for-in-loops/">Exploring JavaScript for-in loops</a> by Angus Croll.
                   <br />
@@ -338,6 +560,13 @@ if (cond) {
                 by Ben Cherry.
                 <br />
                 latedef设为true，再调用变量或函数时，必须确保这些变量和函数在调用之前已经声明过，也就是说声明代码必须写在调用代码的前面，而不能写在后面。可以设置nofunc值忽略函数的位置而只检查变量。
+                <pre>
+/*jshint latedef: nofunc */
+latedefFun();
+function latedefFun() {}
+console.info(latedefVar);
+var latedefVar = '1';
+                </pre>
               </td>
             </tr>
             <tr>
@@ -349,6 +578,13 @@ if (cond) {
                 the global object instead of a new object.
                 <br />
                 newcap 设为true，是指如果一个函数作为构造函数时，并且在其他地方使用了new操作符实例化一个变量，那么这个构造函数中不要使用this操作符。
+                <pre>
+/*jshint newcap: true */
+function newcapFun() {
+  this.a = 'a';
+}
+var newcapCon = new newcapFun();                  
+                </pre>
               </td>
             </tr>
             <tr>
@@ -357,6 +593,13 @@ if (cond) {
                 were deprecated in future versions of JavaScript. In fact, ECMAScript 5 forbids  the use of arguments.callee in strict mode.
                 <br />
                 如果是true，则不允许使用arguments.caller和arguments.callee。
+                <pre>
+/*jshint noarg: true */
+function noargFun() {
+  console.info(arguments.callee);
+  console.info(arguments.caller);
+}                 
+                </pre>
               </td>
             </tr>
             <tr>
@@ -375,6 +618,11 @@ if (cond) {
                 the object that the operator new creates isn't used anywhere so you should  generally avoid constructors like this one.
                 <br />
                 如果为true，则不允许不做赋值的构造函数，例如new UIWindow();
+                <pre>
+/*jshint nonew: true */
+function nonewFun() {}
+new nonewFun();                  
+                </pre>
               </td>
             </tr>
             <tr>
@@ -383,6 +631,12 @@ if (cond) {
                 and there are programming languages—such as Python—that go completely without  these operators.
                 <br />
                 如果是true，则不允许使用 ++ 或者 -- 的操作
+                <pre>
+/*jshint plusplus: true */
+var plus = 10;
+plus++;
+++plus;                  
+                </pre>
               </td>
             </tr>
             <tr>
@@ -392,6 +646,11 @@ if (cond) {
                 "single" if you want to allow only  single quotes and "double" if you want to allow only double quotes.
                 <br />
                 有3种值：如果是true，则表示要求引号一致；如果是single，则表示只允许使用单引号；如果是double，则表示只允许双引号
+                <pre>
+/*jshint quotmark: true */
+var quotmark1 = "";
+var quotmark2 = '';                  
+                </pre>
               </td>
             </tr>
             <tr>
@@ -865,7 +1124,78 @@ var singleton = new function() {
             </tr>
           </tbody>
         </table>
-        
+        <h4>Environments 的设置</h4>
+        <p>jsHint默认提供了以下 Environments 的设置</p>
+
+        <table>
+          <tbody>
+            <tr>
+              <td id="browser"><a href="http://www.jshint.com/docs/options/#browser">browser</a></td>
+              <td><p>This option defines globals exposed by modern browsers: all the way from good  old document and navigator to the HTML5 FileReader and other new  developments in the browser world.</p>
+                <p><strong>Note:</strong> This option doesn't expose variables like alert or console. See  option devel for more information.</p></td>
+            </tr>
+            <tr>
+              <td id="couch"><a href="http://www.jshint.com/docs/options/#couch">couch</a></td>
+              <td><p>This option defines globals exposed by <a href="http://couchdb.apache.org/">CouchDB</a>.  CouchDB is a document-oriented database that can be queried and indexed in a  MapReduce fashion using JavaScript.</p></td>
+            </tr>
+            <tr>
+              <td id="devel"><a href="http://www.jshint.com/docs/options/#devel">devel</a></td>
+              <td><p>This option defines globals that are usually used for logging poor-man's  debugging: console, alert, etc. It is usually a good idea to not ship them  in production because, for example, console.log breaks in legacy versions of  Internet Explorer.</p></td>
+            </tr>
+            <tr>
+              <td id="dojo"><a href="http://www.jshint.com/docs/options/#dojo">dojo</a></td>
+              <td><p>This option defines globals exposed by the <a href="http://dojotoolkit.org/">Dojo Toolkit</a>.</p></td>
+            </tr>
+            <tr>
+              <td id="jquery"><a href="http://www.jshint.com/docs/options/#jquery">jquery</a></td>
+              <td><p>This option defines globals exposed by the <a href="http://jquery.com/">jQuery</a> JavaScript library.</p></td>
+            </tr>
+            <tr>
+              <td id="mootools"><a href="http://www.jshint.com/docs/options/#mootools">mootools</a></td>
+              <td><p>This option defines globals exposed by the <a href="http://mootools.net/">MooTools</a> JavaScript framework.</p></td>
+            </tr>
+            <tr>
+              <td id="node"><a href="http://www.jshint.com/docs/options/#node">node</a></td>
+              <td><p>This option defines globals available when your code is running inside of the  Node runtime environment. <a href="http://nodejs.org/">Node.js</a> is a server-side  JavaScript environment that uses an asynchronous event-driven model. This option  also skips some warnings that make sense in the browser environments but  don't make sense in Node such as file-level use strict pragmas and console.log  statements.</p></td>
+            </tr>
+            <tr>
+              <td id="nonstandard"><a href="http://www.jshint.com/docs/options/#nonstandard">nonstandard</a></td>
+              <td><p>This option defines non-standard but widely adopted globals such as escape and  unescape.</p></td>
+            </tr>
+            <tr>
+              <td id="phantom"><a href="http://www.jshint.com/docs/options/#phantom">phantom</a></td>
+              <td><p>This option defines globals available when your core is running inside  of the PhantomJS runtime environment. <a href="http://phantomjs.org/">PhantomJS</a> is a headless WebKit scriptable with a JavaScript API. It has fast and native support  for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.</p></td>
+            </tr>
+            <tr>
+              <td id="prototypejs"><a href="http://www.jshint.com/docs/options/#prototypejs">prototypejs</a></td>
+              <td><p>This option defines globals exposed by the <a href="http://www.prototypejs.org/">Prototype</a> JavaScript framework.</p></td>
+            </tr>
+            <tr>
+              <td id="rhino"><a href="http://www.jshint.com/docs/options/#rhino">rhino</a></td>
+              <td><p>This option defines globals available when your code is running inside of the  Rhino runtime environment. <a href="http://www.mozilla.org/rhino/">Rhino</a> is an  open-source implementation of JavaScript written entirely in Java.</p></td>
+            </tr>
+            <tr>
+              <td id="worker"><a href="http://www.jshint.com/docs/options/#worker">worker</a></td>
+              <td><p>This option defines globals available when your code is running inside of a Web  Worker. <a href="https://developer.mozilla.org/en/Using_web_workers">Web Workers</a> provide a simple means for web content to run scripts in background threads.</p></td>
+            </tr>
+            <tr>
+              <td id="wsh"><a href="http://www.jshint.com/docs/options/#wsh">wsh</a></td>
+              <td><p>This option defines globals available when your code is running as a script for  the <a href="http://en.wikipedia.org/wiki/Windows_Script_Host">Windows Script Host</a>.</p></td>
+            </tr>
+            <tr>
+              <td id="yui"><a href="http://www.jshint.com/docs/options/#yui">yui</a></td>
+              <td><p>This option defines globals exposed by the <a href="http://yuilibrary.com/">YUI</a> JavaScript framework.</p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 paragraph>JSHint 最佳实践</h3>
+      <div>
+        <p>首先看几篇参考文章</p>
+        <ul>
+          <li><a href="http://tmalltesting.com/archives/1363">前端测试实践之Jshint代码静态扫描</a></li>
+        </ul>
       </div>
     </div>
   </body>

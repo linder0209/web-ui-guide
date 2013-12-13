@@ -110,9 +110,7 @@ function noargFun() {
 
 //12.nonew
 /*jshint nonew: true */
-function nonewFun() {
-
-}
+function nonewFun() {}
 new nonewFun();
 
 //13.plusplus
@@ -130,7 +128,7 @@ var quotmark2 = '';
 /*jshint undef:true */
 function test() {
   var myVar = 'Hello, World';
-  //console.log(myvar);
+  console.log(myvar);
 }
 
 //16.unused

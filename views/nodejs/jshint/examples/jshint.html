@@ -7,6 +7,8 @@
     <script type="text/javascript" src="../jshint.js"></script>
     <script type="text/javascript">
       $(function() {
+        $('#sourceJs').val($('#jsInitCode').text());
+
         $('button').click(function() {
           var source = $('#sourceJs').val();
           JSHINT(source);
@@ -31,6 +33,14 @@
     <div style="clear: both;">
       <div style="float: left;width: 48%;">
         <textarea id="sourceJs" style="width: 90%;height: 500px;">
+        </textarea>
+      </div>
+      <div style="float: left;width: 48%;">
+        <h1>错误信息：</h1>
+        <div id="errorContent"></div>
+      </div>
+    </div>
+    <pre id="jsInitCode" style="display:none;">
 // Hello.
 //
 // This is JSHint, a tool that helps to detect errors and potential
@@ -52,12 +62,6 @@ function main() {
 }
 
 main();
-      </textarea>
-    </div>
-    <div style="float: left;width: 48%;">
-      <h1>错误信息：</h1>
-      <div id="errorContent"></div>
-    </div>
-  </div>
-</body>
+    </pre>
+  </body>
 </html>

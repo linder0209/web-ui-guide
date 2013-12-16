@@ -308,7 +308,7 @@
         for (var i = 0, len = el.length; i < len; i++) {
           var subEl = $(el[i]);
           var node = {
-            text: subEl.text()
+            text: subEl.html()
           };
           if (hs[index + 1] != undefined) {
             var method = hs[index + 1].method;

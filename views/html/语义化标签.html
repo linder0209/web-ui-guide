@@ -1,298 +1,354 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>html标签——部分语义化标签讲解</title>
-        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
-        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
-        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
-        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
-        <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
-        <script type="text/javascript">
-            $(function() {
-                $('.h-web-catalogue li a').click(function(e) {
-                    e.preventDefault();
-                    var paragraphNum,
-                        paragraph,
-                        offset;
-                    var el = this;
-                    $(this).closest('ol').find('li a').each(function(index, element) {
-                        if (this === el) {
-                            paragraphNum = index;
-                            return false;
-                        }
-                    });
-                    paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
-                    offset = paragraph.offset();
-                    if (offset) {
-                        $(window).scrollTop(offset.top);
-                    }
-                });
-                //初始化内容折叠事件
-                $('.h-web-paragraph').on('click' , 'h3[paragraph]', function(e){
-                    $(this).next().toggle();
-                });
-            });
-        </script>
-    </head>
-    <body>
-        <h3 class="h-web-paragraph-title">目录</h3>
-        <ol class="h-web-catalogue">
-            <li><a paragraph href="#">HTML 水平线</a></li>
-            <li><a paragraph href="#">HTML 文本格式化</a></li>
-            <li><a paragraph href="#">图像标签</a></li>
-            <li><a paragraph href="#">表格标签</a></li>
-            <li><a paragraph href="#">列表标签</a></li>
-            <li><a paragraph href="#">HTML 头部元素</a></li>
-            <li><a paragraph href="#">HTML 中有用的字符实体</a></li>
-            <li><a paragraph href="#">一些语义化标签</a></li>
-            <li><a paragraph href="#">项目中需要注意的地方</a></li>
-            <li><a paragraph href="#">学习参考资料 </a></li>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>html标签——部分语义化标签讲解</title>
+    <link rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css" type="text/css" />
+    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/view/init.js"></script>
+  </head>
+  <body>
+    <h3 class="h-web-paragraph-title">目录</h3>
+    <ol class="h-web-catalogue">
+      <li>
+        <a paragraph href="#">HTML 水平线</a>
+      </li>
+      <li>
+        <a paragraph href="#">HTML 文本格式化</a>
+        <ol class="h-web-catalogue2">
+          <li>
+            <a href="#">文本格式化标签</a>
+          </li>
+          <li>
+            <a href="#">“计算机输出”标签</a>
+          </li>
+          <li>
+            <a href="#">引用、引用和术语定义</a>
+          </li>
         </ol>
-        <div class="h-web-paragraph">
-            <h3 paragraph>HTML 水平线</h3>
-            <div>
-                <p> &lt;hr /&gt;标签在 HTML 页面中创建水平线。hr 元素可用于分隔内容。</p>
-                <p>例子</p>
-                <pre>&lt;p&gt;hr 标签定义水平线：&lt;/p&gt;<br/>&lt;hr /&gt;<br/>&lt;p&gt;这是段落。&lt;/p&gt;<br/>&lt;hr /&gt;<br/>&lt;p&gt;这是段落。&lt;/p&gt;<br/>&lt;hr /&gt;<br/>&lt;p&gt;这是段落。&lt;/p&gt;</pre>
-                <p>运行效果</p>
+      </li>
+      <li>
+        <a paragraph href="#">图像标签</a>
+      </li>
+      <li>
+        <a paragraph href="#">表格标签</a>
+      </li>
+      <li>
+        <a paragraph href="#">列表标签</a>
+      </li>
+      <li>
+        <a paragraph href="#">HTML 头部元素</a>
+      </li>
+      <li>
+        <a paragraph href="#">HTML 中有用的字符实体</a>
+      </li>
+      <li>
+        <a paragraph href="#">一些语义化标签</a>
+        <ol class="h-web-catalogue2">
+          <li>
+            <a href="#">abbr 标签</a>
+          </li>
+          <li>
+            <a href="#">&lt;b&gt; 和 &lt;i&gt;</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a paragraph href="#">项目中需要注意的地方</a>
+        <ol class="h-web-catalogue2">
+          <li>
+            <a href="#">表单中label标签</a>
+          </li>
+          <li>
+            <a href="#">对于输入框（input）限制字符长度的情况，我们必须设置maxlength属性</a>
+          </li>
+          <li>
+            <a href="#">行内元素，在一行书写时，每个标签中间要加上一个空格</a>
+          </li>
+          <li>
+            <a href="#">书写html标签时一定要闭合</a>
+          </li>
+          <li>
+            <a href="#">p标签中不要再嵌套其他块标签</a>
+          </li>
+          <li>
+            <a href="#">内联元素中不要嵌套块级元素</a>
+          </li>
+          <li>
+            <a href="#">IE6 IE7 不支持 OPTION 和 OPTGROUP 元素的 disabled 属性</a>
+          </li>
+          <li>
+            <a href="#">IE6 IE7 IE8(Q) 中 BUTTON 元素的 type 属性默认值不是 submit</a>
+          </li>
+          <li>
+            <a href="#">img标签 替换文本属性（alt）</a>
+          </li>
+          <li>
+            <a href="#">form 表单 属性 autocomplete —— 自动完成功能 / 提示浏览器保存密码功能</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a paragraph href="#">学习参考资料</a>
+      </li>
+    </ol>
 
-                <div style="padding:20px;border:1px solid #cccccc;">
-                    <p>hr 标签定义水平线：</p>
-                    <hr />
-                    <p>这是段落。</p>
-                    <hr />
-                    <p>这是段落。</p>
-                    <hr />
-                    <p>这是段落。</p>
-                </div>
-                <p>
-                    实际上hr解析出来就是没有高度，边框为1px的块元素，注意上边框和下边框的颜色不一致，hr默认的margin为 ”6px 0;“，用户根据需要可修改。
-                </p>
-            </div>
-            <h3 paragraph>HTML 文本格式化</h3>
-            <div>
-                <h4>文本格式化标签</h4>
-                <table cellspacing="0" cellpadding="0">
-                    <tr>
-                        <th>标签</th>
-                        <th>描述</th>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_font_style.asp" target="_blank">&lt;b&gt;</a></td>
-                        <td>定义粗体文本。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_font_style.asp" target="_blank">&lt;big&gt;</a></td>
-                        <td>定义大号字。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_phrase_elements.asp" target="_blank">&lt;em&gt;</a></td>
-                        <td>定义着重文字。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_font_style.asp" target="_blank">&lt;i&gt;</a></td>
-                        <td>定义斜体字。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_font_style.asp" target="_blank">&lt;small&gt;</a></td>
-                        <td>定义小号字。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_phrase_elements.asp" target="_blank">&lt;strong&gt;</a></td>
-                        <td>定义加重语气。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_sup.asp" target="_blank">&lt;sub&gt;</a></td>
-                        <td>定义下标字。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_sup.asp" target="_blank">&lt;sup&gt;</a></td>
-                        <td>定义上标字。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_ins.asp" target="_blank">&lt;ins&gt;</a></td>
-                        <td>定义插入字。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_del.asp" target="_blank">&lt;del&gt;</a></td>
-                        <td>定义删除字。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_strike.asp" target="_blank">&lt;s&gt;</a></td>
-                        <td><em>不赞成使用。</em>使用 &lt;del&gt; 代替。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_strike.asp" target="_blank">&lt;strike&gt;</a></td>
-                        <td><em>不赞成使用。</em>使用 &lt;del&gt; 代替。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_u.asp" target="_blank">&lt;u&gt;</a></td>
-                        <td><em>不赞成使用。</em>使用样式（style）代替。</td>
-                    </tr>
-                </table>
-                <h4>“计算机输出”标签</h4>
-                <table cellspacing="0" cellpadding="0">
-                    <tr>
-                        <th>标签</th>
-                        <th>描述</th>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_phrase_elements.asp" target="_blank">&lt;code&gt;</a></td>
-                        <td>定义计算机代码。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_phrase_elements.asp" target="_blank">&lt;kbd&gt;</a></td>
-                        <td>定义键盘码。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_phrase_elements.asp" target="_blank">&lt;samp&gt;</a></td>
-                        <td>定义计算机代码样本。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_font_style.asp" target="_blank">&lt;tt&gt;</a></td>
-                        <td>定义打字机代码。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_phrase_elements.asp" target="_blank">&lt;var&gt;</a></td>
-                        <td>定义变量。</td>
-                    </tr>
-                    <tr>
-                        <td><a href="http://www.w3school.com.cn/tags/tag_pre.asp" target="_blank">&lt;pre&gt;</a></td>
-                        <td>定义预格式文本。</td>
-                    </tr>
-                    <tr>
-                        <td>&lt;listing&gt;</td>
-                        <td><em>不赞成使用。</em>使用 &lt;pre&gt; 代替。</td>
-                    </tr>
-                    <tr>
-                        <td>&lt;plaintext&gt;</td>
-                        <td><em>不赞成使用。</em>使用 &lt;pre&gt; 代替。</td>
-                    </tr>
-                    <tr>
-                        <td>&lt;xmp&gt;</td>
-                        <td><em>不赞成使用。</em>使用 &lt;pre&gt; 代替。</td>
-                    </tr>
-                </table>
-                <h4>引用、引用和术语定义</h4>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>标签</th>
-                            <th>描述</th>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_abbr.asp" target="_blank">&lt;abbr&gt;</a></td>
-                            <td>定义缩写。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_acronym.asp" target="_blank">&lt;acronym&gt;</a></td>
-                            <td>定义首字母缩写。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_address.asp" target="_blank">&lt;address&gt;</a></td>
-                            <td>定义地址。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_bdo.asp" target="_blank">&lt;bdo&gt;</a></td>
-                            <td>定义文字方向。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_blockquote.asp" target="_blank">&lt;blockquote&gt;</a></td>
-                            <td>定义长的引用。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_q.asp" target="_blank">&lt;q&gt;</a></td>
-                            <td>定义短的引用语。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_phrase_elements.asp" target="_blank">&lt;cite&gt;</a></td>
-                            <td>定义引用、引证。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_phrase_elements.asp" target="_blank">&lt;dfn&gt;</a></td>
-                            <td>定义一个定义项目。</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p>上述语义化标签定义了常用的几种格式文本化标签，实际上这些标签都可以通过常用的标签用css样式来实现。以上标签常用的有b、em、i等。</p>
-            </div>
+    <div class="h-web-paragraph">
+      <h3 paragraph>HTML 水平线</h3>
+      <div>
+        <p> &lt;hr /&gt;标签在 HTML 页面中创建水平线。hr 元素可用于分隔内容。</p>
+        <p>例子</p>
+        <pre>&lt;p&gt;hr 标签定义水平线：&lt;/p&gt;<br/>&lt;hr /&gt;<br/>&lt;p&gt;这是段落。&lt;/p&gt;<br/>&lt;hr /&gt;<br/>&lt;p&gt;这是段落。&lt;/p&gt;<br/>&lt;hr /&gt;<br/>&lt;p&gt;这是段落。&lt;/p&gt;</pre>
+        <p>运行效果</p>
 
-            <h3 paragraph>图像标签</h3>
-            <div>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>标签</th>
-                            <th>描述</th>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_img.asp" target="_blank">&lt;img&gt;</a></td>
-                            <td>定义图像。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_map.asp" target="_blank">&lt;map&gt;</a></td>
-                            <td>定义图像地图。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_area.asp" target="_blank">&lt;area&gt;</a></td>
-                            <td>定义图像地图中的可点击区域。</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <h3 paragraph>表格标签</h3>
-            <div>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>表格</th>
-                            <th>描述</th>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_table.asp" target="_blank">&lt;table&gt;</a></td>
-                            <td>定义表格</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_caption.asp" target="_blank">&lt;caption&gt;</a></td>
-                            <td>定义表格标题。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_th.asp" target="_blank">&lt;th&gt;</a></td>
-                            <td>定义表格的表头。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_tr.asp" target="_blank">&lt;tr&gt;</a></td>
-                            <td>定义表格的行。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_td.asp" target="_blank">&lt;td&gt;</a></td>
-                            <td>定义表格单元。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_thead.asp" target="_blank">&lt;thead&gt;</a></td>
-                            <td>定义表格的页眉。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_tbody.asp" target="_blank">&lt;tbody&gt;</a></td>
-                            <td>定义表格的主体。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_tfoot.asp" target="_blank">&lt;tfoot&gt;</a></td>
-                            <td>定义表格的页脚。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_col.asp" target="_blank">&lt;col&gt;</a></td>
-                            <td>定义用于表格列的属性。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_colgroup.asp" target="_self">&lt;colgroup&gt;</a></td>
-                            <td>定义表格列的组。</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p>例子</p>
-                <pre>
+        <div style="padding:20px;border:1px solid #cccccc;">
+          <p>hr 标签定义水平线：</p>
+          <hr />
+          <p>这是段落。</p>
+          <hr />
+          <p>这是段落。</p>
+          <hr />
+          <p>这是段落。</p>
+        </div>
+        <p>
+          实际上hr解析出来就是没有高度，边框为1px的块元素，注意上边框和下边框的颜色不一致，hr默认的margin为 ”6px 0;“，用户根据需要可修改。
+        </p>
+      </div>
+      <h3 paragraph>HTML 文本格式化</h3>
+      <div>
+        <h4>文本格式化标签</h4>
+        <table cellspacing="0" cellpadding="0">
+          <tr>
+            <th>标签</th>
+            <th>描述</th>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_font_style.asp" target="_blank">&lt;b&gt;</a></td>
+            <td>定义粗体文本。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_font_style.asp" target="_blank">&lt;big&gt;</a></td>
+            <td>定义大号字。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_phrase_elements.asp" target="_blank">&lt;em&gt;</a></td>
+            <td>定义着重文字。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_font_style.asp" target="_blank">&lt;i&gt;</a></td>
+            <td>定义斜体字。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_font_style.asp" target="_blank">&lt;small&gt;</a></td>
+            <td>定义小号字。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_phrase_elements.asp" target="_blank">&lt;strong&gt;</a></td>
+            <td>定义加重语气。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_sup.asp" target="_blank">&lt;sub&gt;</a></td>
+            <td>定义下标字。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_sup.asp" target="_blank">&lt;sup&gt;</a></td>
+            <td>定义上标字。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_ins.asp" target="_blank">&lt;ins&gt;</a></td>
+            <td>定义插入字。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_del.asp" target="_blank">&lt;del&gt;</a></td>
+            <td>定义删除字。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_strike.asp" target="_blank">&lt;s&gt;</a></td>
+            <td><em>不赞成使用。</em>使用 &lt;del&gt; 代替。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_strike.asp" target="_blank">&lt;strike&gt;</a></td>
+            <td><em>不赞成使用。</em>使用 &lt;del&gt; 代替。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_u.asp" target="_blank">&lt;u&gt;</a></td>
+            <td><em>不赞成使用。</em>使用样式（style）代替。</td>
+          </tr>
+        </table>
+        <h4>“计算机输出”标签</h4>
+        <table cellspacing="0" cellpadding="0">
+          <tr>
+            <th>标签</th>
+            <th>描述</th>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_phrase_elements.asp" target="_blank">&lt;code&gt;</a></td>
+            <td>定义计算机代码。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_phrase_elements.asp" target="_blank">&lt;kbd&gt;</a></td>
+            <td>定义键盘码。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_phrase_elements.asp" target="_blank">&lt;samp&gt;</a></td>
+            <td>定义计算机代码样本。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_font_style.asp" target="_blank">&lt;tt&gt;</a></td>
+            <td>定义打字机代码。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_phrase_elements.asp" target="_blank">&lt;var&gt;</a></td>
+            <td>定义变量。</td>
+          </tr>
+          <tr>
+            <td><a href="http://www.w3school.com.cn/tags/tag_pre.asp" target="_blank">&lt;pre&gt;</a></td>
+            <td>定义预格式文本。</td>
+          </tr>
+          <tr>
+            <td>&lt;listing&gt;</td>
+            <td><em>不赞成使用。</em>使用 &lt;pre&gt; 代替。</td>
+          </tr>
+          <tr>
+            <td>&lt;plaintext&gt;</td>
+            <td><em>不赞成使用。</em>使用 &lt;pre&gt; 代替。</td>
+          </tr>
+          <tr>
+            <td>&lt;xmp&gt;</td>
+            <td><em>不赞成使用。</em>使用 &lt;pre&gt; 代替。</td>
+          </tr>
+        </table>
+        <h4>引用、引用和术语定义</h4>
+        <table>
+          <tbody>
+            <tr>
+              <th>标签</th>
+              <th>描述</th>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_abbr.asp" target="_blank">&lt;abbr&gt;</a></td>
+              <td>定义缩写。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_acronym.asp" target="_blank">&lt;acronym&gt;</a></td>
+              <td>定义首字母缩写。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_address.asp" target="_blank">&lt;address&gt;</a></td>
+              <td>定义地址。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_bdo.asp" target="_blank">&lt;bdo&gt;</a></td>
+              <td>定义文字方向。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_blockquote.asp" target="_blank">&lt;blockquote&gt;</a></td>
+              <td>定义长的引用。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_q.asp" target="_blank">&lt;q&gt;</a></td>
+              <td>定义短的引用语。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_phrase_elements.asp" target="_blank">&lt;cite&gt;</a></td>
+              <td>定义引用、引证。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_phrase_elements.asp" target="_blank">&lt;dfn&gt;</a></td>
+              <td>定义一个定义项目。</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>上述语义化标签定义了常用的几种格式文本化标签，实际上这些标签都可以通过常用的标签用css样式来实现。以上标签常用的有b、em、i等。</p>
+      </div>
+
+      <h3 paragraph>图像标签</h3>
+      <div>
+        <table>
+          <tbody>
+            <tr>
+              <th>标签</th>
+              <th>描述</th>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_img.asp" target="_blank">&lt;img&gt;</a></td>
+              <td>定义图像。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_map.asp" target="_blank">&lt;map&gt;</a></td>
+              <td>定义图像地图。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_area.asp" target="_blank">&lt;area&gt;</a></td>
+              <td>定义图像地图中的可点击区域。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 paragraph>表格标签</h3>
+      <div>
+        <table>
+          <tbody>
+            <tr>
+              <th>表格</th>
+              <th>描述</th>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_table.asp" target="_blank">&lt;table&gt;</a></td>
+              <td>定义表格</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_caption.asp" target="_blank">&lt;caption&gt;</a></td>
+              <td>定义表格标题。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_th.asp" target="_blank">&lt;th&gt;</a></td>
+              <td>定义表格的表头。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_tr.asp" target="_blank">&lt;tr&gt;</a></td>
+              <td>定义表格的行。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_td.asp" target="_blank">&lt;td&gt;</a></td>
+              <td>定义表格单元。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_thead.asp" target="_blank">&lt;thead&gt;</a></td>
+              <td>定义表格的页眉。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_tbody.asp" target="_blank">&lt;tbody&gt;</a></td>
+              <td>定义表格的主体。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_tfoot.asp" target="_blank">&lt;tfoot&gt;</a></td>
+              <td>定义表格的页脚。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_col.asp" target="_blank">&lt;col&gt;</a></td>
+              <td>定义用于表格列的属性。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_colgroup.asp" target="_self">&lt;colgroup&gt;</a></td>
+              <td>定义表格列的组。</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>例子</p>
+        <pre>
 &lt;table width="200" border="1"&gt;
   &lt;caption&gt;表格标题&lt;/caption&gt;
     &lt;thead&gt;
@@ -317,335 +373,345 @@
         &lt;/tr&gt;
     &lt;/tfoot&gt;
 &lt;/table&gt;
-                </pre>
-                <p>运行效果</p>
-                <table width="200" border="1">
-                    <caption>表格标题</caption>
-                    <thead>
-                        <tr>
-                            <th>表头1</th>
-                            <th>表头2</th>
-                            <th>表头3</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                        </tr>
+        </pre>
+        <p>运行效果</p>
+        <table width="200" border="1">
+          <caption>表格标题</caption>
+          <thead>
+            <tr>
+              <th>表头1</th>
+              <th>表头2</th>
+              <th>表头3</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
 
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td>页脚1</td>
-                            <td>页脚2</td>
-                            <td>页脚3</td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-            <h3 paragraph>列表标签</h3>
-            <div>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th width="30%">标签</th>
-                            <th width="70%">描述</th>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_ol.asp" target="_blank">&lt;ol&gt;</a></td>
-                            <td>定义有序列表。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_ul.asp" target="_blank">&lt;ul&gt;</a></td>
-                            <td>定义无序列表。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_li.asp" target="_blank">&lt;li&gt;</a></td>
-                            <td>定义列表项。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_dl.asp" target="_blank">&lt;dl&gt;</a></td>
-                            <td>定义列表。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_dt.asp" target="_blank">&lt;dt&gt;</a></td>
-                            <td>定义项目。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_dd.asp" target="_blank">&lt;dd&gt;</a></td>
-                            <td>定义的描述。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_dir.asp" target="_blank">&lt;dir&gt;</a></td>
-                            <td>已废弃。使用 &lt;ul&gt; 代替它。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_menu.asp" target="_blank">&lt;menu&gt;</a></td>
-                            <td>已废弃。使用 &lt;ul&gt; 代替它。</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <h3 paragraph>HTML 头部元素</h3>
-            <div>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>标签</th>
-                            <th>描述</th>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_head.asp" title="HTML <head> 标签" target="_blank">&lt;head&gt;</a></td>
-                            <td>定义关于文档的信息。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_title.asp" title="HTML <title> 标签" target="_blank">&lt;title&gt;</a></td>
-                            <td>定义文档标题。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_base.asp" title="HTML <base> 标签" target="_blank">&lt;base&gt;</a></td>
-                            <td>定义页面上所有链接的默认地址或默认目标。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_link.asp" title="HTML <link> 标签" target="_blank">&lt;link&gt;</a></td>
-                            <td>定义文档与外部资源之间的关系。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_meta.asp" title="HTML <meta> 标签" target="_blank">&lt;meta&gt;</a></td>
-                            <td>定义关于 HTML 文档的元数据。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_script.asp" title="HTML <script> 标签" target="_blank">&lt;script&gt;</a></td>
-                            <td>定义客户端脚本。</td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://www.w3school.com.cn/tags/tag_style.asp" title="HTML <style> 标签" target="_blank">&lt;style&gt;</a></td>
-                            <td>定义文档的样式信息。</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <h3 paragraph>HTML 中有用的字符实体</h3>
-            <div>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>显示结果</th>
-                            <th>描述</th>
-                            <th>实体名称</th>
-                            <th>实体编号</th>
-                        </tr>
-                        <tr>
-                            <td> </td>
-                            <td>空格</td>
-                            <td>&amp;nbsp;</td>
-                            <td>&amp;#160;</td>
-                        </tr>
-                        <tr>
-                            <td>&lt;</td>
-                            <td>小于号</td>
-                            <td>&amp;lt;</td>
-                            <td>&amp;#60;</td>
-                        </tr>
-                        <tr>
-                            <td>&gt;</td>
-                            <td>大于号</td>
-                            <td>&amp;gt;</td>
-                            <td>&amp;#62;</td>
-                        </tr>
-                        <tr>
-                            <td>&amp;</td>
-                            <td>和号</td>
-                            <td>&amp;amp;</td>
-                            <td>&amp;#38;</td>
-                        </tr>
-                        <tr>
-                            <td>"</td>
-                            <td>引号</td>
-                            <td>&amp;quot;</td>
-                            <td>&amp;#34;</td>
-                        </tr>
-                        <tr>
-                            <td>'</td>
-                            <td>撇号 </td>
-                            <td>&amp;apos; (IE不支持)</td>
-                            <td>&amp;#39;</td>
-                        </tr>
-                        <tr>
-                            <td>￠</td>
-                            <td>分</td>
-                            <td>&amp;cent;</td>
-                            <td>&amp;#162;</td>
-                        </tr>
-                        <tr>
-                            <td>£</td>
-                            <td>镑</td>
-                            <td>&amp;pound;</td>
-                            <td>&amp;#163;</td>
-                        </tr>
-                        <tr>
-                            <td>¥</td>
-                            <td>日圆</td>
-                            <td>&amp;yen;</td>
-                            <td>&amp;#165;</td>
-                        </tr>
-                        <tr>
-                            <td>€</td>
-                            <td>欧元</td>
-                            <td>&amp;euro;</td>
-                            <td>&amp;#8364;</td>
-                        </tr>
-                        <tr>
-                            <td>§</td>
-                            <td>小节</td>
-                            <td>&amp;sect;</td>
-                            <td>&amp;#167;</td>
-                        </tr>
-                        <tr>
-                            <td>©</td>
-                            <td>版权</td>
-                            <td>&amp;copy;</td>
-                            <td>&amp;#169;</td>
-                        </tr>
-                        <tr>
-                            <td>®</td>
-                            <td>注册商标</td>
-                            <td>&amp;reg;</td>
-                            <td>&amp;#174;</td>
-                        </tr>
-                        <tr>
-                            <td>™</td>
-                            <td>商标</td>
-                            <td>&amp;trade;</td>
-                            <td>&amp;#8482;</td>
-                        </tr>
-                        <tr>
-                            <td>×</td>
-                            <td>乘号</td>
-                            <td>&amp;times;</td>
-                            <td>&amp;#215;</td>
-                        </tr>
-                        <tr>
-                            <td>÷</td>
-                            <td>除号</td>
-                            <td>&amp;divide;</td>
-                            <td>&amp;#247;</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p>如需完整的实体符号参考，请访问我们的 <a href="http://www.w3school.com.cn/tags/html_ref_entities.html" title="HTML ISO-8859-1 参考手册">HTML 实体符号参考手册</a>。</p>
-            </div>  
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>页脚1</td>
+              <td>页脚2</td>
+              <td>页脚3</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <h3 paragraph>列表标签</h3>
+      <div>
+        <table>
+          <tbody>
+            <tr>
+              <th width="30%">标签</th>
+              <th width="70%">描述</th>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_ol.asp" target="_blank">&lt;ol&gt;</a></td>
+              <td>定义有序列表。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_ul.asp" target="_blank">&lt;ul&gt;</a></td>
+              <td>定义无序列表。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_li.asp" target="_blank">&lt;li&gt;</a></td>
+              <td>定义列表项。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_dl.asp" target="_blank">&lt;dl&gt;</a></td>
+              <td>定义列表。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_dt.asp" target="_blank">&lt;dt&gt;</a></td>
+              <td>定义项目。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_dd.asp" target="_blank">&lt;dd&gt;</a></td>
+              <td>定义的描述。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_dir.asp" target="_blank">&lt;dir&gt;</a></td>
+              <td>已废弃。使用 &lt;ul&gt; 代替它。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_menu.asp" target="_blank">&lt;menu&gt;</a></td>
+              <td>已废弃。使用 &lt;ul&gt; 代替它。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 paragraph>HTML 头部元素</h3>
+      <div>
+        <table>
+          <tbody>
+            <tr>
+              <th>标签</th>
+              <th>描述</th>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_head.asp" title="HTML <head> 标签" target="_blank">&lt;head&gt;</a></td>
+              <td>定义关于文档的信息。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_title.asp" title="HTML <title> 标签" target="_blank">&lt;title&gt;</a></td>
+              <td>定义文档标题。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_base.asp" title="HTML <base> 标签" target="_blank">&lt;base&gt;</a></td>
+              <td>定义页面上所有链接的默认地址或默认目标。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_link.asp" title="HTML <link> 标签" target="_blank">&lt;link&gt;</a></td>
+              <td>定义文档与外部资源之间的关系。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_meta.asp" title="HTML <meta> 标签" target="_blank">&lt;meta&gt;</a></td>
+              <td>定义关于 HTML 文档的元数据。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_script.asp" title="HTML <script> 标签" target="_blank">&lt;script&gt;</a></td>
+              <td>定义客户端脚本。</td>
+            </tr>
+            <tr>
+              <td><a href="http://www.w3school.com.cn/tags/tag_style.asp" title="HTML <style> 标签" target="_blank">&lt;style&gt;</a></td>
+              <td>定义文档的样式信息。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 paragraph>HTML 中有用的字符实体</h3>
+      <div>
+        <table>
+          <tbody>
+            <tr>
+              <th>显示结果</th>
+              <th>描述</th>
+              <th>实体名称</th>
+              <th>实体编号</th>
+            </tr>
+            <tr>
+              <td> </td>
+              <td>空格</td>
+              <td>&amp;nbsp;</td>
+              <td>&amp;#160;</td>
+            </tr>
+            <tr>
+              <td>&lt;</td>
+              <td>小于号</td>
+              <td>&amp;lt;</td>
+              <td>&amp;#60;</td>
+            </tr>
+            <tr>
+              <td>&gt;</td>
+              <td>大于号</td>
+              <td>&amp;gt;</td>
+              <td>&amp;#62;</td>
+            </tr>
+            <tr>
+              <td>&amp;</td>
+              <td>和号</td>
+              <td>&amp;amp;</td>
+              <td>&amp;#38;</td>
+            </tr>
+            <tr>
+              <td>"</td>
+              <td>引号</td>
+              <td>&amp;quot;</td>
+              <td>&amp;#34;</td>
+            </tr>
+            <tr>
+              <td>'</td>
+              <td>撇号 </td>
+              <td>&amp;apos; (IE不支持)</td>
+              <td>&amp;#39;</td>
+            </tr>
+            <tr>
+              <td>￠</td>
+              <td>分</td>
+              <td>&amp;cent;</td>
+              <td>&amp;#162;</td>
+            </tr>
+            <tr>
+              <td>£</td>
+              <td>镑</td>
+              <td>&amp;pound;</td>
+              <td>&amp;#163;</td>
+            </tr>
+            <tr>
+              <td>¥</td>
+              <td>日圆</td>
+              <td>&amp;yen;</td>
+              <td>&amp;#165;</td>
+            </tr>
+            <tr>
+              <td>€</td>
+              <td>欧元</td>
+              <td>&amp;euro;</td>
+              <td>&amp;#8364;</td>
+            </tr>
+            <tr>
+              <td>§</td>
+              <td>小节</td>
+              <td>&amp;sect;</td>
+              <td>&amp;#167;</td>
+            </tr>
+            <tr>
+              <td>©</td>
+              <td>版权</td>
+              <td>&amp;copy;</td>
+              <td>&amp;#169;</td>
+            </tr>
+            <tr>
+              <td>®</td>
+              <td>注册商标</td>
+              <td>&amp;reg;</td>
+              <td>&amp;#174;</td>
+            </tr>
+            <tr>
+              <td>™</td>
+              <td>商标</td>
+              <td>&amp;trade;</td>
+              <td>&amp;#8482;</td>
+            </tr>
+            <tr>
+              <td>×</td>
+              <td>乘号</td>
+              <td>&amp;times;</td>
+              <td>&amp;#215;</td>
+            </tr>
+            <tr>
+              <td>÷</td>
+              <td>除号</td>
+              <td>&amp;divide;</td>
+              <td>&amp;#247;</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>如需完整的实体符号参考，请访问我们的 <a href="http://www.w3school.com.cn/tags/html_ref_entities.html" title="HTML ISO-8859-1 参考手册">HTML 实体符号参考手册</a>。</p>
+      </div>  
 
-            <h3 paragraph>一些语义化标签</h3>
-            <div>
+      <h3 paragraph>一些语义化标签</h3>
+      <div>
 
-                <h4>abbr 标签</h4>
-                <p>用来定义tooltip的标签或是帮助等，例如</p>
-                <pre>&lt;abbr title="attribute"&gt;attr&lt;/abbr&gt;</pre>
-                <style type="text/css">
-                    abbr[title] {
-                        border-bottom: 1px dotted #999999;
-                        cursor: help;
-                    }
-                </style>
-                <p><abbr title="attribute">attr</abbr></p>
+        <h4>abbr 标签</h4>
+        <p>用来定义tooltip的标签或是帮助等，例如</p>
+        <pre>&lt;abbr title="attribute"&gt;attr&lt;/abbr&gt;</pre>
+        <style type="text/css">
+          abbr[title] {
+            border-bottom: 1px dotted #999999;
+            cursor: help;
+          }
+        </style>
+        <p><abbr title="attribute">attr</abbr></p>
 
-                <h4>&lt;b&gt; 和 &lt;i&gt;</h4>
-                <p>在HTML5中可任意使用&lt;b&gt; 和 &lt;i&gt;。&lt;b&gt;是为了高亮词或短语而不会赋予重要含义，&lt;i&gt;主要被用来表示发言、技术术语等。另外&lt;i&gt;标签一般用来定义icon图标。</p>
-            </div>
+        <h4>&lt;b&gt; 和 &lt;i&gt;</h4>
+        <p>在HTML5中可任意使用&lt;b&gt; 和 &lt;i&gt;。&lt;b&gt;是为了高亮词或短语而不会赋予重要含义，&lt;i&gt;主要被用来表示发言、技术术语等。另外&lt;i&gt;标签一般用来定义icon图标。</p>
+      </div>
 
-            <h3 paragraph>项目中需要注意的地方</h3>
-            <div>
-                <h4>表单中label标签</h4>
-                <p>表单的书写格式应该为</p>
-                <pre>&lt;label&gt;姓名 &lt;input /&gt;&lt;/label&gt;</pre>
-                <p>效果</p>
-                <p><label>姓名 <input /></label></p>
-                <p>另一种写法为</p>
-                <pre>&lt;input id="inputId1" name="inputName" type="radio" /&gt; &lt;label for="inputId1"&gt;选中&lt;/label&gt;
+      <h3 paragraph>项目中需要注意的地方</h3>
+      <div>
+        <h4>表单中label标签</h4>
+        <p>表单的书写格式应该为</p>
+        <pre>&lt;label&gt;姓名 &lt;input /&gt;&lt;/label&gt;</pre>
+        <p>效果</p>
+        <p><label>姓名 <input /></label></p>
+        <p>另一种写法为</p>
+        <pre>&lt;input id="inputId1" name="inputName" type="radio" /&gt; &lt;label for="inputId1"&gt;选中&lt;/label&gt;
 &lt;input id="inputId2" name="inputName" type="radio" /&gt; &lt;label for="inputId2"&gt;取消&lt;/label&gt;</pre>
-                <p>效果</p>
-                <p>
-                    <input id="inputId1" name="inputName" type="radio" /> <label for="inputId1">选中</label>
-                    <input id="inputId2" name="inputName" type="radio" /> <label for="inputId2">取消</label>
-                </p>
-                <p>显然第一种写法更好些，建议采取第一种写法，除非不好控制时，可以采用第二种写法，比如换行</p>
+        <p>效果</p>
+        <p>
+          <input id="inputId1" name="inputName" type="radio" /> <label for="inputId1">选中</label>
+          <input id="inputId2" name="inputName" type="radio" /> <label for="inputId2">取消</label>
+        </p>
+        <p>显然第一种写法更好些，建议采取第一种写法，除非不好控制时，可以采用第二种写法，比如换行</p>
 
-                <h4>对于输入框（input）限制字符长度的情况，我们必须设置maxlength属性</h4>
-                <pre>&lt;input maxlength=&quot;5&quot; type="text" /&gt; 
-                </pre>
-                <p>效果</p>
-                <p><input maxlength="5" type="text" /> </p>
+        <h4>对于输入框（input）限制字符长度的情况，我们必须设置maxlength属性</h4>
+        <pre>&lt;input maxlength=&quot;5&quot; type="text" /&gt; 
+        </pre>
+        <p>效果</p>
+        <p><input maxlength="5" type="text" /> </p>
 
-                <h4>行内元素，在一行书写时，每个标签中间要加上一个空格</h4>
-                <p>这样设置可以保证两个标签之间有一空格，并且可以保证上下对齐，如果想让间距更大一些，用margin来处理</p>
-                <p>项目中的例子</p>
-                <style>
-                    .icn_edit_16,.icn_trash_16{
-                        cursor: pointer;
-                        display: inline-block;
-                        height: 16px;
-                        vertical-align: text-top;
-                        width: 16px;
-                    }
+        <h4>行内元素，在一行书写时，每个标签中间要加上一个空格</h4>
+        <p>这样设置可以保证两个标签之间有一空格，并且可以保证上下对齐，如果想让间距更大一些，用margin来处理</p>
+        <p>项目中的例子</p>
+        <style>
+          .icn_edit_16,.icn_trash_16{
+            cursor: pointer;
+            display: inline-block;
+            height: 16px;
+            vertical-align: text-top;
+            width: 16px;
+          }
 
-                    .icn_edit_16 {
-                        background: url("images/icn_edit_16.png") no-repeat;
-                    }
-                    .icn_trash_16 {
-                        background: url("images/icn_trash_16.png") no-repeat;
-                    }
-                </style>
-                <p>错误的写法</p>
-                <p>
-                    <a class="icn_edit_16" href="#" title="Edit"></a><a title="Delete" href="#" class="icn_trash_16"></a>
-                </p>
-                <p>正确的写法</p>
+          .icn_edit_16 {
+            background: url("images/icn_edit_16.png") no-repeat;
+          }
+          .icn_trash_16 {
+            background: url("images/icn_trash_16.png") no-repeat;
+          }
+        </style>
+        <p>错误的写法</p>
+        <p>
+          <a class="icn_edit_16" href="#" title="Edit"></a><a title="Delete" href="#" class="icn_trash_16"></a>
+        </p>
+        <p>正确的写法</p>
 
-                <p>
-                    <a class="icn_edit_16" href="#" title="Edit"></a> <a title="Delete" href="#" class="icn_trash_16"></a>
-                </p>
-                <p>间距更大一些用margin来控制</p>
-                <p>
-                    <a class="icn_edit_16" href="#" title="Edit"></a> <a style="margin-left:10px;" title="Delete" href="#" class="icn_trash_16"></a>
-                </p>
-                <h4>书写html标签时一定要闭合</h4>
-                <p>尤其是在template中，由于html模板前后可能会有空格存在，在调用$.fn.html方法时在ie7下不能正确解析。</p>
+        <p>
+          <a class="icn_edit_16" href="#" title="Edit"></a> <a title="Delete" href="#" class="icn_trash_16"></a>
+        </p>
+        <p>间距更大一些用margin来控制</p>
+        <p>
+          <a class="icn_edit_16" href="#" title="Edit"></a> <a style="margin-left:10px;" title="Delete" href="#" class="icn_trash_16"></a>
+        </p>
+        <h4>书写html标签时一定要闭合</h4>
+        <p>尤其是在template中，由于html模板前后可能会有空格存在，在调用$.fn.html方法时在ie7下不能正确解析。</p>
 
-                <h4>p标签中不要再嵌套其他块标签</h4>
-                <p>W3c的html4.0.1明确规定P标签是不能包含块元素的</p>
-                <p><a href="http://www.w3.org/TR/html401/struct/text.html#edef-P" target="_blank">The P element represents a paragraph. It cannot contain block-level elements (including P itself).</a></p>
-                <p>如果p中含有块元素div，浏览器会解析成</p>
-                <pre>&lt;p&gt;&lt;/p&gt;
+        <h4>p标签中不要再嵌套其他块标签</h4>
+        <p>W3c的html4.0.1明确规定P标签是不能包含块元素的</p>
+        <p><a href="http://www.w3.org/TR/html401/struct/text.html#edef-P" target="_blank">The P element represents a paragraph. It cannot contain block-level elements (including P itself).</a></p>
+        <p>如果p中含有块元素div，浏览器会解析成</p>
+        <pre>&lt;p&gt;&lt;/p&gt;
 &lt;div&gt;&lt;/div&gt;
 &lt;p&gt;&lt;/p&gt;</pre>
-                <h4>内联元素中不要嵌套块级元素</h4>
-                <p>比如span中不要嵌套p等块级元素</p>
-                
-                <h4>IE6 IE7 不支持 OPTION 和 OPTGROUP 元素的 disabled 属性</h4>
-                <p>在其他浏览器中，如果设置了disabled，则该选项变灰并且不能选择。但在IE6和IE7下，元素仍然是有效的。解决方案：可以利用javascript动态删除或增加option。</p>
+        <h4>内联元素中不要嵌套块级元素</h4>
+        <p>比如span中不要嵌套p等块级元素</p>
 
-                <h4>IE6 IE7 IE8(Q) 中 BUTTON 元素的 type 属性默认值不是 submit</h4>
-                <p>根据 HTML4.01 规范中的描述，BUTTON 元素创建一个类似 INPUT 元素类型为 button 的按钮控件，但 BUTTON 元素拥有更丰富的呈现效果，如可以在按钮上加入图片等等。
-                    BUTTON 元素同样拥有 type 属性，其取值为 submit、button、reset，分别对应提交按钮、普通按钮、重置按钮。其中 submit 为 type 属性的缺省值。</p>
-                <p><span class="h-web-font-red">问题描述</span>：在 IE6 IE7 IE8(Q) 中 BUTTON 元素 type 属性的默认值不是规范规定的 submit 而是 button，则默认没有设定 type 属性时的 BUTTON 元素将创建一个普通按钮，而不是提交按钮。</p>
-                <p><span class="h-web-font-red">解决方案</span>：在使用 BUTTON 元素时应明确的为其设定 type 属性，避免因为浏览器默认属性值不同导致按钮类型出现差异。</p>
-                <p><a href="http://www.w3help.org/zh-cn/causes/HF9015" target="_blank">参考</a></p>
+        <h4>IE6 IE7 不支持 OPTION 和 OPTGROUP 元素的 disabled 属性</h4>
+        <p>在其他浏览器中，如果设置了disabled，则该选项变灰并且不能选择。但在IE6和IE7下，元素仍然是有效的。解决方案：可以利用javascript动态删除或增加option。</p>
 
-                <h4>img标签 替换文本属性（alt）</h4>
-                <p>有些人分不清title和alt属性到底是什么意思，这里简单的说一下。</p>
-                <p>alt 属性用来为图像定义一串预备的可替换的文本。在浏览器无法载入图像时，浏览器会显示alt属性中定义的值。</p>
-                <p>title属性是用来定义提示信息的，当鼠标移到img上时，会显示title属性中定义的内容。</p>
+        <h4>IE6 IE7 IE8(Q) 中 BUTTON 元素的 type 属性默认值不是 submit</h4>
+        <p>根据 HTML4.01 规范中的描述，BUTTON 元素创建一个类似 INPUT 元素类型为 button 的按钮控件，但 BUTTON 元素拥有更丰富的呈现效果，如可以在按钮上加入图片等等。
+          BUTTON 元素同样拥有 type 属性，其取值为 submit、button、reset，分别对应提交按钮、普通按钮、重置按钮。其中 submit 为 type 属性的缺省值。</p>
+        <p><span class="h-web-font-red">问题描述</span>：在 IE6 IE7 IE8(Q) 中 BUTTON 元素 type 属性的默认值不是规范规定的 submit 而是 button，则默认没有设定 type 属性时的 BUTTON 元素将创建一个普通按钮，而不是提交按钮。</p>
+        <p><span class="h-web-font-red">解决方案</span>：在使用 BUTTON 元素时应明确的为其设定 type 属性，避免因为浏览器默认属性值不同导致按钮类型出现差异。</p>
+        <p><a href="http://www.w3help.org/zh-cn/causes/HF9015" target="_blank">参考</a></p>
 
-            </div>
-            <h3 paragraph>学习参考资料</h3>
-            <div>
-                <p><a href="http://www.w3school.com.cn/html/index.asp" target="_blank">w3school</a></p>
-                <p><a href="http://www.w3help.org/zh-cn/" target="_blank">w3c相关，主要介绍了w3c，以及浏览器之间的兼容性</a> <span class="h-web-font-red">非常棒的文章，强力推荐学习</span></p>
-                <p><a href="http://123.jser.us/" target="_blank">前端工具汇总</a> 对应的<a href="https://github.com/jserme/123.jser.us" target="_blank">github资源</a></p>
-            </div>
-        </div>
-    </body>
+        <h4>img标签 替换文本属性（alt）</h4>
+        <p>有些人分不清title和alt属性到底是什么意思，这里简单的说一下。</p>
+        <p>alt 属性用来为图像定义一串预备的可替换的文本。在浏览器无法载入图像时，浏览器会显示alt属性中定义的值。</p>
+        <p>title属性是用来定义提示信息的，当鼠标移到img上时，会显示title属性中定义的内容。</p>
+        <h4>form 表单 属性 autocomplete —— 自动完成功能 / 提示浏览器保存密码功能</h4>
+        <p>
+          autocomplete 属性规定表单是否应该启用自动完成功能。自动完成功能允许浏览器预测对字段的输入，当用户在字段开始键入时，浏览器基于之前键入过的值，显示出在字段中填写的选项。
+        </p>
+        <p class="h-web-font-red">
+          注意：autocomplete 属性适用于 form，以及下面的 input 类型：text, search, url, telephone, email, password, datepickers, range 以及 color。
+        </p>
+        <p>属性 autocomplete 有两个可选值 on 和 off，默认值为 on 。该属性可以实现记录浏览器之前键入的值，对于password，浏览器会提示是否保存密码，如果选是，则自动保存密码，下次访问页面时不用再重新输入。</p>
+        <p>如果要禁用自动保存密码功能，只需设置 autocomplete 为 off 即可。在一些安全性要求比较高的应用中，可以在form中直接设置autocomplete为off，这样form下的所有input元素将禁用自动完成功能</p>
+        <p>最佳实践：在登录页面中开启自动完成功能，在注册和修改密码页面中禁用，这样就不会提示是否保存密码了。</p>
+        <p><a href="./examples/form-autocomplete.html">点击查看例子</a></p>
+      </div>
+      <h3 paragraph>学习参考资料</h3>
+      <div>
+        <p><a href="http://www.w3school.com.cn/html/index.asp" target="_blank">w3school</a></p>
+        <p><a href="http://www.w3help.org/zh-cn/" target="_blank">w3c相关，主要介绍了w3c，以及浏览器之间的兼容性</a> <span class="h-web-font-red">非常棒的文章，强力推荐学习</span></p>
+        <p><a href="http://123.jser.us/" target="_blank">前端工具汇总</a> 对应的<a href="https://github.com/jserme/123.jser.us" target="_blank">github资源</a></p>
+      </div>
+    </div>
+  </body>
 </html>

@@ -3,11 +3,12 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Angular 学习</title>
+    <link rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css" type="text/css" />
+
     <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
     <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
     <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
     <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
-    <link type="text/css" rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css"/>
 
     <style>
       body{
@@ -20,39 +21,8 @@
     <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
     <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
     <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
-    <script type="text/javascript">
-              $(function() {
-              $('.h-web-catalogue li a').click(function(e) {
-              e.preventDefault();
-                      var paragraphNum,
-                      paragraph,
-                      offset;
-                      var el = this;
-                      $(this).closest('ol').find('li a').each(function(index, element) {
-              if (this === el) {
-              paragraphNum = index;
-                      return false;
-              }
-              });
-                      paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
-                      offset = paragraph.offset();
-                      if (offset) {
-              $(window).scrollTop(offset.top);
-              }
-              });
-                      //初始化内容折叠事件
-                      $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
-              $(this).next().toggle();
-              });
-                      //SyntaxHighlighter
-                      $('pre').replaceWith(function() {
-              var html = '<pre type="syntaxhighlighter" class="brush: js; html-script: true; quick-code: false; toolbar : false" >';
-                      html += $(this).html();
-                      html += '</pre>';
-                      return html;
-              });
-                      SyntaxHighlighter.highlight();
-              });</script>
+    <script type="text/javascript" src="../../platform/javascript/view/init.js"></script>
+
   </head>
   <body>
     <h3 class="h-web-paragraph-title">目录</h3>
@@ -386,7 +356,7 @@
                 </ol>
               </li>
               <li>
-                <a href="#">学习angular技巧与方法</a>
+                <a href="#">学习angular技巧与方法（最佳实践）</a>
                 <ol class="h-web-catalogue3">
                   <li>
                     <a href="#">在终端控制台调试</a>
@@ -2926,7 +2896,7 @@ console.info(students);//[Object { name="misko", gender="male"}, Object { name="
               </li>
             </ol>
 
-            <h4>学习angular技巧与方法</h4>
+            <h4>学习angular技巧与方法（最佳实践）</h4>
             <h5>在终端控制台调试</h5>
             <p>先看一例子</p>
             <pre>
@@ -2973,6 +2943,32 @@ console.info(students);//[Object { name="misko", gender="male"}, Object { name="
             <pre>
     var MyController = function(obfuscatedScope, obfuscatedRoute) {
     MyController.$inject = ['$scope', '$route'];
+            </pre>
+
+            <h5>关于登录页面自动保存密码的问题</h5>
+            <p>问题：在登录页面中，浏览器会提示是否保存密码，如果选择了是，则下次登录时，将不用输入密码。如果angular是利用ng-model来获取密码时，由于没有触发chang事件，实际ng-model中对应的密码变量是没有值的。</p>
+            <p>解决方法：提交时，不从ng-model变量中取值，直接从input password中取。代码实现</p>
+            
+            <pre>
+    $scope.user = {
+      username: '',
+      password: '',
+      // other property
+    };
+    //错误的写法
+    $scope.submit = function() {     
+      loginService.login($scope.user, function(data) {
+         //....
+      });
+    };
+    //正确的写法
+    $scope.submit = function() {    
+      $scope.user.username = $("#username").val();  
+      $scope.user.password = $("#password").val();     
+      loginService.login($scope.user, function(data) {
+         //....
+      });
+    };       
             </pre>
           </div>
 
@@ -3074,7 +3070,8 @@ console.info(students);//[Object { name="misko", gender="male"}, Object { name="
             </ol>
 
             <p>下面给出一个在ie6，ie7下兼容性的例子</p>
-
+            
+            <p><a href="./angular/examples/myExamples/IE-compatibility-demo.html">例子</a></p>
 
           </div>
 

@@ -84,4 +84,9 @@
         <children id="nodejs_cloud" name="nodejs 云空间" href="nodejs/nodejs_cloud.html"/>
         <children id="nodejs_jshint" name="jshint" href="nodejs/nodejs_jshint.html"/>
     </menu>
+    <menu>
+        <id>dynamic-css</id>
+        <name>动态 css 样式语言</name>
+        <children id="less" name="less 学习笔记" href="dynamic-css/less.html"/>
+    </menu>
 </menus>

@@ -52,14 +52,86 @@
     </script>
   </head>
   <body>
-  <custom-tag>
-    自定义标签在ie下的处理 ：&lt;custom-tag&gt;&lt;/custom-tag&gt;
-  </custom-tag>
-  <custom:tag>
-    自定义标签在ie下的处理 ：&lt;custom:tag&gt;&lt;/custom:tag&gt;
-  </custom:tag>
-  <div custom-tag>
-    自定义标签在ie下的处理 ：&lt;div custom-tag&gt;&lt;/div&gt;
-  </div>
-</body>
+    <div>请在ie7或ie8下访问</div>
+    <custom-tag>
+      自定义标签在ie下的处理 ：&lt;custom-tag&gt;&lt;/custom-tag&gt;
+    </custom-tag>
+    <custom:tag>
+      自定义标签在ie下的处理 ：&lt;custom:tag&gt;&lt;/custom:tag&gt;
+    </custom:tag>
+    <div custom-tag>
+      自定义标签在ie下的处理 ：&lt;div custom-tag&gt;&lt;/div&gt;
+    </div>
+
+    <hr />
+    <p>例子代码</p>
+    <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html id="ng-app" ng-app="IECompatibilityApp"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Internet Explorer Compatibility demo&lt;/title&gt;
+    &lt;!--[if lt IE 9]&gt;
+      &lt;script src="./compatibility/html5shiv.min.js"&gt;&lt;/script&gt;
+      &lt;script src="./compatibility/respond.min.js"&gt;&lt;/script&gt;
+    &lt;![endif]--&gt;
+    &lt;!--[if lte IE 8]&gt;
+      &lt;script&gt;
+        document.createElement('ng-include');
+        document.createElement('ng-view');
+        document.createElement('custom-tag');
+
+        // Optionally these for CSS
+        document.createElement('ng:include');
+        document.createElement('ng:view');
+        document.createElement('custom:tag');
+      &lt;/script&gt;
+       &lt;style&gt;
+        ng\:view, ng-view {
+          display: block;
+          border: 1px solid red;
+        }
+
+        ng\:include, ng-include {
+          display: block;
+          border: 1px solid blue;
+        }
+    
+        custom\:tag, custom-tag {
+          display: block;
+          border: 1px solid blue;
+        }
+    
+      &lt;/style&gt;
+    &lt;![endif]--&gt;
+
+    &lt;script type="text/javascript" src="../../angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+      var app = angular.module('IECompatibilityApp', []);
+
+      app.directive('customTag', function() {
+        return {
+          restrict: 'EA',
+          compile: function(element, attrs, transclude) {
+            angular.element(element).append('&lt;span&gt;自定义标签指令在ie中的处理&lt;/span&gt;');
+          }
+        };
+      });
+    &lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div&gt;请在ie7或ie8下访问&lt;/div&gt;
+    &lt;custom-tag&gt;
+      自定义标签在ie下的处理 ：&lt;custom-tag&gt;&lt;/custom-tag&gt;
+    &lt;/custom-tag&gt;
+    &lt;custom:tag&gt;
+      自定义标签在ie下的处理 ：&lt;custom:tag&gt;&lt;/custom:tag&gt;
+    &lt;/custom:tag&gt;
+    &lt;div custom-tag&gt;
+      自定义标签在ie下的处理 ：&lt;div custom-tag&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+  </body>
 </html>

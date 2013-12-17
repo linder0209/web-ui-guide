@@ -82,8 +82,8 @@ $(function() {
 
   //支持 三级 目录
   $('.h-web-catalogue>li>a').click({level: 1}, onClickCatalogue);
-  $('.h-web-catalogue2>li>a', {level: 2}, onClickCatalogue);
-  $('.h-web-catalogue3>li>a', {level: 3}, onClickCatalogue);
+  $('.h-web-catalogue2>li>a').click({level: 2}, onClickCatalogue);
+  $('.h-web-catalogue3>li>a').click({level: 3}, onClickCatalogue);
 
   //初始化内容折叠事件
   $('h3[paragraph]').click(function(e) {

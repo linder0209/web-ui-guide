@@ -160,11 +160,15 @@ a:hover{
   padding: 10px 0;
   font-size: 15px !important;
   background-color: #CCE8CF !important;
+  border: 1px solid #6DCBBB;
 }
 
 .syntaxhighlighter .line.alt1,
 .syntaxhighlighter .line.alt2 {
   background-color: #CCE8CF !important;
+}
+.syntaxhighlighter .gutter {
+    color: #333333 !important;
 }
 /*******************************************************************************/
 /* Icons */

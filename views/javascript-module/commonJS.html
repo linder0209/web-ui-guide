@@ -142,8 +142,7 @@ exports.say = function () {
       <h3 paragraph> AMD 模块规范和 CMD 模块规范</h3>
       <div>
         <h4>AMD模块规范</h4>
-        <p>CommonJS 提出了一种用于同步或异步动态加载JavaScript代码的API规范，非常简单却很优雅，称之为 <a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD（Modules/AsynchronousDefinition）</a>。
-          规范本身非常简单，只包含了一个API：</p>
+        <p><a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD（Modules/AsynchronousDefinition）</a> 规范本身非常简单，只包含了一个API：</p>
         <pre>define([module-name?], [array-of-dependencies?], [module-factory-or-object]);</pre>
         <p>RequireJs是基于AMD模块规范的。</p>
         <p>匿名模块，即省略了模块名</p>
@@ -168,7 +167,7 @@ define(['package/lib'], function(lib){
  });          
         </pre>
 
-        <p>AMD规范允许输出的模块兼容CommonJS规范（用一个简单的CommonJS来包裹），这时define方法需要写成下面这样：</p>
+        <p>AMD规范允许输出的模块兼容CommonJS规范（用一个简单的CommonJS来包裹  Simplified CommonJS Wrapper ），这时define方法需要写成下面这样：</p>
         <pre>
 define(function( require, exports, module )
     var someModule = require( "someModule" );

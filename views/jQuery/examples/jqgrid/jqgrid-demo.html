@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>基于本地数据 jqgrid demo 简单版</title>
+    <link type="text/css" rel="stylesheet" href="../../../../platform/javascript/jquery-ui/css/jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet" href="ui.jqgrid.css"/>
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+
+    <script type="text/javascript" src="../../../../platform/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../../../../platform/javascript/jquery-ui/jquery-ui-custom.js"></script>
+    <script type="text/javascript" src="jquery.jqGrid.js" ></script>
+    <script type="text/javascript" src="grid.locale-cn.js" ></script>
+    
+
+    <script type="text/javascript">
+      $(function() {
+        $("#jqgridList").jqGrid({
+          url: 'jqgrid-demo.json',
+          datatype: "json",
+          autoencode: true,
+          height: "auto",
+          autowidth: true,
+          colNames: ['', 'Registered', 'First Name', 'Last Name', 'Username', 'Roles', 'Last modified'],
+          colModel: [{name: 'id', index: 'id', width: 120},
+            {name: 'registered', index: 'registered', width: 90},
+            {name: 'firstname', index: 'firstname', width: 180},
+            {name: 'lastname', index: 'lastname', width: 180},
+            {name: 'username', index: 'username', width: 80, align: "right"},
+            {name: 'roleItems', index: 'roleItems', width: 300, sortable: false},
+            {name: 'lastModifiedDate', index: 'lastModifiedDate', width: 200}
+          ],
+          sortname: 'lastname',
+          sortorder: 'asc',
+          jsonReader: {
+            root: "data",
+            page: "currentPageNo",
+            total: "totalPageCount",
+            records: "totalCount",
+            repeatitems: false
+          },
+          viewrecords: true,
+          pager: "#jqgridPager",
+          multiselect: true,
+          multiselectWidth: 30,
+          prmNames: {
+            page: "page",
+            rows: "size"
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <table id="jqgridList"></table> 
+    <div id="jqgridPager"></div>
+  </body>
+</html>

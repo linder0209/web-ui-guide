@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>CSS widget 小组件</title>
+    <link rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css" type="text/css" />
+
+    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+
+    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/view/init.js"></script>
+  </head>
+  <body>
+    <h3 class="h-web-paragraph-title">目录</h3>
+    <div class="h-web-paragraph">
+      <h3 paragraph>各种箭头样式</h3>
+      <div>
+        <p>箭头样式一般都是通用的，以下是其中的一种实现，主要利用border来实现，该实现参考bootstrap，兼容各大浏览器。下面分别给出css和less的实现</p>
+        <h4>基于css的箭头代码</h4>
+        <style type="text/css">
+          .arrows-left, .arrows-right, .arrows-top, .arrows-bottom {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin-left: 2px;
+            vertical-align: middle;
+            content: "";
+          }
+          .arrows-left{
+            border-color: transparent #000000 transparent transparent;
+            border-style: solid solid solid dotted;
+            border-width: 5px 5px 5px 0;
+          }
+          .arrows-right{
+            border-color: transparent transparent transparent #000000;
+            border-style: solid dotted solid solid;
+            border-width: 5px 0 5px 5px;
+          }
+          .arrows-top{
+            border-color: transparent transparent #000000;
+            border-style: dotted solid solid;
+            border-width: 0 5px 5px;
+          }
+          .arrows-bottom{
+            border-color: #000000 transparent transparent transparent;
+            border-style: solid solid dotted;
+            border-width: 5px 5px 0;
+          }
+        </style>
+        <p>示例</p>
+        <ul>
+          <li>向左箭头 <span class="arrows-left"></span></li>
+          <li>向右箭头 <span class="arrows-right"></span></li>
+          <li>向上箭头 <span class="arrows-top"></span></li>
+          <li>向下箭头 <span class="arrows-bottom"></span></li>
+        </ul>
+        <p>代码</p>
+        <pre>
+        &lt;style type="text/css"&gt;
+          .arrows-left, .arrows-right, .arrows-top, .arrows-bottom {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin-left: 2px;
+            vertical-align: middle;
+            content: "";
+          }
+          .arrows-left{
+            border-color: transparent #000000 transparent transparent;
+            border-style: solid solid solid dotted;
+            border-width: 5px 5px 5px 0;
+          }
+          .arrows-right{
+            border-color: transparent transparent transparent #000000;
+            border-style: solid dotted solid solid;
+            border-width: 5px 0 5px 5px;
+          }
+          .arrows-top{
+            border-color: transparent transparent #000000;
+            border-style: dotted solid solid;
+            border-width: 0 5px 5px;
+          }
+          .arrows-bottom{
+            border-color: #000000 transparent transparent transparent;
+            border-style: solid solid dotted;
+            border-width: 5px 5px 0;
+          }
+        &lt;/style&gt;         
+        &lt;ul&gt;
+          &lt;li&gt;向左箭头 &lt;span class="arrows-left"&gt;&lt;/span&gt;&lt;/li&gt;
+          &lt;li&gt;向右箭头 &lt;span class="arrows-right"&gt;&lt;/span&gt;&lt;/li&gt;
+          &lt;li&gt;向上箭头 &lt;span class="arrows-top"&gt;&lt;/span&gt;&lt;/li&gt;
+          &lt;li&gt;向下箭头 &lt;span class="arrows-bottom"&gt;&lt;/span&gt;&lt;/li&gt;
+        &lt;/ul&gt; 
+        </pre>
+        <p>定制化：我们可以定制箭头的颜色，大小和形状，下面以向左箭头为例来定制</p>
+        <ul>
+          <li>
+            颜色的定制：很简单，只需设置border颜色即可
+            <pre>
+              .arrows-left-blue.arrows-left{
+                 border-right-color: blue;
+              }
+            </pre>
+            <div>
+              <style type="text/css">
+                .arrows-left-blue.arrows-left{
+                  border-right-color: blue;
+                }
+              </style>
+              向左箭头(蓝色) <span class="arrows-left arrows-left-blue"></span>
+            </div>
+          </li>
+          <li>
+            大小的定制：
+            <pre>
+              .arrows-left-large.arrows-left{
+                 border-width: 10px 10px 10px 0;
+              }
+            </pre>
+            <div>
+              <style type="text/css">
+                .arrows-left-large.arrows-left{
+                  border-width: 10px 10px 10px 0;
+                }
+              </style>
+              向左箭头(大小为10px) <span class="arrows-left arrows-left-large"></span>
+          </li>
+          <li>
+            形状的定制：箭头默认是一个底边是高2倍的等腰三角形，我们可以通过设置border的宽度把他变成其他等腰三角形（包括等边三角形）的箭头
+            <pre>
+              .arrows-left-shape.arrows-left{
+                border-right-width: 10px;
+              }
+            </pre>
+            <div>
+              <style type="text/css">
+                .arrows-left-shape.arrows-left{
+                  border-right-width: 10px;
+                }
+              </style>
+              向左箭头(底边和高都为10的三角形) <span class="arrows-left arrows-left-shape"></span>
+          </li>
+        </ul>
+
+        <h4>基于less的箭头代码</h4>
+        <p>代码待补全</p>
+      </div>
+            
+      <h3 paragraph>标签页 导航</h3>
+      <div>
+        <p>标签页导航有多种实现</p>
+      </div>
+      <h3 paragraph>下拉式菜单</h3>
+      <div>
+        <p></p>
+      </div>
+    </div>
+  </body>
+</html>

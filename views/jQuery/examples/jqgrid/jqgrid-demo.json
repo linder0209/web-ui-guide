@@ -1,0 +1,17 @@
+{
+  "pageSize": 25,
+  "start": 0,
+  "data": [{
+      "id": "4402341478412",
+      "registered": true,
+      "firstname": "Dave",
+      "lastname": "Brown",
+      "username": "Dave Brown",
+      "userStatus": "Active",
+      "onlineStatus": "Offline",
+      "lastModifiedDate": "2013-04-12 15:07:35 CDT"
+    }],
+  "totalCount": 1,
+  "totalPageCount": 1,
+  "currentPageNo": 1
+}

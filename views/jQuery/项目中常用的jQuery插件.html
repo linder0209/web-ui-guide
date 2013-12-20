@@ -449,13 +449,73 @@
 
 })(jQuery);</pre>
       </div>
-      
+
       <h3 paragraph>jqgrid</h3>
       <div>
         <p><a href="http://www.jqgrid.com/" target="_blank">官方网站</a></p>
         <p><a href="http://www.trirand.com/jqgridwiki/doku.php" target="_blank">Documentation and API</a> </p>
         <p><a href="http://www.trirand.com/blog/jqgrid/jqgrid.html" target="_blank">官网demo</a></p>
         <p><a href="http://www.trirand.com/jqgridwiki/doku.php?id=wiki:options">jqgrid options 设置</a></p>
+        <p>加载本地数据代码</p>
+        <p>js 代码</p>
+        <pre>
+      $(function() {
+        $("#jqgridList").jqGrid({
+          url: 'jqgrid-demo.json',
+          datatype: "json",
+          autoencode: true,
+          height: "auto",
+          autowidth: true,
+          colNames: ['', 'Registered', 'First Name', 'Last Name', 'Username', 'Roles', 'Last modified'],
+          colModel: [{name: 'id', index: 'id', width: 120},
+            {name: 'registered', index: 'registered', width: 90},
+            {name: 'firstname', index: 'firstname', width: 180},
+            {name: 'lastname', index: 'lastname', width: 180},
+            {name: 'username', index: 'username', width: 80, align: "right"},
+            {name: 'roleItems', index: 'roleItems', width: 300, sortable: false},
+            {name: 'lastModifiedDate', index: 'lastModifiedDate', width: 200}
+          ],
+          sortname: 'lastname',
+          sortorder: 'asc',
+          jsonReader: {
+            root: "data",
+            page: "currentPageNo",
+            total: "totalPageCount",
+            records: "totalCount",
+            repeatitems: false
+          },
+          viewrecords: true,
+          pager: "#jqgridPager",
+          multiselect: true,
+          multiselectWidth: 30,
+          prmNames: {
+            page: "page",
+            rows: "size"
+          }
+        });
+      });
+        </pre>
+        <p>json 代码</p>
+        <pre>
+{
+  "pageSize": 25,
+  "start": 0,
+  "data": [{
+      "id": "4402341478412",
+      "registered": true,
+      "firstname": "Dave",
+      "lastname": "Brown",
+      "username": "Dave Brown",
+      "userStatus": "Active",
+      "onlineStatus": "Offline",
+      "lastModifiedDate": "2013-04-12 15:07:35 CDT"
+    }],
+  "totalCount": 1,
+  "totalPageCount": 1,
+  "currentPageNo": 1
+}    
+        </pre>
+        <p><a href="./examples/jqgrid/jqgrid-demo.html">点击查看运行效果</a></p>
       </div>
       
       <h3 paragraph>jqgrid</h3>

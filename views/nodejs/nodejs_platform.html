@@ -47,6 +47,72 @@
           <li>
             <a href="#">Gruntfile 案例分析</a>
           </li>
+          <li>
+            <a href="#">利用template创建grunt项目</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">用法</a>
+              </li>
+              <li>
+                <a href="#">安装模板</a>
+              </li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a paragraph href="#">bower - web前端包管理工具</a>
+        <ol class="h-web-catalogue2">
+          <li>
+            <a href="#">bower 介绍</a>
+          </li>
+          <li>
+            <a href="#">bower 使用</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">安装 bower</a>
+              </li>
+              <li>
+                <a href="#">利用bower下载安装包</a>
+              </li>
+              <li>
+                <a href="#">更新已安装的包</a>
+              </li>
+              <li>
+                <a href="#">查看已安装的web包，该命令还可以 <a href="http://addyosmani.com/blog/checking-in-front-end-dependencies/">check installed packages into source control.</a></a>
+              </li>
+              <li>
+                <a href="#">定制安装目录</a>
+              </li>
+              <li>
+                <a href="#">查找需要的包</a>
+              </li>
+              <li>
+                <a href="#">卸载本地不需要的包</a>
+              </li>
+              <li>
+                <a href="#">从缓存中安装</a>
+              </li>
+              <li>
+                <a href="#">查看某个包的信息，包括已安装的版本，可用的版本</a>
+              </li>
+              <li>
+                <a href="#">查看包的git url</a>
+              </li>
+              <li>
+                <a href="#">用浏览器打开包的发布主页</a>
+              </li>
+              <li>
+                <a href="#">初始化创建一个包</a>
+              </li>
+              <li>
+                <a href="#">注册一个bower包</a>
+              </li>
+              <li>
+                <a href="#">依赖使用一个web包</a>
+              </li>
+            </ol>
+          </li>
         </ol>
       </li>
     </ol>
@@ -321,10 +387,11 @@ module.exports = function(grunt) {
         <h4>bower 介绍</h4>
         <p><a href="http://bower.io/">官网</a></p>
         <p>Bower 是 twitter 推出的一款前端包（web包通常认为由html+css+javascript构成）管理工具，基于nodejs的模块化思想，把功能分散到各个模块中，让模块和模块之间存在联系，通过 Bower 来管理模块间的联系。</p>
+        <p>我们可以通过<a href="http://sindresorhus.com/bower-components/">这里</a>查看已经注册的包。</p>
         <h4>bower 使用</h4>
-        <p>安装 bower</p>
+        <h5>安装 bower</h5>
         <pre>npm install -g bower</pre>
-        <p>利用bower下载安装需要的包</p>
+        <h5>利用bower下载安装包</h5>
         <pre>
 //Using the dependencies listed in the current directory's bower.json
 bower install
@@ -341,24 +408,25 @@ bower install &lt;package&gt;#&lt;version&gt;
 //name指本地下载文件夹名字，相当于包的别名
 bower install &lt;name&gt;=&lt;package&gt;#&lt;version&gt;
         </pre>
-        <p>更新已安装的包</p>
+        <h5>更新已安装的包</h5>
         <pre>bower update &lt;package&gt;</pre>
-        <p>查看安装的web包，该命令还可以 <a href="http://addyosmani.com/blog/checking-in-front-end-dependencies/">check installed packages into source control.</a></p>
+        <h5>查看已安装的web包，该命令还可以 <a href="http://addyosmani.com/blog/checking-in-front-end-dependencies/">check installed packages into source control.</a></h5>
         <pre>bower list</pre>
-        <p>定制化安装目录</p>
-        <p>指定安装目录，创建 .bowerrc 文件（与.bower同目录），设置directory属性，比如：</p>
+        <h5>定制安装目录</h5>
+        <p>bower可以根据需要设置包安装目录，方法是创建 .bowerrc 文件（与.bower同目录），并设置directory属性，如：</p>
         <pre>
 {
   "directory": "public/bower_components"
 }          
         </pre>
-        <p>查找需要的包</p>
+        <h5>查找需要的包</h5>
         <pre>bower search [&lt;name&gt;]</pre>
         <p>命令 bower search会查找所有注册的web包</p>
 
-        <p>卸载本地不需要的包</p>
+        <h5>卸载本地不需要的包</h5>
         <pre>bower uninstall &lt;package-name&gt;</pre>
-        <p>从缓存中安装，如果没有网络，并且该包之前安装过</p>
+        <h5>从缓存中安装</h5>
+        <p>如果没有网络，并且该包之前安装过，我们就可以执行以下命令从缓存中安装。</p>
         <pre>bower install &lt;package-name&gt; --offline</pre>
         <pre>
 //The content of the cache can be listed with:
@@ -368,42 +436,68 @@ bower cache list
 bower cache clean
         </pre>
 
-        <p>查看某个包的信息，已安装的版本，可用的版本</p>
+        <h5>查看某个包的信息，包括已安装的版本，可用的版本</h5>
         <pre>bower info &lt;package&gt;</pre>
-        <p>查看包的git url</p>
+        <h5>查看包的git url</h5>
         <pre>bower lookup &lt;package&gt;</pre>
-        <p>用浏览器打开包的发布主页</p>
+        <h5>用浏览器打开包的发布主页</h5>
         <pre>bower home &lt;package&gt;</pre>
-        <p>注册一个bower包</p>
-        <p>如果我们想注册一个web包供自己或别人使用。首先执行以下命令创建一个bower包</p>
+        <h5>初始化创建一个包</h5>
         <pre>bower init</pre>
-        <p>然后注册提交创建的bower包</p>
+
+        <h5>注册一个bower包</h5>
+        <p>我们可以把创建的包通过执行以下命令来注册提交，这样项目中就可以使用该包。</p>
         <pre>bower register &lt;my-package-name&gt; &lt;git-endpoint&gt;</pre>
-        
-        <p>依赖使用一个web包</p>
+        <h5>依赖使用一个web包</h5>
         <p>需要在bower.json文件中设置dependencies属性，比如</p>
         <pre>
 "dependencies": {
    "jquery": ">= 1.9.0"
 }          
         </pre>
-        
+
         <p>下面是bower各种命令</p>
         <ul>
-          <li>cache:bower缓存管理</li>
-          <li>help:显示Bower命令的帮助信息</li>
-          <li>home:通过浏览器打开一个包的github发布页</li>
-          <li>info:查看包的信息</li>
-          <li>init:创建bower.json文件</li>
-          <li>install:安装包到项目</li>
-          <li>link:在本地bower库建立一个项目链接</li>
-          <li>list:列出项目已安装的包</li>
-          <li>lookup:根据包名查询包的URL</li>
-          <li>prune:删除项目无关的包</li>
-          <li>register:注册一个包</li>
-          <li>search:搜索包</li>
-          <li>update:更新项目的包</li>
-          <li>uninstall:删除项目的包</li>
+          <li>cache: bower缓存管理</li>
+          <li>help: 显示Bower命令的帮助信息</li>
+          <li>home: 通过浏览器打开一个包的github发布页</li>
+          <li>info: 查看包的信息</li>
+          <li>init: 创建bower.json文件</li>
+          <li>install: 安装包到项目</li>
+          <li>link: 在本地bower库建立一个项目链接</li>
+          <li>list: 列出项目已安装的包</li>
+          <li>lookup: 根据包名查询包的URL</li>
+          <li>prune: 删除项目无关的包</li>
+          <li>register: 注册一个包</li>
+          <li>search: 搜索包</li>
+          <li>update: 更新项目的包</li>
+          <li>uninstall: 删除项目的包</li>
+        </ul>
+
+        <h4>在nodejs代码中加载包</h4>
+        <p>bower 提供了一个对象bower.commands，所有的操作都包含在该对象中，例如</p>
+        <pre>
+var bower = require('bower');
+
+bower.commands
+.install(['jquery'], { save: true }, { /* custom config */ })
+.on('end', function (installed) {
+    console.log(installed);
+});
+
+bower.commands
+.search('jquery', {})
+.on('end', function (results) {
+    console.log(results);
+});
+        </pre>
+        <p>commands 提供了4个事件</p>
+        <ul>
+          <li><span class="h-web-font-info">log</span> is emitted to report the state/progress of the command.</li>   
+          <li><span class="h-web-font-info">prompt</span> is emitted whenever the user needs to be prompted.</li>   
+          <li><span class="h-web-font-info">error</span> will only be emitted if something goes wrong.</li>   
+          <li><span class="h-web-font-info">end</span> is emitted when the command successfully ends.</li>   
+
         </ul>
       </div>
     </div>

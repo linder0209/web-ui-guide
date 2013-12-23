@@ -159,14 +159,79 @@
         <h4>基于less的箭头代码</h4>
         <p>代码待补全</p>
       </div>
-            
+
       <h3 paragraph>标签页 导航</h3>
       <div>
         <p>标签页导航有多种实现</p>
+        <h4>常见的标签页</h4>
+        <p>我们用 ul、li 和 a 三种元素实现导航标签页，首先给li设置margin-bottom: -1px，然后给活动的标签设置背景色，这样活动的标签底边框就不会显示。 代码如下：</p>
+        <pre>
+&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;tabs 标签页&lt;/title&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width"&gt;
+    &lt;style type="text/css"&gt;
+      body{
+        font-size: 12px;
+        font-family: Helvetica,​Arial,​sans-serif;
+      }
+      .nav-tabs{
+        list-style: none outside none;
+        padding-left: 8px;
+        border-bottom: 1px solid #DDDDDD;
+      }
+      .nav-tabs:before,
+      .nav-tabs:after {
+        content: " ";
+        display: table;
+      }
+      .nav-tabs:after {
+        clear: both;
+      }
+      .nav-tabs &gt; li{
+        float: left;
+        margin-bottom: -1px;
+      }
+      .nav-tabs &gt; li &gt; a {
+        text-decoration: none;
+        display: block;
+        margin-right: 10px;
+        padding: 8px 15px;
+        border-radius: 4px 4px 0 0;
+        color: #3A7AB6;
+        border: 1px solid #DDDDDD;
+        border-bottom-color: transparent;
+      }
+      .nav-tabs &gt; li &gt; a:hover,
+      .nav-tabs &gt; li &gt; a:focus{
+        background-color: #EEEEEE;
+        border-bottom-color: #DDDDDD;
+      }
+      .nav-tabs &gt; li.active &gt; a {
+        background-color: #FFFFFF;
+        color: #555555;
+        font-weight: 700;
+        cursor: default;
+        border-bottom-color: transparent;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;ul class="nav-tabs"&gt;
+      &lt;li&gt;&lt;a href="#"&gt;Html&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="active"&gt;&lt;a href="#"&gt;Css&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="#"&gt;Javascript&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+        </pre>
+        <p><a href="./examples/CSS-widget-navtabs.html">效果</a></p>
       </div>
       <h3 paragraph>下拉式菜单</h3>
       <div>
-        <p></p>
+        <p>下拉式菜单网上有许多Css生成器，其实现思路大致相同，不同的地方主要是添加了一些定制的样式，比如颜色，效果等。关于css生成器可参考这里：<a href="http://www.iteye.com/news/27671">实用的 CSS3 菜单生成器及教程</a>。结合网上资源，下面总结一套标准的下拉式菜单。</p>
       </div>
     </div>
   </body>

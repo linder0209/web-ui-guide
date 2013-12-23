@@ -296,7 +296,7 @@ module.exports = function(grunt) {
           <li>使用grunt-init TEMPLATE并基于可用模板创建一个项目</li>
           <li>使用grunt-init /path/to/TEMPLATE基于任意其他目录中可用的模板创建一个项目</li>
         </ul>
-        
+
         <h5>安装模板</h5>
         <p>一旦模板被安装到你的~/.grunt-init/目录中(在Windows平台是%USERPROFILE%\.grunt-init\目录)，那么就可以通过grunt-init命令来使用它们了。
           建议你使用git将模板克隆到项目目录中。例如, <a href="https://github.com/gruntjs/grunt-init-jquery">grunt-init-jquery</a>模板可以像下面这样安装：</p>
@@ -313,6 +313,98 @@ module.exports = function(grunt) {
         <p>上面模板的安装，在windows平台下，首先需要在%USERPROFILE%下创建.grunt-init目录，当然可以直接把模板安装到项目目录下</p>
         <pre>git clone git@github.com:gruntjs/grunt-init-jquery.git jquery</pre>
         <p>jquery指定了本地别名，如果不设置jquery，那么会用模板本身名字创建，本例为 grunt-init-jquery</p>
+      </div>
+
+
+      <h3 paragraph>bower - web前端包管理工具</h3>
+      <div>
+        <h4>bower 介绍</h4>
+        <p><a href="http://bower.io/">官网</a></p>
+        <p>Bower 是 twitter 推出的一款前端包（web包通常认为由html+css+javascript构成）管理工具，基于nodejs的模块化思想，把功能分散到各个模块中，让模块和模块之间存在联系，通过 Bower 来管理模块间的联系。</p>
+        <h4>bower 使用</h4>
+        <p>安装 bower</p>
+        <pre>npm install -g bower</pre>
+        <p>利用bower下载安装需要的包</p>
+        <pre>
+//Using the dependencies listed in the current directory's bower.json
+bower install
+
+//Using a local or remote package
+//bower install jquery
+bower install &lt;package&gt;
+
+//Using a specific version of a package
+//bower install jquery#1.7.2
+bower install &lt;package&gt;#&lt;version&gt;
+
+//Using a different name and a specific version of a package
+//name指本地下载文件夹名字，相当于包的别名
+bower install &lt;name&gt;=&lt;package&gt;#&lt;version&gt;
+        </pre>
+        <p>更新已安装的包</p>
+        <pre>bower update &lt;package&gt;</pre>
+        <p>查看安装的web包，该命令还可以 <a href="http://addyosmani.com/blog/checking-in-front-end-dependencies/">check installed packages into source control.</a></p>
+        <pre>bower list</pre>
+        <p>定制化安装目录</p>
+        <p>指定安装目录，创建 .bowerrc 文件（与.bower同目录），设置directory属性，比如：</p>
+        <pre>
+{
+  "directory": "public/bower_components"
+}          
+        </pre>
+        <p>查找需要的包</p>
+        <pre>bower search [&lt;name&gt;]</pre>
+        <p>命令 bower search会查找所有注册的web包</p>
+
+        <p>卸载本地不需要的包</p>
+        <pre>bower uninstall &lt;package-name&gt;</pre>
+        <p>从缓存中安装，如果没有网络，并且该包之前安装过</p>
+        <pre>bower install &lt;package-name&gt; --offline</pre>
+        <pre>
+//The content of the cache can be listed with:
+bower cache list
+
+//The cache can be cleaned with:
+bower cache clean
+        </pre>
+
+        <p>查看某个包的信息，已安装的版本，可用的版本</p>
+        <pre>bower info &lt;package&gt;</pre>
+        <p>查看包的git url</p>
+        <pre>bower lookup &lt;package&gt;</pre>
+        <p>用浏览器打开包的发布主页</p>
+        <pre>bower home &lt;package&gt;</pre>
+        <p>注册一个bower包</p>
+        <p>如果我们想注册一个web包供自己或别人使用。首先执行以下命令创建一个bower包</p>
+        <pre>bower init</pre>
+        <p>然后注册提交创建的bower包</p>
+        <pre>bower register &lt;my-package-name&gt; &lt;git-endpoint&gt;</pre>
+        
+        <p>依赖使用一个web包</p>
+        <p>需要在bower.json文件中设置dependencies属性，比如</p>
+        <pre>
+"dependencies": {
+   "jquery": ">= 1.9.0"
+}          
+        </pre>
+        
+        <p>下面是bower各种命令</p>
+        <ul>
+          <li>cache:bower缓存管理</li>
+          <li>help:显示Bower命令的帮助信息</li>
+          <li>home:通过浏览器打开一个包的github发布页</li>
+          <li>info:查看包的信息</li>
+          <li>init:创建bower.json文件</li>
+          <li>install:安装包到项目</li>
+          <li>link:在本地bower库建立一个项目链接</li>
+          <li>list:列出项目已安装的包</li>
+          <li>lookup:根据包名查询包的URL</li>
+          <li>prune:删除项目无关的包</li>
+          <li>register:注册一个包</li>
+          <li>search:搜索包</li>
+          <li>update:更新项目的包</li>
+          <li>uninstall:删除项目的包</li>
+        </ul>
       </div>
     </div>
   </body>

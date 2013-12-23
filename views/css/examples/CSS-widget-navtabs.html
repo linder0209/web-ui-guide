@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>tabs 标签页</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <style type="text/css">
+      body{
+        font-size: 12px;
+        font-family: Helvetica,​Arial,​sans-serif;
+      }
+      .nav-tabs{
+        list-style: none outside none;
+        padding-left: 8px;
+        border-bottom: 1px solid #DDDDDD;
+      }
+      .nav-tabs:before,
+      .nav-tabs:after {
+        content: " ";
+        display: table;
+      }
+      .nav-tabs:after {
+        clear: both;
+      }
+      .nav-tabs > li{
+        float: left;
+        margin-bottom: -1px;
+      }
+      .nav-tabs > li > a {
+        text-decoration: none;
+        display: block;
+        margin-right: 10px;
+        padding: 8px 15px;
+        border-radius: 4px 4px 0 0;
+        color: #3A7AB6;
+        border: 1px solid #DDDDDD;
+        border-bottom-color: transparent;
+      }
+      .nav-tabs > li > a:hover,
+      .nav-tabs > li > a:focus{
+        background-color: #EEEEEE;
+        border-bottom-color: #DDDDDD;
+      }
+      .nav-tabs > li.active > a {
+        background-color: #FFFFFF;
+        color: #555555;
+        font-weight: 700;
+        cursor: default;
+        border-bottom-color: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="nav-tabs">
+      <li><a href="#">Html</a></li>
+      <li class="active"><a href="#">Css</a></li>
+      <li><a href="#">Javascript</a></li>
+    </ul>
+  </body>
+</html>

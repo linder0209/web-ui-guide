@@ -344,6 +344,8 @@
       };
 
       var cataloguesHtml = fn2(catalogues, 0, 0);
+      //去掉最后一个换行符
+      cataloguesHtml = cataloguesHtml.substring(0, cataloguesHtml.length - 1);
       //console.log(cataloguesHtml);
       return cataloguesHtml;
     }

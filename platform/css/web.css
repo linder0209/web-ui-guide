@@ -18,7 +18,7 @@
 }
 .h-web-catalogue li{
     list-style-type: none;
-    padding: 5px 10px 5px 0;
+    margin: 10px 0 10px;
 }
 .h-web-catalogue a{
     border-bottom: 1px dashed #005B73;

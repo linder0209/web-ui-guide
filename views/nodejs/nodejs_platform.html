@@ -64,6 +64,9 @@
         <a paragraph href="#">bower - web前端包管理工具</a>
         <ol class="h-web-catalogue2">
           <li>
+            <a href="#">什么是包管理</a>
+          </li>
+          <li>
             <a href="#">bower 介绍</a>
           </li>
           <li>
@@ -79,7 +82,7 @@
                 <a href="#">更新已安装的包</a>
               </li>
               <li>
-                <a href="#">查看已安装的web包，该命令还可以 <a href="http://addyosmani.com/blog/checking-in-front-end-dependencies/">check installed packages into source control.</a></a>
+                <a href="#">查看已安装的web包</a>
               </li>
               <li>
                 <a href="#">定制安装目录</a>
@@ -112,6 +115,9 @@
                 <a href="#">依赖使用一个web包</a>
               </li>
             </ol>
+          </li>
+          <li>
+            <a href="#">在nodejs代码中加载包</a>
           </li>
         </ol>
       </li>
@@ -384,6 +390,29 @@ module.exports = function(grunt) {
 
       <h3 paragraph>bower - web前端包管理工具</h3>
       <div>
+        <h4>什么是包管理</h4>
+        <p>Javascript 语言本身是没有模块概念的，直到 node.js 的出现 CommonJS 规范应运而生，之后在浏览器端也出现了 AMD, CMD 等规范。
+          这些规范都提供了一种组织方式使 javascript 的代码模块化，模块可以单独存在与使用，模块和模块之间存在联系。模块化的 javascript 可以打成一个包，所以需要提供一个工具来管理这些包。</p>
+        <p>包的组织形式因工具而异，但一个包管理工具一般都有这些功能：</p>
+        <ul>
+          <li>
+            注册机制
+            <p>每个包需要确定一个唯一的 ID 使得搜索和下载的时候能够正确匹配，所以包管理工具需要维护注册信息，可以依赖其他平台。</p>
+          </li>
+          <li>
+            文件存储
+            <p>确定文件存放的位置，下载的时候可以找到，当然这个地址在网络上是可访问的。</p>
+          </li>
+          <li>
+            上传下载
+            <p>这是工具的主要功能，能提高包使用的便利性。比如想用 jquery 只需要 install 一下就可以了，不用到处找下载。上传并不是必备的，根据文件存储的位置而定，但需要有一定的机制保障。</p>
+          </li>
+          <li>
+            依赖分析
+            <p>这也是包管理工具主要解决的问题之一，既然包之间是有联系的，那么下载的时候就需要处理他们之间的依赖。下载一个包的时候也需要下载依赖的包。</p>
+          </li>
+        </ul>
+
         <h4>bower 介绍</h4>
         <p><a href="http://bower.io/">官网</a></p>
         <p>Bower 是 twitter 推出的一款前端包（web包通常认为由html+css+javascript构成）管理工具，基于nodejs的模块化思想，把功能分散到各个模块中，让模块和模块之间存在联系，通过 Bower 来管理模块间的联系。</p>
@@ -407,11 +436,22 @@ bower install &lt;package&gt;#&lt;version&gt;
 //Using a different name and a specific version of a package
 //name指本地下载文件夹名字，相当于包的别名
 bower install &lt;name&gt;=&lt;package&gt;#&lt;version&gt;
+
+//直接下载 git 库
+bower install git://github.com/components/jquery.git
+
+//下载线上的任意文件
+bower install http://foo.com/jquery.awesome-plugin.js
+
+//下载本地库
+bower install ./repos/jquery
         </pre>
         <h5>更新已安装的包</h5>
         <pre>bower update &lt;package&gt;</pre>
-        <h5>查看已安装的web包，该命令还可以 <a href="http://addyosmani.com/blog/checking-in-front-end-dependencies/">check installed packages into source control.</a></h5>
+        <h5>查看已安装的web包</h5>
         <pre>bower list</pre>
+        <p>该命令还可以 <a href="http://addyosmani.com/blog/checking-in-front-end-dependencies/">check installed packages into source control.</a></p>
+
         <h5>定制安装目录</h5>
         <p>bower可以根据需要设置包安装目录，方法是创建 .bowerrc 文件（与.bower同目录），并设置directory属性，如：</p>
         <pre>
@@ -444,10 +484,43 @@ bower cache clean
         <pre>bower home &lt;package&gt;</pre>
         <h5>初始化创建一个包</h5>
         <pre>bower init</pre>
-
+        <p>执行该命令根据提示输入相应的信息，确认后会生成bower.json文件，该文件主要包含以下字段</p>
+        <ul>
+          <li><span class="h-web-font-info">name</span> (required): The name of your package.</li>
+          <li><span class="h-web-font-info">version</span>: A semantic version number (see <a href="http://semver.org/">semver</a>).</li>
+          <li><span class="h-web-font-info">main</span> [string|array]: The primary endpoints of your package.</li>
+          <li><span class="h-web-font-info">ignore</span> [array]: An array of paths not needed in production that you want Bower to ignore when installing your package.</li>
+          <li><span class="h-web-font-info">dependencies</span> [hash]: Packages your package depends upon in production.</li>
+          <li><span class="h-web-font-info">devDependencies</span> [hash]: Development dependencies.</li>
+          <li><span class="h-web-font-info">private</span> [boolean]: Set to true if you want to keep the package private and do not want to register the package in future.</li>
+        </ul>
+        <p>我们也可以手工创建该文件</p>
+        <pre>
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "main": "path/to/main.css",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt"
+  ],
+  "dependencies": {
+    "&lt;name&gt;": "&lt;version&gt;",
+    "&lt;name&gt;": "&lt;folder&gt;",
+    "&lt;name&gt;": "&lt;package&gt;"
+  },
+  "devDependencies": {
+    "&lt;test-framework-name&gt;": "&lt;version&gt;"
+  }
+}
+        </pre>
         <h5>注册一个bower包</h5>
         <p>我们可以把创建的包通过执行以下命令来注册提交，这样项目中就可以使用该包。</p>
-        <pre>bower register &lt;my-package-name&gt; &lt;git-endpoint&gt;</pre>
+        <pre>
+bower register &lt;my-package-name&gt; &lt;git-endpoint&gt;
+
+bower register project git://github.com/yourname/project
+        </pre>
         <h5>依赖使用一个web包</h5>
         <p>需要在bower.json文件中设置dependencies属性，比如</p>
         <pre>

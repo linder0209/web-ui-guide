@@ -12,6 +12,7 @@
     <menu>
         <id>tools</id>
         <name>Web 前端开发工具</name>
+        <children id="git" name="git 版本控制管理" href="tools/git.html"/>
         <children id="tools_1" name="代码生成工具" href="tools/codeBuild.html"/>
     </menu>
     <menu>

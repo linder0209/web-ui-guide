@@ -26,6 +26,20 @@
   </head>
   <body>
     <h3 class="h-web-paragraph-title">目录</h3>
+    <ol class="h-web-catalogue">
+      <li>
+        <a paragraph href="#">Git 介绍</a>
+      </li>
+      <li>
+        <a paragraph href="#">在 github上创建发布资源库</a>
+      </li>
+      <li>
+        <a paragraph href="#">Git 分支管理</a>
+      </li>
+      <li>
+        <a paragraph href="#">github Pages搭建</a>
+      </li>
+    </ol>
     <div class="h-web-paragraph">
       <h3 paragraph>Git 介绍</h3>
       <div>
@@ -35,7 +49,7 @@
         <p>官方推荐的git 参考书 <a href="http://git-scm.com/book">Pro Git</a>。
           其中文版地址为<a href="http://git-scm.com/book/zh">官方中文版</a> 和 <a href="http://git.oschina.net/progit/">Pro Git（中文版）</a></p>
         <p><a href="http://git-scm.com/docs">git 手册</a>，本地如果安装了git，在其安装目录中也可以找到该文档。</p>
-        <p>以下是 git 学习笔记，记录本人工作学习中用到的 git 命令、技巧等。详细的资料还是看官方推荐的书以及 doc 文档。</p>
+        <p>以下是 git 学习笔记，记录本人工作学习中用到的 git 命令、技巧等。详细的资料还是看官方推荐的书以及文档（doc）。</p>
       </div>
       <h3 paragraph>在 github上创建发布资源库</h3>
       <div>
@@ -101,14 +115,15 @@
       <h3 paragraph>github Pages搭建</h3>
       <div>
         <p>github Pages搭建其实很简单，首先需要创建分支 gh-pages 并提交到github上。该分支的名字必须是 gh-pages，因为github规定，只有该分支中的页面，才会生成网页文件。
-          然后在该分支下创建文件 _config.yml。该文件可以设置多个options（参见官方详细说明），其中最主要的是设置baseurl（即网页访问上下文地址）。下面是该文件设置的一个例子：</p>
-        <p>_config.yml文件中键入：</p>
+          然后在该分支下创建文件 _config.yml。该文件可以配置多个<a href="http://jekyllrb.com/docs/configuration/">configuration</a>。
+          下面是一个简单的例子，只设置了 baseurl（网页访问上下文） config</p>
         <pre>
-baseurl: /web-ui-guide
+baseurl: /web-context
         </pre>
         <p>除了手动创建该分支，我们也可以让github自动生成github pages。github pages 会自动创建该分支，并且生成一些初始化页面。</p>
-        <p>首先进入要创建github pages 的资源库，点击 settings后进入settings页面，找到 Github pages
-  Automatic Page Generator</p>
+        <p>首先进入要创建github pages 的资源库（repository），点击 settings后进入settings页面，找到 Github Pages区域点击 Automatic Page Generator 按钮就会生成github pages。</p>
+        <p>github pages其实是基于 <a href="http://jekyllrb.com/">jekyll</a> 构建的，Transform your plain text into static websites and blogs.</p>
+        <p>jekyll支持 template 开发，可以作为静态页面服务器。利用gem 安装 jekyll后，可以创建静态web目录结构，快速开发静态网站。</p>
         <p>参考资料：<a href="http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html">github Pages搭建</a></p>
       </div>
     </div>

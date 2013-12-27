@@ -373,14 +373,28 @@ module.exports = function(grunt) {
         <p>一旦模板被安装到你的~/.grunt-init/目录中(在Windows平台是%USERPROFILE%\.grunt-init\目录)，那么就可以通过grunt-init命令来使用它们了。
           建议你使用git将模板克隆到项目目录中。例如, <a href="https://github.com/gruntjs/grunt-init-jquery">grunt-init-jquery</a>模板可以像下面这样安装：</p>
         <pre>git clone git@github.com:gruntjs/grunt-init-jquery.git ~/.grunt-init/jquery</pre>
-        <p><em>注意：如果你希望在本地像"foobarbaz"这样使用模板，你应该指定~/.grunt-init/foobarbaz之后再克隆。grunt-init会使用实际在于~/.grunt-init/目录中的实际的目录名。</em></p>
+        <p>上面是在linux系统中的命令，在windows下应该为：</p>
+        <pre>git clone git@github.com:gruntjs/grunt-init-jquery.git %USERPROFILE%\.grunt-init\jquery</pre>
+        <p>安装后，就可以执行以下命令用jquery模板初始化项目了</p>
+        <pre>grunt-init jquery</pre>
+        <p><em>注意：如果你希望在本地像"foobarbaz"这样的别名使用模板，你应该指定~/.grunt-init/foobarbaz之后再克隆。grunt-init会使用实际在于~/.grunt-init/目录中的实际的目录名。</em></p>
         <p>下面是一些有Grunt官方维护的grunt-init模板：</p>
         <ul>
-          <li><a href="https://github.com/gruntjs/grunt-init-commonjs">grunt-init-commonjs</a> - Create a commonjs module, including Nodeunit unit tests. (<a href="https://github.com/gruntjs/grunt-init-commonjs-sample/tree/generated">sample "generated" repo</a> | <a href="https://github.com/gruntjs/grunt-init-commonjs-sample#project-creation-transcript">creation transcript</a>)</li>
-          <li><a href="https://github.com/gruntjs/grunt-init-gruntfile">grunt-init-gruntfile</a> - Create a basic Gruntfile. (<a href="https://github.com/gruntjs/grunt-init-gruntfile-sample/tree/generated">sample "generated" repo</a> | <a href="https://github.com/gruntjs/grunt-init-gruntfile-sample#project-creation-transcript">creation transcript</a>)</li>
-          <li><a href="https://github.com/gruntjs/grunt-init-gruntplugin">grunt-init-gruntplugin</a> - Create a Grunt plugin, including Nodeunit unit tests. (<a href="https://github.com/gruntjs/grunt-init-gruntplugin-sample/tree/generated">sample "generated" repo</a> | <a href="https://github.com/gruntjs/grunt-init-gruntplugin-sample#project-creation-transcript">creation transcript</a>)</li>
-          <li><a href="https://github.com/gruntjs/grunt-init-jquery">grunt-init-jquery</a> - Create a jQuery plugin, including QUnit unit tests. (<a href="https://github.com/gruntjs/grunt-init-jquery-sample/tree/generated">sample "generated" repo</a> | <a href="https://github.com/gruntjs/grunt-init-jquery-sample#project-creation-transcript">creation transcript</a>)</li>
-          <li><a href="https://github.com/gruntjs/grunt-init-node">grunt-init-node</a> - Create a Node.js module, including Nodeunit unit tests. (<a href="https://github.com/gruntjs/grunt-init-node-sample/tree/generated">sample "generated" repo</a> | <a href="https://github.com/gruntjs/grunt-init-node-sample#project-creation-transcript">creation transcript</a>)</li>
+          <li><a href="https://github.com/gruntjs/grunt-init-commonjs">grunt-init-commonjs</a> - Create a commonjs module, including Nodeunit unit tests. (<a href="https://github.com/gruntjs/grunt-init-commonjs-sample/tree/generated">sample "generated" repo</a> | <a href="https://github.com/gruntjs/grunt-init-commonjs-sample#project-creation-transcript">creation transcript</a>)
+            <pre>clone模板命令： git clone git@github.com:gruntjs/grunt-init-commonjs.git %USERPROFILE%\.grunt-init\commonjs</pre>
+          </li>
+          <li><a href="https://github.com/gruntjs/grunt-init-gruntfile">grunt-init-gruntfile</a> - Create a basic Gruntfile. (<a href="https://github.com/gruntjs/grunt-init-gruntfile-sample/tree/generated">sample "generated" repo</a> | <a href="https://github.com/gruntjs/grunt-init-gruntfile-sample#project-creation-transcript">creation transcript</a>)
+            <p class="h-web-font-info">clone模板命令： git clone https://github.com/gruntjs/grunt-init-gruntfile.git %USERPROFILE%\.grunt-init\gruntfile</p>
+          </li>
+          <li><a href="https://github.com/gruntjs/grunt-init-gruntplugin">grunt-init-gruntplugin</a> - Create a Grunt plugin, including Nodeunit unit tests. (<a href="https://github.com/gruntjs/grunt-init-gruntplugin-sample/tree/generated">sample "generated" repo</a> | <a href="https://github.com/gruntjs/grunt-init-gruntplugin-sample#project-creation-transcript">creation transcript</a>)
+            <p class="h-web-font-info">clone模板命令： git clone https://github.com/gruntjs/grunt-init-gruntplugin.git %USERPROFILE%\.grunt-init\gruntplugin</p>
+          </li>
+          <li><a href="https://github.com/gruntjs/grunt-init-jquery">grunt-init-jquery</a> - Create a jQuery plugin, including QUnit unit tests. (<a href="https://github.com/gruntjs/grunt-init-jquery-sample/tree/generated">sample "generated" repo</a> | <a href="https://github.com/gruntjs/grunt-init-jquery-sample#project-creation-transcript">creation transcript</a>)
+            <p class="h-web-font-info">clone模板命令： git clone git@github.com:gruntjs/grunt-init-jquery.git %USERPROFILE%\.grunt-init\jquery</p>
+          </li>
+          <li><a href="https://github.com/gruntjs/grunt-init-node">grunt-init-node</a> - Create a Node.js module, including Nodeunit unit tests. (<a href="https://github.com/gruntjs/grunt-init-node-sample/tree/generated">sample "generated" repo</a> | <a href="https://github.com/gruntjs/grunt-init-node-sample#project-creation-transcript">creation transcript</a>)
+            <p class="h-web-font-info">clone模板命令： git clone git@github.com:gruntjs/grunt-init-node.git %USERPROFILE%\.grunt-init\node</p>
+          </li>
         </ul>
         <p>上面模板的安装，在windows平台下，首先需要在%USERPROFILE%下创建.grunt-init目录，当然可以直接把模板安装到项目目录下</p>
         <pre>git clone git@github.com:gruntjs/grunt-init-jquery.git jquery</pre>
@@ -572,6 +586,29 @@ bower.commands
           <li><span class="h-web-font-info">end</span> is emitted when the command successfully ends.</li>   
 
         </ul>
+      </div>
+      <h3 paragraph>Yeoman - Modern workflows for modern webapps</h3>
+      <div>
+        <h4>Yeoman 介绍</h4>
+        <p>
+          Yeoman是Google的团队和外部贡献者团队合作开发的，他的目标是通过Grunt（一个用于开发任务自动化的命令行工具）和Bower（一个HTML、CSS、Javascript和图片等前端资源的包管理器）
+          的包装为开发者创建一个易用的工作流。
+        </p>
+        <p>Yeoman主要有三部分组成：yo（脚手架工具）、grunt（构建工具）、bower（包管理器）。这三个工具是分别独立开发的，但是需要配合使用，来实现我们高效的工作流模式。</p>
+        <p><a href="http://yeoman.io/">官方网站</a></p>
+        
+        <h4>Yeoman 使用</h4>
+        <p>首先利用npm安装 yo、grunt和bower。grunt 和bower上面已提到。yo的安装命令为</p>
+        <pre>npm install -g yo</pre>
+        <p>然后安装需要的构建器（generator），其实就一node插件，用来生成那类web项目，比如：webapp angular等</p>
+        <pre>
+npm install -g generator-webapp
+npm install -g generator-angular
+        </pre>
+        <p>执行以上命令会分别安装 webapp 和 angular generator。</p>
+        <p>安装后，我们就可以用 yo 来构建项目了</p>
+        <pre>yo webapp</pre>
+        <p>参考资料：<a href="http://blog.fens.me/nodejs-yeoman-intro/">Yeoman自动构建js项目</a></p>
       </div>
     </div>
   </body>

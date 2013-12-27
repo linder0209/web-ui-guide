@@ -12,6 +12,7 @@
     <menu>
         <id>tools</id>
         <name>Web 前端开发工具</name>
+        <children id="ide" name="IDE 开发工具" href="tools/ide.html"/>
         <children id="git" name="git 版本控制管理" href="tools/git.html"/>
         <children id="tools_1" name="代码生成工具" href="tools/codeBuild.html"/>
     </menu>
@@ -57,6 +58,7 @@
         <name>JavaScript</name>
         <children id="JavaScript_1" name="JavaScript参考资料" href="JavaScript/JavaScript参考资料.html"/>
         <children id="JavaScript_2" name="JavaScript编码规范" href="JavaScript/JavaScript编码规范.html"/>
+        <children id="jshint" name="检测javascript代码 jshint" href="JavaScript/jshint.html"/>
         <children id="JavaScript_3" name="JavaScript性能优化" href="JavaScript/JavaScript性能优化.html"/>
         <children id="JavaScript_4" name="JavaScript调试" href="JavaScript/JavaScript调试.html"/>
         <children id="JavaScript_5" name="JavaScript unit test" href="JavaScript/JavaScript unit test.html"/>
@@ -99,6 +101,5 @@
         <children id="nodejs" name="nodejs 学习笔记" href="nodejs/nodejs.html"/>
         <children id="nodejs_platform" name="nodejs 相关" href="nodejs/nodejs_platform.html"/>
         <children id="nodejs_cloud" name="nodejs 云空间" href="nodejs/nodejs_cloud.html"/>
-        <children id="nodejs_jshint" name="jshint" href="nodejs/nodejs_jshint.html"/>
     </menu>
 </menus>

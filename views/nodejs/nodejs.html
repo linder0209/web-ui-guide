@@ -545,16 +545,33 @@ req.end();
 
       </div>
 
-      <h3 paragraph>常用的第三方 npm 模块</h3>
+      <h3 paragraph>Express 框架快速开发web应用</h3>
       <div>
-        <h4>Express 框架快速开发web应用</h4>
+        <h4>安装</h4>
         <p>express是为NodeJS而生的高性能、一流的web开发框架。<a href="http://expressjs.com/">官方网站</a>
           <a href="http://expressjs.jser.us/" target="_blank">中文官网</a></p>
         <p> 安装命令</p>
         <pre>npm install -g express </pre>
         <p>可以利用express创建一个node工程，命令： express myapp(工程名)</p>
         <p>例如：创建一个模板为ejs的工程 express -e ejs microblog <span class="h-web-font-red">（注意express 3.x中安装ejs不再是-t而是-e，可以输入express -h查看）</span></p>
-        <p>express 3.x 中默认不支持 partials 和 layout 。
+        <p>express 常用命令：输入 express -h 会显示以下内容</p>
+        <pre>
+Usage: express [options]
+
+Options:
+
+  -h, --help          输出帮助信息
+  -V, --version       输出版本号
+  -s, --sessions      添加 session 支持
+  -e, --ejs           添加 ejs 模板引擎支持 (默认为jade)
+  -J, --jshtml        添加 jshtml模板引擎支持 (默认为jade)
+  -H, --hogan         添加 hogan.js模板引擎支持
+  -c, --css   样式 <引擎> 支持 (less|stylus) (默认为css)
+  -f, --force         强制在非空目录执行
+        </pre>
+        <p>我们可以利用命令 express --sessions --css less --ejs myapp  来创建支持ejs、less 和session的应用工程。</p>
+
+        <p class="h-web-font-red">注意：express 3.x 中默认不支持 partials 和 layout 。
           使用 express-partials 这个中间件可以使 express 3.x 支持 partials 和 layout。
         <p>express-partials git地址：https://github.com/publicclass/express-partials</p>
         <p>利用npm安装该插件 npm install express-partials</p>
@@ -566,7 +583,16 @@ var express = require('express'),
 app.use(partials());
         </pre>
         <p><span class="h-web-font-red">注意：运用partials一定要放在 app.use(app.router);之前设置</span></p>
+        
+        <h4>官方项目</h4>
+        <p>
+          <a href="./examples/users-online">在线用户计数</a>，需要安装<a href="http://redis.io/">Redis</a>，目前 Redis 不支持window下环境运行，官方提供了一个开发版（见<a href="http://redis.io/download">官方下载列表</a>）。
+          下载后，需要安装<a href="http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-cpp-express">Visual Studio</a>来编译。
+        </p>
 
+      </div>
+      <h3 paragraph>常用的第三方 npm 模块</h3>
+      <div>
         <h4>连接mongodb数据库</h4>
         <p>我们可以用node-mongodb-native来连接 mongodb，官方网站是：
           <a href="http://mongodb.github.com/node-mongodb-native">http://mongodb.github.com/node-mongodb-native</a></p>
@@ -591,6 +617,15 @@ app.use(partials());
         <p><a href="microblog" target="_blank">工程代码</a></p>
         <p>2、blog 该实例摘自<a href="http://cnodejs.org/" target="_blank">Node.js中文社区</a>，<a href="http://cnodejs.org/topic/515b00096d382773061927de" target="_blank">系列文章点击这里</a></p>
         <p><a href="./blog" target="_blank">工程代码</a></p>
+      </div>
+
+      <h3 paragraph>nodejs 构建工程详解</h3>
+      <div>
+        <p>项目运到的技术和框架：最后补充</p>
+        <h4>利用express搭建项目基本框架</h4>
+        <p>
+          我们利用命令 express --sessions --css less --ejs myapp  来创建支持ejs、less 和session的应用工程。我们也可以利用 IDE WebStorm 来创建。 二者创建的是一样的。
+        </p>
       </div>
     </div>
   </body>

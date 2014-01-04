@@ -1,28 +1,8 @@
 nbproject
-html5shiv-3.6.2
-bootstrap-3.0.0
-Respond-1.3.0
-backbone-1.0.0
-underscore-1.5.2
-views/JavaScript MVC/angular/codes
-angular-1.2.2
-angular.js-1.2.0
+.idea/*.*
 
-bootstrap-bootstrap3_bis2
-bootstrap-bootstrap3_bis2.zip
-google-maps
-WEB-INF
-
-jasmine-1.3.1
-jasmine-2.0.0.rc5
 
 node_modules
-.idea
-.idea/encodings.xml
-.idea/misc.xml
-.idea/modules.xml
-.idea/scopes/scope_settings.xml
-.idea/vcs.xml
-.idea/web-ui-guide.iml
+
 
 seajs-2.1.1

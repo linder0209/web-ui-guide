@@ -1,8 +1,3 @@
 nbproject
-.idea/*.*
-
-
+.idea
 node_modules
-
-
-seajs-2.1.1

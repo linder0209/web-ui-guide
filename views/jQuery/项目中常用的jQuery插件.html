@@ -3,43 +3,57 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>项目中常用的jQuery插件</title>
+    <link rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css" type="text/css" />
+
     <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
     <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
     <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
     <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+
     <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
-    <script type="text/javascript">
-      $(function() {
-        $('.h-web-catalogue li a').click(function(e) {
-          e.preventDefault();
-          var paragraphNum,
-                  paragraph,
-                  offset;
-          var el = this;
-          $(this).closest('ol').find('li a').each(function(index, element) {
-            if (this === el) {
-              paragraphNum = index;
-              return false;
-            }
-          });
-          paragraph = $('.h-web-paragraph h3[paragraph]').eq(paragraphNum);
-          offset = paragraph.offset();
-          if (offset) {
-            $(window).scrollTop(offset.top);
-          }
-        });
-        //初始化内容折叠事件
-        $('.h-web-paragraph').on('click', 'h3[paragraph]', function(e) {
-          $(this).next().toggle();
-        });
-      });
-    </script>
+
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/view/init.js"></script>
   </head>
   <body>
     <h3 class="h-web-paragraph-title">目录</h3>
     <ol class="h-web-catalogue">
-      <li><a paragraph href="#">jquery-validation</a></li>
-
+      <li>
+        <a paragraph href="#">jquery-validation</a>
+        <ol class="h-web-catalogue2">
+          <li>
+            <a href="#">注意问题</a>
+            <ol class="h-web-catalogue3">
+              <li>
+                <a href="#">在最新版本1.11.1中，在class中声明验证规则时，必须是classRuleSettings中已设置的，否则须作为一个属性来声明，或者定义在js中。</a>
+              </li>
+              <li>
+                <a href="#">在最新版本1.11.1中，校验规则range和rangelength的声明应该是这样的：rang="12,23"</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#">Options for the validate() method。下面对options中几个常用的参数说明一下，各参数的说明可以查看下面的例子</a>
+          </li>
+          <li>
+            <a href="#">下面是一个项目中的综合例子，代码中重写了源代码中部分方法、定制了部分options参数，并且扩展了一个方法（hideErrors）：隐藏或删除错误提示信息</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a paragraph href="#">jqgrid</a>
+      </li>
+      <li>
+        <a paragraph href="#">jqgrid</a>
+      </li>
     </ol>
     <div class="h-web-paragraph">
       <h3 paragraph>jquery-validation</h3>
@@ -517,7 +531,7 @@
         </pre>
         <p><a href="./examples/jqgrid/jqgrid-demo.html">点击查看运行效果</a></p>
       </div>
-      
+
       <h3 paragraph>jqgrid</h3>
       <div>
         <p><a href="http://www.jqgrid.com/" target="_blank">官方网站</a></p>

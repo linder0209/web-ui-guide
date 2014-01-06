@@ -298,7 +298,7 @@ hello1.sayHello();</pre>
 
         <h4>发布包</h4>
         <p>首先用命令 npm init 来安装包，然后用 npm publish来发布，当然在发布前，我们还需要获得一个账号用于今后维护自己的包，使用 npm adduser 根据提示输入用户名、密码、邮箱，等待账号创建完成。
-          完成后可以使用 npm whoami 测验是否已经取得了账号。（本人账号为linder0209）。当运行 npm publish 发布成功后，我们就可以访问 <a href="http://search.npmjs.org/">http://search.npmjs.org/</a> 
+          完成后可以使用 npm whoami 测验是否已经取得了账号。（本人账号为linder0209）。当运行 npm publish 发布成功后，我们就可以访问 <a href="http://search.npmjs.org/">http://search.npmjs.org/</a>
           找到自己刚刚发布的包。</p>
         <p>如果你的包将来有更新，只需要在 package.json 文件中修改 version 字段，然后重新使用 npm publish 命令就可以了。如果你对已发布的包不满意（比如我们发布是个毫无意义的包），
           可以使用 npm unpublish 命令来取消发布。</p>
@@ -610,7 +610,7 @@ res.format({
         <p>format方法中会优先用先设置的类型渲染，上例子中用text来渲染，如果删除，则用html来渲染。</p>
         <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/content-negotiation">例子代码</a></p>
         <h5>cookie 的设置</h5>
-        <p>设置和清除coolie是调用方法 <a href="http://expressjs.jser.us/api.html#res.cookie">respond..cookie(name, value, [options])</a> 和 
+        <p>设置和清除coolie是调用方法 <a href="http://expressjs.jser.us/api.html#res.cookie">respond..cookie(name, value, [options])</a> 和
           方法 <a href="http://expressjs.jser.us/api.html#res.clearCookie">respond.clearCookie(name, [options])</a> 来实现的。</p>
         <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/cookies">例子代码</a></p>
         <h5>cookie session的设置</h5>
@@ -714,9 +714,38 @@ app.use(express.static(__dirname + '/public/css'));
         <h5>vhost的设置</h5>
         <p>例子中用到了属性 request.subdomains 来取二级域名</p>
         <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/vhost">例子代码</a></p>
-        
-        
-        
+
+          <h5>view-constructor 自定义一个视图</h5>
+          <p>注册一个视图的代码如下</p>
+          <pre>
+//注册一个view 视图
+app.set('view', GithubView);
+          </pre>
+          <p>其中GithubView需要在原型prototype实现方法 render，该方法中处理一些业务需求，比如抓取数据等。</p>
+          <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/view-constructor">例子代码</a></p>
+          <h5>view-locals 几种不同的本地处理视图</h5>
+          <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/view-locals">例子代码</a></p>
+
+          <h5>web-service</h5>
+          <p>该例子介绍了怎样封装一些web service api。用到了属性 <a href="http://expressjs.jser.us/api.html#req.query">req.query</a>，
+              解析请求参数对象，默认为{}
+          </p>
+<pre>
+// GET /search?q=tobi+ferret
+req.query.q
+// => "tobi ferret"
+
+// GET /shoes?order=desc&shoe[color]=blue&shoe[type]=converse
+req.query.order
+// => "desc"
+
+req.query.shoe.color
+// => "blue"
+
+req.query.shoe.type
+// => "converse"
+</pre>
+          <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/web-service">例子代码</a></p>
       </div>
       <h3 paragraph>常用的第三方 npm 模块</h3>
       <div>

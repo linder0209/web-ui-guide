@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Express 框架快速开发web应用</title>
+    <link rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css" type="text/css" />
+
+    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+
+    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/view/init.js"></script>
+  </head>
+  <body>
+    <h3 class="h-web-paragraph-title">目录</h3>
+    <ol class="h-web-catalogue">
+      <li>
+        <a paragraph href="#">Express 介绍</a>
+      </li>
+      <li>
+        <a paragraph href="#">安装与开发</a>
+        <ol class="h-web-catalogue2">
+          <li>
+            <a href="#">安装命令</a>
+          </li>
+          <li>
+            <a href="#">创建项目</a>
+          </li>
+          <li>
+            <a href="#">express 常用命令</a>
+          </li>
+          <li>
+            <a href="#">中间件（middleware）的定义</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a paragraph href="#">官方例子</a>
+        <ol class="h-web-catalogue2">
+          <li>
+            <a href="#">密码加密</a>
+          </li>
+          <li>
+            <a href="#">利用 jade 模板加载数据列表</a>
+          </li>
+          <li>
+            <a href="#">利用方法 respond.format 来处理数据并展示到view</a>
+          </li>
+          <li>
+            <a href="#">cookie 的设置</a>
+          </li>
+          <li>
+            <a href="#">cookie session的设置</a>
+          </li>
+          <li>
+            <a href="#">CORS 例子</a>
+          </li>
+          <li>
+            <a href="#">文件下载 download</a>
+          </li>
+          <li>
+            <a href="#">ejs模板例子</a>
+          </li>
+          <li>
+            <a href="#">错误处理</a>
+          </li>
+          <li>
+            <a href="#">错误处理页面模板</a>
+          </li>
+          <li>
+            <a href="#">把数据传到客户端，即 data-to-client</a>
+          </li>
+          <li>
+            <a href="#">简单版 hello world</a>
+          </li>
+          <li>
+            <a href="#">jade模板引擎</a>
+          </li>
+          <li>
+            <a href="#">markdown（marked） 的用法</a>
+          </li>
+          <li>
+            <a href="#">上传附件以及 nodejs util format的用法</a>
+          </li>
+          <li>
+            <a href="#">MVC 框架</a>
+          </li>
+          <li>
+            <a href="#">在线用户计数</a>
+          </li>
+          <li>
+            <a href="#">app.param 的使用</a>
+          </li>
+          <li>
+            <a href="#">app.resource 的使用</a>
+          </li>
+          <li>
+            <a href="#">route-map 路由 map匹配</a>
+          </li>
+          <li>
+            <a href="#">直接用 app.get 来处理路由</a>
+          </li>
+          <li>
+            <a href="#">route-separation 路由</a>
+          </li>
+          <li>
+            <a href="#">search</a>
+          </li>
+          <li>
+            <a href="#">session</a>
+          </li>
+          <li>
+            <a href="#">static-files 读取静态文件</a>
+          </li>
+          <li>
+            <a href="#">vhost的设置</a>
+          </li>
+          <li>
+            <a href="#">view-constructor 自定义一个视图</a>
+          </li>
+          <li>
+            <a href="#">view-locals 几种不同的本地处理视图</a>
+          </li>
+          <li>
+            <a href="#">web-service</a>
+          </li>
+        </ol>
+      </li>
+    </ol>
+
+    <div class="h-web-paragraph">
+      <h3 paragraph>Express 介绍</h3>
+      <div>
+        <p>Express 是一个简洁而灵活的 node.js Web应用框架, 提供一系列强大特性帮助你快速创建开发各种Web应用。</p>
+        <p>
+          <a href="http://expressjs.com/">官方网站</a>
+        </p>
+        <p><a href="http://expressjs.jser.us/">中文官网</a></p>
+      </div>
+
+      <h3 paragraph>安装与开发</h3>
+      <div>
+        <h4>安装命令</h4>
+        <pre>npm install -g express </pre>
+        <h4>创建项目</h4>
+        <p>可以利用express创建一个node工程，命令： express myapp(工程名)</p>
+        <p>例如：创建一个模板为ejs的工程 express -e ejs myapp <span class="h-web-font-red">（注意express 3.x中安装ejs不再是-t而是-e，可以输入express -h查看）</span></p>
+        <p>我们也可以组合命令来创建工程，例如： express --sessions --css less --ejs myapp  将创建支持ejs、less 和session的应用工程。</p>
+
+        <p class="h-web-font-red">注意：express 3.x 中默认不支持 partials 和 layout 。
+          使用 express-partials 这个中间件可以使 express 3.x 支持 partials 和 layout。
+        <p>express-partials git地址：https://github.com/publicclass/express-partials</p>
+        <p>利用npm安装该插件 npm install express-partials</p>
+        <p>例子</p>
+        <pre>
+var express = require('express'),
+    partials = require('express-partials'), 
+    app = express();
+app.use(partials());
+        </pre>
+        <p><span class="h-web-font-red">注意：运用partials一定要放在 app.use(app.router);之前设置</span></p>
+
+        <h4>express 常用命令</h4>
+        <p>输入 express -h 会显示以下内容</p>
+        <pre>
+Usage: express [options]
+
+Options:
+
+  -h, --help          输出帮助信息
+  -V, --version       输出版本号
+  -s, --sessions      添加 session 支持
+  -e, --ejs           添加 ejs 模板引擎支持 (默认为jade)
+  -J, --jshtml        添加 jshtml模板引擎支持 (默认为jade)
+  -H, --hogan         添加 hogan.js模板引擎支持
+  -c, --css   样式 <引擎> 支持 (less|stylus) (默认为css)
+  -f, --force         强制在非空目录执行
+        </pre>
+
+        <h4>中间件（middleware）的定义</h4>
+        <p>中间件里的响应是可以任意定义的，只要你喜欢，你可以返回任意的内容，譬如HTML页面, 一个简单的消息，或者一个JSON字符串。例如定义一些错误处理：</p>
+        <pre>
+app.use(express.bodyParser());
+app.use(express.methodOverride());
+app.use(app.router);
+app.use(logErrors);
+app.use(clientErrorHandler);
+app.use(errorHandler);          
+        </pre>
+        <p>通常logErrors用来纪录诸如stderr, loggly, 或者类似服务的错误信息：</p> 
+        <pre>
+function logErrors(err, req, res, next) {
+  console.error(err.stack);
+  next(err);
+}  
+        </pre>
+        <p>clientErrorHandler 定义如下，注意错误非常明确的向后传递了。</p> 
+        <pre>
+function clientErrorHandler(err, req, res, next) {
+  if (req.xhr) {
+    res.send(500, { error: 'Something blew up!' });
+  } else {
+    next(err);
+  }
+} 
+        </pre>
+        <p>下面的errorHandler "捕获所有" 的异常， 定义为:</p>
+        <pre>
+function errorHandler(err, req, res, next) {
+  res.status(500);
+  res.render('error', { error: err });
+}
+        </pre>
+        <p><a href="https://github.com/senchalabs/connect/wiki">中间件参考</a></p>
+      </div>
+
+      <h3 paragraph>官方例子</h3>
+      <div>
+        <p>官方例子地址为：<a href="https://github.com/visionmedia/express/tree/master/examples">https://github.com/visionmedia/express/tree/master/examples</a></p>
+        <h4>密码加密</h4>
+        <p>该项目利用了 node module <a href="https://github.com/Gozala/crypto">crypto</a> 来加密密码，<a href="https://github.com/linder0209/nodejs/tree/master/official-examples/auth">例子代码</a></p>
+        <h4>利用 jade 模板加载数据列表</h4>
+        <p>该实现中用到了 respond 方法 <a href="http://expressjs.jser.us/api.html#res.render">render</a> 来渲染数据，<a href="https://github.com/linder0209/nodejs/tree/master/official-examples/big-view">例子代码</a></p>
+
+        <h4>利用方法 respond.format 来处理数据并展示到view</h4>
+        <p><a href="http://expressjs.jser.us/api.html#res.format">respond.format</a> 用来设置特定请求头的响应，该方法除了使用标准的MIME 类型，也可以使用扩展名来映射这些类型，比如html text json</p>
+        <pre>
+res.format({
+  text: function(){
+    res.send('hey');
+  },
+  
+  html: function(){
+    res.send('hey');
+  },
+  
+  json: function(){
+    res.send({ message: 'hey' });
+  }
+});          
+        </pre>
+        <p>format方法中会优先用先设置的类型渲染，上例子中用text来渲染，如果删除，则用html来渲染。</p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/content-negotiation">例子代码</a></p>
+        <h4>cookie 的设置</h4>
+        <p>设置和清除coolie是调用方法 <a href="http://expressjs.jser.us/api.html#res.cookie">respond..cookie(name, value, [options])</a> 和
+          方法 <a href="http://expressjs.jser.us/api.html#res.clearCookie">respond.clearCookie(name, [options])</a> 来实现的。</p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/cookies">例子代码</a></p>
+        <h4>cookie session的设置</h4>
+        <p>我们需要使用中间件 app.use(express.cookieSession());来处理session。属性 request.session 来获取session相关信息</p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/cookie-sessions">例子代码</a></p>
+        <h4>CORS 例子</h4>
+        <p>CORS：XMLHttpRequest (XHR) 的跨域资源共享 (CORS)，是用来处理跨域传递数据的，详细可以参考<a href="http://www.iefans.net/ie10-cors-for-xhr/#more-13071">这里</a></p>
+        <p>
+          该例子用到了方法 <a href="http://expressjs.jser.us/api.html#app.all">app.all(path, [callback...], callback)</a> 来处理过滤信息。
+          这类似于java中的过滤器，所有的HTTP动作被访问时，都会先执行该方法来过滤一些信息，比如验证、权限等。可以设置多个过滤器，即多次调用app.all方法。
+        </p>
+        <p>
+          另外从一个api到另一个api，比如：从 http://localhost:3000 到 http://localhost:3001，在3001中 req.get('Origin')会返回前者（http://localhost:3000）。
+          此时的requst.method的值为 OPTIONS
+        </p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/cors">例子代码</a></p>
+        <h4>文件下载 download</h4>
+        <p>该实现会调用方法 <a href="http://expressjs.jser.us/api.html#res.download">res.download(path, [filename], [fn])</a>，
+          该方法在传输的过程中发生错误时，可选的回调函数fn会被调用执行。 另外res.download 方法使用 <a href="http://expressjs.jser.us/api.html#res.sendfile">res.sendfile()</a>来传输文件。 </p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/downloads">例子代码</a></p>
+
+        <h4>ejs模板例子</h4>
+        <p>ejs是用来处理html模板的，与jade类似。ejs默认是处理后缀名为ejs的文件，如果想改成后缀名是html格式的，可以调用以下代码</p>
+        <pre>
+app.engine('.html', require('ejs').__express);
+app.set('view engine', 'html');          
+        </pre>
+        <p>ejs模板的语法与jsp语法类似</p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/ejs">例子代码</a></p>
+
+        <h4>错误处理</h4>
+        <p>我们可以定义一个错误处理函数，并调用app.use()方法把该处理函数作为一个中间件</p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/error">例子代码</a></p>
+
+        <h4>错误处理页面模板</h4>
+        <p>定义了一些错误处理页面，如404、500等。通过app.settings.env是否为开发环境来启动或禁用错误显示，app.enable('verbose errors'); 或 app.disable('verbose errors');</p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/error-pages">例子代码</a></p>
+        <h4>把数据传到客户端，即 data-to-client</h4>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/expose-data-to-client">例子代码</a></p>
+        <h4>简单版 hello world</h4>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/hello-world">例子代码</a></p>
+        <h4>jade模板引擎</h4>
+        <p><a href="https://github.com/visionmedia/jade">jade</a> 是 nodejs template engine， <a href="http://jade-lang.com/">官网</a> 提供了例子和api，模板的功能很强大，类似于 emment 风格。
+          不过个人不太喜欢（偏见），还是觉得ejs好一些，html风格，方便前后台页面制作。</p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/jade">例子代码</a></p>
+        <h4>markdown（marked） 的用法</h4>
+        <p><a href="https://github.com/chjj/marked">markdown</a>， A full-featured markdown parser and compiler, written in JavaScript. Built for speed.</p>
+        <p>marked 也是一个模板引擎。这里说一下express方法 <a href="http://expressjs.jser.us/api.html#app.engine">app.engine(ext, callback)</a>， 他是用来注册模板引擎的。</p>
+
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/markdown">例子代码</a></p>
+        <h4>上传附件以及 nodejs util format的用法</h4>
+        <p><a href="http://nodejs.cn/api/util.format/">util.format</a> 是用来格式化字符串的，类似于java或c中的print。</p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/multipart">例子代码</a></p>
+
+        <h4>MVC 框架</h4>
+        <p>该例子展示了一个完整的mvc框架，例子中定义了一个boot.js来处理controller部分，个人觉得该例子不是很好。</p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/mvc">例子代码</a></p>
+
+        <h4>在线用户计数</h4>
+        <p>
+          在线用户计数，需要安装<a href="http://redis.io/">Redis</a>，目前 Redis 不支持window下环境运行，官方提供了一个开发版（见<a href="http://redis.io/download">官方下载列表</a>）。
+          下载后，需要安装<a href="http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-cpp-express">Visual Studio</a>来编译。
+        </p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/online">例子代码</a></p>
+        <h4>app.param 的使用</h4>
+        <p><a href="http://expressjs.jser.us/api.html#app.param">app.param([name], callback)</a> 是用来处理路由参数逻辑的，用来校验或自动加载url的，遵循rest格式。</p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/params">例子代码</a></p>
+        <h4>app.resource 的使用</h4>
+        <p>可以参考这里（程序结构）<a href="https://github.com/visionmedia/express-resource">第三方Express扩展</a></p>
+
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/resource">例子代码</a></p>
+
+        <h4>route-map 路由 map匹配</h4>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/route-map">例子代码</a></p>
+
+        <h4>直接用 app.get 来处理路由</h4>
+        <p><a href="http://expressjs.jser.us/api.html#app.get">app.get(name)</a></p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/route-middleware">例子代码</a></p>
+
+        <h4>route-separation 路由</h4>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/route-separation">例子代码</a></p>
+
+        <h4>search</h4>
+        <p>需要安装<a href="http://redis.io/">Redis</a></p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/search">例子代码</a></p>
+
+        <h4>session</h4>
+        <p>需要安装<a href="http://redis.io/">Redis</a></p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/session">例子代码</a></p>
+
+        <h4>static-files 读取静态文件</h4>
+        <p>我们可以设置中间件指定静态文件路径</p>
+        <pre>
+//可以直接访问public下的文件，而不用加public前缀
+app.use(express.static(__dirname + '/public'));         
+//相当于给public取一别名
+app.use('/static', express.static(__dirname + '/public'));
+//可以直接访问/public/css下的文件
+app.use(express.static(__dirname + '/public/css'));
+        </pre>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/static-files">例子代码</a></p>
+
+        <h4>vhost的设置</h4>
+        <p>例子中用到了属性 request.subdomains 来取二级域名</p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/vhost">例子代码</a></p>
+
+        <h4>view-constructor 自定义一个视图</h4>
+        <p>注册一个视图的代码如下</p>
+        <pre>
+//注册一个view 视图
+app.set('view', GithubView);
+        </pre>
+        <p>其中GithubView需要在原型prototype实现方法 render，该方法中处理一些业务需求，比如抓取数据等。</p>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/view-constructor">例子代码</a></p>
+        <h4>view-locals 几种不同的本地处理视图</h4>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/view-locals">例子代码</a></p>
+
+        <h4>web-service</h4>
+        <p>该例子介绍了怎样封装一些web service api。用到了属性 <a href="http://expressjs.jser.us/api.html#req.query">req.query</a>，
+          解析请求参数对象，默认为{}
+        </p>
+        <pre>
+// GET /search?q=tobi+ferret
+req.query.q
+// => "tobi ferret"
+
+// GET /shoes?order=desc&shoe[color]=blue&shoe[type]=converse
+req.query.order
+// => "desc"
+
+req.query.shoe.color
+// => "blue"
+
+req.query.shoe.type
+// => "converse"
+        </pre>
+        <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/web-service">例子代码</a></p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,18 +1,77 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>JavaScript doc生成器</title>
-        <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
-        <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
-        <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
-        <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
-    </head>
-    <body>
-        <div class="h-web-paragraph">
-            <p>
-                <a href="http://spencer.kokiya.com/javascript-documetation-tools-summary/" target="_blank">http://spencer.kokiya.com/javascript-documetation-tools-summary/</a>
-            </p>
-        </div>
-    </body>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>JavaScript doc生成器</title>
+    <link rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css" type="text/css" />
+
+    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+
+    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/view/init.js"></script>
+  </head>
+  <body>
+    <h3 class="h-web-paragraph-title">目录</h3>
+
+    <div class="h-web-paragraph">
+      <h3 paragraph>文档生成工具介绍</h3>
+      <div>
+        <p>关于Javascript文档生成器 主流的有：JSDoc , YUIDoc , Dox , JSDuck</p>
+        <p>以下是参考资料</p>
+        <p><a href="http://spencer.kokiya.com/javascript-documetation-tools-summary/" target="_blank">关于Javascript文档生成器 JSDoc , YUIDoc , Dox , JSDuck</a></p>
+        <p><a href="http://www.36ria.com/5101">使用jsdoc生成组件API文档—jsdoc实战</a></p>
+
+      </div>
+      <h3 paragraph>JSDoc 实战</h3>
+      <p><a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 官方介绍：
+        JSDoc3是一款为Javascript设计的API文档生成器。他类似于JavaDoc或PHPDoc，你只需在你的源代码旁添加文档注释，JSDoc工具就会遍历你的源代码，最终为你的文档生成一个完整的HTML帮助文件。</p>
+      <p>JSDoc3是基于Java实现的，所以需要安装Java</p>
+      
+      <h4>安装使用</h4>
+      <p>首先到官方网站下载最新版的 <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a>，下载后设置环境变量，把 jsdoc 添加到 path ，这样在其他目录也可以调用该命令来生成js doc。
+        可以用以下命令来检测是否安装成功。
+      </p>
+      <pre>jsdoc -T</pre>
+      <p>我们利用以下命令来查看jsdoc options</p>
+      <pre>jsdoc --help</pre>
+      <p>执行后</p>
+      <pre>
+OPTIONS:
+        -t, --template &lt;value&gt;          The path to the template to use. Default: path/to/jsdoc/templates/default （设置默认模板路径）
+        -c, --configure &lt;value&gt;         The path to the configuration file. Default: path/to/jsdoc/conf.json （设置配置文件）
+        -e, --encoding &lt;value&gt;          Assume this encoding when reading all source files. Default: utf8 （设置编码）
+        -T, --test              Run all tests and quit. （运行所有的测试）
+        -d, --destination &lt;value&gt;       The path to the output folder. Use "console" to dump data to the console. Default: ./out/ （设置输出路径）
+        -p, --private           Display symbols marked with the @private tag. Default: false （显示注释private标记，默认为false）
+        -r, --recurse           Recurse into subdirectories when scanning for source code files.
+        -l, --lenient           Continue to generate output if a doclet is incomplete or contains errors. Default: false
+
+        -h, --help              Print this message and quit.
+        -X, --explain           Dump all found doclet internals to console and quit.
+        -q, --query &lt;value&gt;             A query string to parse and store in env.opts.query. Example: foo=bar&baz=true
+        -u, --tutorials &lt;value&gt;         Directory in which JSDoc should search for tutorials.
+        -v, --version           Display the version number and quit.
+        --verbose               Display verbose output for tests
+        --match &lt;value&gt;         Only run tests containing &lt;value&gt;
+        --nocolor               Do not use color in console output from tests
+      </pre>
+      
+      <p>使用：执行以下命令即可生成javascript doc，默认会输出到当前文件夹下，并创建out文件夹。</p>
+      <pre>jsdoc yourSourceCodeFile.js</pre>
+      <p>这里有个简单的JSDoc注释 <a href="./examples/jsdoc/jsdoc-demo.js">例子</a></p>
+    </div>
+  </body>
 </html>

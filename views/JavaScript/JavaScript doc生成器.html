@@ -55,17 +55,23 @@ OPTIONS:
         -e, --encoding &lt;value&gt;          Assume this encoding when reading all source files. Default: utf8 （设置编码）
         -T, --test              Run all tests and quit. （运行所有的测试）
         -d, --destination &lt;value&gt;       The path to the output folder. Use "console" to dump data to the console. Default: ./out/ （设置输出路径）
-        -p, --private           Display symbols marked with the @private tag. Default: false （显示注释private标记，默认为false）
-        -r, --recurse           Recurse into subdirectories when scanning for source code files.
-        -l, --lenient           Continue to generate output if a doclet is incomplete or contains errors. Default: false
+        -u, --tutorials &lt;value&gt;         Directory in which JSDoc should search for tutorials.（设置tutorials）
+        -p, --private           By default, symbols marked with the @private tag are not included in the output documentation. If this flag is provided, then they will be.
+                               （是否显示注释private标记，默认为false）
+        -r, --recurse           Recurse into subdirectories when scanning for source code files.（该选项可以对给定的目录下所有子目录生成jsdoc）
+        -l, --lenient           By default, if JSDoc encounters an error while parsing and generating documentation,
+                                it will halt and display the error to the user. If the lenient flag is provided it will continue to generate output even if this occurs.
+                                （发生错误是否终止，默认为false）
+        -q, --query &lt;value&gt;             A query string to parse and store in env.opts.query. Example: foo=bar&baz=true
 
+        The following flags will cause JSDoc to do something else rather than generating documentation:
         -h, --help              Print this message and quit.
         -X, --explain           Dump all found doclet internals to console and quit.
-        -q, --query &lt;value&gt;             A query string to parse and store in env.opts.query. Example: foo=bar&baz=true
-        -u, --tutorials &lt;value&gt;         Directory in which JSDoc should search for tutorials.
         -v, --version           Display the version number and quit.
-        --verbose               Display verbose output for tests
-        --match &lt;value&gt;         Only run tests containing &lt;value&gt;
+
+        The following options affect JSDoc's behaviour when it is running tests (i.e. the -T or --test option was given):
+        --verbose               Display verbose output for tests（显示详细测试信息）
+        --match &lt;value&gt;         Only run tests containing &lt;value&gt;（仅仅运行设置的值）
         --nocolor               Do not use color in console output from tests
       </pre>
       

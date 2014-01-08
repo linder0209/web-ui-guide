@@ -13,6 +13,7 @@ function jsdocDemo(arg1, arg2) {
 
 /**
  * Represents a book.
+ * @namespace text
  * @constructor
  * @param {string} title - The title of the book.
  * @param {string} author - The author of the book.

@@ -39,12 +39,25 @@
       <p><a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 官方介绍：
         JSDoc3是一款为Javascript设计的API文档生成器。他类似于JavaDoc或PHPDoc，你只需在你的源代码旁添加文档注释，JSDoc工具就会遍历你的源代码，最终为你的文档生成一个完整的HTML帮助文件。</p>
       <p>JSDoc3是基于Java实现的，所以需要安装Java</p>
-      
+
       <h4>安装使用</h4>
-      <p>首先到官方网站下载最新版的 <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a>，下载后设置环境变量，把 jsdoc 添加到 path ，这样在其他目录也可以调用该命令来生成js doc。
+      <h5>直接下载安装</h5>
+      <p>首先到官方网站下载 <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a>，下载后设置环境变量，把 jsdoc 添加到 path ，这样在其他目录也可以调用该命令来生成js doc。
         可以用以下命令来检测是否安装成功。
       </p>
       <pre>jsdoc -T</pre>
+      <p class="h-web-font-red">
+        这里需要注意的是：经测试最新版本3.3.0会报错（不知为什么），但版本jsdoc-3.2.2可以。在设置了环境变量path后，jsdoc也可以在其他目录下生成javascript文档。
+        如果在当前目录下运行 test 即加入参数 -T 时，需要把jsdoc安装路径下的test文件夹复制到当前目录中。
+      </p>
+      <h5>nodejs安装</h5>
+      <p>我们可以利用nodejs来安装，执行以下命令全局安装jsdoc</p>
+      <pre>npm install -g jsdoc</pre>
+      <p>全局卸载命令为：</p>
+      <pre>npm uninstall -g jsdoc</pre>
+      <p>同样安装最新版本后执行 -T 操作会报错，缓存版本3.2.2也会报错</p>
+
+      <h4>jsdoc options</h4>
       <p>我们利用以下命令来查看jsdoc options</p>
       <pre>jsdoc --help</pre>
       <p>执行后</p>
@@ -74,10 +87,163 @@ OPTIONS:
         --match &lt;value&gt;         Only run tests containing &lt;value&gt;（仅仅运行设置的值）
         --nocolor               Do not use color in console output from tests
       </pre>
-      
+
       <p>使用：执行以下命令即可生成javascript doc，默认会输出到当前文件夹下，并创建out文件夹。</p>
       <pre>jsdoc yourSourceCodeFile.js</pre>
       <p>这里有个简单的JSDoc注释 <a href="./examples/jsdoc/jsdoc-demo.js">例子</a></p>
+
+      <h4>官方一些例子</h4>
+      <p>Command-line options</p>
+      <pre>/path/to/jsdoc src -r -t haruki -c /path/to/my/conf.json -d docs</pre>
+      <p>上面的例子将使用模板 haruki （该模板相对于在当前路径）和配置文件/path/to/my/conf.json 生成 src下的所有js文档。</p>
+      <pre>/path/to/jsdoc -T --match 'tag' --verbose</pre>
+      <p>上面例子将测试包含tag注释（例如：'@since tag', '@exports tag'），并把详细信息输出到控制台中</p>
+
+      <h4>Configuring JSDoc 3 with conf.json JSDoc 配置文件</h4>
+      <p>配置文件可以用选项 -c（--configure ）来指定，这个配置文件可以设置一些生成js doc的参数，还可以把命令行的参数写到该文件中。该文件是json格式的。</p>
+      <p>以下配置文件是一个比较齐全的格式，包括命令行格式设置</p>
+
+      <pre>
+    // You must remove the comments before adding these options to your .json file
+    {
+        "tags": {
+            "allowUnknownTags": true
+        },
+        "source": {
+            "include": [],
+            "exclude": [],
+            "includePattern": ".+\\.js(doc)?$",
+            "excludePattern": "(^|\\/|\\\\)_"
+        },
+        "plugins": [],
+        "templates": {
+            "cleverLinks": false,
+            "monospaceLinks": false
+        },
+        "opts": {
+            "template": "templates/default",  // same as -t templates/default
+            "encoding": "utf8",               // same as -e utf8
+            "destination": "./out/",          // same as -d ./out/
+            "recurse": true,                  // same as -r
+            "tutorials": "path/to/tutorials", // same as -u path/to/tutorials, default "" (no tutorials)
+            "query": "value",                 // same as -q value, default "" (no query)
+            "private": true,                  // same as -p
+            "lenient": true,                  // same as -l
+            // these can also be included, though you probably wouldn't bother
+            // putting these in conf.json rather than the command line as they cause
+            // JSDoc not to produce documentation. 
+            "version": true,                  // same as --version or -v
+            "explain": true,                  // same as -X
+            "test": true,                     // same as -T
+            "help": true,                     // same as --help or -h
+            "verbose": true,                  // same as --verbose, only relevant to tests.
+            "match": "value",                 // same as --match value, only relevant to tests.
+            "nocolor": true                   // same as --nocolor, only relevant to tests
+        }
+    }
+      </pre>
+      <h5>Plugins</h5>
+      <p>看下面的例子，该例子包括Markdown plugin and verbose output plugin</p>
+      <pre>
+  ...
+  "plugins": [
+      "plugins/markdown",
+      "plugins/verboseOutput"
+  ]
+  ...        
+      </pre>
+      <p>更多的插件看 <a href="http://usejsdoc.org/about-plugins.html">这里</a></p>
+      <h5>Output style configuration</h5>
+      <pre>
+    ...
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false
+    },
+    ...
+      </pre>
+      <p>输出js doc 风格定义，详细看<a href="http://usejsdoc.org/about-configuring-jsdoc.html#configuration-file-templates">这里</a></p>
+      <h5>是否允许自定义标签</h5>
+      <pre>
+    ...
+    "tags": {
+        "allowUnknownTags": true
+    },
+    ...
+      </pre>
+      <p>默认是true，即允许，如果设为false，如果自定了一个标签，比如（@foobar)，则会抛出错误。</p>
+
+      <h4>Inline tags 内部链接导航标签</h4>
+      <p>这类标签有以下几种</p>
+      <ul>
+        <li>
+          {@link}: 
+          <br />
+          链接一个 JSDoc namepath 或者一个url链接。可以在配置文件中修改他的样式
+          Link to a JSDoc namepath or an external URL. By default, links are rendered in plain text.
+          If you prefer links to be rendered in a monospace font, you can use the configuration options template.monospaceLinks and templates.cleverLinks to change this behavior.
+        </li>
+        <li>{@linkcode}: Insert a link that should be rendered in a monospace font.</li>
+        <li>{@linkplain}: Insert a link that should not be rendered in a monospace font.</li>
+        <li>{@tutorial}: Link to a tutorial. </li>
+      </ul>
+      <p>Inline tag 必须写在 { } 中，如果注释中想显示 {} 时，我们必须转义，形如：{\} </p>
+      <pre>
+    /**
+     * This description links to the {@link Macaroni} class.
+     */
+    function Cheese() {
+    }
+    /**
+     * 注释中本身包含 {}
+     * This description includes {@link Cheese|link text with {curly braces\}}.
+     */
+    function Macaroni() {
+    }
+      </pre>
+      <p>Linking to <a href="http://usejsdoc.org/tags-module.html">@module</a>, <a href="http://usejsdoc.org/tags-external.html">@external</a>, or <a href="http://usejsdoc.org/tags-event.html">@event</a></p>
+      <pre>
+    /**
+     * A module. Refer to it using {@link module:foo/bar}.
+     * @module foo/bar
+     */
+    /**
+     * The built-in string object. Refer to it with {@link external:String}.
+     * @external String
+     */
+    /**
+     * An event. Refer to with {@link module:foo/bar.event:MyEvent}.
+     * @event module:foo/bar.event:MyEvent
+     */
+      </pre>
+      <p>Linking to objects with special characters in the name</p>
+      <pre>
+    /** @namespace */
+    var chat = {
+        /**
+         * Refer to this as {@link chat."#channel"}.
+         * @namespace
+         */
+        "#channel": {
+            /**
+             * Refer to this as {@link chat."#channel".open}.
+             * @type {boolean}
+             * @defaultvalue
+             */
+            open: true,
+            /**
+             * Internal quotes have to be escaped by a backslash. This is
+             * {@link chat."#channel"."say-\"hello\""}.
+             */
+            'say-"hello"': function (msg) {};
+        }
+    };
+
+    /**
+     * Now we define an event in our {@link chat.#channel} namespace.
+     * @event chat."#channel"."op:announce-motd"
+     */
+      </pre>
     </div>
   </body>
 </html>

@@ -282,6 +282,7 @@
         //代码高亮
         repSource = repSource.replace(/<pre>/ig, '<pre type="syntaxhighlighter" class="brush: js,css; html-script: true; quick-code: false; toolbar : false" >');
         $('#body_content_frame').empty().html(repSource);
+        SyntaxHighlighter.defaults['toolbar'] = false;
         SyntaxHighlighter.highlight();
 
       }, 'html');

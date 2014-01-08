@@ -29,6 +29,24 @@ HopeFuture = {
  * @param {number} index
  * @returns {String}
  */
-HopeFuture.element = function(element, index) {
+HopeFuture.element = function (element, index) {
   return "";
 };
+
+/**
+ * See {@link MyClass} and [MyClass's foo property]{@link MyClass#foo}.
+ * Also, check out {@link http://www.google.com|Google} and
+ * {@link https://github.com GitHub}.
+ */
+function myFunction() {
+}
+
+/**
+ * A class.
+ * @class
+ */
+function MyClass() {
+  /** foo property */
+  this.foo = 1;
+}
+

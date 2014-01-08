@@ -39,6 +39,7 @@
       <p><a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 官方介绍：
         JSDoc3是一款为Javascript设计的API文档生成器。他类似于JavaDoc或PHPDoc，你只需在你的源代码旁添加文档注释，JSDoc工具就会遍历你的源代码，最终为你的文档生成一个完整的HTML帮助文件。</p>
       <p>JSDoc3是基于Java实现的，所以需要安装Java</p>
+      <p><a href="http://usejsdoc.org/">Project Documentation</a></p>
 
       <h4>安装使用</h4>
       <h5>直接下载安装</h5>
@@ -103,7 +104,7 @@ OPTIONS:
       <p>配置文件可以用选项 -c（--configure ）来指定，这个配置文件可以设置一些生成js doc的参数，还可以把命令行的参数写到该文件中。该文件是json格式的。</p>
       <p>以下配置文件是一个比较齐全的格式，包括命令行格式设置</p>
 
-      <pre>
+      <pre class='brush: js;'>
     // You must remove the comments before adding these options to your .json file
     {
         "tags": {
@@ -144,7 +145,7 @@ OPTIONS:
       </pre>
       <h5>Plugins</h5>
       <p>看下面的例子，该例子包括Markdown plugin and verbose output plugin</p>
-      <pre>
+      <pre class='brush: js; '>
   ...
   "plugins": [
       "plugins/markdown",
@@ -154,7 +155,7 @@ OPTIONS:
       </pre>
       <p>更多的插件看 <a href="http://usejsdoc.org/about-plugins.html">这里</a></p>
       <h5>Output style configuration</h5>
-      <pre>
+      <pre class='brush: js; '>
     ...
     "templates": {
         "cleverLinks": false,
@@ -164,7 +165,7 @@ OPTIONS:
       </pre>
       <p>输出js doc 风格定义，详细看<a href="http://usejsdoc.org/about-configuring-jsdoc.html#configuration-file-templates">这里</a></p>
       <h5>是否允许自定义标签</h5>
-      <pre>
+      <pre class='brush: js; '>
     ...
     "tags": {
         "allowUnknownTags": true
@@ -177,18 +178,18 @@ OPTIONS:
       <p>这类标签有以下几种</p>
       <ul>
         <li>
-          {@link}: 
-          <br />
-          链接一个 JSDoc namepath 或者一个url链接。可以在配置文件中修改他的样式
-          Link to a JSDoc namepath or an external URL. By default, links are rendered in plain text.
-          If you prefer links to be rendered in a monospace font, you can use the configuration options template.monospaceLinks and templates.cleverLinks to change this behavior.
-        </li>
+          {@link}:
+          <p>链接一个 JSDoc namepath 或者一个url链接。可以在配置文件中修改他的样式
+              Link to a JSDoc namepath or an external URL. By default, links are rendered in plain text.
+              If you prefer links to be rendered in a monospace font, you can use the configuration options template.monospaceLinks and templates.cleverLinks to change this behavior.
+          </p>
+          </li>
         <li>{@linkcode}: Insert a link that should be rendered in a monospace font.</li>
         <li>{@linkplain}: Insert a link that should not be rendered in a monospace font.</li>
         <li>{@tutorial}: Link to a tutorial. </li>
       </ul>
       <p>Inline tag 必须写在 { } 中，如果注释中想显示 {} 时，我们必须转义，形如：{\} </p>
-      <pre>
+      <pre class='brush: js; '>
     /**
      * This description links to the {@link Macaroni} class.
      */
@@ -201,8 +202,9 @@ OPTIONS:
     function Macaroni() {
     }
       </pre>
+      <h5> {@link} tag</h5>
       <p>Linking to <a href="http://usejsdoc.org/tags-module.html">@module</a>, <a href="http://usejsdoc.org/tags-external.html">@external</a>, or <a href="http://usejsdoc.org/tags-event.html">@event</a></p>
-      <pre>
+      <pre class='brush: js; '>
     /**
      * A module. Refer to it using {@link module:foo/bar}.
      * @module foo/bar
@@ -217,7 +219,7 @@ OPTIONS:
      */
       </pre>
       <p>Linking to objects with special characters in the name</p>
-      <pre>
+      <pre class='brush: js; '>
     /** @namespace */
     var chat = {
         /**
@@ -244,6 +246,96 @@ OPTIONS:
      * @event chat."#channel"."op:announce-motd"
      */
       </pre>
+    <p>The {@link} tag Syntax 语法</p>
+    <pre>
+    {@link someNamepathOrURL}
+    [link text here]{@link someNamepathOrURL}
+    {@link someNamepathOrURL|link text here}
+    {@link someNamepathOrURL Link text here (after the first space)}
+    </pre>
+      <p>例子：</p>
+    <pre class='brush: js; '>
+    /**
+     * See {@link MyClass} and [MyClass's foo property]{@link MyClass#foo}.
+     * Also, check out {@link http://www.google.com|Google} and
+     * {@link https://github.com GitHub}.
+     */
+    function myFunction() {}
+
+    /**
+     * A class.
+     * @class
+     */
+    function MyClass() {
+        /** foo property */
+        this.foo = 1;
+    }
+    </pre>
+    <p>输出结果为：</p>
+    <pre class='brush: js; '>
+    See &lt;a href="MyClass.html"&gt;MyClass&lt;/a&gt; and &lt;a href="MyClass.html#foo"&gt;MyClass's foo property&lt;/a&gt;.
+    Also, check out &lt;a href="http://www.google.com"&gt;Google&lt;/a&gt; and &lt;a href="https://github.com"&gt;GitHub&lt;/a&gt;.
+    </pre>
+    <p>设置 {@link} config</p>
+    <p>在配置 conf.json文件中是通过设置templates属性来改变link样式的，默认为false</p>
+    <pre class='brush: js; '>
+    {
+        ...
+        "templates": {
+            "cleverLinks": false,
+            "monospaceLinks": false
+        },
+        ...
+    }
+    </pre>
+    <p> When templates.monospaceLinks is true, all {@link} tags appear in monospace font.
+        For example, "{@link asdf}" will become &lt;a href="#"&gt;&lt;code&gt;asdf&lt;/code&gt;&lt;/a&gt;. Use {@linkplain} to render a single link in plain text.&lt;/p&gt;
+
+      <p>When templates.cleverLinks is true, a {@link} that points to an external URL appears in plain text,
+          while a {@link} to a JSDoc namepath will appear in monospace. Use {@linkplain} and {@linkcode} 
+          to override this formatting for an individual link.</p>
+
+      <p>If both options are true, templates.cleverLinks is used. </p>
+
+    <h5>{@linkplain} tag</h5>
+    <p>syntax 语法</p>
+    <pre class='brush: js; '>
+    {@linkplain someNamepathOrURL}
+    [link text here]{@linkplain someNamepathOrURL}
+    {@linkplain someNamepathOrURL|link text here}
+    {@linkplain someNamepathOrURL Link text here (after the first space)}
+    </pre>
+    <p>The {@linkplain} tag is exactly the same as {@link}, except that it forces JSDoc to render
+        the link in plain text regardless of your configuration options. </p>
+    <p>For example, if the templates.monospaceLinks option is enabled, "{@link fooBar}"
+        will be converted to &lt;a href="#"&gt;&lt;code&gt;fooBar&lt;/code&gt;&lt;/a&gt;. 
+        However, "{@linkplain fooBar}" will be converted to &lt;a href="#"&gt;fooBar&lt;/a&gt;. </p>
+
+    <h5> {@linkcode} tag</h5>
+    <p>syntax</p>
+    <pre class='brush: js; '>
+    {@linkcode someNamepathOrURL}
+    [link text here]{@linkcode someNamepathOrURL}
+    {@linkcode someNamepathOrURL|link text here}
+    {@linkcode someNamepathOrURL Link text here (after the first space)}
+    </pre>
+    <p>The {@linkcode} tag is exactly the same as {@link}, except that it forces JSDoc to render the link in a monospace font regardless of your configuration options. 
+        For example, "{@linkcode fooBar}" will be converted to &lt;a href="#"&gt;&lt;code&gt;fooBar&lt;/code&gt;&lt;/a&gt;. </p>
+    <h5>{@tutorial}</h5>
+    <p>syntax</p>
+    <pre class='brush: js; '>
+    {@tutorial tutorialID}
+    </pre>
+      <p> The inline {@tutorial} tag is used to link to a tutorial. The link text for a {@tutorial} tag is  always rendered in plain text. See the <a href="http://usejsdoc.org/about-tutorials.html">tutorials overview</a> for more information on setting up tutorials. </p>
+      <p> The @tutorial tag may also be used as a block tag; see the <a href="http://usejsdoc.org/tags-tutorial.html">@tutorial</a> page for more information. </p>
+    <p>例子</p>
+    <pre class='brush: js; '>
+    /**
+     * Description.
+     * Check out {@tutorial tutorial1} and {@tutorial tutorial2}.
+     * @class
+     */
+    </pre>
     </div>
   </body>
 </html>

@@ -180,10 +180,10 @@ OPTIONS:
         <li>
           {@link}:
           <p>链接一个 JSDoc namepath 或者一个url链接。可以在配置文件中修改他的样式
-              Link to a JSDoc namepath or an external URL. By default, links are rendered in plain text.
-              If you prefer links to be rendered in a monospace font, you can use the configuration options template.monospaceLinks and templates.cleverLinks to change this behavior.
+            Link to a JSDoc namepath or an external URL. By default, links are rendered in plain text.
+            If you prefer links to be rendered in a monospace font, you can use the configuration options template.monospaceLinks and templates.cleverLinks to change this behavior.
           </p>
-          </li>
+        </li>
         <li>{@linkcode}: Insert a link that should be rendered in a monospace font.</li>
         <li>{@linkplain}: Insert a link that should not be rendered in a monospace font.</li>
         <li>{@tutorial}: Link to a tutorial. </li>
@@ -246,15 +246,15 @@ OPTIONS:
      * @event chat."#channel"."op:announce-motd"
      */
       </pre>
-    <p>The {@link} tag Syntax 语法</p>
-    <pre>
+      <p>The {@link} tag Syntax 语法</p>
+      <pre>
     {@link someNamepathOrURL}
     [link text here]{@link someNamepathOrURL}
     {@link someNamepathOrURL|link text here}
     {@link someNamepathOrURL Link text here (after the first space)}
-    </pre>
+      </pre>
       <p>例子：</p>
-    <pre class='brush: js; '>
+      <pre class='brush: js; '>
     /**
      * See {@link MyClass} and [MyClass's foo property]{@link MyClass#foo}.
      * Also, check out {@link http://www.google.com|Google} and
@@ -270,15 +270,15 @@ OPTIONS:
         /** foo property */
         this.foo = 1;
     }
-    </pre>
-    <p>输出结果为：</p>
-    <pre class='brush: js; '>
+      </pre>
+      <p>输出结果为：</p>
+      <pre class='brush: js; '>
     See &lt;a href="MyClass.html"&gt;MyClass&lt;/a&gt; and &lt;a href="MyClass.html#foo"&gt;MyClass's foo property&lt;/a&gt;.
     Also, check out &lt;a href="http://www.google.com"&gt;Google&lt;/a&gt; and &lt;a href="https://github.com"&gt;GitHub&lt;/a&gt;.
-    </pre>
-    <p>设置 {@link} config</p>
-    <p>在配置 conf.json文件中是通过设置templates属性来改变link样式的，默认为false</p>
-    <pre class='brush: js; '>
+      </pre>
+      <p>设置 {@link} config</p>
+      <p>在配置 conf.json文件中是通过设置templates属性来改变link样式的，默认为false</p>
+      <pre class='brush: js; '>
     {
         ...
         "templates": {
@@ -287,55 +287,750 @@ OPTIONS:
         },
         ...
     }
-    </pre>
-    <p> When templates.monospaceLinks is true, all {@link} tags appear in monospace font.
+      </pre>
+      <p> When templates.monospaceLinks is true, all {@link} tags appear in monospace font.
         For example, "{@link asdf}" will become &lt;a href="#"&gt;&lt;code&gt;asdf&lt;/code&gt;&lt;/a&gt;. Use {@linkplain} to render a single link in plain text.&lt;/p&gt;
 
       <p>When templates.cleverLinks is true, a {@link} that points to an external URL appears in plain text,
-          while a {@link} to a JSDoc namepath will appear in monospace. Use {@linkplain} and {@linkcode} 
-          to override this formatting for an individual link.</p>
+        while a {@link} to a JSDoc namepath will appear in monospace. Use {@linkplain} and {@linkcode} 
+        to override this formatting for an individual link.</p>
 
       <p>If both options are true, templates.cleverLinks is used. </p>
 
-    <h5>{@linkplain} tag</h5>
-    <p>syntax 语法</p>
-    <pre class='brush: js; '>
+      <h5>{@linkplain} tag</h5>
+      <p>syntax 语法</p>
+      <pre class='brush: js; '>
     {@linkplain someNamepathOrURL}
     [link text here]{@linkplain someNamepathOrURL}
     {@linkplain someNamepathOrURL|link text here}
     {@linkplain someNamepathOrURL Link text here (after the first space)}
-    </pre>
-    <p>The {@linkplain} tag is exactly the same as {@link}, except that it forces JSDoc to render
+      </pre>
+      <p>The {@linkplain} tag is exactly the same as {@link}, except that it forces JSDoc to render
         the link in plain text regardless of your configuration options. </p>
-    <p>For example, if the templates.monospaceLinks option is enabled, "{@link fooBar}"
+      <p>For example, if the templates.monospaceLinks option is enabled, "{@link fooBar}"
         will be converted to &lt;a href="#"&gt;&lt;code&gt;fooBar&lt;/code&gt;&lt;/a&gt;. 
         However, "{@linkplain fooBar}" will be converted to &lt;a href="#"&gt;fooBar&lt;/a&gt;. </p>
 
-    <h5> {@linkcode} tag</h5>
-    <p>syntax</p>
-    <pre class='brush: js; '>
+      <h5> {@linkcode} tag</h5>
+      <p>syntax</p>
+      <pre class='brush: js; '>
     {@linkcode someNamepathOrURL}
     [link text here]{@linkcode someNamepathOrURL}
     {@linkcode someNamepathOrURL|link text here}
     {@linkcode someNamepathOrURL Link text here (after the first space)}
-    </pre>
-    <p>The {@linkcode} tag is exactly the same as {@link}, except that it forces JSDoc to render the link in a monospace font regardless of your configuration options. 
+      </pre>
+      <p>The {@linkcode} tag is exactly the same as {@link}, except that it forces JSDoc to render the link in a monospace font regardless of your configuration options. 
         For example, "{@linkcode fooBar}" will be converted to &lt;a href="#"&gt;&lt;code&gt;fooBar&lt;/code&gt;&lt;/a&gt;. </p>
-    <h5>{@tutorial}</h5>
-    <p>syntax</p>
-    <pre class='brush: js; '>
+      <h5>{@tutorial}</h5>
+      <p>syntax</p>
+      <pre class='brush: js; '>
     {@tutorial tutorialID}
-    </pre>
+      </pre>
       <p> The inline {@tutorial} tag is used to link to a tutorial. The link text for a {@tutorial} tag is  always rendered in plain text. See the <a href="http://usejsdoc.org/about-tutorials.html">tutorials overview</a> for more information on setting up tutorials. </p>
       <p> The @tutorial tag may also be used as a block tag; see the <a href="http://usejsdoc.org/tags-tutorial.html">@tutorial</a> page for more information. </p>
-    <p>例子</p>
-    <pre class='brush: js; '>
+      <p>例子</p>
+      <pre class='brush: js; '>
     /**
      * Description.
      * Check out {@tutorial tutorial1} and {@tutorial tutorial2}.
      * @class
      */
-    </pre>
+      </pre>
+
+      <h4>CommonJS Modules</h4>
+      <p>JSDoc 提供了一个标签 @module 来写符合 <a href="http://wiki.commonjs.org/wiki/Modules/1.1">CommonJS Modules standard</a> 的注释，下面例子定义了一个"my/shirt" module</p>
+
+      <pre class='brush: js; '>
+    /** @module my/shirt */
+
+    /** Try it on. */
+    exports.putOn = function(someShirt) {
+    }
+
+    /** Make it easier to put on and remove. */
+    exports.unbutton = function(someShirt) {
+    }
+      </pre>
+      <p>关于这方面的详细了解，可以参考 <a href="http://usejsdoc.org/howto-commonjs-modules.html">这里</a></p>
+
+      <h3 paragraph>JSDoc 3 Tag Dictionary</h3>
+      <div>
+        <h4>Inline tags</h4>
+        <p>该标签上面已介绍过，用来内部链接</p>
+
+        <h4>@abstract</h4>
+        <p><a href="http://usejsdoc.org/tags-abstract.html">@abstract</a> tag 表示该方法是抽象的，继承该类的子类必须要实现该方法</p>
+        <p><a href="./examples/jsdoc/abstract-demo/Class.js">例子</a></p>
+
+        <h4>@access</h4>
+        <p>用来指明是 public，protected 或 private。@access &lt;private|protected|public&gt; 与 @private, @protected, @public 效果是一样的。</p>
+        <p><a href="./examples/jsdoc/access/access.js">例子</a></p>
+
+        <h4>@alias</h4>
+        <p><a href="http://usejsdoc.org/tags-alias.html">@alias</a> 主要用在内部函数或变量中，这样JSDoc可以把需要的内部函数和属性展现给用户。</p>
+        <p>@alias 可用在内部匿名构造函数上，也可用在定义了@namespace的静态成员上，还可以用在一个对象上。他和 @name 标签是不一样的。</p>
+        <p><a href="./examples/jsdoc/alias/alias.js">例子</a></p>
+
+        <h4>@augments</h4>
+        <p><a href="http://usejsdoc.org/tags-augments.html">@augments</a> 
+          While current versions of JavaScript don't allow classes or subclasses in the same way that class-based languages like Java do, 
+          many programmers choose to think of their code structure in these terms. For this purpose JSDoc provides the @class and @extends tags. 
+          If you wish to express a similar relationship between two symbols, but don't wish to promote the classical analogy, you can use the @contructor and @augments tags instead. </p>
+        <p>生成的文档会显示继承的信息</p>
+        <p><a href="./examples/jsdoc/alias/alias.js">例子</a></p>
+
+        <h4>@author</h4>
+        <p><a href="http://usejsdoc.org/tags-author.html">@author</a> 指明作者信息</p>
+        <p>例子</p>
+        <pre class='brush: js; '>
+    /**
+     * @author Jane Smith <jsmith@example.com>
+     */
+    function MyClass() {}
+        </pre>
+
+        <h4>@borrows</h4>
+        <p><a href="http://usejsdoc.org/tags-borrows.html">@borrows</a> 语法为：@borrows &lt;that namepath &gt; as &lt;this namepath&gt;。
+          表示当两个不同的函数名实现的功能是一样的，我们就可以对其中的一个做详细的注释，而其他的只需用该标签即可。</p>
+        <p>以下例子 util.trim 会借用 trstr的注释。</p>
+        <pre class='brush: js; '>
+    /**
+     * @namespace
+     * @borrows trstr as trim
+     */
+    var util = {
+        trim: trstr
+    };
+
+    /** 
+     * Remove whitespace from around a string.
+     * @param {string} str
+     */
+    function trstr(str) {
+    }
+        </pre>
+
+        <h4>@callback</h4>
+        <p><a href="http://usejsdoc.org/tags-callback.html">@callback</a> 用来定义回调函数详细注释信息。通常是跟 @param一起使用的。</p>
+        <p>例子</p>
+        <pre class='brush: js; '>
+    /**
+     * Documenting a global callback
+     * @class
+     */
+    function Requester() {}
+
+    /**
+     * Send a request.
+     * @param {requestCallback} cb - The callback that handles the response.
+     */
+    Requester.prototype.send = function(cb) {
+        // code
+    };
+
+    /**
+     * This callback is displayed as a global member.
+     * @callback requestCallback
+     * @param {number} responseCode
+     * @param {string} responseMessage
+     */
+        </pre>
+
+        <h4>@classdesc</h4>
+        <p><a href="http://usejsdoc.org/tags-classdesc.html">@classdesc</a> 用来描述类的，而 @class 是用来标示类的，请看例子</p>
+        <pre>
+    /**
+     * This is a description of the MyClass constructor function.
+     * @class
+     * @classdesc This is a description of the MyClass class.（描述类的信息用该标签）
+     */
+    function MyClass() {
+    }
+        </pre>
+
+        <h4>@constant</h4>
+        <p><a href="http://usejsdoc.org/tags-constant.html">@constant</a> 用来声明常量的。</p>
+        <pre class='brush: js; '>
+    /** @constant
+        版本低的js不支持const关键字
+        @type {string}
+        @default
+    */
+    const RED = 'FF0000';
+
+    /** @constant {number} */
+    var ONE = 1;
+
+        </pre>
+
+        <h4>@constructor</h4>
+        <p><a href="http://usejsdoc.org/tags-constructor.html">@constructor</a> 用来声明一个函数作为构造函数，表明可以用new来实例化，语法： @constructor [&lt;type&gt; &lt;name&gt;] </p>
+        <pre class='brush: js; '>
+    /**
+     * Creates a new Person.
+     * @constructor 
+     */ 
+    Person = function() {
+    }
+
+    var p = new Person();
+        </pre>
+
+        <h4>@constructs</h4>
+        <p><a href="http://usejsdoc.org/tags-constructs.html">@constructs</a> 与 @constructor（直接定义构造函数）不同的是可以利用对象字面来指定其构造函数</p>
+        <pre class='brush: js; '>
+    //Using the @constructs tag with @lends
+    var Person = makeClass(
+        /** @lends Person.prototype */
+        {
+            /** @constructs */
+            initialize: function(name) {
+                this.name = name;
+            },
+            /** Describe me. */
+            say: function(message) {
+                return this.name + " says: " + message;
+            }
+        }
+    );
+
+    //Without @lends you must provide the name of the class
+    makeClass('Menu', 
+        /**
+         * @constructs Menu
+         * @param items
+         */
+        function (items) { },
+        {
+            /** @memberof Menu# */
+            show: function(){
+            }
+        }
+    );
+        </pre>
+
+        <h4>@copyright</h4>
+        <p><a href="http://usejsdoc.org/tags-copyright.html">@copyright</a> 说明版本信息的</p>
+
+        <h4>@default</h4>
+        <p><a href="http://usejsdoc.org/tags-default.html">@default</a> 用来标识默认值的，语法 @default [&lt;some value&gt;]</p>
+        <pre>
+    /**
+     *  @constant
+     *  @default
+     */
+    const RED = 0xff0000;
+        </pre>
+
+        <h4>@deprecated</h4>
+        <p><a href="http://usejsdoc.org/tags-deprecated.html">@deprecated</a> 用来标识不赞成的属性或方法或类等。语法 @deprecated [&lt;some text&gt;]</p>
+        <pre>
+    /**
+     * @deprecated since version 2.0
+     */
+    function old() {  
+    }
+        </pre>
+
+        <h4>@desc</h4>
+        <p><a href="http://usejsdoc.org/tags-description.html">@desc</a> 用来描述信息的</p>
+        <pre>
+    //不用标签直接在开头描述
+    /**
+     * Add two numbers.
+     * @param {number} a
+     * @param {number} b
+     * @returns {number}
+     */
+    function add(a, b) {
+        return a + b;
+    }
+
+    //使用标签可以放在任意位置
+    /**
+     * @param {number} a
+     * @param {number} b
+     * @returns {number}
+     * @desc Add two numbers.
+     */
+    function add(a, b) {
+        return a + b;
+    }
+        </pre>
+
+        <h4>@enum</h4>
+        <p><a href="http://usejsdoc.org/tags-enum.html">@enum</a> 枚举数据的</p>
+        <pre>
+    /**
+     * Enum for tri-state values.
+     * @readonly
+     * @enum {number}
+     */
+    var triState = {
+        /** The true value */
+        TRUE: 1,
+        FALSE: -1,
+        /** @type {boolean} */
+        MAYBE: true
+    };
+        </pre>
+
+        <h4>@event</h4>
+        <p><a href="http://usejsdoc.org/tags-event.html">@event</a> 用来声明事件的，而 @fires 标签可以指定触发该事件的行为。语法 @event &lt;className&gt;#[event:]&lt;eventName&gt;</p>
+        <pre>
+    /**
+     * Throw a snowball.
+     *
+     * @fires Hurl#snowball
+     */
+    Hurl.prototype.snowball = function() {
+        /**
+         * Snowball event.
+         *
+         * @event Hurl#snowball
+         * @type {object}
+         * @property {boolean} isPacked - Indicates whether the snowball is tightly packed.
+         */
+        this.emit('snowball', {
+            isPacked: this._snowball.isPacked
+        });
+    };
+        </pre>
+
+        <h4>@example</h4>
+        <p><a href="http://usejsdoc.org/tags-example.html">@example</a> 用来注释一个或多个例子，帮助其他人使用。@example可以用caption指定标题</p>
+        <pre>
+    /**
+     * Solves equations of the form a * x = b
+     * @example &lt;caption&gt;Example usage of method1.&lt;/caption&gt;
+     * // returns 2
+     * globalNS.method1(5, 10);
+     * @example
+     * // returns 3
+     * globalNS.method(5, 15);
+     * @returns {Number} Returns the value of x for the equation.
+     */
+    globalNS.method1 = function (a, b) {
+        return b / a;
+    };
+        </pre>
+
+        <h4>@exports</h4>
+        <p><a href="http://usejsdoc.org/tags-exports.html">@exports</a> 用在模块化 module 中，如果代码中有exports关键字则不需要 @exports标签</p>
+        <pre>
+    /**
+     * A module that says hello!
+     * @module hello/world
+     */
+
+    /** Say hello. */
+    exports.sayHello = function() {
+        return 'Hello world';
+    };
+
+    define(function () {
+        /**
+         * A module that says hello!
+         * @exports hello/world
+         */
+        var ns = {};
+        
+        /** Say hello. */
+        ns.sayHello = function() {
+            return 'Hello world';
+        };
+
+        return ns;
+    });
+        </pre>
+
+        <h4>@external</h4>
+        <p><a href="http://usejsdoc.org/tags-external.html">@external</a> 引用外部资源，比如url等</p>
+        <pre>
+    /**
+     * The built in string object.
+     * @external String
+     * @see {@link https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String String}
+     */
+
+    /**
+     * Adds a new method to the built-in string.
+     * @function external:String#rot13
+     * @example
+     * var greeting = new String('hello world');
+     * console.log( greeting.rot13() ); // uryyb jbeyq
+     */
+
+    /**
+     * The jQuery plugin namespace.
+     * @external "jQuery.fn"
+     * @see {@link http://docs.jquery.com/Plugins/Authoring The jQuery Plugin Guide}
+     */
+
+    /**
+     * A jQuery plugin to make stars fly around your home page.
+     * @function external:"jQuery.fn".starfairy
+     */
+        </pre>
+
+        <h4>@file</h4>
+        <p><a href="http://usejsdoc.org/tags-file.html">@file</a> 用来描述文件信息的</p>
+        <pre>
+    /**
+     * @file Manages the configuration settings for the widget.
+     * @author Rowina Sanela &lt;rsanela@example.com&gt;
+     */
+        </pre>
+        <h4>@fires</h4>
+        <p><a href="http://usejsdoc.org/tags-fires.html">@fires</a> 用来指明触发的事件</p>
+        <pre>
+    /**
+     * Drink the milkshake.
+     *
+     * @fires Milkshake#drain
+     */
+    Milkshake.prototype.drink = function() {
+        // ...  
+    };
+        </pre>
+        <p>上面例子中调用 Milkshake.prototype.drink 会触发Milkshake#drain的</p>
+
+        <h4>@global</h4>
+        <p><a href="http://usejsdoc.org/tags-global.html">@global</a> 用来指明全局变量。</p>
+        <pre>
+    (function() {
+        /** @global */
+        var foo = 'hello foo';
+
+        this.foo = foo;
+    }).apply(window);
+        </pre>
+
+        <h4>@ignore</h4>
+        <p><a href="http://usejsdoc.org/tags-ignore.html">@ignore</a> 指定忽略的代码。</p>
+
+        <h4>@inner</h4>
+        <p><a href="http://usejsdoc.org/tags-inner.html">@inner</a> 用来标明是一个内部方法或属性</p>
+        <pre>
+    /** @namespace */
+    var MyNamespace = {
+        /**
+         * foo is now MyNamespace~foo rather than MyNamespace.foo.
+         * @inner
+         */
+        foo: 1
+    };
+        </pre>
+
+        <h4>@instance</h4>
+        <p><a href="http://usejsdoc.org/tags-instance.html">@instance</a> 指明该属性是一个实例化的对象</p>
+        <pre>
+    /** @namespace */
+    var BaseObject = {
+        /**
+         * foo is now BaseObject#foo rather than BaseObject.foo.
+         * @instance
+         */
+        foo: null
+    };
+    /** Generates BaseObject instances. */
+    function fooFactory(fooValue) {
+        var props = { foo: fooValue };
+        return Object.create(BaseObject, props);
+    }
+        </pre>
+
+        <h4>@kind</h4>
+        <p><a href="http://usejsdoc.org/tags-kind.html">@kind</a> 用来设置标签种类的，跟直接使用这些种类效果是一样的。种类包括以下：</p>
+        <ul>
+          <li>class</li>
+        </ul>
+        <ul>
+          <li>constant</li>
+        </ul>
+        <ul>
+          <li>event</li>
+        </ul>
+        <ul>
+          <li>external</li>
+        </ul>
+        <ul>
+          <li>file</li>
+        </ul>
+        <ul>
+          <li>function</li>
+        </ul>
+        <ul>
+          <li>member</li>
+        </ul>
+        <ul>
+          <li>mixin</li>
+        </ul>
+        <ul>
+          <li>module</li>
+        </ul>
+        <ul>
+          <li>namespace</li>
+        </ul>
+        <ul>
+          <li>typedef</li>
+        </ul>
+        <pre>
+    // The following examples produce the same result:
+
+    /**
+     * A constant.
+     * @kind constant
+     */
+    const asdf = 1;
+
+    /**
+     * A constant.
+     * @constant
+     */
+    const asdf = 1;
+        </pre>
+
+        <h4>@lends</h4>
+        <p><a href="http://usejsdoc.org/tags-lends.html">@lends</a> 用来指明 object 字面 方法</p>
+        <pre>
+    /** @class */
+    var Person = makeClass(
+        /** @lends Person */
+        {
+            initialize: function(name) {
+                this.name = name;
+            },
+            say: function(message) {
+                return this.name + " says: " + message;
+            }
+        }
+    );
+        </pre>
+
+        <h4>@license</h4>
+        <p><a href="http://usejsdoc.org/tags-license.html">@license</a> 设置license信息</p>
+
+        <h4>@link</h4>
+        <p><a href="http://usejsdoc.org/tags-link.html">@link</a> 内部链接，语法有以下几种</p>
+        <p>
+          {@link someSymbol}<br />
+          {@link http://some.url.com}<br />
+          [caption here]{@link someSymbol}<br />
+          [caption here]{@link http://some.url.com}<br />
+          {@link someSymbol|caption here}<br />
+          {@link http://some.url.com|caption here}<br />
+          {@link http://some.url.com Caption Here (after the first space)}<br />
+          {@link someSymbol Caption Here (after the first space)}
+        </p>
+        <pre>
+    /** See {@link MyClass} and [MyClass's foo property]{@link MyClass#foo}.
+     * Also check out {@link http://www.google.com|google} and {@link http://github.com Github}.
+     */
+    function myFunction() {}
+
+    /** A class.
+     * @class */
+    function MyClass() {
+        /** foo property */
+        this.foo = 1;
+    }
+        </pre>
+
+        <h4>@member</h4>
+        <p><a href="http://usejsdoc.org/tags-member.html">@member</a> 标明成员的类型，名称等。与@var和@type可以结合使用</p>
+        <pre>
+    /** @class */
+    function Data() {
+        /** @member {Object} */
+        this.point = {};
+    }
+
+    /**
+     * A variable in the global namespace called 'foo'.
+     * @var {number} foo
+     */
+
+    /**
+     * A variable in the global namespace called 'foo'.
+     * @type {number}
+     */
+    var foo;
+        </pre>
+
+        <h4>@memberof</h4>
+        <p><a href="http://usejsdoc.org/tags-memberof.html">@memberof</a> 用来指定是属于按个父 tag的</p>
+        <pre>
+    /** @namespace */
+    var Tools = {};
+
+    /** @memberof Tools */
+    var hammer = function() {
+    };
+
+    Tools.hammer = hammer;
+        </pre>
+
+        <h4>@method</h4>
+        <p><a href="http://usejsdoc.org/tags-method.html">@method</a> 用来指定是一个方法，与 @function 和 @func 类似</p>
+        <pre>
+    /** @function */
+    var paginate = paginateFactory(pages);
+        </pre>
+
+        <h4>@mixes</h4>
+        <p><a href="http://usejsdoc.org/tags-mixes.html">@mixes</a> tag indicates that the current object mixes in all the members from OtherObjectPath, which is a @mixin. </p>
+        <p> To start, we document a mixin with the @mixin tag:
+
+          Example of a @mixin</p>
+        <pre>
+    /**
+     * This provides methods used for event handling. It's not meant to
+     * be used directly.
+     *
+     * @mixin
+     */
+    var Eventful = {
+        /**
+         * Register a handler function to be called whenever this event is fired.
+         * @param {string} eventName - Name of the event.
+         * @param {function(Object)} handler - The handler to call.
+         */
+        on: function(eventName, handler) {
+            // code...
+        },
+       
+        /**
+         * Fire an event, causing all handlers for that event name to run.
+         * @param {string} eventName - Name of the event.
+         * @param {Object} eventData - The data provided to each handler.
+         */
+        fire: function(eventName, eventData) {
+            // code...
+        }
+    };
+        </pre>
+        <p>
+          Now we add a FormButton class and call a "mix" function that mixes all of the Eventful functions into FormButton, so that FormButton can also fire events and have listeners. We use the @mixes tag to indicate that FormButton mixes the Eventful functions.
+        </p>
+        <p>Using the @mixes tag
+        </p>
+        <pre>
+    /**
+     * @constructor FormButton
+     * @mixes Eventful
+     */
+    var FormButton = function() {
+        // code...
+    };
+    FormButton.prototype.press = function() {
+      this.fire('press', {});
+    }
+    mix(Eventful).into(FormButton.prototype);
+        </pre>
+        
+        <h4>@mixin</h4>
+        <p><a href="http://usejsdoc.org/tags-mixin.html">@mixin</a> （参见上例）</p>
+        
+        <h4>@module</h4>
+        <p><a href="http://usejsdoc.org/tags-module.html">@module</a> 用来定义模块化的，语法 @module [[{&lt;type&gt;}] &lt;ModuleName&gt;]</p>
+        <pre>
+    /** @module myModule */
+
+    /** will be module:myModule~foo */
+    var foo = 1;
+
+    /** will be module:myModule.bar */
+    var bar = function() {};
+        </pre>
+        
+        <h4>@name</h4>
+        <p><a href="http://usejsdoc.org/tags-name.html">@name</a> 标识代码的名称，通常用@alias代替</p>
+        <pre>
+    /**
+     * @name highlightSearchTerm
+     * @function
+     * @global
+     * @param {string} term - The search term to highlight.
+     */
+    eval("window.highlightSearchTerm = function(term) {};")
+        </pre>
+        
+        <h4>@namespace</h4>
+        <p><a href="http://usejsdoc.org/tags-namespace.html">@namespace</a> 用来定义命名空间的。语法 @namespace [[{&lt;type&gt;}] &lt;SomeName&gt;]</p>
+        <pre>
+    /**
+     * My namespace.
+     * @namespace
+     */
+    var MyNamespace = {
+        /** documented as MyNamespace.foo */
+        foo: function() {},
+        /** documented as MyNamespace.bar */
+        bar: 1
+    };
+        </pre>
+        
+        <h4>@param</h4>
+        <p><a href="http://usejsdoc.org/tags-param.html">@param</a> 用来声明参数的</p>
+        <pre>
+    /**
+     * @param {string} somebody
+     */
+    function sayHello(somebody) {
+        alert('Hello ' + somebody);
+    }
+        </pre>
+        
+        <h4>@private @protected @public</h4>
+        <p><a href="http://usejsdoc.org/tags-private.html">@private</a> 、<a href="http://usejsdoc.org/tags-protected.html">@protected</a>和<a href="http://usejsdoc.org/tags-public.html">@public</a>
+        用来指明 是私有、受保护的和公有的。
+        </p>
+        
+        <h4>@property</h4>
+        <p><a href="http://usejsdoc.org/tags-property.html">@property</a> 用来指明类的静态属性，对象属性等</p>
+        <pre>
+    /**
+     * @namespace
+     * @property {object}  defaults               - The default values for parties.
+     * @property {number}  defaults.players       - The default number of players.
+     * @property {string}  defaults.level         - The default level for the party.
+     * @property {object}  defaults.treasure      - The default treasure.
+     * @property {number}  defaults.treasure.gold - How much gold the party starts with.
+     */
+    var config = {
+        defaults: {
+            players: 1,
+            level:   'beginner',
+            treasure: {
+                gold: 0
+            }
+        }
+    };
+        </pre>
+        
+        <h4>@readonly</h4>
+        <p><a href="http://usejsdoc.org/tags-readonly.html">@readonly</a> 指明该属性或方法是只读的</p>
+        <pre>
+    /**
+     * Options for ordering a delicious slice of pie.
+     * @namespace
+     */
+    var pieOptions = {
+        /**
+         * Plain.
+         */
+        plain: 'pie',
+        /**
+         * A la mode.
+         * @readonly
+         */
+        get aLaMode() {
+            return this.plain + ' with ice cream';
+        }
+    };
+        </pre>
+      </div>
     </div>
   </body>
 </html>

@@ -29,7 +29,7 @@ HopeFuture = {
  * @param {number} index
  * @returns {String}
  */
-HopeFuture.element = function (element, index) {
+HopeFuture.element = function(element, index) {
   return "";
 };
 
@@ -50,3 +50,12 @@ function MyClass() {
   this.foo = 1;
 }
 
+/** @module my/shirt */
+
+/** Try it on. */
+exports.putOn = function(someShirt) {
+};
+
+/** Make it easier to put on and remove. */
+exports.unbutton = function(someShirt) {
+};

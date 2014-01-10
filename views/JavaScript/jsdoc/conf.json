@@ -1,0 +1,27 @@
+{
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "source": {
+    "include": [],
+    "exclude": [],
+    "includePattern": ".+\\.js(doc)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "plugins": [],
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  },
+  "opts": {
+    "template": "./templates/hopefuture",
+    "encoding": "utf8",
+    "recurse": true,
+    "tutorials": "",
+    "query": "",
+    "private": true,
+    "lenient": true,
+    "explain": false,
+    "version": false
+  }
+}

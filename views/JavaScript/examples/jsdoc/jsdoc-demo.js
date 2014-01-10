@@ -1,6 +1,5 @@
 /**
  * @author linder
- * @since 2014-1-7
  * @param {type} arg1
  * @param {type} arg2
  * @returns {Number}

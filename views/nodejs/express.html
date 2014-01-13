@@ -138,6 +138,38 @@
           </li>
         </ol>
       </li>
+      <li>
+        <a paragraph href="#">利用express 构建工程详解</a>
+        <ol class="h-web-catalogue2">
+          <li>
+            <a href="#">创建基于express的工程</a>
+          </li>
+          <li>
+            <a href="#">用bower管理web包</a>
+          </li>
+          <li>
+            <a href="#">用grunt来构建工程</a>
+          </li>
+          <li>
+            <a href="#">把ejs扩展名改为普通的html格式，修改代码如下</a>
+          </li>
+          <li>
+            <a href="#">设置多个 static-files</a>
+          </li>
+          <li>
+            <a href="#">添加 bootstrap 前端css框架</a>
+          </li>
+          <li>
+            <a href="#">路由的定义</a>
+          </li>
+          <li>
+            <a href="#">Session使用</a>
+          </li>
+          <li>
+            <a href="#">页面访问控制</a>
+          </li>
+        </ol>
+      </li>
     </ol>
 
     <div class="h-web-paragraph">
@@ -392,6 +424,180 @@ req.query.shoe.type
 // => "converse"
         </pre>
         <p><a href="https://github.com/linder0209/nodejs/tree/master/official-examples/web-service">例子代码</a></p>
+      </div>
+
+      <h3 paragraph>利用express 构建工程详解</h3>
+      <div>
+        <p>该例子主要讲解了搭建express项目基本框架以及第三方npm 模块。项目用到的技术和框架有：最后补充</p>
+        <h4>创建基于express的工程</h4>
+        <p>
+          我们利用命令 express --sessions --css less --ejs node_express_demo  来创建支持ejs、less 和session的应用工程。我们也可以利用 IDE WebStorm 来创建。 二者创建的是一样的。
+        </p>
+        <h4>用bower管理web包</h4>
+        <p>我们可以用命令 bower init 来初始化bower.json或者直接拷贝已有的文件，还需要创建文件 .bowerrc 来配置 bower相关参数，以下是这两个文件代码</p>
+        <pre>
+{
+  "name": "node_express_demo",
+  "version": "0.1.0",
+  "authors": [
+    "linder0209 &lt;linder0209@126.com&gt;"
+  ],
+  "description": "This is a node express demo.",
+  "main": "app.js",
+  "keywords": [
+    "node",
+    "express",
+    "demo"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "public/components",
+    "test",
+    "tests"
+  ]
+}
+        </pre>
+
+        <pre>
+{
+  "directory": "public/components"
+}
+        </pre>
+
+        <h4>用grunt来构建工程</h4>
+        <p>执行以下命令来初始化grunt相关包 npm install grunt --save-dev ，然后创建 Gruntfile.js 文件</p>
+        <p>根据构建工程需要安装 grunt插件，这里安装了以下插件</p>
+        <pre>
+npm install grunt-contrib-jshint --save-dev
+
+npm install grunt-contrib-concat --save-dev
+
+npm install grunt-contrib-uglify --save-dev
+
+npm install grunt-contrib-watch --save-dev
+
+npm install grunt-jsdoc --save-dev
+        </pre>
+
+        <h4>把ejs扩展名改为普通的html格式，修改代码如下</h4>
+        <pre>
+//让ejs模板改为扩展名为html
+var ejs = require('ejs');//该声明代码可以放到最上面
+app.engine('.html', ejs.__express);
+app.set('view engine', 'html');
+        </pre>
+        <p>同时把模板文件也修改为后缀名是html格式的。</p>
+
+        <h4>设置多个 static-files</h4>
+        <pre>
+//设置多个 static-files ，这样在加载的时候就可以不用书写public和components
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/components')))
+        </pre>
+
+        <h4>添加 bootstrap 前端css框架</h4>
+        <p>首先利用bower来安装最新版本，然后引入到页面中，代码如下，我们可以把这个页面拆成三部分，header.html body.html 和 footer.html。这样新页面只需引入header.html和footer.html即可</p>
+        <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt;
+    &lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="description" content=" "&gt;
+    &lt;meta name="author" content=""&gt;
+    &lt;meta name="keywords" content=""&gt;
+
+    &lt;link rel='stylesheet' href='/stylesheets/style.css'/&gt;
+    &lt;link rel='stylesheet' href='/bootstrap/dist/css/bootstrap.min.css'/&gt;
+    &lt;!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries --&gt;
+    &lt;!-- WARNING: Respond.js doesn't work if you view the page via file:// --&gt;
+    &lt;!--[if lt IE 9]&gt;
+    &lt;script src="/html5shiv/dist/html5shiv.js"&gt;&lt;/script&gt;
+    &lt;script src="/respond/dest/respond.min.js"&gt;&lt;/script&gt;
+    &lt;![endif]--&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;script type="text/javascript" src="/jquery/jquery.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="/bootstrap/dist/js/bootstrap.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+        </pre>
+
+        <h4>路由的定义</h4>
+        <p>新增一些路由</p>
+        <pre>
+app.get('/', routes.index);
+app.get('/login', routes.login);
+app.post('/login', routes.doLogin);
+app.get('/logout', routes.logout);
+app.get('/home', routes.home);          
+        </pre>
+        <p>定义的路由需要增加对应的路由方法，代码略，详细看最下面该工程的源代码。</p>
+
+        <h4>Session使用</h4>
+        <p>我们可以把用户登录信息赋给req.session，在app.js中加入如下代码</p>
+        <pre class='brush: js; '>
+app.use(function (req, res, next) {
+  res.locals.user = req.session.user;
+  next();
+});
+        </pre>
+        <p>这样页面就可以获取到user的信息了。当然我们也可以利用session-mongoose插件来把session信息保存到数据库中，需要启动mongodb并加入以下代码</p>
+        <pre class='brush: js; '>
+var SessionStore = require("session-mongoose")(express);
+var store = new SessionStore({
+url: "mongodb://localhost/session",
+interval: 120000
+});
+
+// The flowing code will be replaced.
+//app.use(express.cookieParser('your secret here'));
+//app.use(express.session());
+
+app.use(express.cookieParser());
+app.use(express.cookieSession({secret : 'fens.me'}));
+app.use(express.session({
+secret : 'fens.me',
+store: store,
+cookie: { maxAge: 900000 }
+}));
+        </pre>
+
+        <h4>页面访问控制</h4>
+        <p>主要用来控制登录的页面和没登陆的页面的一些行为，如果我们还没有登录的话，访问home页会报错。</p>
+        <p>加上以下代码，可以在访问这些页面时，先被过滤一下是否登录。</p>
+        <pre class='brush: js; '>
+app.all('/login', notAuthentication);
+app.get('/login', routes.login);
+app.post('/login', routes.doLogin);
+app.get('/logout', authentication);
+app.get('/logout', routes.logout);
+app.get('/home', authentication);
+app.get('/home', routes.home);
+
+function authentication(req, res, next) {
+  if (!req.session.user) {
+    req.session.error = 'Please login at first.';
+    return res.redirect('/login');
+  }
+  next();
+}
+function notAuthentication(req, res, next) {
+  if (req.session.user) {
+    return res.redirect('/home');
+  }
+  next();
+}
+        </pre>
+        
+        <h4>连接 MongoDB 数据库</h4>
+        <p>我们采用 <a href="http://mongoosejs.com">Mongoose</a> 来操作 <a href="http://www.mongodb.org/">MongoDB</a>。安装命令</p>
+        <pre>npm install mongoose</pre>
       </div>
     </div>
   </body>

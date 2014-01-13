@@ -58,6 +58,9 @@
               </li>
             </ol>
           </li>
+          <li>
+            <a href="#">grunt 例子</a>
+          </li>
         </ol>
       </li>
       <li>
@@ -118,6 +121,17 @@
           </li>
           <li>
             <a href="#">在nodejs代码中加载包</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a paragraph href="#">Yeoman - Modern workflows for modern webapps</a>
+        <ol class="h-web-catalogue2">
+          <li>
+            <a href="#">Yeoman 介绍</a>
+          </li>
+          <li>
+            <a href="#">Yeoman 使用</a>
           </li>
         </ol>
       </li>
@@ -400,6 +414,10 @@ module.exports = function(grunt) {
         <p>上面模板的安装，在windows平台下，首先需要在%USERPROFILE%下创建.grunt-init目录，当然可以直接把模板安装到项目目录下</p>
         <pre>git clone git@github.com:gruntjs/grunt-init-jquery.git jquery</pre>
         <p>jquery指定了本地别名，如果不设置jquery，那么会用模板本身名字创建，本例为 grunt-init-jquery</p>
+
+        <h4>grunt 例子</h4>
+        <p><a href="./examples/grunt/grunt-notmpl">不用模板手工创建一个grunt工程</a></p>
+        <p><a href="./examples/grunt/grunt-jquery-tmpl">利用jquery模板创建一个grunt工程</a></p>
       </div>
 
 
@@ -597,7 +615,7 @@ bower.commands
         </p>
         <p>Yeoman主要有三部分组成：yo（脚手架工具）、grunt（构建工具）、bower（包管理器）。这三个工具是分别独立开发的，但是需要配合使用，来实现我们高效的工作流模式。</p>
         <p><a href="http://yeoman.io/">官方网站</a></p>
-        
+
         <h4>Yeoman 使用</h4>
         <p>首先利用npm安装 yo、grunt和bower。grunt 和bower上面已提到。yo的安装命令为</p>
         <pre>npm install -g yo</pre>

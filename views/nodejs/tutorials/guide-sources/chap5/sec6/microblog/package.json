@@ -1,0 +1,11 @@
+{
+    "name": "microblog"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+      "express": "*"
+    , "ejs": ">= 0.0.1"
+    , "connect-mongo": ">= 0.1.7"
+    , "mongodb": ">= 0.9.9"
+  }
+}

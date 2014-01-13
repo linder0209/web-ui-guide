@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>js hint demo</title>
+    <script type="text/javascript" src="../../../../../platform/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="jshint.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        $('#sourceJs').val($('#jsInitCode').text());
+
+        $('button').click(function() {
+          var source = $('#sourceJs').val();
+          JSHINT(source);
+          //JSHINT.data();
+          var errors = JSHINT.errors;
+          var html = ['<ul>'];
+          var item;
+          for (var i = 0, len = errors.length; i < len; i++) {
+            item = errors[i];
+            html.push('<li> 出错行数：' + item.line + '  错误代码：' + item.evidence + '  错误原因：' + item.reason + ' 错误类型：' + item.code + '</li>');
+          }
+          html.push('</li>');
+          $('#errorContent').html(html.join(''));
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div style="margin-bottom: 10px;">
+      <button>点击用jshint分析javascript代码</button>
+    </div>
+    <div style="clear: both;">
+      <div style="float: left;width: 48%;">
+        <textarea id="sourceJs" style="width: 90%;height: 500px;">
+        </textarea>
+      </div>
+      <div style="float: left;width: 48%;">
+        <h1>错误信息：</h1>
+        <div id="errorContent"></div>
+      </div>
+    </div>
+    <pre id="jsInitCode" style="display:none;">
+// Hello.
+//
+// This is JSHint, a tool that helps to detect errors and potential
+// problems in your JavaScript code.
+//
+// To start, simply enter some JavaScript anywhere on this page. Your
+// report will appear on the right side.
+//
+// Additionally, you can toggle specific options in the Configure
+// menu.
+
+function main() {
+  var nodes = [1,2,3,4,5,6,7,8,9,0];
+  for(var i = 0, len = nodes.length; i < len; i++){
+    console.info(nodes[i]);
+  }
+  eval('console.info(2);');
+  return 'Hello, World!';
+}
+
+main();
+    </pre>
+  </body>
+</html>

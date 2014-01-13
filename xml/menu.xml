@@ -109,4 +109,10 @@
         <name>Web 前端相关理论知识</name>
         <children id="color" name="color 基础知识用配色工具" href="knowledge/color.html"/>
     </menu>
+    
+    <menu>
+        <id>database</id>
+        <name>数据库</name>
+        <children id="mongodb" name="Mongodb 数据库" href="database/mongodb.html"/>
+    </menu>
 </menus>

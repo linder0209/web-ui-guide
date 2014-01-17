@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>用 Mongoose 连接数据库</title>
+    <link rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css" type="text/css" />
+
+    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+
+    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/view/init.js"></script>
+  </head>
+  <body>
+    <h3 class="h-web-paragraph-title">目录</h3>
+
+    <div class="h-web-paragraph">
+      <h3 paragraph>Mongoose 介绍</h3>
+      <div>
+        <p>Mongoose是MongoDB的一个对象模型工具，可以工作于异步环境下。 </p>
+        <p>
+          <a href="http://mongoosejs.com/index.html">官方网站</a>
+        </p>
+      </div>
+
+      <h3 paragraph>Mongoose API</h3>
+      <div>
+        <h4>Model.find(conditions, [fields], [options], [callback])</h4>
+        <p>该方法为查询 Model 记录，我们需要先定义一个Model</p>
+        <pre>
+...
+var Blog = mongoose.model('Blog', blogSchema);
+...
+Blog.find(function(err, obj){
+    callback(err, obj);
+});
+        </pre>
+        <p>该方法会返回 Query 对象。conditions 为查询条件，fields 为要显示的列字段，options为查询参数（比如skip等），callback为回调函数</p>
+        <p>官方例子</p>
+        <pre>
+// named john and at least 18
+MyModel.find({ name: 'john', age: { $gte: 18 }});
+
+// executes immediately, passing results to callback
+MyModel.find({ name: 'john', age: { $gte: 18 }}, function (err, docs) {});
+
+// name LIKE john and only selecting the "name" and "friends" fields, executing immediately
+MyModel.find({ name: /john/i }, 'name friends', function (err, docs) { })
+
+// passing options
+MyModel.find({ name: /john/i }, null, { skip: 10 })
+
+// passing options and executing immediately
+MyModel.find({ name: /john/i }, null, { skip: 10 }, function (err, docs) {});
+
+// executing a query explicitly
+var query = MyModel.find({ name: /john/i }, null, { skip: 10 })
+query.exec(function (err, docs) {});
+
+// using the promise returned from executing a query
+var query = MyModel.find({ name: /john/i }, null, { skip: 10 });
+var promise = query.exec();
+promise.addBack(function (err, docs) {});
+        </pre>
+      </div>
+    </div>
+  </body>
+</html>

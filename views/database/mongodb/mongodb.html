@@ -202,6 +202,16 @@ db.users.find({'curricula': {$size: 3}})</pre>
 db.dataCenter.update({name:"defaultCenter"},{$set:{addresses:"127.0.0.1"}})
             </pre>
           </li>
+          
+          <li>
+            删除 remove
+            <pre>
+//根据条件删除
+db.users.remove({'age': 20}})
+//删除所有
+db.users.remove()
+            </pre>
+          </li>
         </ol>
 
       </div>

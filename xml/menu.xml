@@ -100,6 +100,7 @@
         <name>nodejs</name>
         <children id="nodejs" name="nodejs 学习笔记" href="nodejs/nodejs.html"/>
         <children id="express" name="Express 框架快速开发web应用" href="nodejs/express.html"/>
+        <children id="mongoose" name="用 Mongoose 连接数据库" href="nodejs/mongoose.html"/>
         <children id="nodejs_platform" name="nodejs 相关" href="nodejs/nodejs_platform.html"/>
         <children id="nodejs_cloud" name="nodejs 云空间" href="nodejs/nodejs_cloud.html"/>
     </menu>

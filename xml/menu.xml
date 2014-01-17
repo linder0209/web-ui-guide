@@ -113,6 +113,6 @@
     <menu>
         <id>database</id>
         <name>数据库</name>
-        <children id="mongodb" name="Mongodb 数据库" href="database/mongodb.html"/>
+        <children id="mongodb" name="Mongodb 数据库" href="database/mongodb/mongodb.html"/>
     </menu>
 </menus>

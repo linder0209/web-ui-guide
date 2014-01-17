@@ -598,6 +598,25 @@ function notAuthentication(req, res, next) {
         <h4>连接 MongoDB 数据库</h4>
         <p>我们采用 <a href="http://mongoosejs.com">Mongoose</a> 来操作 <a href="http://www.mongodb.org/">MongoDB</a>。安装命令</p>
         <pre>npm install mongoose</pre>
+        <p>全局连接 mongodb 代码</p>
+        <pre>
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/nodejs');
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback() {
+  // yay!
+});
+
+exports.mongoose = mongoose;
+        </pre>
+        
+        <h4>加入前端战斗机 Angular</h4>
+        <p>我们利用 bower 来安装，执行命令 bower angular 会安装最新版本。</p>
+        
+        <h4>利用Sea.js 来模块化管理js</h4>
+        
       </div>
     </div>
   </body>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Mongodb 数据库</title>
+
+    <link rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css" type="text/css" />
+
+    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+
+    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/view/init.js"></script>
+  </head>
+  <body>
+    <h3 class="h-web-paragraph-title">目录</h3>
+    <ol class="h-web-catalogue">
+      <li>
+        <a paragraph href="#">Mongodb 介绍</a>
+      </li>
+      <li>
+        <a paragraph href="#">Mongodb 相关命令</a>
+      </li>
+      <li>
+        <a paragraph href="#">Mongodb 学习笔记</a>
+        <ol class="h-web-catalogue2">
+          <li>
+            <a href="#">关于Mongodb的主键</a>
+          </li>
+        </ol>
+      </li>
+    </ol>
+    
+    <div class="h-web-paragraph">
+      <h3 paragraph>Mongodb 介绍</h3>
+      <div>
+        <p>MongoDB is an open-source document database that provides high performance, high availability, and automatic scaling. </p>
+        <p><a href="http://www.mongodb.org/">官方网站</a></p>
+        <p><a href="http://www.cnblogs.com/end/archive/2012/07/18/2598089.html">Mongodb 资料汇总</a></p>
+        <p><a href="http://huangz.iteye.com/blog/997120">MongoDB学习笔记</a></p>
+
+        <p><a href="./tutorials/MongoDB_权威指南_中文版.pdf">MongoDB_权威指南_中文版</a></p>
+        <p><a href="./tutorials/MongoDB权威指南.pdf">MongoDB权威指南</a></p>
+      </div>
+
+      <h3 paragraph>Mongodb 相关命令</h3>
+      <div>
+        <ol>
+          <li>
+            启动命令
+            <pre>mongod --dbpath "D:\mongodb\mydata"</pre>
+          </li>
+          <li>
+            导入数据库
+            <pre>
+//导入到本地数据库center0中
+mongorestore -h localhost -db center0 D:\dbbackup\center0-13-9-10             
+            </pre>
+          </li>
+          <li>
+            导出数据库
+            <pre>
+//从192.168.1.57导出数据库center0
+mongodump -h 192.168.1.57:27017 -d center0 -o D:\dbbackup\center0-13-9-10
+            </pre>
+          </li>
+
+          <li>
+            创建或切换到数据库
+            <pre>use database_name</pre>
+          </li>
+          <li>
+            显示数据库
+            <pre>show dbs</pre>
+          </li>
+          <li>
+            mongo连接数据库，本地可以直接输入 mongo。远程的化需要加上ip或域名，如：mongo 192.168.1.62 ，
+            指定数据库、用户名和密码连接，如： mongo 10.128.192.207/center0 -u center0app -p N1n3y3ars
+          </li>
+          <li>
+            显示所有表
+            <pre>
+show collections
+//或
+show tables
+            </pre>
+          </li>
+          <li>
+            查询
+            <pre>
+db.users.find()
+
+//根据条件查询
+db.users.find({'_id': ObjectId("4d7aff454dca002afb000000")}) 
+
+//多条件查询
+db.users.find({'name': 'Linder', 'age': 30}) 
+
+//返回指定的记录数，返回第一条
+db.users.find().limit(1)
+
+//跳过第一条
+db.users.find().skip(1)
+
+//排序查询，1为升序，-1为降序。
+db.users.find().sort({'name': -1})
+
+//返回指定列，第一个参数是条件，如果设为{}表示查询所有，第二个是指定要显示的列，可以用 1 或 true来标示，我们一般用1来标示
+//注意：对指定的列要么全设置为 0(false)，要么全设置为 1(true)，否则会报错，当全设置为 0(false)时，此时会显示除了设置为0的其余列
+//除了指定的列会显示，_id也会显示
+db.users.find({'age': 27}，{'name': 1, 'age': 1})
+
+//根据条件显示第一条数据，也可以不设置条件
+db.users.findOne({name: "admin"})
+            </pre>
+          </li>
+          <li>
+            条件查询 
+            <p>MongoDB提供的查询条件操作符囊括了常用的各种条件，下面会分别列出。</p>
+            "$lt", "$lte", "$gt", "$gte" "$ne" "$ne" ，分别代表 "<", "<=", ">", ">="，"!="
+            <pre>
+db.users.find({'age': {'$lte': 20}})
+            </pre>
+
+            "$in"操作符表示，只要符合条件数组中的任何一个，就能被查询出来。
+            <pre>
+db.users.find({'age': {'$in' : [32, 28]}})
+            </pre>
+            "$nin"操作符表示，只要不符合条件数组的任何一个，就能被查询出来。<br />
+            "$all"操作符表示，必须符合条件数组中的每一个，才能被选中。
+            <pre>db.users.find({'age': {$all : [32, 28]}})  </pre>
+            "$not"操作符表示，对操作取反。
+            <pre>
+//只选中age不小于或等于20的人
+db.users.find({'age': {'$not': {'$lte': 20}}})</pre>
+
+            "$or"操作符表示，至少符合条件数组的其中一个，就能被选中。
+            <pre>db.users.find({"$or": [{"age": 20}, {"age": 21}]})</pre>
+
+            "$size"操作符查询指定字段数组长度等于指定大小的所有记录
+            <pre>
+/* 查找所有tags的 curricula 为3的记录 */  
+db.users.find({'curricula': {$size: 3}})</pre>
+
+            "$slice"操作符返回符合查询条件的文档的，指定大小的数组分割。
+            <pre>db.users.find({'curricula': {$slice: 3}})</pre>
+            "$elemMatch"操作符用来处理嵌套文档的查询。
+            <pre>
+    // Document 1  
+    { "foo" : [  
+          {  
+            "shape" : "square",  
+            "color" : "purple",  
+            "thick" : false  
+          },  
+          {  
+            "shape" : "circle",  
+            "color" : "red",  
+            "thick" : true  
+          }  
+    ] }  
+      
+    // Document 2  
+    { "foo" : [  
+          {  
+            "shape" : "square",  
+            "color" : "red",  
+            "thick" : true  
+          },  
+          {  
+            "shape" : "circle",  
+            "color" : "purple",  
+            "thick" : false  
+          }  
+    ] }  
+      
+      
+    /* 失败查询 */  
+    db.foo.find({"foo.shape": "square", "foo.color": "purple"})  
+    db.foo.find({foo: {"shape": "square", "color": "purple"} } )  
+      
+    /* 正确方法 */  
+    db.foo.find({foo: {"$elemMatch": {shape: "square", color: "purple"}}})                
+            </pre>
+          </li>
+
+          <li>
+            更新 Update
+            <pre>
+db.dataCenter.update({name:"defaultCenter"},{$set:{addresses:"127.0.0.1"}})
+            </pre>
+          </li>
+        </ol>
+
+      </div>
+
+      <h3 paragraph>Mongodb 学习笔记</h3>
+      <div>
+        <h4>关于Mongodb的主键</h4>
+        <p>
+          Mongodb中的主键是通过字段 _id 自动生成的。主键可以是mongodb支持的任何数据类型，默认是 <a href="http://docs.mongodb.org/manual/reference/object-id/">ObjectId</a>。
+          ObjectId被设计成跨机器的分布式环境中全局唯一的类型，长度是12个字节。他的构成是：0-3这4个字节是时间戳（timestamp）、
+          4-6这3个字节是机器码（machine）、7-8两个字节是进程id（pid）、9-11是程序自增id（increment）。
+          他比int大了两倍，比long也多了一个int，但现在的硬件配置中，多出的这些字节很难有理由成为系统的瓶颈所在，所以尽可能放心使用之。
+        </p>
+        <p>
+          对于ObjectId的组成，有一些值得说道的地方：<br />
+          1、因为ObjectId以时间戳打头，所以它是近似有序的，使得_id的索引插入效率相比普通索引高很多。<br />
+          2、ObjectId的前9个字节（timestamp+machine+pid）可以保证不同进程生成的ObjectId不会重复，
+          而后3个字节increment又可以保证同一进程内生成的ObjectId不会重复，所以无需怀疑ObjectId的全局唯一性。<br />
+          3、ObjectId存储是12个字节，但如果应用有需要以可读的方式表现它，就需要将它转成字符串，这需要24字节（每字节转成2字节的16进制表示），
+          这个长度的字符串看起来就有些不让人舒服了，如果是追踪某个_id引发的bug，就需要配上copy+paste的杀招。<br />
+          4.ObjectId的产生既可以在应用程序端也可以在mongodb端，各种语言的driver都提供了程序端生成ObjectId的方法，不过大多数人徒省事直接交给mongodb做了。
+          但从mongodb的设计哲学来说，ObjectId更应该由客户端生成，毕竟应用层比存储层更容易扩展，并会提高mongodb的插入速度。
+        </p>
+        <p>
+          主键_id除了默认的 ObjectId 类型外，我们还可以用 Guid，但是Guid会消耗更多的空间，性能可能也会受到一些影响。同时，如果使用Guid，请注意以下说法 <br />
+          Working with GUIDs has a few pitfalls, mostly related to how to work with the binary representation in the mongo shell and also to historical accidents which resulted in different drivers storing GUIDs using different byte orders.
+        </p>
+        <p>当然我们也可以自定义 _id 的类型，比如把主键定义成自增加方式。</p>
+
+        <p class="h-web-font-red">关于对主键的操作，这里需要注意的是：查询或修改时，我们不能写成以下方式</p>
+        <pre>
+db.users.find({'_id':'4da025ac5149e6d915098c59'});
+db.users.remove('_id','4da025ac5149e6d915098c59');
+        </pre>
+        <p>正确的写法是</p>
+        <pre>
+db.users.find({'_id': ObjectId('4da025ac5149e6d915098c59'}));
+db.users.remove('_id',ObjectId('4da025ac5149e6d915098c59'));    
+        </pre>
+      </div>
+    </div>
+  </body>
+</html>

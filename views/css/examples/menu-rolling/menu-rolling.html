@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>可上下滚动的菜单</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="./css/menu-rolling.css" type="text/css"/>
+  </head>
+  <body>
+    <div class="dropdown-menu" style="visibility: visible;" id="dropdownContainer">
+      <div class="drawer-arrows-up disabled" id="drawerUp"><a href="#"></a></div>
+      <ul id="dropdownMenu">
+        <li class="marcato"><a href="">menu1 header</a></li>
+        <li class="active"> <a href="">menu1 branch<i class="arrows-right-gray arrows-right"></i></a>
+          <ul>
+            <li class="marcato"><a href="">sub-menu header</a></li>
+            <li class="active"><a href="">sub-menu1</a></li>
+            <li><a href="">sub-menu2</a></li>
+            <li><a href="">sub-menu3</a></li>
+          </ul>
+        </li>
+        <li> <a href="">menu1 leaf1 超长字符超长字符超长字符超长字符aaaaaaaaaaaaaaaaaaaaaaa</a>
+        <li> <a href="">menu1 leaf2</a>  
+          
+        <li class="marcato"><a href="">menu2 header</a></li>
+        <li> <a href="">menu2 branch<i class="arrows-right-gray arrows-right"></i></a>
+          <ul>
+            <li class="marcato"><a href="">sub-menu header</a></li>
+            <li><a href="">sub-menu1</a></li>
+            <li><a href="">sub-menu2</a></li>
+            <li><a href="">sub-menu3</a></li>
+          </ul>
+        </li>
+        <li> <a href="">menu2 leaf1</a>
+        <li> <a href="">menu2 leaf2</a>
+
+        <li class="marcato"><a href="">menu3 header</a></li>
+        <li> <a href="">menu3 branch<i class="arrows-right-gray arrows-right"></i></a>
+          <ul>
+            <li class="marcato"><a href="">sub-menu header</a></li>
+            <li><a href="">sub-menu1</a></li>
+            <li><a href="">sub-menu2</a></li>
+            <li><a href="">sub-menu3</a></li>
+          </ul>
+        </li>
+        <li> <a href="">menu3 leaf1</a>
+        <li> <a href="">menu3 leaf2</a>
+      </ul>
+      <div class="drawer-arrows-down" id="drawerDown"><a href="#"></a></div>
+    </div>
+
+    <script type="text/javascript" src="../../../../platform/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        var lisElement = $('#dropdownMenu > li');
+        //The first visible li element index.
+        var liIndex = 0;
+        //All of li element size;
+        var liSize = lisElement.length;
+        //The visible li element size
+        var visibleLiSize = 0;
+
+        var menuHeight = $('#dropdownMenu').height();
+        var subHeight = 0;
+
+        lisElement.hide();
+        lisElement.each(function(index, element) {
+          subHeight += $(this).height();
+          if (subHeight < menuHeight) {
+            $(this).show();
+            visibleLiSize++;
+          } else {
+            return false;
+          }
+        });
+
+        if (visibleLiSize == liSize) {
+          $('#drawerDown').addClass('disabled');
+        }
+
+        function fadeInOutUp() {
+          $('#drawerDown').removeClass('disabled');
+          if (liIndex <= 0) {
+            clearInterval(inOut);
+            clearTimeout(trigger);
+            $('#drawerUp').addClass('disabled');
+            return;
+          }
+          var _index = --liIndex;
+          $('#dropdownMenu > li:eq(' + _index + ')').show();
+          $('#dropdownMenu > li:eq(' + (_index + visibleLiSize) + ')').hide();
+        }
+
+        function fadeInOutDown() {
+          $('#drawerUp').removeClass('disabled');
+          if (liIndex + visibleLiSize >= liSize) {
+            clearInterval(inOut);
+            clearTimeout(trigger);
+            $('#drawerDown').addClass('disabled');
+            return;
+          }
+          var _index = liIndex++;
+          $('#dropdownMenu > li:eq(' + _index + ')').hide();
+          $('#dropdownMenu > li:eq(' + (_index + visibleLiSize) + ')').show();
+        }
+
+        $('#drawerUp').click(function(e) {
+          e.preventDefault();
+          var el = $(e.currentTarget);
+          if (el.hasClass('disabled')) {
+            return;
+          }
+          fadeInOutUp();
+        });
+
+        $('#drawerDown').click(function(e) {
+          e.preventDefault();
+          var el = $(e.currentTarget);
+          if (el.hasClass('disabled')) {
+            return;
+          }
+          fadeInOutDown();
+        });
+
+        var inOutInterval = 300;
+        var inOut;
+        function triggerFn() {
+          var inOutFlag = $('#dropdownMenu').data('inOutFlag');
+          if (inOutFlag === 'up') {
+            inOut = setInterval(fadeInOutUp, inOutInterval);
+          } else {
+            inOut = setInterval(fadeInOutDown, inOutInterval);
+          }
+        }
+        var mousedownTimeout = 500;//millisecond
+        var trigger;
+        $('#drawerUp,#drawerDown').mousedown(function(e) {
+          e.preventDefault();
+          var el = $(e.currentTarget);
+          if (el.hasClass('disabled')) {
+            return;
+          }
+          $('#dropdownMenu').data('inOutFlag', el.attr('id') === 'drawerUp' ? 'up' : 'down');
+          trigger = setTimeout(triggerFn, mousedownTimeout);
+        });
+
+        $('#drawerUp,#drawerDown').mouseup(function(e) {
+          e.preventDefault();
+          clearInterval(inOut);
+          clearTimeout(trigger);
+        });
+
+        function wheelFn(e) {
+          var originalEvent = e.originalEvent;
+          var upDown;
+          if (originalEvent.detail) {
+            var detail = originalEvent.detail;
+            if (detail < 0) { //up
+              upDown = 'up';
+            } else if (detail > 0) { //down
+              upDown = 'down';
+            }
+          } else if (originalEvent.wheelDelta) { //IE 6 7 8 
+            var wd = originalEvent.wheelDelta;
+            if (wd > 0) { //up
+              upDown = 'up';
+            }
+            if (wd < 0) { //down
+              upDown = 'down';
+            }
+          }
+          if (upDown === 'up') {
+            if ($('#drawerUp').hasClass('disabled')) {
+              return;
+            }
+            fadeInOutUp();
+          } else {
+            if ($('#drawerDown').hasClass('disabled')) {
+              return;
+            }
+            fadeInOutDown();
+          }
+        }
+
+        if (document.addEventListener) {
+          $(document).on('DOMMouseScroll', '#dropdownContainer', wheelFn);
+        } else {//ie6 7 8
+          $(document).on('mousewheel', '#dropdownContainer', wheelFn);
+        }
+      });
+    </script>
+  </body>
+</html>

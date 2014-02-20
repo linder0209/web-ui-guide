@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>promise 在jQuery的实现 相关例子</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+  </head>
+  <body>
+    <p>相关例子</p>
+    <script type="text/javascript" src="jquery-2.1.0.js"></script>
+
+    <script type="text/javascript">
+      $(function() {
+        function fn1() {
+          console.log(1);
+        }
+        function fn2() {
+          console.log(2);
+        }
+
+        var callbacks = $.Callbacks();
+        // 方式1
+        callbacks.add(fn1);
+        // 方式2 一次添加多个回调函数
+        callbacks.add(fn1, fn2);
+        // 方式3 传数组
+        callbacks.add([fn1, fn2]);
+        // 方式4 函数和数组掺和
+        callbacks.add(fn1, [fn2]);
+        //删除fn1
+        callbacks.remove(fn1);
+      });
+    </script>
+  </body>
+</html>

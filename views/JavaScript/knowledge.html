@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>JavaScript 知识点</title>
+    <link rel="stylesheet" href="../../platform/javascript/syntaxhighlighter/styles/shCoreDefault.css" type="text/css" />
+
+    <link rel="stylesheet" href="../../platform/css/base.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/platform.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/theme/skyblue.css" type="text/css"/>
+    <link rel="stylesheet" href="../../platform/css/web.css" type="text/css"/>
+
+    <style>
+      body{
+        padding:10px;
+      }
+    </style>
+
+    <script type="text/javascript" src="../../platform/javascript/jquery/jquery.js"></script>
+
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../platform/javascript/view/init.js"></script>
+  </head>
+  <body>
+    <h3 class="h-web-paragraph-title">目录</h3>
+
+    <div class="h-web-paragraph">
+      <h3 paragraph>CommonJS Promises</h3>
+      <div>
+        <h4>关于Promises的起源</h4>
+        <p>这得追溯到C++工程师最先在一个叫做Xanadu项目使用的技术，后被用于E编程语言中，再后来就是Python开发者在Twisted框架实现的Deferred了。
+          至于该技术首次在JavaScript实现则要说到Dojo框架的dojo.Deferred，自此该技术在JavaScript社区流行开来。CommonJS在2009年制定 <a href="http://wiki.commonjs.org/wiki/Promises/A">CommonJS Promises/A</a>。
+          作为最流行的JavaScript库之一jQuery不甘落后，在2011年重写$.ajax支持Promises，在jQuery 1.5实现了$.Deferred。值得一提，jQuery 1.5未根据CommonJS Promises/A实现Promises。
+          Promises被逐渐用作一种管理异步操作回调的方法</p>
+        <h4>Promises/A规范</h4>
+        <p><a title="CommonJS" href="http://wiki.commonjs.org/wiki/CommonJS" target="_blank">CommonJS</a>之<a title="Promises/A" href="http://wiki.commonjs.org/wiki/Promises/A" target="_blank">Promises/A</a>
+          规范是Kris Zyp于2009年提出来的，它通过规范API接口来简化异步编程，使我们的异步逻辑代码更易理解。</p>
+        <p>遵循Promises/A规范的实现我们称之为Promise对象，Promise对象有且仅有三种状态：unfulfilled（未完成）、fulfilled（已完成）、failed（失败/拒绝）；
+          而且状态变化只能从unfulfilled到fulfilled，或者unfulfilled到failed；</p>
+        <p>Promise对象需实现一个then接口，<strong>then(fulfilledHandler, errorHandler, progressHandler)</strong>；
+          then接口接收一个成功回调(fulfilledHandler)与一个失败回调(errorHandler)；progressHandler触发回调是可选的，Promise对象没有强制去回调此句柄。</p>
+        <p>then方法的实现需要返回一个新的Promise对象，以形成链式调用，或者叫Promise管道。</p>
+        <p>为了实现状态的转变，我们还需要实现另外两个接口：</p>
+        <ul>
+          <li>resolve：实现状态由未完成到已完成</li>
+          <li>reject：实现状态由未完成到拒绝（失败）</li>
+        </ul>
+        <p>下面看一个例子</p>
+        <pre>
+// 这里假设Promise是一个已实现的Promise对象
+function asyncFn1() {
+  var p = new Promise();
+  setTimeout(function() {
+    console.log(1);
+    p.resolve(); // 标记为已完成
+  }, 2000);
+  return p;
+}
+
+function asyncFn2() {
+  var p = new Promise();
+  setTimeout(function() {
+    console.log(2);
+    p.reject('error'); // 标记为拒绝
+  }, 1000);
+  return p;
+}
+
+asyncFn1().then(function() {
+  return asyncFn2();
+}).then(function() {
+  console.log('done');
+}, function(err) {
+  console.log(err);
+});   
+        </pre>
+        <p>有了Promise，我们可以以同步的思维去编写异步的逻辑了。在同步函数的世界里，有2个非常重要的概念：</p>
+        <ul>
+          <li>有返回值</li>
+          <li>可以抛出异常</li>
+        </ul>
+        <p>Promise不仅仅是一种可以链式调用的对象，更深层次里，它为异步函数与同步函数提供了一种更加直接的对应关系。</p>
+        <p>上面我们说过，在异步函数里，不能使用try/catch捕获异常，因此也不能抛出异常。有了Promise，只要我们显式定义了errorHandler，那么我们就可以做到像同步函数那样的异常捕获了。</p>
+        <p>像上面的例子，相当于以下同步代码：</p>
+        <pre>
+try {
+  asyncFn1();
+  asyncFn2();
+  console.log('done');
+} catch (e) {
+  console.log(e);
+}
+        </pre>
+
+        <h4>Promise是什么以及解决的问题</h4>
+        <p>我们先看一下不用Promise的现状</p>
+        <h5>回调函数</h5>
+        <p>由于JavaScript单线程的特点，如果某个操作耗时很长，其他操作就必需排队等待。为了避免整个程序失去响应，通常的解决方法是将那些排在后面的操作，写成“回调函数”（callback）的形式。
+          这样做虽然可以解决问题，但是有一些显著缺点：</p>
+        <ul>
+          <li>回调函数往往写成函数参数的形式，导致函数的输入和输出非常混乱，整个程序的可阅读性差；</li>
+          <li>回调函数往往只能指定一个，如果有多个操作，就需要改写回调函数。</li>
+          <li>整个程序的运行流程被打乱，除错和调试的难度都相应增加。</li>
+        </ul>
+        <h5>嵌套式回调</h5>
+        <p>看下面的嵌套式回调</p>
+        <pre>
+setTimeout(function() {
+  setTimeout(function() {
+    // do something
+  }, 10)
+}, 100);
+
+$.ajax(url, function() {
+  $.ajax(url2, function() {
+    $.ajax(url3, function() {
+      // do something
+    });
+  });
+});         
+        </pre>
+        <p>上面的例子嵌套一两次还可以忍受，如果嵌套的次数多了，代码结构层级会变得越来越深。首先是阅读上会变得困难；其次是强耦合，接口变得不好扩展。我们需要一种模式来解决这种问题，这就是Promises所要做的事情。</p>
+
+        <h5>异步函数类型</h5>
+
+        <p>Javascript里异步函数可以分为两大类型：</p>
+        <ul>
+          <li>I/O函数（Ajax、script…）</li>
+          <li>计时函数（setTimeout、setInterval、setImmediate）</li>
+        </ul>
+        <p>我们看一下异步函数异常捕获的例子</p>
+        <pre>
+try {
+  setTimeout(function A() {
+    setTimeout(function B() {
+      setTimeout(function C() {
+        throw new Error('Error');
+      }, 0);
+    }, 0);
+  }, 0);
+} catch (e) {
+}          
+        </pre>
+        <p>运行以上代码，A、B、C被添加到事件队列里；异常触发时，A、B已被移出事件队列，内存堆栈里只存在C，此时的异常不被try捕获，只会流向应用程序未捕获异常处理器。</p>
+        <p>所以，在异步函数里，不能使用try/catch捕获异常。</p>
+
+        <h5>分布式事件</h5>
+        <p>Javascript的事件核心是事件分发机制，通过对发布者绑定订阅句柄来达到异步响应的目的。PubSub(Publish/Subscribe, 发布/订阅)模式，就是这么一种模式，通过订阅发布者的事件响应来达到多层分发解耦的目的。</p>
+        <p>以下是一个简单版本的PubSub模式实现：</p>
+        <pre>
+var PubSub = (function() {
+  var _handlers = {};
+  return {
+    // 订阅事件
+    on: function(eventType, handler) {
+      if (!_handlers[eventType]) {
+        _handlers[eventType] = [];
+      }
+      if (typeof handler == 'function') {
+        _handlers[eventType].push(handler);
+      }
+    },
+    // 发布事件
+    emit: function(eventType) {
+      var args = Array.prototype.slice.call(arguments, 1);
+      var handlers = _handlers[eventType] || [];
+      for (var i = 0, len = handlers.length; i < len; i++) {
+        handlers[i].apply(null, args);
+      }
+    }
+  };
+})();
+        </pre>
+        <p>以上这几种情况都可以用Promises来解决，它的核心思想就是让非同步操作返回一个对象，其他操作都针对这个对象来完成。看下面的例子</p>
+        <pre>
+var promise = get('http://www.example.com');
+promise.then(function (content) {
+  console.log(content)
+});
+        </pre>
+
+        <h4>jQuery中promise的实现</h4>
+        <p>首先说明一下，源代码是基于jQuery2.1.0分析的。我们先看一下$.Callbacks回调函数的实现</p>
+        <h5>$.Callbacks 多用途回调函数列表对象</h5>
+        <p>该实现源代码放在callbacks.js中。$.Callbacks是在版本1.7中新加入的。它是一个多用途的回调函数列表对象，提供了一种强大的方法来管理回调函数队列。
+          整个$.Callbacks的源码不到200行，它是一个工厂函数，使用函数调用方式（非new，它不是一个类）创建对象，它有一个可选参数flags用来设置回调函数的行为。
+          $.Callbacks是在jQuery内部使用，如为$.ajax，$.Deferred等组件提供基础功能的函数。它也可以用在类似功能的一些组件中，如自己开发的插件。</p>
+
+        <p>$.Callbacks 源码分析</p>
+        <pre>
+// 非空白符
+var rnotwhite = (/\S+/g);
+
+// String to Object options format cache，缓存，提高性能，避免重复计算
+var optionsCache = {};
+
+// Convert String-formatted options into Object-formatted ones and store in cache
+//过程函数，把options是字符串的格式转换成对象格式
+/**
+ 例子：createOptions('aa bb cc , dd,ee, ff;//'); 将会返回对象
+ {",": true,"aa": true, "bb": true, "cc": true, "dd,ee,": true, "ff;//": true}
+**/
+function createOptions( options ) {
+	var object = optionsCache[ options ] = {};
+	jQuery.each( options.match( rnotwhite ) || [], function( _, flag ) {
+		object[ flag ] = true;
+	});
+	return object;
+}
+
+/*
+ * 创建一个callback 队列，返回时一个object对象 json格式的
+ * Create a callback list using the following parameters:
+ */
+jQuery.Callbacks = function( options ) {
+
+	// Convert options from String-formatted to Object-formatted if needed
+	// (we check in cache first)
+	options = typeof options === "string" ?
+		( optionsCache[ options ] || createOptions( options ) ) :
+		jQuery.extend( {}, options );//重新创建对象，防止引用
+
+	var // Last fire value (for non-forgettable lists)
+		memory,
+		// Flag to know if list was already fired
+		fired,
+		// Flag to know if list is currently firing
+		firing,
+		// First callback to fire (used internally by add and fireWith)
+		firingStart,
+		// End of the loop when firing
+		firingLength,
+		// Index of currently firing callback (modified by remove if needed)
+		firingIndex,
+		// Actual callback list
+		list = [],
+		// Stack of fire calls for repeatable lists，堆栈，如果一次的话，没有堆栈，即值为false
+		stack = !options.once && [],
+		// Fire callbacks 处理回调函数
+		fire = function( data ) {
+			memory = options.memory && data;
+			fired = true;
+			firingIndex = firingStart || 0;
+			firingStart = 0;
+			firingLength = list.length;
+			firing = true;
+			for ( ; list && firingIndex < firingLength; firingIndex++ ) {
+				if ( list[ firingIndex ].apply( data[ 0 ], data[ 1 ] ) === false && options.stopOnFalse ) {
+					memory = false; // To prevent further calls using add
+					break;
+				}
+			}
+			firing = false;
+			if ( list ) {
+				if ( stack ) {
+					if ( stack.length ) {
+						fire( stack.shift() );
+					}
+				} else if ( memory ) {
+					list = [];
+				} else {
+					self.disable();
+				}
+			}
+		},
+		// Actual Callbacks object
+        // 提供的方法
+		self = {
+			// Add a callback or a collection of callbacks to the list
+			add: function() {
+				//
+			},
+			// Remove a callback from the list
+			remove: function() {
+				//
+			},
+			// Check if a given callback is in the list.
+			// If no argument is given, return whether or not list has callbacks attached.
+			has: function( fn ) {
+				//
+			},
+			// Remove all callbacks from the list
+			empty: function() {
+				//
+			},
+			// Have the list do nothing anymore
+			disable: function() {
+				//
+			},
+			// Is it disabled?
+			disabled: function() {
+				//
+			},
+			// Lock the list in its current state
+			lock: function() {
+				//
+			},
+			// Is it locked?
+			locked: function() {
+				//
+			},
+			// Call all callbacks with the given context and arguments
+			fireWith: function( context, args ) {
+				//
+			},
+			// Call all the callbacks with the given arguments
+			fire: function() {
+				//
+			},
+			// To know if the callbacks have already been called at least once
+			fired: function() {
+				//
+			}
+		};
+
+	return self;
+};         
+        </pre>
+        <p>$.Callbacks是一个function，实例化后他会返回一个对象（以callbacks示例）主要包括以下方法：</p>
+        <ol>
+          <li>callbacks.add</li>
+          <li>callbacks.remove</li>
+          <li>callbacks.has</li>
+          <li>callbacks.empty</li>
+          <li>callbacks.disable</li>
+          <li>callbacks.fire</li>
+          <li>callbacks.fireWith</li>
+          <li>callbacks.fired</li>
+          <li>callbacks.lock</li>
+          <li>callbacks.locked</li>
+        </ol>
+        <p>下面详细的分析一下这些方法的用法，这些方法相关例子请点击 <a href="./examples/knowledge/promise/demo.html">这里</a></p>
+        <h5>callbacks.add</h5>
+        <pre>
+  // Add a callback or a collection of callbacks to the list
+  add: function() {
+      if ( list ) {
+          // First, we save the current length
+          var start = list.length;
+          (function add( args ) {
+              jQuery.each( args, function( _, arg ) {
+                  var type = jQuery.type( arg );
+                  if ( type === "function" ) {
+                      if ( !options.unique || !self.has( arg ) ) {
+                          list.push( arg );
+                      }
+                  } else if ( arg && arg.length && type !== "string" ) {
+                      // Inspect recursively，如果是数组的话递归调用
+                      add( arg );
+                  }
+              });
+          })( arguments );
+          // Do we need to add the callbacks to the
+          // current firing batch?
+          if ( firing ) {
+              firingLength = list.length;
+          // With memory, if we're not firing then
+          // we should call right away
+          } else if ( memory ) {//如果设置 memory 为 true，我们应该立即fire
+              firingStart = start;
+              fire( memory );
+          }
+      }
+      return this;//注意这里返回的是内部变量 self
+  },
+        </pre>
+        <p>该方法会往内部变量list中添加回调函数，添加的回调函数是否可以重复取决参数 unique 的设置，true表示不可以重复，false则可以重复，回调函数可以是多个，也可以是数组形式，内部往list添加采用了函数立即执行的操作。</p>
+        <p>例子</p>
+        <pre>
+ $(function() {
+    function fn1() {
+      console.log(1);
+    }
+    function fn2() {
+      console.log(2);
+    }
+
+    var callbacks = $.Callbacks();
+    // 方式1
+    callbacks.add(fn1);
+    // 方式2 一次添加多个回调函数
+    callbacks.add(fn1, fn2);
+    // 方式3 传数组
+    callbacks.add([fn1, fn2]);
+    // 方式4 函数和数组掺和
+    callbacks.add(fn1, [fn2]);
+});         
+        </pre>
+        <h5>callbacks.remove</h5>
+        <pre>
+ // Remove a callback from the list
+  remove: function() {
+      if ( list ) {
+          jQuery.each( arguments, function( _, arg ) {
+              var index;
+              while ( ( index = jQuery.inArray( arg, list, index ) ) > -1 ) {//从 list 中删除的实现，会删除重复的fn
+                  list.splice( index, 1 );
+                  // Handle firing indexes
+                  if ( firing ) {// 如果正在firing中，需要处理firingLength和firingIndex
+                      if ( index <= firingLength ) {
+                          firingLength--;
+                      }
+                      if ( index <= firingIndex ) {
+                          firingIndex--;
+                      }
+                  }
+              }
+          });
+      }
+      return this;
+  },         
+        </pre>
+        <p>从从回调队列中删除一个或多个回调函数，注意删除过程中的内部处理</p>
+        <pre>
+function fn1() {
+    console.log(1);
+}
+function fn2() {
+    console.log(2);
+}
+var callbacks = $.Callbacks();
+callbacks.add(fn1, fn2);
+callbacks.remove(fn1);
+        </pre>
+        
+        <h5></h5>
+        
+        <h4>参考资料</h4>
+        <p>http://www.zawaliang.com/2013/08/399.html</p>
+        <p>http://javascript.ruanyifeng.com/jquery/deferred.html#toc0</p>
+        <p>http://www.cnblogs.com/snandy/archive/2012/12/19/2812935.html</p>
+        <p>http://www.cnblogs.com/snandy/archive/2012/11/15/2770237.html</p>
+      </div>
+    </div>
+  </body>
+</html>

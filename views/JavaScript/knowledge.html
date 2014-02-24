@@ -424,9 +424,264 @@ var callbacks = $.Callbacks();
 callbacks.add(fn1, fn2);
 callbacks.remove(fn1);
         </pre>
-        
-        <h5></h5>
-        
+
+        <h5>callbacks.has</h5>
+        <p>判断是否添加过某回调函数</p>
+        <pre>
+// Check if a given callback is in the list.
+// If no argument is given, return whether or not list has callbacks attached.
+has: function( fn ) {
+    return fn ? jQuery.inArray( fn, list ) > -1 : !!( list && list.length );
+},
+        </pre>
+        <p>例子</p>
+        <pre>
+function fn1() {
+    console.log(1)
+}
+var callbacks = $.Callbacks();
+callbacks.add(fn1);
+if (!callbacks.has(fn1)) {
+    callbacks.add(fn1);
+}
+        </pre>
+        <h5>callbacks.empty</h5>
+        <pre>
+// Remove all callbacks from the list
+// 这里没有使用list.length = 0;的方式清空回调函数，因为以下方式执行效果更高
+empty: function() {
+    list = [];
+    firingLength = 0;
+    return this;
+},
+        </pre>
+        <p>清空所有的回调函数，此时再fire不会触发任何函数。例子</p>
+        <pre>
+function fn1() {
+    console.log(1)
+}
+function fn2() {
+    console.log(2)
+}
+var callbacks = $.Callbacks();
+callbacks.add(fn1);
+callbacks.add(fn2);
+callbacks.empty();
+        </pre>
+
+        <h5>callbacks.disable</h5>
+        <pre>
+// Have the list do nothing anymore
+// 禁用该回调函数
+disable: function() {
+    list = stack = memory = undefined;
+    return this;
+},          
+        </pre>
+        <p>禁用该回调函数对象，禁用后再使用add, remove, fire等方法均不起作用。该方法内实际是将队列管理对象list、stack、memory都置为undefined了。例子</p>
+        <pre>
+function fn1() {
+    console.log(1)
+}
+function fn2() {
+    console.log(2)
+}
+var callbacks = $.Callbacks();
+callbacks.disable();
+callbacks.add(fn1); // 不起作用
+callbacks.add(fn2); // 不起作用
+callbacks.remove(fn1); // 不起作用
+callbacks.fire(); // 不起作用          
+        </pre>
+        <h5>callbacks.disabled</h5>
+        <p>判断是否被禁用了</p>
+
+        <h5>callbacks.lock</h5>
+        <pre>
+lock: function() {
+    stack = undefined;
+    if ( !memory ) {
+        self.disable();
+    }
+    return this;
+},          
+        </pre>
+        <p>该方法用来锁定队列，与之相应的方法是 callbacks.locked，判断是否锁定了队列</p>
+
+        <h5>callbacks.fireWith</h5>
+        <pre>
+// Call all callbacks with the given context and arguments
+fireWith: function( context, args ) {//args 必须是数组，否则会报错
+    if ( list && ( !fired || stack ) ) {
+        args = args || [];
+        args = [ context, args.slice ? args.slice() : args ];//调用slice()方法，相当于又克隆了一份
+        if ( firing ) {
+            stack.push( args );
+        } else {
+            fire( args );//调用了内部方法
+        }
+    }
+    return this;
+},
+        </pre>
+        <p>用给定的上下文触发回调函数，例子</p>
+        <pre>
+function fn() {
+  console.log(this); // 上下文是person
+  console.log(arguments); // [3]
+}
+var person = {name: 'jack'};
+var callbacks = $.Callbacks();
+callbacks.add(fn);
+callback.fireWith(person, [3]);
+        </pre>
+
+        <h5>callbacks.fire</h5>
+        <pre>
+// Call all the callbacks with the given arguments
+fire: function() {
+    self.fireWith( this, arguments );
+    return this;
+},          
+        </pre>
+        <p>主动触发回调函数，与之相应的方法callbacks.fired 用来判断是否触发过，例子</p>
+        <pre>
+function fn1() {
+    console.log(1);
+}
+var callbacks = $.Callbacks();
+callbacks.add(fn1);
+callbacks.fired(); // false
+callbacks.fire();
+callbacks.fired(); // true
+        </pre>
+        <p>上面的触发最终会调用内部函数fire来完成回调。</p>
+
+        <p>$.Callbacks创建时提供了以下可选参数，这些参数是以字符串加,分割的。</p>
+        <ol>
+          <li>once 确保回调函数仅执行一次
+            <pre>
+function fn() {
+    console.log(1);
+}
+var callbacks = $.Callbacks('once');
+callbacks.add(fn);
+callbacks.fire(); // 打印1
+callbacks.fire(); // fn不再触发
+            </pre>
+          </li>
+          <li>memory 记忆callbacks
+            <pre>
+function fn4() {
+    console.log(4);
+}
+function fn5() {
+    console.log(5);
+}
+var callbacks = $.Callbacks('memory');
+callbacks.add(fn4);
+callbacks.fire(); // 必须先fire
+callbacks.add(fn5); // 此时会立即触发fn5
+            </pre>
+            <p>memory有点绕，本意是记忆的意思。实际它的用法有点诡异，需结合特定场景来看（如jQuery.Deferred）。
+              当首次调用fire后，之后每次add都会立即触发。比如先callbacks.fire()，再callbacks.add(fn1)，这时fn1会立即被调用。
+              批量添加时也会执行
+            </p>
+            <pre>
+function fn1() {
+    console.log(1)
+}
+function fn2() {
+    console.log(2)
+}
+function fn3() {
+    console.log(3)
+}
+var callbacks = $.Callbacks('memory');
+callbacks.add(fn1);
+callbacks.fire();
+callbacks.add([fn2, fn3]); // output 2, 3
+            </pre>
+          </li>
+          <li>unique 设置为true表示添加回调函数时会检查是否重复（已添加）。
+            <pre>
+function fn1() {
+    console.log(1);
+}
+function fn2() {
+    console.log(2);
+}
+var callbacks = $.Callbacks('unique');
+callbacks.add(fn1);
+callbacks.add([fn1, fn2]); // 再次添加fn1时，会忽略掉
+callbacks.fire(); // output 1, 2
+            </pre>
+          </li>
+          <li>stopOnFalse 回调函数返回false时中断回调队列的迭代
+            <pre>
+function fn1() {
+    console.log(1)
+}
+function fn2() {
+    console.log(2)
+    return false;//设为false后，如果stopOnFalse为true，会终止后面添加的回调函数
+}
+function fn3() {
+    console.log(3)
+}
+var callbacks = $.Callbacks('stopOnFalse');
+callbacks.add(fn1, fn2, fn3);
+callbacks.fire(); // output 1,2              
+            </pre>
+            <p>从该属性名就能知了它的意图，即回调函数通过return false来停止后续的回调执行。该示例添加了3个回调，fn2中使用return false，当fire执行到fn2时会停止执行，后续的fn3就不会被调用了。</p>
+          </li>
+        </ol>
+
+        <p>下面看一个综合例子</p>
+        <pre>
+  // 观察者模式
+  var observer = {
+    hash: {},
+    subscribe: function(id, callback) {
+      if (typeof id !== 'string') {
+        return;
+      }
+      if (!this.hash[id]) {
+        this.hash[id] = $.Callbacks();
+        this.hash[id].add(callback);
+      } else {
+        this.hash[id].add(callback);
+      }
+    },
+    publish: function(id) {
+      if (!this.hash[id]) {
+        return;
+      }
+      this.hash[id].fire(id);
+    }
+  };
+
+  // 订阅
+  observer.subscribe('mailArrived', function() {
+    alert('来信了');
+  });
+  observer.subscribe('mailArrived', function() {
+    alert('又来信了');
+  });
+  observer.subscribe('mailSend', function() {
+    alert('发信成功');
+  });
+
+  // 发布
+  setTimeout(function() {
+    observer.publish('mailArrived');
+  }, 5000);
+  setTimeout(function() {
+    observer.publish('mailSend');
+  }, 10000);         
+        </pre>
+
+
         <h4>参考资料</h4>
         <p>http://www.zawaliang.com/2013/08/399.html</p>
         <p>http://javascript.ruanyifeng.com/jquery/deferred.html#toc0</p>

@@ -3130,12 +3130,14 @@ jQuery.Callbacks = function( options ) {
 				return fn ? jQuery.inArray( fn, list ) > -1 : !!( list && list.length );
 			},
 			// Remove all callbacks from the list
+            // 这里没有使用list.length = 0;的方式清空回调函数，因为以下方式执行效果更高
 			empty: function() {
 				list = [];
 				firingLength = 0;
 				return this;
 			},
 			// Have the list do nothing anymore
+            // 禁用该回调函数
 			disable: function() {
 				list = stack = memory = undefined;
 				return this;
@@ -3157,14 +3159,14 @@ jQuery.Callbacks = function( options ) {
 				return !stack;
 			},
 			// Call all callbacks with the given context and arguments
-			fireWith: function( context, args ) {
+			fireWith: function( context, args ) {//args 必须是数组，否则会报错
 				if ( list && ( !fired || stack ) ) {
 					args = args || [];
-					args = [ context, args.slice ? args.slice() : args ];
+					args = [ context, args.slice ? args.slice() : args ];//调用slice()方法，相当于又克隆了一份
 					if ( firing ) {
 						stack.push( args );
 					} else {
-						fire( args );
+						fire( args );//调用了内部方法
 					}
 				}
 				return this;

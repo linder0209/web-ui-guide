@@ -185,7 +185,7 @@ promise.then(function (content) {
         <p>首先说明一下，源代码是基于jQuery2.1.0分析的。我们先看一下$.Callbacks回调函数的实现</p>
         <h5>$.Callbacks 多用途回调函数列表对象</h5>
         <p>该实现源代码放在callbacks.js中。$.Callbacks是在版本1.7中新加入的。它是一个多用途的回调函数列表对象，提供了一种强大的方法来管理回调函数队列。
-          整个$.Callbacks的源码不到200行，它是一个工厂函数，使用函数调用方式（非new，它不是一个类）创建对象，它有一个可选参数flags用来设置回调函数的行为。
+          整个$.Callbacks的源码不到200行，它是一个工厂函数，使用函数调用方式（非new，它不是一个类）创建对象。
           $.Callbacks是在jQuery内部使用，如为$.ajax，$.Deferred等组件提供基础功能的函数。它也可以用在类似功能的一些组件中，如自己开发的插件。</p>
 
         <p>$.Callbacks 源码分析</p>
@@ -557,7 +557,7 @@ callbacks.fired(); // true
         </pre>
         <p>上面的触发最终会调用内部函数fire来完成回调。</p>
 
-        <p>$.Callbacks创建时提供了以下可选参数，这些参数是以字符串加,分割的。</p>
+        <p>$.Callbacks创建时提供了以下可选参数，这些参数是以字符串加,分割的或者对象（形如：options = { 'once': true,'memory': true}）。</p>
         <ol>
           <li>once 确保回调函数仅执行一次
             <pre>
@@ -687,6 +687,7 @@ callbacks.fire(); // output 1,2
         <p>http://javascript.ruanyifeng.com/jquery/deferred.html#toc0</p>
         <p>http://www.cnblogs.com/snandy/archive/2012/12/19/2812935.html</p>
         <p>http://www.cnblogs.com/snandy/archive/2012/11/15/2770237.html</p>
+        http://www.cnblogs.com/littledu/articles/2811728.html
       </div>
     </div>
   </body>

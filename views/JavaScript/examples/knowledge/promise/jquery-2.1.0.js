@@ -3045,11 +3045,11 @@ jQuery.Callbacks = function( options ) {
 		// Fire callbacks
 		fire = function( data ) {
 			memory = options.memory && data;
-			fired = true;
-			firingIndex = firingStart || 0;
-			firingStart = 0;
-			firingLength = list.length;
-			firing = true;
+			fired = true;//表示已经执行，用于表示队列里的回调已经执行过一次
+			firingIndex = firingStart || 0;//执行队列的下标，相当于普通循环的i，当$.Callbacks('memory')时，需设置firingIndex
+            firingStart = 0;                  //重置队列起始值
+            firingLength = list.length;       //保存队列的长度
+            firing = true;                    //标示正在执行中
 			for ( ; list && firingIndex < firingLength; firingIndex++ ) {
 				if ( list[ firingIndex ].apply( data[ 0 ], data[ 1 ] ) === false && options.stopOnFalse ) {
 					memory = false; // To prevent further calls using add
@@ -3058,13 +3058,13 @@ jQuery.Callbacks = function( options ) {
 			}
 			firing = false;
 			if ( list ) {
-				if ( stack ) {
+				if ( stack ) {//执行完回调后，看一下stack是否有回调，有拿出来执行
 					if ( stack.length ) {
 						fire( stack.shift() );
 					}
-				} else if ( memory ) {
+				} else if ( memory ) {//如果没有stack，证明传了once，这里的Callbacks会是这样：$.Callbacks('once memory')
 					list = [];
-				} else {
+				} else {//当是$.Callbacks('once')的时候
 					self.disable();
 				}
 			}
@@ -3076,6 +3076,7 @@ jQuery.Callbacks = function( options ) {
 			add: function() {
 				if ( list ) {
 					// First, we save the current length
+                    //添加回调函数之前，先保存当前回调函数列表的长度,主要用于当Callbacks传入memory参数时
 					var start = list.length;
 					(function add( args ) {
 						jQuery.each( args, function( _, arg ) {
@@ -3096,6 +3097,7 @@ jQuery.Callbacks = function( options ) {
 						firingLength = list.length;
 					// With memory, if we're not firing then
 					// we should call right away
+                    //这里也是$.Callbacks('memory')这个参数作用的地方，有了这个参数，每次add也会执行一次memory
 					} else if ( memory ) {//如果设置 memory 为 true，我们应该立即fire
 						firingStart = start;
 						fire( memory );

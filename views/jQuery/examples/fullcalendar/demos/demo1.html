@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Full Calendar Demo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link href="../fullcalendar.css" rel="stylesheet" />
+    <link href="../fullcalendar.print.css" rel="stylesheet" media="print" />
+    <style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+        font-size: 14px;
+      }
+      #calendar {
+        width: 1000px;
+        margin: 40px auto;
+      }
+      .info{
+        width: 1000px;
+        margin: 5px auto;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="info">本例子基于 v2.0.0-beta2，后续会升级到正式版本</h1>
+    <div id='calendar'></div>
+    <script src="../../../../../platform/javascript/jquery/jquery.js" type="text/javascript"></script>
+    <script src="../../../../../platform/javascript/jquery-ui/jquery-ui-custom.js" type="text/javascript"></script>
+    <script src="../momentjs/moment.js" type="text/javascript"></script>
+    <script src="../fullcalendar.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+
+        $('#calendar').fullCalendar({
+          header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek'
+          },
+          defaultDate: '2014-01-12',
+          //editable: true,
+          events: [
+            {
+              title: 'All Day Event',
+              start: '2014-01-01'
+            },
+            {
+              title: 'Long Event',
+              start: '2014-01-07',
+              end: '2014-01-10'
+            },
+            {
+              id: 999,
+              title: 'Repeating Event',
+              start: '2014-01-09T16:00:00'
+            },
+            {
+              id: 999,
+              title: 'Repeating Event',
+              start: '2014-01-16T16:00:00'
+            },
+            {
+              title: 'Meeting',
+              start: '2014-01-12T10:30:00',
+              end: '2014-01-12T12:30:00'
+            },
+            {
+              title: 'Lunch',
+              start: '2014-01-12T12:00:00'
+            },
+            {
+              title: 'Birthday Party',
+              start: '2014-01-13T07:00:00'
+            },
+            {
+              title: 'Click for Google',
+              url: 'http://google.com/',
+              start: '2014-01-28'
+            }
+          ]
+        });
+
+      });
+    </script>
+  </body>
+</html>

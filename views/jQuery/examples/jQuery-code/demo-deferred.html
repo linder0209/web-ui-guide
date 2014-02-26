@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jQuery Deferred 例子</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+  </head>
+  <body>
+    <p>相关例子</p>
+    <script type="text/javascript" src="jquery-2.1.0.js"></script>
+
+    <script type="text/javascript">
+      function cb() {
+        alert('success');
+      }
+      var deferred = $.Deferred();
+      deferred.done(cb);
+      setTimeout(function() {
+        deferred.resolve();
+      }, 3000);
+    </script>
+  </body>
+</html>

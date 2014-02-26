@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>promise 在jQuery的实现 相关例子</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+  </head>
+  <body>
+    <p>相关例子</p>
+    <script type="text/javascript" src="jquery-2.1.0.js"></script>
+
+    <script type="text/javascript">
+      $(function() {
+        function fn1() {
+          console.log(1);
+        }
+        function fn2() {
+          console.log(2);
+        }
+
+        var callbacks = $.Callbacks();
+        // 方式1
+        callbacks.add(fn1);
+        // 方式2 一次添加多个回调函数
+        callbacks.add(fn1, fn2);
+        // 方式3 传数组
+        callbacks.add([fn1, fn2]);
+        // 方式4 函数和数组掺和
+        callbacks.add(fn1, [fn2]);
+        //删除fn1
+        callbacks.remove(fn1);
+        //是否有回调函数fn1
+        if (!callbacks.has(fn1)) {
+          console.log('没有，需要添加');
+          callbacks.add(fn1);
+        }
+
+        callbacks.disable();
+        callbacks.add(fn1); // 不起作用
+        callbacks.add(fn2); // 不起作用
+        callbacks.remove(fn1); // 不起作用
+        callbacks.fire(); // 不起作用  
+
+        function fn() {
+            console.log(this); // 上下文是person
+            console.log(arguments); // [3]
+        }
+        var person = {name: 'jack'};
+        var callbacks = $.Callbacks();
+        callbacks.add(fn);
+        callbacks.fireWith(person, [3]);
+
+        function fn1() {
+          console.log(1);
+        }
+        var callbacks = $.Callbacks();
+        callbacks.add(fn1);
+        callbacks.fired(); // false
+        callbacks.fire();
+        callbacks.fired(); // true
+
+        function fn3() {
+          console.log(3);
+        }
+        var callbacks = $.Callbacks('once');
+        callbacks.add(fn3);
+        callbacks.fire(); // 打印1
+        callbacks.fire(); // fn不再触发
+
+        function fn4() {
+          console.log(4);
+        }
+        function fn5() {
+          console.log(5);
+        }
+        var callbacks = $.Callbacks('memory');
+        callbacks.add(fn4);
+        callbacks.fire(); // 必须先fire
+        callbacks.add(fn5); // 此时会立即触发fn5
+      });
+
+
+      // 观察者模式
+      var observer = {
+        hash: {},
+        subscribe: function(id, callback) {
+          if (typeof id !== 'string') {
+            return;
+          }
+          if (!this.hash[id]) {
+            this.hash[id] = $.Callbacks();
+            this.hash[id].add(callback);
+          } else {
+            this.hash[id].add(callback);
+          }
+        },
+        publish: function(id) {
+          if (!this.hash[id]) {
+            return;
+          }
+          this.hash[id].fire(id);
+        }
+      };
+
+      // 订阅
+      observer.subscribe('mailArrived', function() {
+        alert('来信了');
+      });
+      observer.subscribe('mailArrived', function() {
+        alert('又来信了');
+      });
+      observer.subscribe('mailSend', function() {
+        alert('发信成功');
+      });
+
+      // 发布
+      setTimeout(function() {
+        observer.publish('mailArrived');
+      }, 5000);
+      setTimeout(function() {
+        observer.publish('mailSend');
+      }, 10000);
+    </script>
+  </body>
+</html>

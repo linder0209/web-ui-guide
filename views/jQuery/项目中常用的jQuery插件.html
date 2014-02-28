@@ -122,37 +122,37 @@
         </form>
         <script type="text/javascript" src="jquery-validation/jquery.validate.js"></script>
         <script type="text/javascript">
-      $(function() {
-        $('#jquery_validation_form').validate({
-          debug: true,
-          focusCleanup: true,
-          //wrapper: 'div',
-          groups: {
-            userName: "firstName lastName"
-          },
-          invalidHandler: function(event, validator) {
-            var errors = validator.numberOfInvalids();
-            if (errors) {
-              var message = errors == 1 ? 'You missed 1 field. It has been highlighted' : 'You missed ' + errors + ' fields. They have been highlighted';
-              $("p.errorInfo").html(message).show();
-            } else {
-              $("p.errorInfo").hide();
-            }
-          },
-          errorPlacement: function(error, element) {
-            if (element.attr("name") == "firstName" || element.attr("name") == "lastName") {
-              error.insertAfter('#lastName');
-            } else if (element.is(':radio') || element.is(':checkbox')) {
-              error.insertAfter(element.parent());
-            } else {
-              error.insertAfter(element);
-            }
-          },
-          success: function(label) {
-            label.addClass("valid").text("OK!");
-          }
-        });
-      });
+          $(function() {
+            $('#jquery_validation_form').validate({
+              debug: true,
+              focusCleanup: true,
+              //wrapper: 'div',
+              groups: {
+                userName: "firstName lastName"
+              },
+              invalidHandler: function(event, validator) {
+                var errors = validator.numberOfInvalids();
+                if (errors) {
+                  var message = errors == 1 ? 'You missed 1 field. It has been highlighted' : 'You missed ' + errors + ' fields. They have been highlighted';
+                  $("p.errorInfo").html(message).show();
+                } else {
+                  $("p.errorInfo").hide();
+                }
+              },
+              errorPlacement: function(error, element) {
+                if (element.attr("name") == "firstName" || element.attr("name") == "lastName") {
+                  error.insertAfter('#lastName');
+                } else if (element.is(':radio') || element.is(':checkbox')) {
+                  error.insertAfter(element.parent());
+                } else {
+                  error.insertAfter(element);
+                }
+              },
+              success: function(label) {
+                label.addClass("valid").text("OK!");
+              }
+            });
+          });
         </script>
         <ul>
           <li>
@@ -535,8 +535,15 @@
       <h3 paragraph>FullCalendar</h3>
       <div>
         <p><a href="http://arshaw.com/fullcalendar/" target="_blank">FullCalendar</a> 是一款日历插件</p>
-        
+
         <p><a href="./examples/fullcalendar/demos/demo1.html">本地例子</a></p>
+      </div>
+
+      <h3 paragraph>jsReader</h3>
+      <div>
+        <p><a href="http://www.jsviews.com/" target="_blank">jsReader 官网</a></p>
+
+        <p><a href="http://www.jsviews.com/#jsrapi">jsReader api</a></p>
       </div>
     </div>
   </body>

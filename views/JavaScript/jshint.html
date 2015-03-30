@@ -535,7 +535,28 @@ Array.prototype.count = function (value) {
             <tr>
               <td><a href="http://www.jshint.com/docs/options/#immed">immed</a></td>
               <td>This option prohibits the use of immediate function invocations without wrapping  them in parentheses. 
-                Wrapping parentheses assists readers of your code in  understanding that the expression is the result of a function, and not the  function itself.</td>
+                Wrapping parentheses assists readers of your code in  understanding that the expression is the result of a function, and not the  function itself.
+				<br />
+				如果设置为true，则当立即执行没有包裹的函数会提示错误警告
+				<pre>
+var x = function () {
+    "use strict";
+    return {
+        y: 1
+    };
+}();				
+				</pre>
+				会报错，正确的写法是
+				<pre>
+var x = (function () {
+    "use strict";
+    return {
+        y: 1
+    };
+})();				
+				</pre>		
+				具体可以看这里 <a href="http://jslinterrors.com/wrap-an-immediate-function-invocation-in-parentheses/">http://jslinterrors.com/wrap-an-immediate-function-invocation-in-parentheses/</a>
+				</td>
             </tr>
             <tr>
               <td><a href="http://www.jshint.com/docs/options/#indent">indent</a></td>
@@ -547,7 +568,7 @@ if (cond) {
   console.info('d');
 }
                 </pre>
-                indent设为 4 表示在第四行会有一个错误提示信息，注意是从/*jshint indent:4 */ 算起的，从1开始，而不是从0
+                indent设为 4 表示代码排版缩进 4 个空格，所以例子中第三行会提示错误信息
               </td>
             </tr>
             <tr>
@@ -559,7 +580,7 @@ if (cond) {
                 For more in-depth understanding of scoping and hoisting in JavaScript, read <a href="http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting">JavaScript Scoping and Hoisting</a>
                 by Ben Cherry.
                 <br />
-                latedef设为true，再调用变量或函数时，必须确保这些变量和函数在调用之前已经声明过，也就是说声明代码必须写在调用代码的前面，而不能写在后面。可以设置nofunc值忽略函数的位置而只检查变量。
+                latedef设为true，在调用变量或函数时，必须确保这些变量和函数在调用之前已经声明过，也就是说声明代码必须写在调用代码的前面，而不能写在后面。可以设置nofunc值忽略函数的位置而只检查变量。
                 <pre>
 /*jshint latedef: nofunc */
 latedefFun();
@@ -577,7 +598,7 @@ var latedefVar = '1';
                 to be used with or without new. And this is important because when the function  that was intended to be used with new is used without it, this will point to 
                 the global object instead of a new object.
                 <br />
-                newcap 设为true，是指如果一个函数作为构造函数时，并且在其他地方使用了new操作符实例化一个变量，那么这个构造函数中不要使用this操作符。
+                newcap 设为true，是指如果一个函数作为构造函数时，并且在其他地方使用了new操作符实例化一个变量，即该函数作为一个类来使用，则该函数名首字母必须大写，否则会提示错误信息。
                 <pre>
 /*jshint newcap: true */
 function newcapFun() {

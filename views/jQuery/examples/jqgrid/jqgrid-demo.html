@@ -19,6 +19,12 @@
 
     <script type="text/javascript">
       $(function() {
+	    
+	    var id = '4402341478412';
+	    function gridComplete(){
+		   $('#jqgridList').jqGrid('setSelection', id, true );
+		}
+		
         $("#jqgridList").jqGrid({
           url: 'jqgrid-demo.json',
           datatype: "json",
@@ -50,7 +56,10 @@
           prmNames: {
             page: "page",
             rows: "size"
-          }
+          },
+		  gridComplete: function(){
+		    gridComplete();
+		  }
         });
       });
     </script>
